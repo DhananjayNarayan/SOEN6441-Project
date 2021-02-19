@@ -2,13 +2,11 @@ package model;
 
 /**
  * Class Continent to set and get all the properties of country.
- *
- * @author Neona
- * @author DhananJay
- * @author Surya
- * @author Madhuvanthi
- * @author Pratika
- * @version 1.0.0
+ *   @author Neona Pinto
+ *   @author Dhananjay Narayan
+ *   @author Surya Manian
+ *   @author Madhuvanthi Hemanathan
+ *   @author Prathika Suvarna
  */
 public abstract class AbstractCountry {
     private int d_id;
