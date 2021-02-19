@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 /**
  * Concrete Continent class for creating instances
  *   @author Neona Pinto
@@ -10,4 +12,8 @@ package model;
  */
 public class Continent extends AbstractContinent {
 
+    @Override
+    public List<AbstractCountry> getCountries() {
+        return null;
+    }
 }

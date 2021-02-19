@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 /**
  * Class Continent to set and get all the properties of Continent.
  *
@@ -87,4 +89,7 @@ public abstract class AbstractContinent {
     public void setCredited(boolean p_credited) {
         this.d_credited = p_credited;
     }
+
+    public abstract List<AbstractCountry> getCountries();
+
 }
