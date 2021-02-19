@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * Class Continent to set and get all the properties of the Map.
  *
- * @author Neona
- * @author DhananJay
- * @author Surya
- * @author Madhuvanthi
- * @author Pratika
+ *   @author Neona Pinto
+ *   @author Dhananjay Narayan
+ *   @author Surya Manian
+ *   @author Madhuvanthi Hemanathan
+ *   @author Prathika Suvarna
  * @version 1.0.0
  */
 public abstract class AbstractMap {
