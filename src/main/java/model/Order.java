@@ -11,11 +11,11 @@ package model;
  * @version 1.0.0
  */
 public class Order {
-    private int d_id;
-    private OrderType d_type;
-    private Country d_from;
-    private Country d_to;
-    private int d_reinforcements;
+    private int d_Id;
+    private OrderType d_Type;
+    private Country d_From;
+    private Country d_To;
+    private int d_Reinforcements;
 
     /**
      * A function to get the ID of the player
@@ -23,16 +23,16 @@ public class Order {
      * @return the ID of the player
      */
     public int getId() {
-        return d_id;
+        return d_Id;
     }
 
     /**
      * A function to set the ID of the player
      *
-     * @param p_id ID of the player to be set
+     * @param p_Id ID of the player to be set
      */
-    public void setId(int p_id) {
-        this.d_id = p_id;
+    public void setId(int p_Id) {
+        this.d_Id = p_Id;
     }
 
     /**
@@ -41,16 +41,16 @@ public class Order {
      * @return The Order Type
      */
     public OrderType getType() {
-        return d_type;
+        return d_Type;
     }
 
     /**
      * A function to set the order object d_type with p_type
      *
-     * @param p_type Object of the class OrderType
+     * @param p_Type Object of the class OrderType
      */
-    public void setD_type(OrderType p_type) {
-        this.d_type = p_type;
+    public void setType(OrderType p_Type) {
+        this.d_Type = p_Type;
     }
 
     /**
@@ -59,16 +59,16 @@ public class Order {
      * @return the country where the army is coming from
      */
     public Country getFrom() {
-        return d_from;
+        return d_From;
     }
 
     /**
      * A function to set the the country where the army is coming from
      *
-     * @param p_from Object of Class Country
+     * @param p_From Object of Class Country
      */
-    public void setFrom(Country p_from) {
-        this.d_from = p_from;
+    public void setFrom(Country p_From) {
+        this.d_From = p_From;
     }
 
     /**
@@ -77,16 +77,16 @@ public class Order {
      * @return the country where army is being sent
      */
     public Country getTo() {
-        return d_to;
+        return d_To;
     }
 
     /**
      * A function to set the country where the army is being sent to
      *
-     * @param p_to Object of Class Country
+     * @param p_To Object of Class Country
      */
-    public void setTo(Country p_to) {
-        this.d_to = p_to;
+    public void setTo(Country p_To) {
+        this.d_To = p_To;
     }
 
     /**
@@ -95,15 +95,15 @@ public class Order {
      * @return number of reinforcements
      */
     public int getReinforcements() {
-        return d_reinforcements;
+        return d_Reinforcements;
     }
 
     /**
      * A function to set the number of reinforcements
      *
-     * @param p_reinforcements the number of reinforcements
+     * @param p_Reinforcements the number of reinforcements
      */
-    public void setReinforcements(int p_reinforcements) {
-        this.d_reinforcements = p_reinforcements;
+    public void setReinforcements(int p_Reinforcements) {
+        this.d_Reinforcements = p_Reinforcements;
     }
 }

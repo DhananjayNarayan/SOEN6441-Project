@@ -15,11 +15,11 @@ import java.util.List;
  */
 
 public class Player {
-    private int d_id;
-    private String d_name;
-    private int d_order_count;
-    private List<Country> d_captured_countries;
-    private List<Order> d_orders;
+    private int d_Id;
+    private String d_Name;
+    private int d_OrderCount;
+    private List<Country> d_CapturedCountries;
+    private List<Order> d_Orders;
 
     /**
      * A function to get the player ID
@@ -27,16 +27,16 @@ public class Player {
      * @return the ID of player
      */
     public int getId() {
-        return d_id;
+        return d_Id;
     }
 
     /**
      * A function to set the player ID
      *
-     * @param p_id Player ID value
+     * @param p_Id Player ID value
      */
-    public void setId(int p_id) {
-        this.d_id = p_id;
+    public void setId(int p_Id) {
+        this.d_Id = p_Id;
     }
 
     /**
@@ -45,16 +45,16 @@ public class Player {
      * @return player name
      */
     public String getName() {
-        return d_name;
+        return d_Name;
     }
 
     /**
      * A function to set the name of the player
      *
-     * @param p_name Name of the player
+     * @param p_Name Name of the player
      */
-    public void setName(String p_name) {
-        this.d_name = p_name;
+    public void setName(String p_Name) {
+        this.d_Name = p_Name;
     }
 
     /**
@@ -63,34 +63,34 @@ public class Player {
      * @return the order count
      */
     public int getOrderCount() {
-        return d_order_count;
+        return d_OrderCount;
     }
 
     /**
      * A function to set the Order Count
      *
-     * @param p_order_count the value of order count
+     * @param p_OrderCount the value of order count
      */
-    public void setOrderCount(int p_order_count) {
-        this.d_order_count = p_order_count;
+    public void setOrderCount(int p_OrderCount) {
+        this.d_OrderCount = p_OrderCount;
     }
 
     /**
      * A function to get the list of captured countries
      *
-     * @return The list of captured coyntries
+     * @return The list of captured countries
      */
     public List<Country> getCapturedCountries() {
-        return d_captured_countries;
+        return d_CapturedCountries;
     }
 
     /**
      * A function to record/set the captured countries
      *
-     * @param p_captured_countries List of the captured countries
+     * @param p_CapturedCountries List of the captured countries
      */
-    public void setCapturedCountries(List<Country> p_captured_countries) {
-        this.d_captured_countries = p_captured_countries;
+    public void setCapturedCountries(List<Country> p_CapturedCountries) {
+        this.d_CapturedCountries = p_CapturedCountries;
     }
 
     /**
@@ -99,15 +99,15 @@ public class Player {
      * @return list of orders
      */
     public List<Order> getOrders() {
-        return d_orders;
+        return d_Orders;
     }
 
     /**
      * A function to set the orders
      *
-     * @param p_orders the list of orders
+     * @param p_Orders the list of orders
      */
-    public void setOrders(List<Order> p_orders) {
-        this.d_orders = p_orders;
+    public void setOrders(List<Order> p_Orders) {
+        this.d_Orders = p_Orders;
     }
 }

@@ -1,5 +1,8 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Concrete Class to set and get all the properties of Continent.
  *
@@ -11,36 +14,38 @@ package model;
  * @version 1.0.0
  */
 public class Continent {
-    private int d_id;
-    private String d_name;
-    private int d_award_armies;
-    private boolean d_credited;
+    private String d_Id;
+    private String d_Name;
+    private int d_AwardArmies;
+    private boolean d_Credited;
+    private Set<Country> d_Countries;
+
 
     /**
      * Get the continent ID also known as continent value
      *
-     * @return d_id The continent ID also known as continent value
+     * @return d_Id The continent ID also known as continent value
      */
-    public int getId() {
-        return d_id;
+    public String getId() {
+        return d_Id;
     }
 
     /**
      * Set the continent ID also known as continent value
      *
-     * @param p_id Continent ID also known as continent value
+     * @param p_Id Continent ID also known as continent value
      */
-    public void setId(int p_id) {
-        this.d_id = p_id;
+    public void setId(String p_Id) {
+        this.d_Id = p_Id;
     }
 
     /**
      * Get the continent name
      *
-     * @return d_name Continent name which is of type string
+     * @return d_Name Continent name which is of type string
      */
     public String getName() {
-        return d_name;
+        return d_Name;
     }
 
     /**
@@ -49,25 +54,25 @@ public class Continent {
      * @param p_name Continent name
      */
     public void setName(String p_name) {
-        this.d_name = p_name;
+        this.d_Name = p_name;
     }
 
     /**
      * Get the Awarded armies
      *
-     * @return d_award_armies  The Awarded armies assigned to the continent
+     * @return d_AwardArmies  The Awarded armies assigned to the continent
      */
     public int getAwardArmies() {
-        return d_award_armies;
+        return d_AwardArmies;
     }
 
     /**
      * Set the Awarded armies for the continent
      *
-     * @param p_award_armies Awarded armies
+     * @param p_AwardArmies Awarded armies
      */
-    public void setAwardArmies(int p_award_armies) {
-        this.d_award_armies = p_award_armies;
+    public void setAwardArmies(int p_AwardArmies) {
+        this.d_AwardArmies = p_AwardArmies;
     }
 
     /**
@@ -76,15 +81,27 @@ public class Continent {
      * @return true if armies are credited else false if not credited
      */
     public boolean isCredited() {
-        return d_credited;
+        return d_Credited;
     }
 
     /**
      * Set the number of armies credited
      *
-     * @param p_credited Credited armies
+     * @param p_Credited Credited armies
      */
-    public void setCredited(boolean p_credited) {
-        this.d_credited = p_credited;
+    public void setCredited(boolean p_Credited) {
+        this.d_Credited = p_Credited;
+    }
+
+    /**
+     * Returns the list of countries belonging to the continent
+     *
+     * @return list of countries
+     */
+    public Set<Country> getCountries() {
+        if (d_Countries == null) {
+            d_Countries = new HashSet<>();
+        }
+        return d_Countries;
     }
 }

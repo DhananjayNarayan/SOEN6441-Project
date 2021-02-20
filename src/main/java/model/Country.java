@@ -1,5 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Concrete Class to set and get all the properties of country.
  *
@@ -10,99 +15,114 @@ package model;
  * @author Prathika Suvarna
  */
 public class Country {
-    private int d_id;
-    private String d_name;
-    private int d_continent;
-    private Player d_player;
-    private int d_armies;
+    private String d_Id;
+    private String d_Name;
+    private String d_Continent;
+    private Player d_Player;
+    private int d_Armies;
+    private Set<Country> d_Neighbors;
 
     /**
      * Get the country ID
      *
-     * @return d_id Country ID of type int
+     * @return d_Id Country ID of type int
      */
-    public int getId() {
-        return d_id;
+    public String getId() {
+        return d_Id;
     }
 
     /**
      * Set the country ID
      *
-     * @param p_id Country ID
+     * @param p_Id Country ID
      */
-    public void setId(int p_id) {
-        this.d_id = p_id;
+    public void setId(String p_Id) {
+        this.d_Id = p_Id;
     }
 
     /**
      * Get the country name
      *
-     * @return d_name The country name
+     * @return d_Name The country name
      */
     public String getName() {
-        return d_name;
+        return d_Name;
     }
 
     /**
      * Set the country name
      *
-     * @param p_name Country name
+     * @param p_Name Country name
      */
-    public void setName(String p_name) {
-        this.d_name = p_name;
+    public void setName(String p_Name) {
+        this.d_Name = p_Name;
     }
 
     /**
-     * Get the count of the continents
+     * Get the continent name, the country belongs to
      *
-     * @return d_continent Number of continents
+     * @return d_Continent Continent name
      */
-    public int getContinent() {
-        return d_continent;
+    public String getContinent() {
+        return d_Continent;
     }
 
     /**
-     * Set the continent count
+     * Set the continent name, the country belongs to
      *
-     * @param p_continent Number of continents
+     * @param p_Continent Continent name
      */
-    public void setContinent(int p_continent) {
-        this.d_continent = p_continent;
+    public void setContinent(String p_Continent) {
+        this.d_Continent = p_Continent;
     }
 
     /**
      * Get the player instance for the game play
      *
-     * @return d_player Player instance
+     * @return d_Player Player instance
      */
     public Player getPlayer() {
-        return d_player;
+        return d_Player;
     }
 
     /**
      * Set the player instance for the game play
      *
-     * @param p_player Player instance
+     * @param p_Player Player instance
      */
-    public void setPlayer(Player p_player) {
-        this.d_player = p_player;
+    public void setPlayer(Player p_Player) {
+        this.d_Player = p_Player;
     }
 
     /**
      * Get the number of armies for the country
      *
-     * @return d_armies Number of armies for the country
+     * @return d_Armies Number of armies for the country
      */
     public int getArmies() {
-        return d_armies;
+        return d_Armies;
     }
 
     /**
      * Set the armies for the country
      *
-     * @param p_armies Number of armies for the country
+     * @param p_Armies Number of armies for the country
      */
-    public void setArmies(int p_armies) {
-        this.d_armies = p_armies;
+    public void setArmies(int p_Armies) {
+        this.d_Armies = p_Armies;
+    }
+
+    public Set<Country> getNeighbors() {
+        if (d_Neighbors == null) {
+            d_Neighbors = new HashSet<>();
+        }
+        return d_Neighbors;
+    }
+
+    public void setNeighbors(Country p_Neighbor) {
+        if (d_Neighbors == null) {
+            d_Neighbors = new HashSet<>();
+        }
+        d_Neighbors.add(p_Neighbor);
     }
 }
