@@ -16,4 +16,9 @@ public class Continent extends AbstractContinent {
     public List<AbstractCountry> getCountries() {
         return null;
     }
+
+    @Override
+    public List<AbstractContinent> getContinent() {
+        return null;
+    }
 }
