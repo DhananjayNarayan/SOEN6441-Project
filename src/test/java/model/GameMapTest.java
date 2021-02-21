@@ -4,9 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class MapTest extends Map {
+public class GameMapTest extends GameMap {
 
     @Before
     public void setUp() throws Exception {
