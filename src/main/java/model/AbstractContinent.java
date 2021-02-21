@@ -91,6 +91,6 @@ public abstract class AbstractContinent {
     }
 
     public abstract List<AbstractCountry> getCountries();
-    public abstract List<AbstractContinent> getContinent();
+
 
 }
