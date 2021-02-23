@@ -3,6 +3,7 @@ package model;
 import utils.ValidationException;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -139,6 +140,7 @@ public class GameMap {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
+        l_Country1.setNeighborsName(p_NeighborCountryName);
 //        l_Country2.getNeighbors().add(l_Country1);
         System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
     }
@@ -153,6 +155,8 @@ public class GameMap {
             throw new ValidationException("Mentioned Countries are not neighbors");
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
+            l_Country1.removeNeighborsName(p_NeighborCountryName);
+            l_Country2.removeNeighborsName(p_CountryName);
 //            this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country1);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
         }

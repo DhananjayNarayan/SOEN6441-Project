@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
 
 /**
  * Concrete Class to set and get all the properties of country.
@@ -21,6 +22,7 @@ public class Country {
     private Player d_Player;
     private int d_Armies;
     private Set<Country> d_Neighbors;
+    private Set<String> d_NeighborsName;
 
     /**
      * Get the country ID
@@ -124,5 +126,26 @@ public class Country {
             d_Neighbors = new HashSet<>();
         }
         d_Neighbors.add(p_Neighbor);
+    }
+
+    public void setNeighborsName(String p_NeighborCountryName) {
+        if (d_NeighborsName == null) {
+            d_NeighborsName = new HashSet<>();
+        }
+        d_NeighborsName.add(p_NeighborCountryName);
+    }
+
+    public Set<String> getNeighborsName() {
+        if (d_NeighborsName == null) {
+            d_NeighborsName = new HashSet<>();
+        }
+        return d_NeighborsName;
+    }
+
+    public void removeNeighborsName(String p_NeighborCountryName) {
+        if (d_NeighborsName == null) {
+            d_NeighborsName = new HashSet<>();
+        }
+        d_NeighborsName.remove(p_NeighborCountryName);
     }
 }
