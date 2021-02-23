@@ -139,7 +139,7 @@ public class GameMap {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        l_Country2.getNeighbors().add(l_Country1);
+        //l_Country2.getNeighbors().add(l_Country1);
         System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
     }
 
@@ -152,8 +152,8 @@ public class GameMap {
         } else if (!l_Country1.getNeighbors().contains(l_Country2) || !l_Country2.getNeighbors().contains(l_Country1)) {
             throw new ValidationException("Mentioned Countries are not neighbors");
         } else {
-            this.getCountry(p_CountryName).getNeighbors().remove(l_Country1);
-            this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country2);
+            this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
+           // this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country2);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
         }
     }

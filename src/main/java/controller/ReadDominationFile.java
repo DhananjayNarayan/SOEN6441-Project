@@ -1,59 +1,67 @@
 package controller;
-import model.*;
 import utils.ValidationException;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.stream.Collectors;
+import model.GameMap;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReadDominationFile {
-    GameMap d_GameMap;
-    public ReadDominationFile(GameMap map) {
-        this.d_GameMap = map;
-    }
+    GameMap d_Map = new GameMap();
+
     public void ReadMap(String mapFileName) {
-
-        File file = new File(mapFileName);
-        //File file = new File(Maps + "/" + filename + ".map");
-        if (!file.exists()) {
-            System.out.println(mapFileName + " domination map file not found. Please try again");
-        }else {
-            //System.out.println("Read Domination File: "+mapFolder + "/" + mapFileName + ".map");
-            System.out.println("Read Domination File:  mapFileName");
-        }
-
-        Scanner sc = null;
-        //HashMap<String,Integer > map = new HashMap<>();
         try {
-            sc = new Scanner(file);
-            while (sc.hasNext()) {
-                String a = sc.nextLine();
-                if(a.equals("[Continents]")) {
-                    String l_Input = sc.nextLine();
-                    List<String> l_InputList = Arrays.stream(l_Input.split("\\s"))
-                            .filter(s -> !s.isEmpty())
-                            .map(String::trim)
-                            .collect(Collectors.toList());
-                    if(l_InputList.size() == 2) {
-                        d_GameMap.addContinent(l_InputList.get(0), l_InputList.get(1));
+            File file = new File(mapFileName);
+            FileReader fileReader = new FileReader(file);
+            Map<String, List<String>> l_MapFileContents = new HashMap<>();
+            String l_CurrentKey = "";
+            BufferedReader bf = new BufferedReader(fileReader);
+            while (bf.ready()) {
+                String s = bf.readLine();
+                if (!s.isEmpty()) {
+                    if (s.contains("[") && s.contains("]")) {
+                        l_CurrentKey = s.replace("[", "").replace("]", "");
+                        l_MapFileContents.put(l_CurrentKey, new ArrayList<>());
                     }
-                    System.out.println(d_GameMap.getContinents().get("africa").getName());
-                    System.out.println(d_GameMap.getContinents().get("africa").getAwardArmies());
-                }
+                    else {
+                        l_MapFileContents.get(l_CurrentKey).add(s);
+                    }
                 }
             }
-        catch (ValidationException validationException) {
-            validationException.printStackTrace();
+            readContinentsFromFile(l_MapFileContents.get("Continents"));
+            readCountriesFromFile(l_MapFileContents.get("Territories"));
         }
-        catch (FileNotFoundException e) {
-            System.out.println("Invalid filename or the file does not exist");
+        catch (ValidationException | FileNotFoundException e) {
+            e.getMessage();
             e.printStackTrace();
         }
-
-
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+        public void readContinentsFromFile(List<String> p_ContinentArray) throws ValidationException {
+            for (String l_InputString : p_ContinentArray) {
+                String[] l_InputArray = l_InputString.split(" ");
+                if (l_InputArray.length == 2) {
+                    d_Map.addContinent(l_InputArray[0], l_InputArray[1]);
+                }
+            }
+        }
+
+        public void readCountriesFromFile (List<String> p_Countryarray) throws ValidationException {
+            for (String l_InputString : p_Countryarray) {
+                String[] l_InputArray = l_InputString.split(" ");
+                if (l_InputArray.length >= 2) {
+                    d_Map.addCountry(l_InputArray[0], l_InputArray[1]);
+                    for (int i = 2; i <= l_InputArray.length; i++) {
+                        d_Map.addNeighbor(l_InputArray[0], l_InputArray[i]);
+                    }
+
+                }
+            }
+        }
 }
