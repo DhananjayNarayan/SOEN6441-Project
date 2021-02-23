@@ -114,6 +114,10 @@ public class Country {
         this.d_Armies = p_Armies;
     }
 
+    /**
+     * A function to get the list of neighbors
+     * @return set of neighbors
+     */
     public Set<Country> getNeighbors() {
         if (d_Neighbors == null) {
             d_Neighbors = new HashSet<>();
@@ -121,6 +125,10 @@ public class Country {
         return d_Neighbors;
     }
 
+    /**
+     * A function to set the list of neighbours
+     * @param p_Neighbor An object of the Country class
+     */
     public void setNeighbors(Country p_Neighbor) {
         if (d_Neighbors == null) {
             d_Neighbors = new HashSet<>();
@@ -128,6 +136,10 @@ public class Country {
         d_Neighbors.add(p_Neighbor);
     }
 
+    /**
+     * A function to store the names of the neighbours of a country
+     * @param p_NeighborCountryName the name of the neighbour country being added to the set
+     */
     public void setNeighborsName(String p_NeighborCountryName) {
         if (d_NeighborsName == null) {
             d_NeighborsName = new HashSet<>();
@@ -135,6 +147,10 @@ public class Country {
         d_NeighborsName.add(p_NeighborCountryName);
     }
 
+    /**
+     * A function to fetch the set of neighbors of a country
+     * @return The set of neighbors of a country
+     */
     public Set<String> getNeighborsName() {
         if (d_NeighborsName == null) {
             d_NeighborsName = new HashSet<>();
@@ -142,6 +158,10 @@ public class Country {
         return d_NeighborsName;
     }
 
+    /**
+     * A function to remove a neighbour from the list of neighbours of a country
+     * @param p_NeighborCountryName the name of the neighbor to be removed from the set
+     */
     public void removeNeighborsName(String p_NeighborCountryName) {
         if (d_NeighborsName == null) {
             d_NeighborsName = new HashSet<>();

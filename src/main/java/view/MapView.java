@@ -16,8 +16,21 @@ import utils.ValidationException;
 import java.util.Iterator;
 import java.util.ListIterator;
 
+/**
+ *  Class to handle the view part of the Map
+ *
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ * @author Surya Manian
+ * @author Madhuvanthi Hemanathan
+ * @author Prathika Suvarna
+ */
 public class MapView {
 
+    /**
+     * A function to display the map chosen, its continents, countries, neighbours, players and their ownership
+     * @param gameMap An object of GameMap class
+     */
     public static void showMap(GameMap gameMap) {
         System.out.println("\nShowing the Map Details : \n");
 
