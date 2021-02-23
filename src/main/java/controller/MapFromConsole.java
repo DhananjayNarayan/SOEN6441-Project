@@ -120,9 +120,7 @@ public class MapFromConsole {
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
             String l_MainCommand = p_InputList.get(0);
-            if (CLI_COMMANDS.contains(l_MainCommand.toLowerCase())) {
-                return true;
-            }
+            return CLI_COMMANDS.contains(l_MainCommand.toLowerCase());
         }
         return false;
     }
