@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import model.GameMap;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReadDominationFile {
     GameMap d_Map = new GameMap();
+    Map<String, List<String>> l_CountryNeighbors = new HashMap<>();
 
     public void ReadMap(String mapFileName) {
         try {
@@ -25,43 +24,46 @@ public class ReadDominationFile {
                     if (s.contains("[") && s.contains("]")) {
                         l_CurrentKey = s.replace("[", "").replace("]", "");
                         l_MapFileContents.put(l_CurrentKey, new ArrayList<>());
-                    }
-                    else {
+                    } else {
                         l_MapFileContents.get(l_CurrentKey).add(s);
                     }
                 }
             }
             readContinentsFromFile(l_MapFileContents.get("Continents"));
             readCountriesFromFile(l_MapFileContents.get("Territories"));
-        }
-        catch (ValidationException | FileNotFoundException e) {
+            addNeighborsFromFile(l_CountryNeighbors);
+        } catch (ValidationException | FileNotFoundException e) {
             e.getMessage();
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-        public void readContinentsFromFile(List<String> p_ContinentArray) throws ValidationException {
-            for (String l_InputString : p_ContinentArray) {
-                String[] l_InputArray = l_InputString.split(" ");
-                if (l_InputArray.length == 2) {
-                    d_Map.addContinent(l_InputArray[0], l_InputArray[1]);
-                }
+    public void readContinentsFromFile(List<String> p_ContinentArray) throws ValidationException {
+        for (String l_InputString : p_ContinentArray) {
+            String[] l_InputArray = l_InputString.split(" ");
+            if (l_InputArray.length == 2) {
+                d_Map.addContinent(l_InputArray[0], l_InputArray[1]);
             }
         }
+    }
 
-        public void readCountriesFromFile (List<String> p_Countryarray) throws ValidationException {
-            for (String l_InputString : p_Countryarray) {
-                String[] l_InputArray = l_InputString.split(" ");
-                if (l_InputArray.length >= 2) {
-                    d_Map.addCountry(l_InputArray[0], l_InputArray[1]);
-                    for (int i = 2; i <= l_InputArray.length; i++) {
-                        d_Map.addNeighbor(l_InputArray[0], l_InputArray[i]);
-                    }
-
-                }
+    public void readCountriesFromFile(List<String> p_Countryarray) throws ValidationException {
+        for (String l_InputString : p_Countryarray) {
+            List<String> l_InputArray = Arrays.stream(l_InputString.split(" ")).collect(Collectors.toList());
+            if (l_InputArray.size() >= 2) {
+                d_Map.addCountry(l_InputArray.get(0), l_InputArray.get(1));
+                l_CountryNeighbors.put(l_InputArray.get(0), l_InputArray.subList(2, l_InputArray.size()));
             }
         }
+    }
+
+    public void addNeighborsFromFile(Map<String, List<String>> p_NeighborList) throws ValidationException {
+        for (String l_Country : p_NeighborList.keySet()) {
+            for (String l_Neighbor : p_NeighborList.get(l_Country)) {
+                d_Map.addNeighbor(l_Country, l_Neighbor);
+            }
+        }
+    }
 }

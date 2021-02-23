@@ -10,7 +10,7 @@ public class GameDriver {
         try {
             GameMap map = new GameMap();
             MapFromConsole l_MapFromConsole = new MapFromConsole(map);
-            l_MapFromConsole.start();
+            //l_MapFromConsole.start();
             ReadDominationFile l_readFile = new ReadDominationFile();
             l_readFile.ReadMap("trialMap.map");
             //validation call goes here
