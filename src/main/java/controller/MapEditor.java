@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class MapEditor implements GameController {
     private final Scanner scanner = new Scanner(System.in);
-    private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor");
+    private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor","showmap","savemap","editmap","validatemap");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.LoadGame;
 
@@ -111,8 +111,28 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    case "showmap" : {
+//                        d_GameMap.showMap();
+                        break;
+                    }
+                    case "validatemap" : {
+//                        d_GameMap.validateMap();
+                        break;
+                    }
+                    case "savemap" : {
+                        if(l_CommandArray.length == 1) {
+//                            d_GameMap.saveMap(l_CommandArray[0]);
+                        }
+                        break;
+                    }
+                    case "editmap" : {
+                        if(l_CommandArray.length == 1) {
+//                            d_GameMap.editMap(l_CommandArray[0]);
+                        }
+                        break;
+                    }
                     case "exit": {
-                        return p_GamePhase.nextState(d_NextState);
+                            return p_GamePhase.nextState(d_NextState);
                     }
                     default: {
                         System.out.println("List of map creation commands");
