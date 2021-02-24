@@ -12,7 +12,7 @@ public class GameDriver {
             MapFromConsole l_MapFromConsole = new MapFromConsole(map);
             //l_MapFromConsole.start();
             ReadDominationFile l_readFile = new ReadDominationFile();
-            l_readFile.ReadMap("trialMap.map");
+            l_readFile.readMap("trialMap.map");
             //validation call goes here
         } catch(Exception e) {
             e.getMessage();
