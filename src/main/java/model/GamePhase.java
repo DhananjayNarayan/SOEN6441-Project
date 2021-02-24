@@ -1,6 +1,7 @@
 package model;
 
 import controller.GamePlay;
+import controller.IssueOrder;
 import controller.MapEditor;
 import controller.Reinforcement;
 
@@ -50,7 +51,7 @@ public enum GamePhase {
 
         @Override
         public GameController getController() {
-            return null;
+            return new IssueOrder();
         }
     },
     ExecuteOrder {

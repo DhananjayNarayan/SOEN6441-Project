@@ -133,31 +133,20 @@ public class Player {
         this.d_ReinforcementArmies = d_AssignedArmies;
     }
 
-    public void issueOrder() {
+    public void issueOrder(String p_Commands) {
         Boolean l_IssueCommand = true;
-        String l_Command;
-        System.out.println("\nPlease enter the command: \n");
-        Scanner l_scanner = new Scanner(System.in);
-        l_Command = l_scanner.nextLine();
-        System.out.println(l_Command);
-
-        String[] l_Commands = l_Command.split(" ");
-        String l_CountryId = l_Commands[1];
-
-
-        int l_ReinforcementArmies = Integer.parseInt(l_Commands[2]);
-
+        String[] l_CommandArr = p_Commands.split(" ");
+        int l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
         if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
             l_IssueCommand = false;
         }
-        if (!checkIfCountryExists(l_CountryId, this)) {
+        if (!checkIfCountryExists(l_CommandArr[1], this)) {
             l_IssueCommand = false;
         }
         if (l_IssueCommand) {
-            Order l_Order = OrderCreater.createOrder(l_Commands, this);
+            Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
             addOrder(l_Order);
         }
-
     }
 
     public boolean checkIfCountryExists(String p_Country, Player p_Player) {
