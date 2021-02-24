@@ -169,6 +169,11 @@ public class Country {
         d_NeighborsName.remove(p_NeighborCountryName);
     }
 
+    /**
+     * A function to store the list of neighbors for a country
+     * @param p_Neighbors the set of neighbors
+     * @return the neighbors as String
+     */
     public String createANeighborList(Set<Country> p_Neighbors){
         String result = "";
         for (Country l_Neighbor : p_Neighbors ){
