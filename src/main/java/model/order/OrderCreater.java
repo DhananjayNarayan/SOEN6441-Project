@@ -26,7 +26,6 @@ public class OrderCreater {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_CountryID);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
-
         return l_OrderInfo;
     }
 
