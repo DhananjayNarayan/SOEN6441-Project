@@ -6,9 +6,9 @@ import model.GamePhase;
 import utils.SaveMap;
 import utils.ValidationException;
 import utils.MapValidation;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -129,7 +129,7 @@ public class MapEditor implements GameController {
                     }
                     case "editmap" : {
                         if(l_CommandArray.length == 1) {
-//                            d_GameMap.editMap(l_CommandArray[0]);
+                           readMap(l_CommandArray[0]);
                         }
                         break;
                     }
@@ -181,6 +181,41 @@ public class MapEditor implements GameController {
         } else{
             System.out.println("Invalid Map, can not be saved.");
             System.out.println(d_GameMap.getErrorMessage());
+        }
+    }
+
+    /**
+     * This function reads the file and places the contents of the file
+     * in a Hash Map
+     *
+     * @param p_FileName the map file name
+     */
+    public void readMap(String p_FileName) {
+        try {
+            File l_File = new File(p_FileName);
+            FileReader l_FileReader = new FileReader(l_File);
+            Map<String, List<String>> l_MapFileContents = new HashMap<>();
+            String l_CurrentKey = "";
+            BufferedReader l_Buffer = new BufferedReader(l_FileReader);
+            while (l_Buffer.ready()) {
+                String l_Read = l_Buffer.readLine();
+                if (!l_Read.isEmpty()) {
+                    if (l_Read.contains("[") && l_Read.contains("]")) {
+                        l_CurrentKey = l_Read.replace("[", "").replace("]", "");
+                        l_MapFileContents.put(l_CurrentKey, new ArrayList<>());
+                    } else {
+                        l_MapFileContents.get(l_CurrentKey).add(l_Read);
+                    }
+                }
+            }
+            d_GameMap.readContinentsFromFile(l_MapFileContents.get("Continents"));
+            Map<String, List<String>> l_CountryNeighbors = d_GameMap.readCountriesFromFile(l_MapFileContents.get("Territories"));
+            d_GameMap.addNeighborsFromFile(l_CountryNeighbors);
+        } catch (ValidationException | FileNotFoundException e) {
+            e.getMessage();
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
