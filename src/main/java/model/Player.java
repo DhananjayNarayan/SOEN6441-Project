@@ -135,6 +135,7 @@ public class Player {
 
     public void issueOrder(String p_Commands) {
         Boolean l_IssueCommand = true;
+        Order l_OrderObj = null;
         String[] l_CommandArr = p_Commands.split(" ");
         int l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
         if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
@@ -146,6 +147,7 @@ public class Player {
         if (l_IssueCommand) {
             Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
             addOrder(l_Order);
+            l_OrderObj.AddToOrderList(l_Order);
         }
     }
 

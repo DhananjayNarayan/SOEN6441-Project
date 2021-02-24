@@ -4,6 +4,7 @@ import model.GameController;
 import model.GameMap;
 import model.GamePhase;
 import model.Player;
+import utils.ValidationException;
 
 import java.util.Scanner;
 
@@ -42,7 +43,5 @@ public class IssueOrder implements GameController {
         System.out.println(l_Command);
         return l_Command;
     }
-    public static void main(String args[]){
 
-    }
 }

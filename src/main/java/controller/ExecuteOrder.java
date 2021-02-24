@@ -6,15 +6,18 @@ import model.GamePhase;
 import model.Player;
 import model.order.Order;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.ExitGame;
     GamePhase d_GamePhase = GamePhase.ExecuteOrder;
     GameMap d_GameMap;
+    Order d_Order;
 
     public ExecuteOrder(){
         d_GameMap = GameMap.getInstance();
+        d_Order = Order.getInstance();
     }
 
     @Override
@@ -26,11 +29,8 @@ public class ExecuteOrder implements GameController {
     }
     private boolean ExecuteOrders()
     {
-        for (Player player:d_GameMap.getPlayers().values()){
-            while (player.nextOrder()!=null){
-                Player l_Order = player.nextOrder().getOrderInfo().getPlayer();
-            }
-        }
+        List<Order> l_OrderList = d_Order.getOrderList();
+        System.out.println(l_OrderList);
         return true;
     }
 }
