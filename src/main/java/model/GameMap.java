@@ -22,6 +22,8 @@ public class GameMap {
     private HashMap<String, Continent> d_Continents = new HashMap<>();
     private HashMap<String, Country> d_Countries = new HashMap<>();
     private HashMap<String, Player> d_Players = new HashMap<>();
+    private String name;
+    private String errorMessage;
 
     private GameMap() {
     }
@@ -32,7 +34,6 @@ public class GameMap {
         }
         return d_GameMap;
     }
-
     /**
      * Get the list of all the continents
      *
@@ -186,5 +187,19 @@ public class GameMap {
         }
         this.getPlayers().remove(l_Player.getName());
         System.out.println("Successfully deleted the player: " + p_PlayerName);
+    }
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }
