@@ -34,7 +34,7 @@ public class SaveMap {
 
             PrintWriter writeData = null;
             try {
-                writeData = new PrintWriter(name + ".map");
+                writeData = new PrintWriter("maps/" + name + ".map");
                 writeData.println(mapData);
                 return true;
             } catch (Exception ex) {

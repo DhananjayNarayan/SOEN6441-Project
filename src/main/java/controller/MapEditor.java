@@ -171,7 +171,7 @@ public class MapEditor implements GameController {
      */
     public void readMap(String p_FileName) throws ValidationException {
         try {
-            File l_File = new File(p_FileName);
+            File l_File = new File("maps/" + p_FileName);
             FileReader l_FileReader = new FileReader(l_File);
             Map<String, List<String>> l_MapFileContents = new HashMap<>();
             String l_CurrentKey = "";
