@@ -1,4 +1,7 @@
-package model;
+package model.order;
+
+import model.Country;
+import model.Player;
 
 /**
  * Concrete Class to manage the orders of the players
@@ -12,7 +15,27 @@ package model;
  */
 public class Order {
     private int d_Id;
-    private OrderType d_Type;
+
+    public OrderInfo getOrderInfo() {
+        return d_OrderInfo;
+    }
+
+    public void setOrderInfo(OrderInfo d_OrderInfo) {
+        this.d_OrderInfo = d_OrderInfo;
+    }
+
+    private OrderInfo d_OrderInfo;
+
+    public Player getPlayerId() {
+        return d_Player_Id;
+    }
+
+    public void setPlayerId(Player d_Player_Id) {
+        this.d_Player_Id = d_Player_Id;
+    }
+
+    private Player d_Player_Id;
+    private String d_Type;
     private Country d_From;
     private Country d_To;
     private int d_Reinforcements;
@@ -40,7 +63,7 @@ public class Order {
      *
      * @return The Order Type
      */
-    public OrderType getType() {
+    public String getType() {
         return d_Type;
     }
 
@@ -49,7 +72,7 @@ public class Order {
      *
      * @param p_Type Object of the class OrderType
      */
-    public void setType(OrderType p_Type) {
+    public void setType(String p_Type) {
         this.d_Type = p_Type;
     }
 
@@ -105,5 +128,11 @@ public class Order {
      */
     public void setReinforcements(int p_Reinforcements) {
         this.d_Reinforcements = p_Reinforcements;
+    }
+
+
+    public boolean execute(){
+
+        return true;
     }
 }
