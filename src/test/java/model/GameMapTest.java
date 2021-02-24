@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GameMapTest extends GameMap {
+public class GameMapTest {
 
     @Before
     public void setUp() throws Exception {

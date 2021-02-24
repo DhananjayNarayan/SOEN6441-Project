@@ -1,7 +1,7 @@
 package model;
 
-import model.Order.Order;
-import model.Order.OrderCreater;
+import model.order.Order;
+import model.order.OrderCreater;
 
 import java.util.Deque;
 import java.util.List;
@@ -25,15 +25,6 @@ public class Player {
     private int d_OrderCount;
     private List<Country> d_CapturedCountries;
     private Deque<Order> d_Orders;
-
-    public int getReinforcementArmies() {
-        return d_ReinforcementArmies;
-    }
-
-    public void setReinforcementArmies(int d_AssignedArmies) {
-        this.d_ReinforcementArmies = d_AssignedArmies;
-    }
-
     private int d_ReinforcementArmies;
 
     /**
@@ -126,7 +117,7 @@ public class Player {
         this.d_Orders = p_Orders;
     }
 
-    public void addOrder(Order p_Order){
+    public void addOrder(Order p_Order) {
         d_Orders.add(p_Order);
     }
 
@@ -134,7 +125,15 @@ public class Player {
         return d_Orders.poll();
     }
 
-    public void issueOrder(){
+    public int getReinforcementArmies() {
+        return d_ReinforcementArmies;
+    }
+
+    public void setReinforcementArmies(int d_AssignedArmies) {
+        this.d_ReinforcementArmies = d_AssignedArmies;
+    }
+
+    public void issueOrder() {
         Boolean l_IssueCommand = true;
         String l_Command;
         System.out.println("\nPlease enter the command: \n");
@@ -146,34 +145,35 @@ public class Player {
         String l_CountryId = l_Commands[1];
         int l_ReinforcementArmies = Integer.parseInt(l_Commands[2]);
 
-        if(!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)){
+        if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
             l_IssueCommand = false;
         }
-        if(!checkIfCountryExists(l_CountryId, this)){
+        if (!checkIfCountryExists(l_CountryId, this)) {
             l_IssueCommand = false;
         }
-        if(l_IssueCommand){
+        if (l_IssueCommand) {
             Order l_Order = OrderCreater.createOrder(l_Commands, this);
             addOrder(l_Order);
         }
 
     }
 
-    public boolean checkIfCountryExists(String p_Country, Player p_Player){
+    public boolean checkIfCountryExists(String p_Country, Player p_Player) {
         List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
-        for (Country l_Country : l_ListOfCountries){
-            if(l_Country.getName() == p_Country){
+        for (Country l_Country : l_ListOfCountries) {
+            if (l_Country.getName() == p_Country) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount){
+    public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
         if (p_ArmyCount > d_ReinforcementArmies) {
             return false;
         }
         d_ReinforcementArmies -= p_ArmyCount;
         return true;
     }
+
 }

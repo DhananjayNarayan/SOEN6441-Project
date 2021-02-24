@@ -1,4 +1,7 @@
-package model;
+package model.order;
+
+import model.Country;
+import model.Player;
 
 /**
  * Concrete Class to manage the orders of the players
