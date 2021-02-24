@@ -1,4 +1,7 @@
-package model;
+package model.order;
+
+import model.Country;
+import model.Player;
 
 public class OrderInfo {
     public Player getPlayer() {

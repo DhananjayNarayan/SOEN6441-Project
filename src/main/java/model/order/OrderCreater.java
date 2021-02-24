@@ -1,4 +1,6 @@
-package model;
+package model.order;
+
+import model.Player;
 
 public class OrderCreater {
 
@@ -16,7 +18,7 @@ public class OrderCreater {
         }
         return l_Order;
     }
-    private static Order generateDeployOrderInfo(String[] p_Command, Player p_Player) {
+    private static OrderInfo generateDeployOrderInfo(String[] p_Command, Player p_Player) {
         String l_CountryID = p_Command[1];
         int l_NumberOfArmy = Integer.parseInt(p_Command[2]);
 
@@ -24,7 +26,6 @@ public class OrderCreater {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_CountryID);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
-
         return l_OrderInfo;
     }
 
