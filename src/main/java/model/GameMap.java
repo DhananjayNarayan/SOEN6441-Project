@@ -1,5 +1,7 @@
 package model;
 
+import utils.MapValidation;
+import utils.SaveMap;
 import utils.ValidationException;
 
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
  */
 public class GameMap {
     private static GameMap d_GameMap;
+    private SaveMap d_SaveMap;
     private HashMap<String, Continent> d_Continents = new HashMap<>();
     private HashMap<String, Country> d_Countries = new HashMap<>();
     private HashMap<String, Player> d_Players = new HashMap<>();
@@ -92,6 +95,21 @@ public class GameMap {
      */
     public Player getPlayer(String id) {
         return d_Players.get(id);
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addContinent(String p_ContinentName, String p_ControlValue) throws ValidationException {
@@ -188,18 +206,33 @@ public class GameMap {
         this.getPlayers().remove(l_Player.getName());
         System.out.println("Successfully deleted the player: " + p_PlayerName);
     }
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public void saveMap() throws ValidationException {
+        //Ask p_size for minimum number of countries based on player
+        if (MapValidation.validateMap(d_GameMap, 0)){
+            d_SaveMap = new SaveMap();
+            System.out.println("Done.");
+            boolean bool = true;
+            while (bool) {
+                String mapName = null;
+                System.out.println("Please enter the map name to save:");
+                if (mapName != null) {
+                    if (mapName.isEmpty()) {
+                        System.out.println("Please enter a name..");
+                    } else {
+                        d_GameMap.setName(mapName);
+                        if (d_SaveMap.saveMapIntoFile(d_GameMap, mapName)) {
+                            System.out.println("Map saved.");
+                        } else {
+                            System.out.println("Map name already exists, enter different name.");
+                        }
+                        bool = false;
+                    }
+                } else {
+                    bool = false;
+                }
+            }
+        } else{
+            throw new ValidationException("Invalid Map, can not be saved.");
+        }
     }
 }
