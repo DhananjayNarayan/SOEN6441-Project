@@ -21,7 +21,8 @@ public class GameMap {
     private HashMap<String, Continent> d_Continents = new HashMap<>();
     private HashMap<String, Country> d_Countries = new HashMap<>();
     private HashMap<String, Player> d_Players = new HashMap<>();
-
+    private String name;
+    private String errorMessage;
     /**
      * Get the list of all the continents
      *
@@ -156,5 +157,21 @@ public class GameMap {
 //            this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country1);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
         }
+    }
+
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }
