@@ -11,7 +11,6 @@ public class IssueOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
     GamePhase d_GamePhase = GamePhase.IssueOrder;
     GameMap d_GameMap;
-    Player d_CurrentPlayer;
 
     public IssueOrder(){
         d_GameMap = GameMap.getInstance();
@@ -31,8 +30,7 @@ public class IssueOrder implements GameController {
                 l_Player.issueOrder(l_Commands);
             }
         }
-
-        return null;
+        return p_GamePhase.nextState(d_NextGamePhase);
     }
 
     private String readFromPlayer(){
@@ -43,5 +41,8 @@ public class IssueOrder implements GameController {
         l_Command = l_scanner.nextLine();
         System.out.println(l_Command);
         return l_Command;
+    }
+    public static void main(String args[]){
+
     }
 }
