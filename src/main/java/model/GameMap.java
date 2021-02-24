@@ -4,9 +4,7 @@ import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -233,6 +231,54 @@ public class GameMap {
             }
         } else{
             throw new ValidationException("Invalid Map, can not be saved.");
+        }
+    }
+    /**
+     * This function reads the Continents from the file
+     *
+     * @param p_ContinentArray the value list for Continents
+     * @throws ValidationException
+     */
+    public void readContinentsFromFile(List<String> p_ContinentArray) throws ValidationException {
+        for (String l_InputString : p_ContinentArray) {
+            String[] l_InputArray = l_InputString.split(" ");
+            if (l_InputArray.length == 2) {
+                d_GameMap.addContinent(l_InputArray[0], l_InputArray[1]);
+            }
+        }
+    }
+
+    /**
+     * This function reads the Countries from the file
+     *
+     * @param p_CountryArray the value list for Countries
+     * @throws ValidationException
+     */
+
+    public Map<String, List<String>> readCountriesFromFile(List<String> p_CountryArray) throws ValidationException {
+        Map<String, List<String>> l_CountryNeighbors = new HashMap<>();
+        for (String l_InputString : p_CountryArray) {
+            List<String> l_InputArray = Arrays.stream(l_InputString.split(" ")).collect(Collectors.toList());
+            if (l_InputArray.size() >= 2) {
+                d_GameMap.addCountry(l_InputArray.get(0), l_InputArray.get(1));
+                l_CountryNeighbors.put(l_InputArray.get(0), l_InputArray.subList(2, l_InputArray.size()));
+            }
+        }
+        return l_CountryNeighbors;
+    }
+
+    /**
+     * This function adds the neighbouring Countries
+     *
+     * @param p_NeighborList the neighbouring country list
+     * @throws ValidationException
+     */
+
+    public void addNeighborsFromFile(Map<String, List<String>> p_NeighborList) throws ValidationException {
+        for (String l_Country : p_NeighborList.keySet()) {
+            for (String l_Neighbor : p_NeighborList.get(l_Country)) {
+                d_GameMap.addNeighbor(l_Country, l_Neighbor);
+            }
         }
     }
 }
