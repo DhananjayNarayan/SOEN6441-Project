@@ -11,12 +11,12 @@ public class SaveMap {
 
     private GameMap gameMap;
 
-    public String createANeighborList(Set<Country> p_Neighbors){
+    public String createANeighborList(Set<Country> p_Neighbors) {
         String result = "";
-        for (Country l_Neighbor : p_Neighbors ){
+        for (Country l_Neighbor : p_Neighbors) {
             result += l_Neighbor.getName() + " ";
         }
-        return result.length() > 0 ? result.substring(0, result.length() - 1): "";
+        return result.length() > 0 ? result.substring(0, result.length() - 1) : "";
     }
 
 
@@ -28,23 +28,19 @@ public class SaveMap {
         }
         mapData += "[Territories]\n";
         for (Continent continent : p_GameMap.getContinents().values()) {
-            for (Country country :p_GameMap.getCountries().values()) {
+            for (Country country : p_GameMap.getCountries().values()) {
                 mapData += country.getName() + " " + country.getContinent() + " " + createANeighborList(country.getNeighbors()) + "\n";
             }
 
-            PrintWriter writeData = null;{
-                try {
-                    writeData = new PrintWriter(name+".map");
-                    writeData.println(mapData);
-                    return true;
-                }
-                catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                    return false;
-                }
-                finally{
-                    writeData.close();
-                }
+            PrintWriter writeData = null;
+            try {
+                writeData = new PrintWriter("maps/" + name + ".map");
+                writeData.println(mapData);
+                return true;
+            } catch (Exception ex) {
+                return false;
+            } finally {
+                writeData.close();
             }
 
         }
