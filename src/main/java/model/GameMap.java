@@ -19,9 +19,20 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 public class GameMap {
+    private static GameMap d_GameMap;
     private HashMap<String, Continent> d_Continents = new HashMap<>();
     private HashMap<String, Country> d_Countries = new HashMap<>();
     private HashMap<String, Player> d_Players = new HashMap<>();
+
+    private GameMap() {
+    }
+
+    public static GameMap getInstance() {
+        if (Objects.isNull(d_GameMap)) {
+            d_GameMap = new GameMap();
+        }
+        return d_GameMap;
+    }
 
     /**
      * Get the list of all the continents
@@ -160,5 +171,24 @@ public class GameMap {
 //            this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country1);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
         }
+    }
+
+    public void addPlayer(String p_PlayerName) throws ValidationException {
+        if (this.getPlayers().containsKey(p_PlayerName)) {
+            throw new ValidationException("Player already exists");
+        }
+        Player l_Player = new Player();
+        l_Player.setName(p_PlayerName);
+        this.getPlayers().put(p_PlayerName, l_Player);
+        System.out.println("Successfully added Player: " + p_PlayerName);
+    }
+
+    public void removePlayer(String p_PlayerName) throws ValidationException {
+        Player l_Player = this.getPlayer(p_PlayerName);
+        if (Objects.isNull(l_Player)) {
+            throw new ValidationException("Player does not exist: " + p_PlayerName);
+        }
+        this.getPlayers().remove(l_Player.getName());
+        System.out.println("Successfully deleted the player: " + p_PlayerName);
     }
 }

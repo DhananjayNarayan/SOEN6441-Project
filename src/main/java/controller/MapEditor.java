@@ -1,6 +1,8 @@
 package controller;
 
+import model.GameController;
 import model.GameMap;
+import model.GamePhase;
 import utils.ValidationException;
 
 import java.util.Arrays;
@@ -8,18 +10,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class MapFromConsole {
+/**
+ * This class is used to create map using game console commands.
+ * <p></p>
+ */
+public class MapEditor implements GameController {
     private final Scanner scanner = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor");
     GameMap d_GameMap;
+    GamePhase d_NextState = GamePhase.LoadGame;
 
-    public MapFromConsole(GameMap p_GameMap) {
-        this.d_GameMap = p_GameMap;
+    public MapEditor() {
+        this.d_GameMap = GameMap.getInstance();
     }
 
-    public void start() throws ValidationException {
+    @Override
+    public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
-            System.out.println("Enter your map operation:" + "\n" + "Type help to view the set of commands");
+            System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation");
             String l_Input = scanner.nextLine();
             List<String> l_InputList = Arrays.stream(l_Input.split("-"))
                     .filter(s -> !s.isEmpty())
@@ -104,13 +112,13 @@ public class MapFromConsole {
                         break;
                     }
                     case "exit": {
-                        return;
+                        return p_GamePhase.nextState(d_NextState);
                     }
                     default: {
                         System.out.println("List of map creation commands");
-                        System.out.println("To add a continent : editcontinent -add continentID continentvalue -remove continentID");
-                        System.out.println("To add a country : editcountry -add countryID continentID -remove countryID");
-                        System.out.println("To add a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
+                        System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
+                        System.out.println("To add or remove a country : editcountry -add countryID continentID -remove countryID");
+                        System.out.println("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
                     }
                 }
             }
@@ -124,4 +132,5 @@ public class MapFromConsole {
         }
         return false;
     }
+
 }
