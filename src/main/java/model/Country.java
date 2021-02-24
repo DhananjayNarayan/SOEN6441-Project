@@ -168,4 +168,12 @@ public class Country {
         }
         d_NeighborsName.remove(p_NeighborCountryName);
     }
+
+    public String createANeighborList(Set<Country> p_Neighbors){
+        String result = "";
+        for (Country l_Neighbor : p_Neighbors ){
+            result += l_Neighbor.getName() + "-";
+        }
+        return result.length() > 0 ? result.substring(0, result.length() - 1): "";
+    }
 }

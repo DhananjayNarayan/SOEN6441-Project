@@ -1,15 +1,14 @@
 package controller;
 
-import model.GameController;
-import model.GameMap;
-import model.GamePhase;
+import model.*;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
-
+import java.util.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -82,14 +81,14 @@ public class GamePlay implements GameController {
                     }
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
-//                         d_GameMap.assignCountries();
+                         d_GameMap.assignCountries();
                         } else {
                             throw new ValidationException("Create atleast two players");
                         }
                         break;
                     }
                     case "showmap": {
-//                        d_GameMap.showMap();
+                        d_GameMap.showMap();
                         break;
                     }
                     case "exit": {
@@ -125,5 +124,8 @@ public class GamePlay implements GameController {
         }
         return false;
     }
+
+
+
 
 }
