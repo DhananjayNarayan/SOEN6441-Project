@@ -20,7 +20,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if continent is empty else return false
      */
-    public boolean checkIfContinentIsEmpty(GameMap p_GameMap){
+    public static boolean checkIfContinentIsEmpty(GameMap p_GameMap){
         if(p_GameMap.getContinents().isEmpty()){
             return true;
         }
@@ -43,7 +43,7 @@ public class MapValidation {
      * @param p_CountryCount The Minimum Number of countries required
      * @return true if the number of countries are equal to or more than minimum requirement else false
      */
-    public boolean checkCountryCount(GameMap p_GameMap, int p_CountryCount){
+    public static boolean checkCountryCount(GameMap p_GameMap, int p_CountryCount){
         if(p_GameMap.getCountries().size() >= p_CountryCount){
             return true;
         }
@@ -60,7 +60,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if the neighbor is a country in the country list else false
      */
-    public boolean checkIfNeighbourExist(GameMap p_GameMap) {
+    public static boolean checkIfNeighbourExist(GameMap p_GameMap) {
         HashMap<String, Country> l_Countries =  p_GameMap.getCountries();
         List<String> l_ListOfCountries = new ArrayList<>();
         for(String l_Name : l_Countries.keySet()) {
@@ -86,7 +86,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if there any duplicates of the continent are present else false
      */
-    public boolean checkDuplicateContinents(GameMap p_GameMap) {
+    public static boolean checkDuplicateContinents(GameMap p_GameMap) {
         HashMap<String, Continent> p_ContinentNames = p_GameMap.getContinents();
         HashSet<String> p_ContinentSet = new HashSet<>(p_ContinentNames.keySet());
         ArrayList<String> p_Result = new ArrayList<>(p_ContinentSet);
@@ -104,7 +104,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if there any duplicates of the continent are present else false
      */
-    public boolean checkDuplicateCountries(GameMap p_GameMap) {
+    public static boolean checkDuplicateCountries(GameMap p_GameMap) {
         HashMap<String, Country> p_CountryNames = p_GameMap.getCountries();
         HashSet<String> p_Set = new HashSet<>(p_CountryNames.keySet());
         ArrayList<String> p_Result = new ArrayList<>(p_Set);
@@ -122,7 +122,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if any duplicates are present else false
      */
-    public boolean checkDuplicateNeighbours(GameMap p_GameMap) {
+    public static boolean checkDuplicateNeighbours(GameMap p_GameMap) {
         for (Continent l_Continent : p_GameMap.getContinents().values()) {
             for (Country l_Country : l_Continent.getCountries()) {
                 Set<Country> l_Neighbours = l_Country.getNeighbors();
@@ -143,7 +143,7 @@ public class MapValidation {
      * @param p_Size The Minimum Country required for a player to play
      * @return true if the satisfies all the conditions else false
      */
-    public boolean validateMap(GameMap p_GameMap, int p_Size) {
+    public static boolean validateMap(GameMap p_GameMap, int p_Size) {
         if(checkIfContinentIsEmpty(p_GameMap)){
             return false;
         }
@@ -265,7 +265,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if continent is strongly connected else false
      */
-    boolean checkIfContinentIsConnected(GameMap p_GameMap){
+    static boolean checkIfContinentIsConnected(GameMap p_GameMap){
         Set<String> l_List =  p_GameMap.getCountries().keySet();
         List<String> l_ListOfCountries = new ArrayList<>();
         for(String l_Name : l_List) {
@@ -297,7 +297,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if whole map is strongly connected else false
      */
-    boolean checkIfMapIsConnected(GameMap p_GameMap){
+    static boolean checkIfMapIsConnected(GameMap p_GameMap){
         Set<String> l_List =  p_GameMap.getCountries().keySet();
         List<String> l_ListOfCountries = new ArrayList<>();
         for(String l_Name : l_List) {
@@ -327,7 +327,7 @@ public class MapValidation {
      * @param p_Graph The Connected class object to check if connected or not
      * @return true if the graph is connected else false
      */
-    boolean checkMapConnectivity(ConnectedGraph p_Graph) {
+    static boolean checkMapConnectivity(ConnectedGraph p_Graph) {
         if (p_Graph.checkIfStronglyConnected()) {
             System.out.println("Yes, Map is strongly connected");
             return true;
