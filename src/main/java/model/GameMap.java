@@ -1,11 +1,10 @@
 package model;
 
+import utils.MapValidation;
+import utils.SaveMap;
 import utils.ValidationException;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +22,8 @@ public class GameMap {
     private HashMap<String, Continent> d_Continents = new HashMap<>();
     private HashMap<String, Country> d_Countries = new HashMap<>();
     private HashMap<String, Player> d_Players = new HashMap<>();
+    private String name;
+    private String errorMessage;
 
     private GameMap() {
     }
@@ -94,6 +95,22 @@ public class GameMap {
         return d_Players.get(id);
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addContinent(String p_ContinentName, String p_ControlValue) throws ValidationException {
 
         if (this.getContinents().containsKey(p_ContinentName)) {
@@ -151,7 +168,6 @@ public class GameMap {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        l_Country1.setNeighborsName(p_NeighborCountryName);
 //        l_Country2.getNeighbors().add(l_Country1);
         System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
     }
@@ -166,8 +182,6 @@ public class GameMap {
             throw new ValidationException("Mentioned Countries are not neighbors");
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
-            l_Country1.removeNeighborsName(p_NeighborCountryName);
-            l_Country2.removeNeighborsName(p_CountryName);
 //            this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country1);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
         }
@@ -190,5 +204,29 @@ public class GameMap {
         }
         this.getPlayers().remove(l_Player.getName());
         System.out.println("Successfully deleted the player: " + p_PlayerName);
+    }
+
+    public void saveMap() throws ValidationException {
+        //Ask p_size for minimum number of countries based on player
+        if (MapValidation.validateMap(d_GameMap, 0)) {
+            SaveMap d_SaveMap = new SaveMap();
+            System.out.println("Done.");
+            boolean bool = true;
+            while (bool) {
+                d_GameMap.getName();
+                if (Objects.isNull(d_GameMap.getName()) || d_GameMap.getName().isEmpty()) {
+                    throw new ValidationException("Give name for map file");
+                } else {
+                    if (d_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
+                        System.out.println("Map saved.");
+                    } else {
+                       throw new ValidationException("Map name already exists, enter different name.");
+                    }
+                    bool = false;
+                }
+            }
+        } else {
+            throw new ValidationException("Invalid Map, can not be saved.");
+        }
     }
 }

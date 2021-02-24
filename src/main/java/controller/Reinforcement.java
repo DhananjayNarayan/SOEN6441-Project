@@ -22,7 +22,7 @@ public class Reinforcement implements GameController {
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException, InvalidExecutionException {
         d_GamePhase = p_GamePhase;
         calculateReinforcements();
-        return null;
+        return d_NextGamePhase;
     }
 
     private void calculateReinforcements() throws InvalidExecutionException {
@@ -34,16 +34,21 @@ public class Reinforcement implements GameController {
 
     public void setReinforcementTroops() throws InvalidExecutionException {
         if (d_GamePhase.equals(GamePhase.Reinforcement)) {
-            int reinforcements = d_CurrentPlayer.getCapturedCountries().size();
-            Map<String, List<Country>> l_CountryMap = d_CurrentPlayer.getCapturedCountries()
-                    .stream()
-                    .collect(Collectors.groupingBy(Country::getContinent));
-            for (String continent : l_CountryMap.keySet()) {
-                if (d_GameMap.getContinent(continent).getCountries().size() == l_CountryMap.get(continent).size()) {
-                    reinforcements += d_GameMap.getContinent(continent).getAwardArmies();
+            if(d_CurrentPlayer.getCapturedCountries().size() > 0) {
+                int reinforcements = (int) Math.floor(d_CurrentPlayer.getCapturedCountries().size() / 3f);
+                Map<String, List<Country>> l_CountryMap = d_CurrentPlayer.getCapturedCountries()
+                        .stream()
+                        .collect(Collectors.groupingBy(Country::getContinent));
+                for (String continent : l_CountryMap.keySet()) {
+                    if (d_GameMap.getContinent(continent).getCountries().size() == l_CountryMap.get(continent).size()) {
+                        reinforcements += d_GameMap.getContinent(continent).getAwardArmies();
+                    }
                 }
+                d_CurrentPlayer.setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
+            } else {
+                d_CurrentPlayer.setReinforcementArmies(3);
             }
-            d_CurrentPlayer.setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
+
         } else throw new InvalidExecutionException();
     }
 }

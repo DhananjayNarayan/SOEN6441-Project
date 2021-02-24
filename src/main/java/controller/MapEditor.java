@@ -3,11 +3,15 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
+import utils.MapReader;
+import utils.SaveMap;
 import utils.ValidationException;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -16,8 +20,9 @@ import java.util.stream.Collectors;
  */
 public class MapEditor implements GameController {
     private final Scanner scanner = new Scanner(System.in);
-    private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor");
+    private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
+    SaveMap d_SaveMap;
     GamePhase d_NextState = GamePhase.LoadGame;
 
     public MapEditor() {
@@ -29,10 +34,16 @@ public class MapEditor implements GameController {
         while (true) {
             System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation");
             String l_Input = scanner.nextLine();
-            List<String> l_InputList = Arrays.stream(l_Input.split("-"))
-                    .filter(s -> !s.isEmpty())
-                    .map(String::trim)
-                    .collect(Collectors.toList());
+            List<String> l_InputList = null;
+            if (l_Input.contains("-")) {
+                l_InputList = Arrays.stream(l_Input.split("-"))
+                        .filter(s -> !s.isEmpty())
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+            } else {
+                l_InputList = Arrays.stream(l_Input.split(" ")).collect(Collectors.toList());
+            }
+
             if (!inputValidator(l_InputList)) {
                 if (l_Input.startsWith("exit")) {
                     l_InputList.add(0, "exit");
@@ -111,6 +122,27 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    case "showmap": {
+//                        d_GameMap.showMap();
+                        break;
+                    }
+                    case "validatemap": {
+//                        d_GameMap.validateMap();
+                        break;
+                    }
+                    case "savemap": {
+                        if (l_CommandArray.length == 1) {
+                            d_GameMap.setName(l_CommandArray[0]);
+                            d_GameMap.saveMap();
+                        }
+                        break;
+                    }
+                    case "editmap": {
+                        if (l_CommandArray.length == 1) {
+                            MapReader.readMap(d_GameMap, l_CommandArray[0]);
+                        }
+                        break;
+                    }
                     case "exit": {
                         return p_GamePhase.nextState(d_NextState);
                     }
@@ -128,6 +160,9 @@ public class MapEditor implements GameController {
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
             String l_MainCommand = p_InputList.get(0);
+            if (p_InputList.size() == 1) {
+                p_InputList.add("dummy");
+            }
             return CLI_COMMANDS.contains(l_MainCommand.toLowerCase());
         }
         return false;

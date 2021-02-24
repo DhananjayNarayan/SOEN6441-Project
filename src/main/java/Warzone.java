@@ -1,6 +1,7 @@
 import model.GameController;
 import model.GamePhase;
 import utils.InvalidExecutionException;
+import utils.SaveMap;
 import utils.ValidationException;
 
 import java.util.Objects;
@@ -24,7 +25,7 @@ public class Warzone {
                 start();
             }
         } catch (ValidationException | InvalidExecutionException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             start();
         } catch (Exception e) {
             e.printStackTrace();
