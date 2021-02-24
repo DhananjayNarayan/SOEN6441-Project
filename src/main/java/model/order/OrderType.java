@@ -1,4 +1,4 @@
-package model;
+package model.order;
 
 /**
  * Enum for types of orders

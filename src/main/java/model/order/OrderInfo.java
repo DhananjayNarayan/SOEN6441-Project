@@ -1,6 +1,15 @@
-package model;
+package model.order;
+
+import model.Country;
+import model.Player;
 
 public class OrderInfo {
+    private Player d_Player;
+    private Country d_Departure;
+    private String d_Destination;
+    private int d_NumberOfArmy;
+
+
     public Player getPlayer() {
         return d_Player;
     }
@@ -9,7 +18,7 @@ public class OrderInfo {
         this.d_Player = d_Player;
     }
 
-    private Player d_Player;
+
 
     public Country getDeparture() {
         return d_Departure;
@@ -19,7 +28,7 @@ public class OrderInfo {
         this.d_Departure = d_Departure;
     }
 
-    private Country d_Departure;
+
 
     public String getDestination() {
         return d_Destination;
@@ -30,7 +39,7 @@ public class OrderInfo {
     }
 
 
-    private String d_Destination;
+
 
     public int getNumberOfArmy() {
         return d_NumberOfArmy;
@@ -40,7 +49,7 @@ public class OrderInfo {
         this.d_NumberOfArmy = d_NumberOfArmy;
     }
 
-    private int d_NumberOfArmy;
+
 
 
 

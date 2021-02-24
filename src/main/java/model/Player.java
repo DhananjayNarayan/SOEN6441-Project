@@ -1,7 +1,7 @@
 package model;
 
-import model.Order.Order;
-import model.Order.OrderCreater;
+import model.order.Order;
+import model.order.OrderCreater;
 
 import java.util.Deque;
 import java.util.List;
