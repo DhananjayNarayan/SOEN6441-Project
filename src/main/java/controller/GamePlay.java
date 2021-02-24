@@ -3,6 +3,7 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
+import utils.SaveMap;
 import utils.ValidationException;
 
 import java.util.Arrays;
@@ -90,42 +91,6 @@ public class GamePlay implements GameController {
                     }
                 }
             }
-//            if (l_InputList.contains("gameplayer")) {
-//                l_InputList.remove(l_InputList.get(0));
-//                for (String l_Command : l_InputList) {
-//                    String[] l_CommandArray = l_Command.split(" ");
-//                    switch (l_CommandArray[0]) {
-//                        case "add": {
-//                            if (l_CommandArray.length == 2) {
-//                                d_GameMap.addPlayer(l_CommandArray[1]);
-//                            } else {
-//                                throw new ValidationException();
-//                            }
-//                            break;
-//                        }
-//                        case "remove": {
-//                            if (l_CommandArray.length == 2) {
-//                                d_GameMap.removePlayer(l_CommandArray[1]);
-//                            } else {
-//                                throw new ValidationException();
-//                            }
-//                            break;
-//                        }
-//                        default: {
-//                            System.out.println("List of player creation commands");
-//                            System.out.println("To add or remove a player : gameplayer -add playername -remove playername");
-//                        }
-//                    }
-//                }
-//            } else if (l_InputList.contains("exit")) {
-//                return p_GamePhase.nextState(d_GamePhase);
-//            } else {
-//                System.out.println("Order of game play commands");
-//                System.out.println("To load the map : loadmap filename");
-//                System.out.println("To show the loaded map : showmap");
-//                System.out.println("To add or remove a player : gameplayer -add playername -remove playername");
-//                System.out.println("To assign countries : assigncountries");
-//            }
         }
     }
     public boolean inputValidator(List<String> p_InputList) {

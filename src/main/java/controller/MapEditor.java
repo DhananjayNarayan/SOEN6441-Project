@@ -123,7 +123,7 @@ public class MapEditor implements GameController {
                     }
                     case "savemap" : {
                         if(l_CommandArray.length == 1) {
-//                            d_GameMap.saveMap(l_CommandArray[0]);
+                            d_GameMap.saveMap();
                         }
                         break;
                     }
@@ -154,7 +154,7 @@ public class MapEditor implements GameController {
         }
         return false;
     }
-    public void saveMap(GameMap d_GameMap) {
+    public void saveMap() {
         //Ask p_size for minimum number of countries based on player
         if (MapValidation.validateMap(d_GameMap, 0)){
             System.out.println("Done.");
@@ -168,9 +168,9 @@ public class MapEditor implements GameController {
                     } else {
                         d_GameMap.setName(mapName);
                         if (d_SaveMap.saveMapIntoFile(d_GameMap, mapName)) {
-                            System.out.println("Map has been saved.");
+                            System.out.println("Map saved.");
                         } else {
-                            System.out.println("Not able to save map as text file, enter different name.");
+                            System.out.println("Map name already exists, enter different name.");
                         }
                         bool = false;
                     }

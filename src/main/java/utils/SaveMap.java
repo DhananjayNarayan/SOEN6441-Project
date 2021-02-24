@@ -11,10 +11,6 @@ public class SaveMap {
 
     private GameMap gameMap;
 
-    public SaveMap(GameMap map) {
-        this.gameMap=map;
-    }
-
     public String createANeighborList(Set<Country> p_Neighbors){
         String result = "";
         for (Country l_Neighbor : p_Neighbors ){
