@@ -169,4 +169,12 @@ public class Player {
         return true;
     }
 
+    public String createACaptureList(List<Country>  p_Capture) {
+        // TODO Auto-generated method stub
+        String result = "";
+        for (Country l_Capture : p_Capture ){
+            result += l_Capture.getName() + "-";
+        }
+        return result.length() > 0 ? result.substring(0, result.length() - 1): "";
+    }
 }
