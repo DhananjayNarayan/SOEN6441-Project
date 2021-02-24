@@ -1,6 +1,11 @@
 package model;
 
+import model.Order.Order;
+import model.Order.OrderCreater;
+
+import java.util.Deque;
 import java.util.List;
+import java.util.Scanner;
 
 
 /**
@@ -19,7 +24,17 @@ public class Player {
     private String d_Name;
     private int d_OrderCount;
     private List<Country> d_CapturedCountries;
-    private List<Order> d_Orders;
+    private Deque<Order> d_Orders;
+
+    public int getReinforcementArmies() {
+        return d_ReinforcementArmies;
+    }
+
+    public void setReinforcementArmies(int d_AssignedArmies) {
+        this.d_ReinforcementArmies = d_AssignedArmies;
+    }
+
+    private int d_ReinforcementArmies;
 
     /**
      * A function to get the player ID
@@ -98,7 +113,7 @@ public class Player {
      *
      * @return list of orders
      */
-    public List<Order> getOrders() {
+    public Deque<Order> getOrders() {
         return d_Orders;
     }
 
@@ -107,7 +122,58 @@ public class Player {
      *
      * @param p_Orders the list of orders
      */
-    public void setOrders(List<Order> p_Orders) {
+    public void setOrders(Deque<Order> p_Orders) {
         this.d_Orders = p_Orders;
+    }
+
+    public void addOrder(Order p_Order){
+        d_Orders.add(p_Order);
+    }
+
+    public Order nextOrder() {
+        return d_Orders.poll();
+    }
+
+    public void issueOrder(){
+        Boolean l_IssueCommand = true;
+        String l_Command;
+        System.out.println("\nPlease enter the command: \n");
+        Scanner l_scanner = new Scanner(System.in);
+        l_Command = l_scanner.nextLine();
+        System.out.println(l_Command);
+
+        String[] l_Commands = l_Command.split(" ");
+        String l_CountryId = l_Commands[1];
+        int l_ReinforcementArmies = Integer.parseInt(l_Commands[2]);
+
+        if(!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)){
+            l_IssueCommand = false;
+        }
+        if(!checkIfCountryExists(l_CountryId, this)){
+            l_IssueCommand = false;
+        }
+        if(l_IssueCommand){
+            Order l_Order = OrderCreater.createOrder(l_Commands, this);
+            addOrder(l_Order);
+        }
+
+    }
+
+    public boolean checkIfCountryExists(String p_Country, Player p_Player){
+        List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
+        for (Country l_Country : l_ListOfCountries){
+            if(l_Country.getName() == p_Country){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount){
+        if (p_ArmyCount > d_ReinforcementArmies) {
+            return false;
+        }
+        d_ReinforcementArmies -= p_ArmyCount;
+        return true;
     }
 }
