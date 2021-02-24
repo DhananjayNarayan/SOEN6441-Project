@@ -143,6 +143,8 @@ public class Player {
 
         String[] l_Commands = l_Command.split(" ");
         String l_CountryId = l_Commands[1];
+
+
         int l_ReinforcementArmies = Integer.parseInt(l_Commands[2]);
 
         if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {

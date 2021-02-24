@@ -103,6 +103,10 @@ public class Country {
         return d_Armies;
     }
 
+    public void deployArmies(int p_armies) {
+        d_Armies += p_armies;
+    }
+
     /**
      * Set the armies for the country
      *
