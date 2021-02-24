@@ -35,7 +35,7 @@ public class Reinforcement implements GameController {
     public void setReinforcementTroops() throws InvalidExecutionException {
         if (d_GamePhase.equals(GamePhase.Reinforcement)) {
             if(d_CurrentPlayer.getCapturedCountries().size() > 0) {
-                int reinforcements = d_CurrentPlayer.getCapturedCountries().size() / 3;
+                int reinforcements = (int) Math.floor(d_CurrentPlayer.getCapturedCountries().size() / 3f);
                 Map<String, List<Country>> l_CountryMap = d_CurrentPlayer.getCapturedCountries()
                         .stream()
                         .collect(Collectors.groupingBy(Country::getContinent));

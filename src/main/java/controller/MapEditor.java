@@ -5,9 +5,11 @@ import model.GameMap;
 import model.GamePhase;
 import utils.SaveMap;
 import utils.ValidationException;
-import utils.MapValidation;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class MapEditor implements GameController {
     private final Scanner scanner = new Scanner(System.in);
-    private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor","showmap","savemap","editmap","validatemap");
+    private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     SaveMap d_SaveMap;
     GamePhase d_NextState = GamePhase.LoadGame;
@@ -31,10 +33,15 @@ public class MapEditor implements GameController {
         while (true) {
             System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation");
             String l_Input = scanner.nextLine();
-            List<String> l_InputList = Arrays.stream(l_Input.split("-"))
-                    .filter(s -> !s.isEmpty())
-                    .map(String::trim)
-                    .collect(Collectors.toList());
+            List<String> l_InputList = null;
+            if (l_Input.contains("-")) {
+                l_InputList = Arrays.stream(l_Input.split("-"))
+                        .filter(s -> !s.isEmpty())
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+            } else {
+                l_InputList = Arrays.stream(l_Input.split(" ")).collect(Collectors.toList());
+            }
             if (!inputValidator(l_InputList)) {
                 if (l_Input.startsWith("exit")) {
                     l_InputList.add(0, "exit");
@@ -113,28 +120,29 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
-                    case "showmap" : {
+                    case "showmap": {
 //                        d_GameMap.showMap();
                         break;
                     }
-                    case "validatemap" : {
+                    case "validatemap": {
 //                        d_GameMap.validateMap();
                         break;
                     }
-                    case "savemap" : {
-                        if(l_CommandArray.length == 1) {
+                    case "savemap": {
+                        if (l_CommandArray.length == 1) {
+                            d_GameMap.setName(l_CommandArray[0]);
                             d_GameMap.saveMap();
                         }
                         break;
                     }
-                    case "editmap" : {
-                        if(l_CommandArray.length == 1) {
-                           readMap(l_CommandArray[0]);
+                    case "editmap": {
+                        if (l_CommandArray.length == 1) {
+                            readMap(l_CommandArray[0]);
                         }
                         break;
                     }
                     case "exit": {
-                            return p_GamePhase.nextState(d_NextState);
+                        return p_GamePhase.nextState(d_NextState);
                     }
                     default: {
                         System.out.println("List of map creation commands");
@@ -154,35 +162,6 @@ public class MapEditor implements GameController {
         }
         return false;
     }
-    public void saveMap() {
-        //Ask p_size for minimum number of countries based on player
-        if (MapValidation.validateMap(d_GameMap, 0)){
-            System.out.println("Done.");
-            boolean bool = true;
-            while (bool) {
-                String mapName = null;
-                System.out.println("Please enter the map name to save:");
-                if (mapName != null) {
-                    if (mapName.isEmpty()) {
-                        System.out.println("Please enter a name..");
-                    } else {
-                        d_GameMap.setName(mapName);
-                        if (d_SaveMap.saveMapIntoFile(d_GameMap, mapName)) {
-                            System.out.println("Map saved.");
-                        } else {
-                            System.out.println("Map name already exists, enter different name.");
-                        }
-                        bool = false;
-                    }
-                } else {
-                    bool = false;
-                }
-            }
-        } else{
-            System.out.println("Invalid Map, can not be saved.");
-            System.out.println(d_GameMap.getErrorMessage());
-        }
-    }
 
     /**
      * This function reads the file and places the contents of the file
@@ -190,7 +169,7 @@ public class MapEditor implements GameController {
      *
      * @param p_FileName the map file name
      */
-    public void readMap(String p_FileName) {
+    public void readMap(String p_FileName) throws ValidationException {
         try {
             File l_File = new File(p_FileName);
             FileReader l_FileReader = new FileReader(l_File);
@@ -208,14 +187,60 @@ public class MapEditor implements GameController {
                     }
                 }
             }
-            d_GameMap.readContinentsFromFile(l_MapFileContents.get("Continents"));
-            Map<String, List<String>> l_CountryNeighbors = d_GameMap.readCountriesFromFile(l_MapFileContents.get("Territories"));
-            d_GameMap.addNeighborsFromFile(l_CountryNeighbors);
-        } catch (ValidationException | FileNotFoundException e) {
-            e.getMessage();
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            readContinentsFromFile(l_MapFileContents.get("Continents"));
+            Map<String, List<String>> l_CountryNeighbors = readCountriesFromFile(l_MapFileContents.get("Territories"));
+            addNeighborsFromFile(l_CountryNeighbors);
+        } catch (ValidationException | IOException e) {
+            throw new ValidationException(e.getMessage());
+        }
+    }
+
+    /**
+     * This function reads the Continents from the file
+     *
+     * @param p_ContinentArray the value list for Continents
+     * @throws ValidationException
+     */
+    public void readContinentsFromFile(List<String> p_ContinentArray) throws ValidationException {
+        for (String l_InputString : p_ContinentArray) {
+            String[] l_InputArray = l_InputString.split(" ");
+            if (l_InputArray.length == 2) {
+                d_GameMap.addContinent(l_InputArray[0], l_InputArray[1]);
+            }
+        }
+    }
+
+    /**
+     * This function reads the Countries from the file
+     *
+     * @param p_CountryArray the value list for Countries
+     * @throws ValidationException
+     */
+
+    public Map<String, List<String>> readCountriesFromFile(List<String> p_CountryArray) throws ValidationException {
+        Map<String, List<String>> l_CountryNeighbors = new HashMap<>();
+        for (String l_InputString : p_CountryArray) {
+            List<String> l_InputArray = Arrays.stream(l_InputString.split(" ")).collect(Collectors.toList());
+            if (l_InputArray.size() >= 2) {
+                d_GameMap.addCountry(l_InputArray.get(0), l_InputArray.get(1));
+                l_CountryNeighbors.put(l_InputArray.get(0), l_InputArray.subList(2, l_InputArray.size()));
+            }
+        }
+        return l_CountryNeighbors;
+    }
+
+    /**
+     * This function adds the neighbouring Countries
+     *
+     * @param p_NeighborList the neighbouring country list
+     * @throws ValidationException
+     */
+
+    public void addNeighborsFromFile(Map<String, List<String>> p_NeighborList) throws ValidationException {
+        for (String l_Country : p_NeighborList.keySet()) {
+            for (String l_Neighbor : p_NeighborList.get(l_Country)) {
+                d_GameMap.addNeighbor(l_Country, l_Neighbor);
+            }
         }
     }
 
