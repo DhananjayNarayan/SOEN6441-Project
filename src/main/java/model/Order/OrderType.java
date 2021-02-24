@@ -11,5 +11,5 @@ package model;
  * @version 1.0.0
  */
 public enum OrderType {
-    attack
+    deploy, attack
 }
