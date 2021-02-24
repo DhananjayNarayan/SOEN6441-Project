@@ -25,7 +25,7 @@ public class Warzone {
                 start();
             }
         } catch (ValidationException | InvalidExecutionException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             start();
         } catch (Exception e) {
             e.printStackTrace();

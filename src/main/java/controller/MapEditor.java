@@ -3,6 +3,7 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
+import utils.MapReader;
 import utils.SaveMap;
 import utils.ValidationException;
 
@@ -42,6 +43,7 @@ public class MapEditor implements GameController {
             } else {
                 l_InputList = Arrays.stream(l_Input.split(" ")).collect(Collectors.toList());
             }
+
             if (!inputValidator(l_InputList)) {
                 if (l_Input.startsWith("exit")) {
                     l_InputList.add(0, "exit");
@@ -137,7 +139,7 @@ public class MapEditor implements GameController {
                     }
                     case "editmap": {
                         if (l_CommandArray.length == 1) {
-                            readMap(l_CommandArray[0]);
+                            MapReader.readMap(d_GameMap, l_CommandArray[0]);
                         }
                         break;
                     }
@@ -158,90 +160,12 @@ public class MapEditor implements GameController {
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
             String l_MainCommand = p_InputList.get(0);
+            if (p_InputList.size() == 1) {
+                p_InputList.add("dummy");
+            }
             return CLI_COMMANDS.contains(l_MainCommand.toLowerCase());
         }
         return false;
-    }
-
-    /**
-     * This function reads the file and places the contents of the file
-     * in a Hash Map
-     *
-     * @param p_FileName the map file name
-     */
-    public void readMap(String p_FileName) throws ValidationException {
-        try {
-            File l_File = new File("maps/" + p_FileName);
-            FileReader l_FileReader = new FileReader(l_File);
-            Map<String, List<String>> l_MapFileContents = new HashMap<>();
-            String l_CurrentKey = "";
-            BufferedReader l_Buffer = new BufferedReader(l_FileReader);
-            while (l_Buffer.ready()) {
-                String l_Read = l_Buffer.readLine();
-                if (!l_Read.isEmpty()) {
-                    if (l_Read.contains("[") && l_Read.contains("]")) {
-                        l_CurrentKey = l_Read.replace("[", "").replace("]", "");
-                        l_MapFileContents.put(l_CurrentKey, new ArrayList<>());
-                    } else {
-                        l_MapFileContents.get(l_CurrentKey).add(l_Read);
-                    }
-                }
-            }
-            readContinentsFromFile(l_MapFileContents.get("Continents"));
-            Map<String, List<String>> l_CountryNeighbors = readCountriesFromFile(l_MapFileContents.get("Territories"));
-            addNeighborsFromFile(l_CountryNeighbors);
-        } catch (ValidationException | IOException e) {
-            throw new ValidationException(e.getMessage());
-        }
-    }
-
-    /**
-     * This function reads the Continents from the file
-     *
-     * @param p_ContinentArray the value list for Continents
-     * @throws ValidationException
-     */
-    public void readContinentsFromFile(List<String> p_ContinentArray) throws ValidationException {
-        for (String l_InputString : p_ContinentArray) {
-            String[] l_InputArray = l_InputString.split(" ");
-            if (l_InputArray.length == 2) {
-                d_GameMap.addContinent(l_InputArray[0], l_InputArray[1]);
-            }
-        }
-    }
-
-    /**
-     * This function reads the Countries from the file
-     *
-     * @param p_CountryArray the value list for Countries
-     * @throws ValidationException
-     */
-
-    public Map<String, List<String>> readCountriesFromFile(List<String> p_CountryArray) throws ValidationException {
-        Map<String, List<String>> l_CountryNeighbors = new HashMap<>();
-        for (String l_InputString : p_CountryArray) {
-            List<String> l_InputArray = Arrays.stream(l_InputString.split(" ")).collect(Collectors.toList());
-            if (l_InputArray.size() >= 2) {
-                d_GameMap.addCountry(l_InputArray.get(0), l_InputArray.get(1));
-                l_CountryNeighbors.put(l_InputArray.get(0), l_InputArray.subList(2, l_InputArray.size()));
-            }
-        }
-        return l_CountryNeighbors;
-    }
-
-    /**
-     * This function adds the neighbouring Countries
-     *
-     * @param p_NeighborList the neighbouring country list
-     * @throws ValidationException
-     */
-
-    public void addNeighborsFromFile(Map<String, List<String>> p_NeighborList) throws ValidationException {
-        for (String l_Country : p_NeighborList.keySet()) {
-            for (String l_Neighbor : p_NeighborList.get(l_Country)) {
-                d_GameMap.addNeighbor(l_Country, l_Neighbor);
-            }
-        }
     }
 
 }
