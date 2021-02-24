@@ -1,4 +1,4 @@
-package model;
+package model.order;
 
 import org.junit.After;
 import org.junit.Before;

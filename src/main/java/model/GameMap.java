@@ -1,5 +1,7 @@
 package model;
 
+import utils.MapValidation;
+import utils.SaveMap;
 import utils.ValidationException;
 
 import java.util.HashMap;
@@ -18,10 +20,23 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 public class GameMap {
+    private static GameMap d_GameMap;
+    private SaveMap d_SaveMap;
     private HashMap<String, Continent> d_Continents = new HashMap<>();
     private HashMap<String, Country> d_Countries = new HashMap<>();
     private HashMap<String, Player> d_Players = new HashMap<>();
+    private String name;
+    private String errorMessage;
 
+    private GameMap() {
+    }
+
+    public static GameMap getInstance() {
+        if (Objects.isNull(d_GameMap)) {
+            d_GameMap = new GameMap();
+        }
+        return d_GameMap;
+    }
     /**
      * Get the list of all the continents
      *
@@ -82,6 +97,21 @@ public class GameMap {
         return d_Players.get(id);
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addContinent(String p_ContinentName, String p_ControlValue) throws ValidationException {
 
         if (this.getContinents().containsKey(p_ContinentName)) {
@@ -139,7 +169,7 @@ public class GameMap {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        //l_Country2.getNeighbors().add(l_Country1);
+//        l_Country2.getNeighbors().add(l_Country1);
         System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
     }
 
@@ -153,8 +183,56 @@ public class GameMap {
             throw new ValidationException("Mentioned Countries are not neighbors");
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
-           // this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country2);
+//            this.getCountry(p_NeighborCountryName).getNeighbors().remove(l_Country1);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
+        }
+    }
+
+    public void addPlayer(String p_PlayerName) throws ValidationException {
+        if (this.getPlayers().containsKey(p_PlayerName)) {
+            throw new ValidationException("Player already exists");
+        }
+        Player l_Player = new Player();
+        l_Player.setName(p_PlayerName);
+        this.getPlayers().put(p_PlayerName, l_Player);
+        System.out.println("Successfully added Player: " + p_PlayerName);
+    }
+
+    public void removePlayer(String p_PlayerName) throws ValidationException {
+        Player l_Player = this.getPlayer(p_PlayerName);
+        if (Objects.isNull(l_Player)) {
+            throw new ValidationException("Player does not exist: " + p_PlayerName);
+        }
+        this.getPlayers().remove(l_Player.getName());
+        System.out.println("Successfully deleted the player: " + p_PlayerName);
+    }
+    public void saveMap() throws ValidationException {
+        //Ask p_size for minimum number of countries based on player
+        if (MapValidation.validateMap(d_GameMap, 0)){
+            d_SaveMap = new SaveMap();
+            System.out.println("Done.");
+            boolean bool = true;
+            while (bool) {
+                String mapName = null;
+                System.out.println("Please enter the map name to save:");
+                if (mapName != null) {
+                    if (mapName.isEmpty()) {
+                        System.out.println("Please enter a name..");
+                    } else {
+                        d_GameMap.setName(mapName);
+                        if (d_SaveMap.saveMapIntoFile(d_GameMap, mapName)) {
+                            System.out.println("Map saved.");
+                        } else {
+                            System.out.println("Map name already exists, enter different name.");
+                        }
+                        bool = false;
+                    }
+                } else {
+                    bool = false;
+                }
+            }
+        } else{
+            throw new ValidationException("Invalid Map, can not be saved.");
         }
     }
 }
