@@ -1,7 +1,13 @@
 package model.order;
 
 import model.Country;
+import model.GameMap;
 import model.Player;
+
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Concrete Class to manage the orders of the players
@@ -14,125 +20,94 @@ import model.Player;
  * @version 1.0.0
  */
 public class Order {
-    private int d_Id;
+    private static Order d_Order;
+    private String d_Type;
+    private OrderInfo d_OrderInfo;
+    private List<Order> d_OrderList = new ArrayList<Order>();
 
+    /**
+     * A function to get the order list
+     *
+     * @return the list of type Order class
+     */
+    public List<Order> getOrderList() {
+        return d_OrderList;
+    }
+
+    /**
+     * A function to set the order list
+     *
+     * @param p_OrderList Order List of type Order class
+     */
+    public void setOrderList(List<Order> p_OrderList) {
+        this.d_OrderList = p_OrderList;
+    }
+
+    /**
+     * A function to add the order to the order list
+     *
+     * @param p_Order The order to be added to the list
+     */
+    public void AddToOrderList(Order p_Order){
+        d_OrderList.add(p_Order);
+    }
+
+    /**
+     * A function to get the instance of the class Order
+     *
+     * @return the instance of class Order
+     */
+    public static Order getInstance() {
+        if (Objects.isNull(d_Order)) {
+            d_Order = new Order();
+        }
+        return d_Order;
+    }
+
+    /**
+     * A function to get order information
+     *
+     * @return the order information in an object
+     */
     public OrderInfo getOrderInfo() {
         return d_OrderInfo;
     }
 
-    public void setOrderInfo(OrderInfo d_OrderInfo) {
-        this.d_OrderInfo = d_OrderInfo;
-    }
-
-    private OrderInfo d_OrderInfo;
-
-    public Player getPlayerId() {
-        return d_Player_Id;
-    }
-
-    public void setPlayerId(Player d_Player_Id) {
-        this.d_Player_Id = d_Player_Id;
-    }
-
-    private Player d_Player_Id;
-    private String d_Type;
-    private Country d_From;
-    private Country d_To;
-    private int d_Reinforcements;
-
     /**
-     * A function to get the ID of the player
+     * A function to the set Order information based on the order
      *
-     * @return the ID of the player
+     * @param p_OrderInfo Order Information contained in an object of type OrderInfo
      */
-    public int getId() {
-        return d_Id;
+    public void setOrderInfo(OrderInfo p_OrderInfo) {
+        this.d_OrderInfo = p_OrderInfo;
     }
 
     /**
-     * A function to set the ID of the player
+     * A function to return the type of order
      *
-     * @param p_Id ID of the player to be set
-     */
-    public void setId(int p_Id) {
-        this.d_Id = p_Id;
-    }
-
-    /**
-     * A function to fetch the type of the order
-     *
-     * @return The Order Type
+     * @return String which indicates the type of order
      */
     public String getType() {
         return d_Type;
     }
 
     /**
-     * A function to set the order object d_type with p_type
+     * A function to set the type of order
      *
-     * @param p_Type Object of the class OrderType
+     * @param p_Type String which indicates the type of order
      */
     public void setType(String p_Type) {
         this.d_Type = p_Type;
     }
 
     /**
-     * A function to get where the army is coming from
+     * A function to be overridden  by the Child class
      *
-     * @return the country where the army is coming from
+     * @return false as there is not order to be executed
      */
-    public Country getFrom() {
-        return d_From;
+    public boolean execute() {
+        System.out.println("Void order is not able to execute");
+        return false;
     }
 
-    /**
-     * A function to set the the country where the army is coming from
-     *
-     * @param p_From Object of Class Country
-     */
-    public void setFrom(Country p_From) {
-        this.d_From = p_From;
-    }
-
-    /**
-     * A function to get the country where the army is being sent to
-     *
-     * @return the country where army is being sent
-     */
-    public Country getTo() {
-        return d_To;
-    }
-
-    /**
-     * A function to set the country where the army is being sent to
-     *
-     * @param p_To Object of Class Country
-     */
-    public void setTo(Country p_To) {
-        this.d_To = p_To;
-    }
-
-    /**
-     * A function to get the number of reinforcements
-     *
-     * @return number of reinforcements
-     */
-    public int getReinforcements() {
-        return d_Reinforcements;
-    }
-
-    /**
-     * A function to set the number of reinforcements
-     *
-     * @param p_Reinforcements the number of reinforcements
-     */
-    public void setReinforcements(int p_Reinforcements) {
-        this.d_Reinforcements = p_Reinforcements;
-    }
-
-
-    public boolean execute(){
-
-        return true;
-    }
 }
