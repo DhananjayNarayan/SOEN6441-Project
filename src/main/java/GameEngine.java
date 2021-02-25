@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * A class to start the game with the Map Editor Phase
  */
-public class Warzone {
+public class GameEngine {
     GamePhase d_GamePhase = GamePhase.MapEditor;
 
     /**
@@ -16,7 +16,7 @@ public class Warzone {
      * @param args passed to main if used in command line
      */
     public static void main(String[] args) {
-        new Warzone().start();
+        new GameEngine().start();
     }
 
     /**
