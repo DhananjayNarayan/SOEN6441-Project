@@ -26,6 +26,7 @@ public class MapReader {
      */
     public static void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
         try {
+            p_GameMap.flushGameMap();
             File l_File = new File("maps/" + p_FileName);
             FileReader l_FileReader = new FileReader(l_File);
             Map<String, List<String>> l_MapFileContents = new HashMap<>();
