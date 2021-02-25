@@ -1,9 +1,6 @@
 package model;
 
-import controller.GamePlay;
-import controller.IssueOrder;
-import controller.MapEditor;
-import controller.Reinforcement;
+import controller.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,7 +59,7 @@ public enum GamePhase {
 
         @Override
         public GameController getController() {
-            return null;
+            return new ExecuteOrder();
         }
     },
     ExitGame {

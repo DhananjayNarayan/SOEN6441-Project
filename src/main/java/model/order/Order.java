@@ -4,6 +4,7 @@ import model.Country;
 import model.GameMap;
 import model.Player;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +23,7 @@ public class Order {
     private static Order d_Order;
     private String d_Type;
     private OrderInfo d_OrderInfo;
-    private List<Order> d_OrderList;
+    private List<Order> d_OrderList = new ArrayList<Order>();
 
     /**
      * A function to get the order list

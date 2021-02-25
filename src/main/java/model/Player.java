@@ -3,9 +3,7 @@ package model;
 import model.order.Order;
 import model.order.OrderCreater;
 
-import java.util.Deque;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -23,10 +21,10 @@ public class Player {
     private int d_Id;
     private String d_Name;
     private int d_OrderCount;
-    private List<Country> d_CapturedCountries;
-    private Deque<Order> d_Orders;
+    private List<Country> d_CapturedCountries = new ArrayList<Country>();
+    private Deque<Order> d_Orders = new ArrayDeque<Order>();
     private int d_ReinforcementArmies;
-
+    public static List<Order> d_OrderList = new ArrayList<>();
     /**
      * A function to get the player ID
      *
@@ -135,7 +133,6 @@ public class Player {
 
     public void issueOrder(String p_Commands) {
         Boolean l_IssueCommand = true;
-        Order l_OrderObj = null;
         String[] l_CommandArr = p_Commands.split(" ");
         int l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
         if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
@@ -146,15 +143,16 @@ public class Player {
         }
         if (l_IssueCommand) {
             Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
+            d_OrderList.add(l_Order);
+            System.out.println(d_OrderList);
             addOrder(l_Order);
-            l_OrderObj.AddToOrderList(l_Order);
         }
     }
 
     public boolean checkIfCountryExists(String p_Country, Player p_Player) {
         List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
         for (Country l_Country : l_ListOfCountries) {
-            if (l_Country.getName() == p_Country) {
+            if (l_Country.getName().equals(p_Country)) {
                 return true;
             }
         }
