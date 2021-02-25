@@ -1,57 +1,21 @@
 package model;
+
+import org.junit.Test;
+import utils.ValidationException;
+import java.util.*;
+import static org.junit.Assert.*;
+
 /**
  * A class to test the functionalities of GameMap Class
  * @author Dhananajay Narayan
  */
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import utils.ValidationException;
-import java.util.*;
-
-import static org.junit.Assert.*;
-
 public class GameMapTest {
-
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void testGetContinents() {
-    }
-
-    @Test
-    public void testSetContinents() {
-    }
-
-    @Test
-    public void testGetCountries() {
-    }
-
-    @Test
-    public void testSetCountries() {
-    }
-
-    @Test
-    public void testGetPlayers() {
-    }
-
-    @Test
-    public void testSetPlayers() {
-    }
-
     /**
-     * A test to assure that all countries are shuffled/randomized before being assigned. This ensures random assignment of countries.
-     * @throws ValidationException
+     * A test to assure that all countries are shuffled/randomized before being assigned.
+     * This ensures random assignment of countries.
+     *
+     * @throws ValidationException if validation fails
      */
-
     @Test
     public void assignCountries() throws ValidationException {
 
@@ -64,19 +28,12 @@ public class GameMapTest {
         l_countryList.add("Sri Lanka");
         Collections.shuffle(l_countryList);
         List<String> l_captured = new ArrayList<String>();
-
         for(int i = 0; i < l_countryList.size(); i++) {
-
             String c = l_countryList.get(i);
             l_captured.add(c);
             l_countryList.set(i,"Assigned to some player");
-
         }
         boolean x= l_countryList.equals(l_captured);
         assertFalse(x);
-
-    }
-    @Test
-    public void showMap() {
     }
 }

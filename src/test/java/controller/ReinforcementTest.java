@@ -3,18 +3,26 @@ package controller;
 import model.*;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
-
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This class tests the functionalities for Reinforcement phase
+ *
+ * @author Prathika Suvarna
+ */
 public class ReinforcementTest extends Player {
     GamePhase d_NextGamePhase = GamePhase.IssueOrder;
     GameMap d_GameMap;
     Reinforcement l_Reinforcement;
-
+    /**
+     * This method initializes the values for continents, countries and players
+     * before execution of every test case
+     *
+     * @throws Exception if initialisation fails
+     */
     @Before
     public void setUp() throws Exception {
         d_GameMap = GameMap.getInstance();
@@ -29,7 +37,11 @@ public class ReinforcementTest extends Player {
         l_Reinforcement = new Reinforcement();
         l_Reinforcement.d_GamePhase = GamePhase.Reinforcement;
     }
-
+    /**
+     * This method will be executed at the end of the test
+     *
+     * @throws Exception when execution fails
+     */
     @After
     public void tearDown() throws Exception {
         d_GameMap.getContinents().clear();
@@ -37,14 +49,24 @@ public class ReinforcementTest extends Player {
         d_GameMap.getPlayers().clear();
     }
 
-
+    /**
+     * This method tests the validation for next Game phase
+     *
+     * @throws ValidationException if validation fails
+     * @throws InvalidExecutionException if execution is invalid
+     */
     @Test
-
     public void startShouldReturnNextPhase() throws ValidationException, InvalidExecutionException {
         GamePhase l_NextGamePhase = l_Reinforcement.start(GamePhase.Reinforcement);
         assertEquals(d_NextGamePhase,l_NextGamePhase);
     }
 
+    /**
+     * This method tests if valid reinforcements is set
+     *
+     * @throws ValidationException if validation fails
+     * @throws InvalidExecutionException if execution is invalid
+     */
     @Test
     public void checkReinforcementsSetOrNot() throws ValidationException, InvalidExecutionException {
         l_Reinforcement.d_CurrentPlayer = d_GameMap.getPlayer("Player2");
