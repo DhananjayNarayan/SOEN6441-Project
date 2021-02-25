@@ -117,7 +117,7 @@ public class MapValidation {
      * @param p_GameMap The GameMap object which contains all the data
      * @return true if any duplicates are present else false
      */
-    private static boolean checkDuplicateNeighbours(GameMap p_GameMap) {
+    public static boolean checkDuplicateNeighbours(GameMap p_GameMap) {
         for (Continent l_Continent : p_GameMap.getContinents().values()) {
             for (Country l_Country : l_Continent.getCountries()) {
                 Set<Country> l_Neighbours = l_Country.getNeighbors();
