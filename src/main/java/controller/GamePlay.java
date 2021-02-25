@@ -3,26 +3,44 @@ package controller;
 import model.*;
 import utils.MapReader;
 import utils.MapValidation;
-import utils.SaveMap;
 import utils.ValidationException;
-import java.util.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * This class implements the Game Phase
+ *
+ * @author Prathika Suvarna
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ * @author Surya Manian
+ * @author Madhuvanthi Hemanathan
+ * @version 1.0.0
+ */
 public class GamePlay implements GameController {
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.Reinforcement;
-
     private final Scanner scanner = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
 
+    /**
+     * This is the default constructor
+     *
+     */
     public GamePlay() {
         d_GameMap = GameMap.getInstance();
     }
 
+    /**
+     * This function starts the game phase and passes through the tasks in the game phase
+     * depending on the command given
+     *
+     * @param p_GamePhase current Game Phase
+     * @return the next Game Phase
+     * @throws ValidationException
+     */
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
             System.out.println("Create your game players:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
@@ -106,6 +124,12 @@ public class GamePlay implements GameController {
         }
     }
 
+    /**
+     * This method loads the game map from the map file
+     *
+     * @param p_Filename the map file name
+     * @throws ValidationException
+     */
     private void loadMap(String p_Filename) throws ValidationException {
         if(MapValidation.validateMap(d_GameMap,0)) {
             MapReader.readMap(d_GameMap, p_Filename);
@@ -114,6 +138,12 @@ public class GamePlay implements GameController {
         }
     }
 
+    /**
+     *
+     *
+     * @param p_InputList
+     * @return
+     */
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
             String l_MainCommand = p_InputList.get(0);
@@ -124,8 +154,4 @@ public class GamePlay implements GameController {
         }
         return false;
     }
-
-
-
-
 }
