@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
- * This class implements the Game Phase
+ * This class implements the Game Controller and it executes the current phases
  *
  * @author Prathika Suvarna
  * @author Neona Pinto
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class GamePlay implements GameController {
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.Reinforcement;
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner SCANNER = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
 
     /**
@@ -44,7 +44,7 @@ public class GamePlay implements GameController {
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
             System.out.println("Create your game players:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
-            String l_Input = scanner.nextLine();
+            String l_Input = SCANNER.nextLine();
             List<String> l_InputList = null;
             if (l_Input.contains("-")) {
                 l_InputList = Arrays.stream(l_Input.split("-"))

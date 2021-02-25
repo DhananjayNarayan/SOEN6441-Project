@@ -6,34 +6,46 @@ import model.GamePhase;
 import utils.MapReader;
 import utils.SaveMap;
 import utils.ValidationException;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * This class is used to create map using game console commands.
- * <p></p>
+ *
+ *@author Prathika Suvarna
+ *@author Neona Pinto
+ *@author Dhananjay Narayan
+ *@author Surya Manian
+ *@author Madhuvanthi Hemanathan
+ *@version 1.0.0
  */
 public class MapEditor implements GameController {
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner SCANNER = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     SaveMap d_SaveMap;
     GamePhase d_NextState = GamePhase.LoadGame;
 
+    /**
+     * This is the class default constructor
+     *
+     */
     public MapEditor() {
         this.d_GameMap = GameMap.getInstance();
     }
-
+    /**
+     * This function calls all the map operations like add, edit, remove
+     * depending on the command given
+     *
+     * @param p_GamePhase the current game phase
+     * @return the next game phase
+     * @throws ValidationException
+     */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
             System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation");
-            String l_Input = scanner.nextLine();
+            String l_Input = SCANNER.nextLine();
             List<String> l_InputList = null;
             if (l_Input.contains("-")) {
                 l_InputList = Arrays.stream(l_Input.split("-"))
@@ -157,6 +169,13 @@ public class MapEditor implements GameController {
         }
     }
 
+    /**
+     * This method validates to check if the current cli command is executable
+     * in the current phase
+     *
+     * @param p_InputList the command list from console
+     * @return true if command is executable else false
+     */
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
             String l_MainCommand = p_InputList.get(0);
