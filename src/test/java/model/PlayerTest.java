@@ -16,6 +16,7 @@ public class PlayerTest extends Player {
     Country c1 = new Country();
     Country c2 = new Country();
     Country c3 = new Country();
+    GameMap d_GameMap = GameMap.getInstance();
 
     @Before
     public void setUp() throws Exception {
@@ -36,6 +37,9 @@ public class PlayerTest extends Player {
     }
     @After
     public void tearDown() throws Exception {
+            d_GameMap.getContinents().clear();
+            d_GameMap.getCountries().clear();
+            d_GameMap.getPlayers().clear();
     }
     /**
      * This is the test method to check if Country exists

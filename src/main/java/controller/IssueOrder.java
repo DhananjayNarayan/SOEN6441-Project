@@ -11,7 +11,7 @@ public class IssueOrder implements GameController {
     GamePhase d_GamePhase = GamePhase.IssueOrder;
     GameMap d_GameMap;
 
-    private final Scanner d_Scanner = new Scanner(System.in);
+    private final Scanner SCANNER = new Scanner(System.in);
 
     /**
      * Constructor to get the GameMap instance
@@ -65,7 +65,7 @@ public class IssueOrder implements GameController {
             System.out.println("To issue your orders: ");
             System.out.println("1. Enter help to view the set of command");
             while(true){
-                l_Command = d_Scanner.nextLine();
+                l_Command = SCANNER.nextLine();
                 if ("deploy".equalsIgnoreCase(l_Command.split(" ")[0])) {
                     if (checkIfCommandIsDeploy(l_Command.toLowerCase())) {
                         return l_Command;
