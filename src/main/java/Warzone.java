@@ -1,34 +1,45 @@
 import model.GameController;
 import model.GamePhase;
 import utils.InvalidExecutionException;
-import utils.SaveMap;
 import utils.ValidationException;
-
 import java.util.Objects;
 
+/**
+ * A class to start the game with the Map Editor Phase
+ */
 public class Warzone {
     GamePhase d_GamePhase = GamePhase.MapEditor;
 
+    /**
+     * Main method to run the game
+     * 
+     * @param args passed to main if used in command line
+     */
     public static void main(String[] args) {
         new Warzone().start();
     }
 
+    /**
+     * The function which runs the whole game in phases
+     *
+     */
     public void start() {
         try {
             if (!d_GamePhase.equals(GamePhase.ExitGame)) {
-                GameController gc = d_GamePhase.getController();
-                if(Objects.isNull(gc)) {
+                GameController l_GameController = d_GamePhase.getController();
+                if(Objects.isNull(l_GameController)) {
                     throw new Exception("No Controller found");
                 }
-                d_GamePhase = gc.start(d_GamePhase);
-                System.out.println(d_GamePhase);
+                d_GamePhase = l_GameController.start(d_GamePhase);
+                System.out.println("You have entered the " + d_GamePhase + " Phase.");
+                System.out.println("-----------------------------------------------------------------------------------------");
                 start();
             }
-        } catch (ValidationException | InvalidExecutionException e) {
-            System.err.println(e.getMessage());
+        } catch (ValidationException | InvalidExecutionException p_Exception) {
+            System.err.println(p_Exception.getMessage());
             start();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception p_Exception) {
+            p_Exception.printStackTrace();
         }
     }
 

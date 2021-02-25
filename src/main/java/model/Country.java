@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
 
 /**
  * Concrete Class to set and get all the properties of country.
@@ -21,6 +22,7 @@ public class Country {
     private Player d_Player;
     private int d_Armies;
     private Set<Country> d_Neighbors;
+    private Set<String> d_NeighborsName;
 
     /**
      * Get the country ID
@@ -103,6 +105,10 @@ public class Country {
         return d_Armies;
     }
 
+    public void deployArmies(int p_armies) {
+        d_Armies += p_armies;
+    }
+
     /**
      * Set the armies for the country
      *
@@ -112,6 +118,10 @@ public class Country {
         this.d_Armies = p_Armies;
     }
 
+    /**
+     * A function to get the list of neighbors
+     * @return set of neighbors
+     */
     public Set<Country> getNeighbors() {
         if (d_Neighbors == null) {
             d_Neighbors = new HashSet<>();
@@ -119,10 +129,60 @@ public class Country {
         return d_Neighbors;
     }
 
+    /**
+     * A function to set the list of neighbours
+     * @param p_Neighbor An object of the Country class
+     */
     public void setNeighbors(Country p_Neighbor) {
         if (d_Neighbors == null) {
             d_Neighbors = new HashSet<>();
         }
         d_Neighbors.add(p_Neighbor);
+    }
+
+    /**
+     * A function to store the names of the neighbours of a country
+     * @param p_NeighborCountryName the name of the neighbour country being added to the set
+     */
+    public void setNeighborsName(String p_NeighborCountryName) {
+        if (d_NeighborsName == null) {
+            d_NeighborsName = new HashSet<>();
+        }
+        d_NeighborsName.add(p_NeighborCountryName);
+    }
+
+    /**
+     * A function to fetch the set of neighbors of a country
+     * @return The set of neighbors of a country
+     */
+    public Set<String> getNeighborsName() {
+        if (d_NeighborsName == null) {
+            d_NeighborsName = new HashSet<>();
+        }
+        return d_NeighborsName;
+    }
+
+    /**
+     * A function to remove a neighbour from the list of neighbours of a country
+     * @param p_NeighborCountryName the name of the neighbor to be removed from the set
+     */
+    public void removeNeighborsName(String p_NeighborCountryName) {
+        if (d_NeighborsName == null) {
+            d_NeighborsName = new HashSet<>();
+        }
+        d_NeighborsName.remove(p_NeighborCountryName);
+    }
+
+    /**
+     * A function to store the list of neighbors for a country
+     * @param p_Neighbors the set of neighbors
+     * @return the neighbors as String
+     */
+    public String createANeighborList(Set<Country> p_Neighbors){
+        String result = "";
+        for (Country l_Neighbor : p_Neighbors ){
+            result += l_Neighbor.getName() + "-";
+        }
+        return result.length() > 0 ? result.substring(0, result.length() - 1): "";
     }
 }
