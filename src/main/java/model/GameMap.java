@@ -3,7 +3,6 @@ package model;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,9 +24,17 @@ public class GameMap {
     private String d_Name;
     private String d_ErrorMessage;
 
+    /**
+     * Default Constructor
+     */
     private GameMap() {
     }
 
+    /**
+     * Method to get instance of Game map class
+     *
+     * @return the class object
+     */
     public static GameMap getInstance() {
         if (Objects.isNull(d_GameMap)) {
             d_GameMap = new GameMap();
@@ -347,7 +354,8 @@ public class GameMap {
 
 
     /**
-     * A function to display the map chosen, its continents, countries, neighbours, players and their ownership
+     * A function to display the map chosen, its continents, countries, neighbours,
+     * players and their ownership
      */
 
     public void showMap() {

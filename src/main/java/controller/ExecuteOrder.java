@@ -9,6 +9,12 @@ import static model.Player.OrderList;
 /**
  * This is a class which contains the Execute Order phase
  *
+ * @author Prathika Suvarna
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ * @author Surya Manian
+ * @author Madhuvanthi Hemanathan
+ * @version 1.0.0
  */
 public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.Reinforcement;
@@ -19,17 +25,15 @@ public class ExecuteOrder implements GameController {
      * This is the default constructor
      *
      */
-
     public ExecuteOrder(){
         d_GameMap = GameMap.getInstance();
     }
-
     /**
      * This method starts the current game phase
      *
      * @param p_GamePhase the current game phase
      * @return the next game phase
-     * @throws Exception
+     * @throws Exception when execution fails
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {

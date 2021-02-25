@@ -6,10 +6,7 @@ import model.GamePhase;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,7 +37,7 @@ public class MapEditor implements GameController {
      * save of map from console commands.
      *
      * @param p_GamePhase Parameter of the enum GamePhase is passed
-     * @throws ValidationException
+     * @throws ValidationException when validation fails
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
