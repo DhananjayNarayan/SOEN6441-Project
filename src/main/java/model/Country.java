@@ -1,10 +1,7 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.*;
 
 /**
  * Concrete Class to set and get all the properties of country.
@@ -30,6 +27,7 @@ public class Country {
      * @return d_Id Country ID of type int
      */
     public String getId() {
+
         return d_Id;
     }
 
@@ -39,6 +37,7 @@ public class Country {
      * @param p_Id Country ID
      */
     public void setId(String p_Id) {
+
         this.d_Id = p_Id;
     }
 
@@ -48,6 +47,7 @@ public class Country {
      * @return d_Name The country name
      */
     public String getName() {
+
         return d_Name;
     }
 
@@ -57,6 +57,7 @@ public class Country {
      * @param p_Name Country name
      */
     public void setName(String p_Name) {
+
         this.d_Name = p_Name;
     }
 
@@ -66,6 +67,7 @@ public class Country {
      * @return d_Continent Continent name
      */
     public String getContinent() {
+
         return d_Continent;
     }
 
@@ -75,6 +77,7 @@ public class Country {
      * @param p_Continent Continent name
      */
     public void setContinent(String p_Continent) {
+
         this.d_Continent = p_Continent;
     }
 
@@ -84,6 +87,7 @@ public class Country {
      * @return d_Player Player instance
      */
     public Player getPlayer() {
+
         return d_Player;
     }
 
@@ -93,6 +97,7 @@ public class Country {
      * @param p_Player Player instance
      */
     public void setPlayer(Player p_Player) {
+
         this.d_Player = p_Player;
     }
 
@@ -102,10 +107,12 @@ public class Country {
      * @return d_Armies Number of armies for the country
      */
     public int getArmies() {
+
         return d_Armies;
     }
 
     public void deployArmies(int p_armies) {
+
         d_Armies += p_armies;
     }
 
@@ -115,6 +122,7 @@ public class Country {
      * @param p_Armies Number of armies for the country
      */
     public void setArmies(int p_Armies) {
+
         this.d_Armies = p_Armies;
     }
 
