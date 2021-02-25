@@ -12,6 +12,12 @@ import model.Player;
  * @author Prathika Suvarna
  */
 public class OrderInfo {
+
+    private Player d_Player;
+    private Country d_Departure;
+    private String d_Destination;
+    private int d_NumberOfArmy;
+
     /**
      * A function to get the player information
      * @return the object of player
@@ -28,9 +34,6 @@ public class OrderInfo {
         this.d_Player = d_Player;
     }
 
-
-    private Player d_Player;
-
     /**
      * A function to get the departure of the armies from the order
      * @return  the departure country object
@@ -46,8 +49,6 @@ public class OrderInfo {
     public void setDeparture(Country d_Departure) {
         this.d_Departure = d_Departure;
     }
-
-    private Country d_Departure;
 
     /**
      * A function to get where the army is going to.
@@ -66,8 +67,6 @@ public class OrderInfo {
     }
 
 
-    private String d_Destination;
-
     /**
      * A function to get the number of armies in the order
      * @return the number of armies
@@ -83,9 +82,5 @@ public class OrderInfo {
     public void setNumberOfArmy(int d_NumberOfArmy) {
         this.d_NumberOfArmy = d_NumberOfArmy;
     }
-
-    private int d_NumberOfArmy;
-
-
 
 }

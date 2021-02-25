@@ -3,9 +3,7 @@ package model;
 import model.order.Order;
 import model.order.OrderCreater;
 
-import java.util.Deque;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -23,10 +21,10 @@ public class Player {
     private int d_Id;
     private String d_Name;
     private int d_OrderCount;
-    private List<Country> d_CapturedCountries;
-    private Deque<Order> d_Orders;
+    private List<Country> d_CapturedCountries = new ArrayList<Country>();
+    private Deque<Order> d_Orders = new ArrayDeque<Order>();
     private int d_ReinforcementArmies;
-
+    public static List<Order> d_OrderList = new ArrayList<>();
     /**
      * A function to get the player ID
      *
@@ -133,35 +131,28 @@ public class Player {
         this.d_ReinforcementArmies = d_AssignedArmies;
     }
 
-    public void issueOrder() {
+    public void issueOrder(String p_Commands) {
         Boolean l_IssueCommand = true;
-        String l_Command;
-        System.out.println("\nPlease enter the command: \n");
-        Scanner l_scanner = new Scanner(System.in);
-        l_Command = l_scanner.nextLine();
-        System.out.println(l_Command);
-
-        String[] l_Commands = l_Command.split(" ");
-        String l_CountryId = l_Commands[1];
-        int l_ReinforcementArmies = Integer.parseInt(l_Commands[2]);
-
+        String[] l_CommandArr = p_Commands.split(" ");
+        int l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
         if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
             l_IssueCommand = false;
         }
-        if (!checkIfCountryExists(l_CountryId, this)) {
+        if (!checkIfCountryExists(l_CommandArr[1], this)) {
             l_IssueCommand = false;
         }
         if (l_IssueCommand) {
-            Order l_Order = OrderCreater.createOrder(l_Commands, this);
+            Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
+            d_OrderList.add(l_Order);
+            System.out.println(d_OrderList);
             addOrder(l_Order);
         }
-
     }
 
     public boolean checkIfCountryExists(String p_Country, Player p_Player) {
         List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
         for (Country l_Country : l_ListOfCountries) {
-            if (l_Country.getName() == p_Country) {
+            if (l_Country.getName().equals(p_Country)) {
                 return true;
             }
         }
