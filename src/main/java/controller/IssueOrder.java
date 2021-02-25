@@ -1,9 +1,7 @@
 package controller;
 
 import model.*;
-import model.order.Order;
 import java.util.Scanner;
-
 import static model.Player.d_OrderList;
 
 public class IssueOrder implements GameController {
