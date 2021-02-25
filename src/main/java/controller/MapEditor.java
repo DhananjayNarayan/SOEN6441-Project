@@ -35,7 +35,7 @@ public class MapEditor implements GameController {
      * Start The enum GamePhase that maintains the flow of the game play
      * @param p_GamePhase Parameter of the enum GamePhase is passed
      *
-     * @throws ValidationException
+     * @throws ValidationException  when validation fails
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {

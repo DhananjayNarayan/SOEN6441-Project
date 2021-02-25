@@ -3,7 +3,6 @@ package model;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -337,7 +336,8 @@ public class GameMap {
 
 
     /**
-     * A function to display the map chosen, its continents, countries, neighbours, players and their ownership
+     * A function to display the map chosen, its continents, countries, neighbours,
+     * players and their ownership
      */
 
     public void showMap() {
