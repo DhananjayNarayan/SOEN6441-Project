@@ -63,6 +63,8 @@ public class GamePlay implements GameController {
                     l_InputList.add(0, "help");
                 }
             }
+            //Handle loadmap command from console
+
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
             for (String l_Command : l_InputList) {
@@ -74,6 +76,8 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
+                    //Handle gameplayer command from console
+
                     case "gameplayer": {
                         if (l_CommandArray.length > 0) {
                             switch (l_CommandArray[0]) {
@@ -97,6 +101,8 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
+                    //Handle assigncountries command from console
+
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
                          d_GameMap.assignCountries();
@@ -105,6 +111,8 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
+                    //Handle showmap command from console
+
                     case "showmap": {
                         d_GameMap.showMap();
                         break;
@@ -112,6 +120,7 @@ public class GamePlay implements GameController {
                     case "exit": {
                         return p_GamePhase.nextState(d_NextState);
                     }
+                    //Print the commands for help
                     default: {
                         System.out.println("Order of game play commands");
                         System.out.println("To load the map : loadmap filename");
