@@ -16,8 +16,9 @@ public class SaveMap {
 
     private GameMap gameMap;
     /**
-     * Create A neighbor list as a string for the countries
-     * @param p_Neighbors parameter of Set<Country> d_Neighbors in Country class
+     * Create a neighbor list as a string for the countries
+     *
+     * @param p_Neighbors the country to add to neighbor list
      * @return String result of neighbor list
      */
     public String createANeighborList(Set<Country> p_Neighbors) {
@@ -29,6 +30,8 @@ public class SaveMap {
     }
     /**
      * Save map into file as continent and country
+     *
+     * @param name name of file
      * @param p_GameMap parameter o GameMap class
      * @return boolean true if written
      */

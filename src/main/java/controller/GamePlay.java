@@ -39,7 +39,7 @@ public class GamePlay implements GameController {
      *
      * @param p_GamePhase current Game Phase
      * @return the next Game Phase
-     * @throws ValidationException
+     * @throws ValidationException when validation fails
      */
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
@@ -139,7 +139,7 @@ public class GamePlay implements GameController {
      * This method loads the game map from the map file
      *
      * @param p_Filename the map file name
-     * @throws ValidationException
+     * @throws ValidationException when validation fails
      */
     private void loadMap(String p_Filename) throws ValidationException {
         MapReader.readMap(d_GameMap, p_Filename);

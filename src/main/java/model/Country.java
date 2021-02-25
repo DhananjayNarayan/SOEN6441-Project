@@ -111,6 +111,11 @@ public class Country {
         return d_Armies;
     }
 
+    /**
+     * deploy the armies for the player
+     *
+     * @param p_armies number of armies to be deployed
+     */
     public void deployArmies(int p_armies) {
 
         d_Armies += p_armies;
