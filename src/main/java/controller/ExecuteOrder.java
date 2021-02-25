@@ -3,34 +3,56 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
-import model.Player;
 import model.order.Order;
+import static model.Player.d_OrderList;
 
-import java.util.List;
-import java.util.Scanner;
-
+/**
+ * This is a class which contains the Execute Order phase
+ *
+ */
 public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.ExitGame;
     GamePhase d_GamePhase = GamePhase.ExecuteOrder;
     GameMap d_GameMap;
-    Order d_Order;
+
+    /**
+     * This is the default constructor
+     *
+     */
 
     public ExecuteOrder(){
         d_GameMap = GameMap.getInstance();
-        d_Order = Order.getInstance();
     }
 
+    /**
+     * This method starts the current game phase
+     *
+     * @param p_GamePhase the current game phase
+     * @return the next game phase
+     * @throws Exception
+     */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        Boolean d_Temp = null;
-        d_Temp = ExecuteOrders();
+        if(ExecuteOrders()){
+            System.out.println("Execute Order Successful");
+        }
+        else{
+            System.out.println("Execute Order Phase Failed");
+        }
         return p_GamePhase.nextState(d_NextGamePhase);
     }
+
+    /**
+     * This method executes each order in the order list
+     *
+     * @return true if execution is successful
+     */
     private boolean ExecuteOrders()
     {
-        List<Order> l_OrderList = d_Order.getOrderList();
-        System.out.println(l_OrderList);
+        for (Order o : d_OrderList){
+            o.execute();
+        }
         return true;
     }
 }
