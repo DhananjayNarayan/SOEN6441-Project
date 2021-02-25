@@ -24,9 +24,17 @@ public class GameMap {
     private String d_Name;
     private String d_ErrorMessage;
 
+    /**
+     * Default Constructor
+     */
     private GameMap() {
     }
 
+    /**
+     * Method to get instance of Game map class
+     *
+     * @return the class object
+     */
     public static GameMap getInstance() {
         if (Objects.isNull(d_GameMap)) {
             d_GameMap = new GameMap();

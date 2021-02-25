@@ -21,6 +21,9 @@ public class Player {
     private List<Country> d_CapturedCountries = new ArrayList<>();
     private Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
+    /**
+     * Initialising List to hold orders
+     */
     public static List<Order> OrderList = new ArrayList<>();
 
     /**
