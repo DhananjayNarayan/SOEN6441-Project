@@ -4,14 +4,14 @@ import model.GameController;
 import model.GameMap;
 import model.GamePhase;
 import model.order.Order;
-import static model.Player.d_OrderList;
+import static model.Player.OrderList;
 
 /**
  * This is a class which contains the Execute Order phase
  *
  */
 public class ExecuteOrder implements GameController {
-    GamePhase d_NextGamePhase = GamePhase.ExitGame;
+    GamePhase d_NextGamePhase = GamePhase.Reinforcement;
     GamePhase d_GamePhase = GamePhase.ExecuteOrder;
     GameMap d_GameMap;
 
@@ -35,10 +35,10 @@ public class ExecuteOrder implements GameController {
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
         if(ExecuteOrders()){
-            System.out.println("Execute Order Successful");
+            System.out.println("All the orders have been executed successfully");
         }
         else{
-            System.out.println("Execute Order Phase Failed");
+            System.out.println("Could not execute the orders.");
         }
         return p_GamePhase.nextState(d_NextGamePhase);
     }
@@ -50,8 +50,10 @@ public class ExecuteOrder implements GameController {
      */
     private boolean ExecuteOrders()
     {
-        for (Order o : d_OrderList){
-            o.execute();
+        for (Order l_Order : OrderList){
+            if(!l_Order.execute()){
+                return false;
+            }
         }
         return true;
     }

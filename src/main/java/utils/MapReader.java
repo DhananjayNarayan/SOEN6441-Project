@@ -10,12 +10,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * A class to handle the efficient reading of the contents from the map file
- * @author Prathika Suvarna
+ * A class to handle reading data from the map
  * @author Neona Pinto
  * @author Dhananjay Narayan
+ * @author Surya Manian
+ * @author Madhuvanthi Hemanathan
+ * @author Prathika Suvarna
  */
-
 public class MapReader {
     /**
      * This function reads the file and places the contents of the file
