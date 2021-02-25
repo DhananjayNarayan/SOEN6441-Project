@@ -9,6 +9,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * A class to handle the efficient reading of the contents from the map file
+ * @author Prathika Suvarna
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ */
+
 public class MapReader {
     /**
      * This function reads the file and places the contents of the file

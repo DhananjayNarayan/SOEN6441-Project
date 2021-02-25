@@ -2,12 +2,13 @@ package utils;
 
 /**
  * This class manages invalid console commands
+ * @author Madhuvanthi Hemanathan
  */
 public class ValidationException extends Exception {
     String d_Message = "Invalid command. Type help to know further";
 
     /**
-     * Validation Exception
+     * Validation Exception Constructor
      */
     public ValidationException() {
         super();
@@ -15,7 +16,7 @@ public class ValidationException extends Exception {
 
     /**
      * Exception message
-     * @param message
+     * @param message exception message
      */
     public ValidationException(String message) {
         super(message);
