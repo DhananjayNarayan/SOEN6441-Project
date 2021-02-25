@@ -156,7 +156,7 @@ public class Player {
      * @param p_Player The Player for whom the function is checked for
      * @return true if country exists in the assigned country list else false
      */
-    private boolean checkIfCountryExists(String p_Country, Player p_Player) {
+    public boolean checkIfCountryExists(String p_Country, Player p_Player) {
         List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
         for (Country l_Country : l_ListOfCountries) {
             if (l_Country.getName().equals(p_Country)) {
@@ -172,7 +172,7 @@ public class Player {
      * @param p_ArmyCount The armies to be deployed to the country
      * @return true if the armies are valid and deducted from the assigned army pool else false
      */
-    private boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
+    public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
         if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount < 0) {
             return false;
         }
