@@ -90,8 +90,10 @@ public class Reinforcement implements GameController {
                     }
                 }
                 d_CurrentPlayer.setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
+                System.out.println("The Player:" + d_CurrentPlayer.getName() + " is assigned with " + d_CurrentPlayer.getReinforcementArmies() + " armies.");
             } else {
                 d_CurrentPlayer.setReinforcementArmies(3);
+                System.out.println("The Player:" + d_CurrentPlayer.getName() + " is assigned with " + d_CurrentPlayer.getReinforcementArmies() + " armies.");
             }
 
         } else throw new InvalidExecutionException();

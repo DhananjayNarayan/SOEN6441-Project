@@ -43,8 +43,6 @@ public class IssueOrder implements GameController {
                 for (Player l_Player : d_GameMap.getPlayers().values()) {
                     if (l_Player.getReinforcementArmies() <= 0) {
                         l_Counter++;
-                        System.out.println("Player: " + l_Player.getName() + " You have exhausted all your amries.");
-                        System.out.println("=========================================================================================");
                         continue;
                     }
                     System.out.println("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
