@@ -1,6 +1,7 @@
 package utils;
 
 import model.GameMap;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,6 +40,12 @@ public class MapValidationTest {
         d_GameMap.addNeighbor("India", "Penguin");
         d_GameMap.addNeighbor("Penguin", "Melbourne");
         d_GameMap.addNeighbor("Melbourne", "Penguin");
+    }
+    @After
+    public void tearDown() throws Exception {
+        d_GameMap.getContinents().clear();
+        d_GameMap.getCountries().clear();
+        d_GameMap.getPlayers().clear();
     }
 
     /**
