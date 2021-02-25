@@ -139,10 +139,11 @@ public class GamePlay implements GameController {
     }
 
     /**
+     * This method validates to check if the current cli command is executable
+     * in the current phase
      *
-     *
-     * @param p_InputList
-     * @return
+     * @param p_InputList the command list from console
+     * @return true if command is executable else false
      */
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
