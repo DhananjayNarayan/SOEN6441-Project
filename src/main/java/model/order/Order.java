@@ -1,11 +1,6 @@
 package model.order;
 
-import model.Country;
-import model.GameMap;
-import model.Player;
-
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +26,7 @@ public class Order {
      * @return the list of type Order class
      */
     public List<Order> getOrderList() {
+
         return d_OrderList;
     }
 
@@ -40,6 +36,7 @@ public class Order {
      * @param p_OrderList Order List of type Order class
      */
     public void setOrderList(List<Order> p_OrderList) {
+
         this.d_OrderList = p_OrderList;
     }
 
@@ -49,6 +46,7 @@ public class Order {
      * @param p_Order The order to be added to the list
      */
     public void AddToOrderList(Order p_Order){
+
         d_OrderList.add(p_Order);
     }
 
@@ -70,6 +68,7 @@ public class Order {
      * @return the order information in an object
      */
     public OrderInfo getOrderInfo() {
+
         return d_OrderInfo;
     }
 
@@ -79,6 +78,7 @@ public class Order {
      * @param p_OrderInfo Order Information contained in an object of type OrderInfo
      */
     public void setOrderInfo(OrderInfo p_OrderInfo) {
+
         this.d_OrderInfo = p_OrderInfo;
     }
 
@@ -88,6 +88,7 @@ public class Order {
      * @return String which indicates the type of order
      */
     public String getType() {
+
         return d_Type;
     }
 
@@ -97,6 +98,7 @@ public class Order {
      * @param p_Type String which indicates the type of order
      */
     public void setType(String p_Type) {
+
         this.d_Type = p_Type;
     }
 
