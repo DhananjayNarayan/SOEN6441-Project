@@ -6,46 +6,42 @@ import model.GamePhase;
 import utils.MapReader;
 import utils.SaveMap;
 import utils.ValidationException;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * This class is used to create map using game console commands.
- *
- *@author Prathika Suvarna
- *@author Neona Pinto
- *@author Dhananjay Narayan
- *@author Surya Manian
- *@author Madhuvanthi Hemanathan
- *@version 1.0.0
+ * <p></p>
  */
 public class MapEditor implements GameController {
-    private final Scanner SCANNER = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     SaveMap d_SaveMap;
     GamePhase d_NextState = GamePhase.LoadGame;
-
     /**
-     * This is the class default constructor
+     *Map editor
      *
      */
     public MapEditor() {
         this.d_GameMap = GameMap.getInstance();
     }
     /**
-     * This function calls all the map operations like add, edit, remove
-     * depending on the command given
+     * Start The enum GamePhase that maintains the flow of the game play
+     * @param p_GamePhase Parameter of the enum GamePhase is passed
      *
-     * @param p_GamePhase the current game phase
-     * @return the next game phase
-     * @throws ValidationException
+     * @throws ValidationException if the commands are invaid
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
             System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation");
-            String l_Input = SCANNER.nextLine();
+            String l_Input = scanner.nextLine();
             List<String> l_InputList = null;
             if (l_Input.contains("-")) {
                 l_InputList = Arrays.stream(l_Input.split("-"))
@@ -64,6 +60,9 @@ public class MapEditor implements GameController {
                     l_InputList.add(0, "help");
                 }
             }
+           /**
+             * Handle editcontinent command from console
+            */
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
             for (String l_Command : l_InputList) {
@@ -92,6 +91,9 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /*
+                    Handle editcountry command from console
+                     */
                     case "editcountry": {
                         switch (l_CommandArray[0]) {
                             case "add": {
@@ -113,6 +115,9 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /**
+                     * Handle editneighbor command from console
+                     */
                     case "editneighbor": {
                         switch (l_CommandArray[0]) {
                             case "add": {
@@ -134,14 +139,23 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /**
+                     * Handle showmap command from console
+                     */
                     case "showmap": {
 //                        d_GameMap.showMap();
                         break;
                     }
+                    /**
+                     * Handle validatemap command from console
+                     */
                     case "validatemap": {
 //                        d_GameMap.validateMap();
                         break;
                     }
+                    /**
+                     * Handle savemap command from console
+                     */
                     case "savemap": {
                         if (l_CommandArray.length == 1) {
                             d_GameMap.setName(l_CommandArray[0]);
@@ -149,6 +163,9 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /**
+                     * Handle editmap command from console
+                     */
                     case "editmap": {
                         if (l_CommandArray.length == 1) {
                             MapReader.readMap(d_GameMap, l_CommandArray[0]);
@@ -158,6 +175,9 @@ public class MapEditor implements GameController {
                     case "exit": {
                         return p_GamePhase.nextState(d_NextState);
                     }
+                    /**
+                     * Print the commands for help
+                     */
                     default: {
                         System.out.println("List of map creation commands");
                         System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
@@ -168,13 +188,10 @@ public class MapEditor implements GameController {
             }
         }
     }
-
     /**
-     * This method validates to check if the current cli command is executable
-     * in the current phase
-     *
-     * @param p_InputList the command list from console
-     * @return true if command is executable else false
+     * Input Validator the to check if the input is from the list of console commands
+     * @param p_InputList
+     * @return false, if not from the console commands
      */
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
@@ -186,5 +203,5 @@ public class MapEditor implements GameController {
         }
         return false;
     }
-
+    
 }
