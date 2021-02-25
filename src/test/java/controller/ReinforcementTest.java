@@ -12,9 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ReinforcementTest extends Player {
     GamePhase d_NextGamePhase = GamePhase.IssueOrder;
-    GamePhase d_GamePhase;
     GameMap d_GameMap;
-    Player d_CurrentPlayer;
     Reinforcement l_Reinforcement;
 
     @Before
@@ -27,12 +25,16 @@ public class ReinforcementTest extends Player {
         d_GameMap.addCountry("France","Europe");
         d_GameMap.addPlayer("Player1");
         d_GameMap.addPlayer("Player2");
+        d_GameMap.assignCountries();
         l_Reinforcement = new Reinforcement();
+        l_Reinforcement.d_GamePhase = GamePhase.Reinforcement;
     }
 
     @After
     public void tearDown() throws Exception {
-        d_GameMap = null;
+        d_GameMap.getContinents().clear();
+        d_GameMap.getCountries().clear();
+        d_GameMap.getPlayers().clear();
     }
 
 
@@ -45,7 +47,8 @@ public class ReinforcementTest extends Player {
 
     @Test
     public void checkReinforcementsSetOrNot() throws ValidationException, InvalidExecutionException {
-        GamePhase l_NextGamePhase = l_Reinforcement.start(GamePhase.Reinforcement);
-
+        l_Reinforcement.d_CurrentPlayer = d_GameMap.getPlayer("Player2");
+        l_Reinforcement.setReinforcementTroops();
+        assertEquals(3, l_Reinforcement.d_CurrentPlayer.getReinforcementArmies());
     }
 }
