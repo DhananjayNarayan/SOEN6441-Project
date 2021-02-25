@@ -143,7 +143,6 @@ public class MapEditor implements GameController {
                     }
                     //Handle validatemap command from console
                     case "validatemap": {
-//                        d_GameMap.validateMap();
                         if (MapValidation.validateMap(d_GameMap,0)){
                             System.out.println("Validation successful");
                         }
