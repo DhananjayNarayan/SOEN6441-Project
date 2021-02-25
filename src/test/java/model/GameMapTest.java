@@ -8,8 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import utils.ValidationException;
-import java.util.Random;
-
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -53,6 +51,7 @@ public class GameMapTest {
      * A test to assure that all countries are shuffled/randomized before being assigned. This ensures random assignment of countries.
      * @throws ValidationException
      */
+
     @Test
     public void assignCountries() throws ValidationException {
 
@@ -65,18 +64,18 @@ public class GameMapTest {
         l_countryList.add("Sri Lanka");
         Collections.shuffle(l_countryList);
         List<String> l_captured = new ArrayList<String>();
+
         for(int i = 0; i < l_countryList.size(); i++) {
-            Random rand = new Random();
-            int rand_int1 = rand.nextInt(l_countryList.size());
-            String c = l_countryList.get(rand_int1);
+
+            String c = l_countryList.get(i);
             l_captured.add(c);
-            l_countryList.remove(c);
+            l_countryList.set(i,"Assigned to some player");
+
         }
-       boolean x= l_countryList.equals(l_captured);
+        boolean x= l_countryList.equals(l_captured);
         assertFalse(x);
 
-        }
-
+    }
     @Test
     public void showMap() {
     }
