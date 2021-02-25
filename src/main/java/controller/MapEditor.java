@@ -24,11 +24,19 @@ public class MapEditor implements GameController {
     GameMap d_GameMap;
     SaveMap d_SaveMap;
     GamePhase d_NextState = GamePhase.LoadGame;
-
+    /**
+     *Map editor
+     *
+     */
     public MapEditor() {
         this.d_GameMap = GameMap.getInstance();
     }
-
+    /**
+     * Start The enum GamePhase that maintains the flow of the game play
+     * @param p_GamePhase Parameter of the enum GamePhase is passed
+     *
+     * @throws ValidationException if the commands are invaid
+     */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
@@ -52,6 +60,9 @@ public class MapEditor implements GameController {
                     l_InputList.add(0, "help");
                 }
             }
+           /**
+             * Handle editcontinent command from console
+            */
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
             for (String l_Command : l_InputList) {
@@ -80,6 +91,9 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /*
+                    Handle editcountry command from console
+                     */
                     case "editcountry": {
                         switch (l_CommandArray[0]) {
                             case "add": {
@@ -101,6 +115,9 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /**
+                     * Handle editneighbor command from console
+                     */
                     case "editneighbor": {
                         switch (l_CommandArray[0]) {
                             case "add": {
@@ -122,14 +139,23 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /**
+                     * Handle showmap command from console
+                     */
                     case "showmap": {
 //                        d_GameMap.showMap();
                         break;
                     }
+                    /**
+                     * Handle validatemap command from console
+                     */
                     case "validatemap": {
 //                        d_GameMap.validateMap();
                         break;
                     }
+                    /**
+                     * Handle savemap command from console
+                     */
                     case "savemap": {
                         if (l_CommandArray.length == 1) {
                             d_GameMap.setName(l_CommandArray[0]);
@@ -137,6 +163,9 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+                    /**
+                     * Handle editmap command from console
+                     */
                     case "editmap": {
                         if (l_CommandArray.length == 1) {
                             MapReader.readMap(d_GameMap, l_CommandArray[0]);
@@ -146,6 +175,9 @@ public class MapEditor implements GameController {
                     case "exit": {
                         return p_GamePhase.nextState(d_NextState);
                     }
+                    /**
+                     * Print the commands for help
+                     */
                     default: {
                         System.out.println("List of map creation commands");
                         System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
@@ -156,7 +188,11 @@ public class MapEditor implements GameController {
             }
         }
     }
-
+    /**
+     * Input Validator the to check if the input is from the list of console commands
+     * @param p_InputList
+     * @return false, if not from the console commands
+     */
     public boolean inputValidator(List<String> p_InputList) {
         if (p_InputList.size() > 0) {
             String l_MainCommand = p_InputList.get(0);
@@ -167,5 +203,5 @@ public class MapEditor implements GameController {
         }
         return false;
     }
-
+    
 }
