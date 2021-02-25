@@ -6,41 +6,46 @@ import model.GamePhase;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
  * This class is used to create map using game console commands.
  *
- *@author Prathika Suvarna
- *@author Neona Pinto
- *@author Dhananjay Narayan
- *@author Surya Manian
- *@author Madhuvanthi Hemanathan
- *@version 1.0.0
+ * @author Prathika Suvarna
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ * @author Surya Manian
+ * @author Madhuvanthi Hemanathan
+ * @version 1.0.0
  */
 public class MapEditor implements GameController {
     private final Scanner SCANNER = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.LoadGame;
+
     /**
      * This is the default constructor
-     *
      */
     public MapEditor() {
         this.d_GameMap = GameMap.getInstance();
     }
+
     /**
-     * Start The enum GamePhase that maintains the flow of the game play
-     * @param p_GamePhase Parameter of the enum GamePhase is passed
+     * The start method of MapEditor phase that handles creation, validation
+     * save of map from console commands.
      *
+     * @param p_GamePhase Parameter of the enum GamePhase is passed
      * @throws ValidationException
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
-            System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation");
+            System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList = null;
             if (l_Input.contains("-")) {
@@ -56,11 +61,16 @@ public class MapEditor implements GameController {
                 if (l_Input.startsWith("exit")) {
                     l_InputList.add(0, "exit");
                 } else {
+                    l_InputList.clear();
                     // if not available in command list forcing to call help
-                    l_InputList.add(0, "help");
+                    l_InputList.add("help");
+                    l_InputList.add("dummy");
                 }
             }
-           //Handle editcontinent command from console
+
+            /**
+             * Handle editcontinent command from console
+             */
 
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
@@ -90,7 +100,11 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
-                    //Handle editcountry command from console
+
+                    /**
+                     * Handle editcountry command from console
+                     */
+
                     case "editcountry": {
                         switch (l_CommandArray[0]) {
                             case "add": {
@@ -112,7 +126,10 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
-                    //Handle editneighbor command from console
+
+                    /**
+                     * Handle editneighbor command from console
+                     */
 
                     case "editneighbor": {
                         switch (l_CommandArray[0]) {
@@ -135,7 +152,10 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
-                    //Handle showmap command from console
+
+                    /**
+                     * Handle showmap command from console
+                     */
 
                     case "showmap": {
                         d_GameMap.showMap();
@@ -143,15 +163,17 @@ public class MapEditor implements GameController {
                     }
                     //Handle validatemap command from console
                     case "validatemap": {
-                        if (MapValidation.validateMap(d_GameMap,0)){
+                        if (MapValidation.validateMap(d_GameMap, 0)) {
                             System.out.println("Validation successful");
-                        }
-                        else{
+                        } else {
                             System.out.println("Validation failed");
                         }
                         break;
                     }
-                    //Handle savemap command from console
+
+                    /**
+                     * Handle savemap command from console
+                     */
 
                     case "savemap": {
                         if (l_CommandArray.length == 1) {
@@ -160,7 +182,10 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
-                    //Handle editmap command from console
+
+                    /**
+                     * Handle editmap command from console
+                     */
 
                     case "editmap": {
                         if (l_CommandArray.length == 1) {
@@ -168,7 +193,13 @@ public class MapEditor implements GameController {
                         }
                         break;
                     }
+
+                    /**
+                     * To exit the map creation phase type "exit"
+                     */
+
                     case "exit": {
+                        d_GameMap.flushGameMap();
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help
@@ -183,6 +214,7 @@ public class MapEditor implements GameController {
             }
         }
     }
+
     /**
      * This method validates to check if the current cli command is executable
      * in the current phase
@@ -200,5 +232,5 @@ public class MapEditor implements GameController {
         }
         return false;
     }
-    
+
 }

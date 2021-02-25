@@ -132,6 +132,16 @@ public class GameMap {
     }
 
     /**
+     * Method to set the Game map object back to empty after
+     * each phase.
+     */
+    public void flushGameMap() {
+        GameMap.getInstance().getContinents().clear();
+        GameMap.getInstance().getCountries().clear();
+        GameMap.getInstance().getPlayers().clear();
+    }
+
+    /**
      * Adds the continent to the map's continent list.
      *
      * @param p_ContinentName Continent name
