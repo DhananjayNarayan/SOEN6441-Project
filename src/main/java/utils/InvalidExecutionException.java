@@ -2,6 +2,7 @@ package utils;
 
 /**
  * This class manages invalid execution of commands in the game stage
+ * @author Madhuvanthi Hemanathan
  */
 public class InvalidExecutionException extends Exception {
     String d_Message = "The command will not be available in current Game stage";
@@ -15,7 +16,7 @@ public class InvalidExecutionException extends Exception {
 
     /**
      *Exception Message
-     * @param message
+     * @param message exception message
      */
     public InvalidExecutionException(String message) {
         super(message);
