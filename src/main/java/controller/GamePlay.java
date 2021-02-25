@@ -43,7 +43,7 @@ public class GamePlay implements GameController {
      */
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
-            System.out.println("Create your game players:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
+            System.out.println("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList = null;
             if (l_Input.contains("-")) {
@@ -108,6 +108,7 @@ public class GamePlay implements GameController {
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
                             d_GameMap.assignCountries();
+                            System.out.println("================================End of Load Game Phase==================================");
                             return p_GamePhase.nextState(d_NextState);
                         } else {
                             throw new ValidationException("Create atleast two players");
@@ -124,11 +125,14 @@ public class GamePlay implements GameController {
                     }
                     //Print the commands for help
                     default: {
-                        System.out.println("Order of game play commands");
+                        System.out.println("Order of game play commands:");
+                        System.out.println("-----------------------------------------------------------------------------------------");
                         System.out.println("To load the map : loadmap filename");
                         System.out.println("To show the loaded map : showmap");
                         System.out.println("To add or remove a player : gameplayer -add playername -remove playername");
                         System.out.println("To assign countries : assigncountries");
+                        System.out.println("-----------------------------------------------------------------------------------------");
+
                     }
                 }
             }

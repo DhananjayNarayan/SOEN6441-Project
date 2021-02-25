@@ -202,10 +202,21 @@ public class MapEditor implements GameController {
                     //Print the commands for help
 
                     default: {
-                        System.out.println("List of map creation commands");
+                        System.out.println("List of user map creation commands from console:");
                         System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
                         System.out.println("To add or remove a country : editcountry -add countryID continentID -remove countryID");
                         System.out.println("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
+                        System.out.println("-----------------------------------------------------------------------------------------");
+                        System.out.println("Read/Update existing map commands:");
+                        System.out.println("To edit map: editmap filename");
+                        System.out.println("-----------------------------------------------------------------------------------------");
+                        System.out.println("Additional map commands:");
+                        System.out.println("To show the map: showmap");
+                        System.out.println("To validate map: validatemap");
+                        System.out.println("-----------------------------------------------------------------------------------------");
+                        System.out.println("Note: To save the created map use the command:");
+                        System.out.println("To save map: savemap filename");
+                        System.out.println("================================End of Map Editor Phase==================================");
                     }
                 }
             }

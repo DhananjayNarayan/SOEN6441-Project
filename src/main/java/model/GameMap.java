@@ -305,15 +305,14 @@ public class GameMap {
         //Ask p_size for minimum number of countries based on player
         if (MapValidation.validateMap(d_GameMap, 0)) {
             SaveMap d_SaveMap = new SaveMap();
-            System.out.println("Done.");
             boolean bool = true;
             while (bool) {
                 d_GameMap.getName();
                 if (Objects.isNull(d_GameMap.getName()) || d_GameMap.getName().isEmpty()) {
-                    throw new ValidationException("Give name for map file");
+                    throw new ValidationException("Please enter the file name:");
                 } else {
                     if (d_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
-                        System.out.println("Map saved.");
+                        System.out.println("The map has been validated and is saved.");
                     } else {
                         throw new ValidationException("Map name already exists, enter different name.");
                     }
@@ -333,12 +332,8 @@ public class GameMap {
         List<Player> d_players = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
 
         List<Country> d_countryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());  //get all countries from each continent
-
         Collections.shuffle(d_countryList);
-
-
         for (int i = 0; i < d_countryList.size(); i++) {
-
             Country d_c = d_countryList.get(i);                // loop for get each country of the map
             Player d_p = d_players.get(d_player_index);          // find the corresponding player by the order of the player
             d_p.getCapturedCountries().add(d_c);

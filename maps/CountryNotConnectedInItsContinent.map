@@ -1,0 +1,9 @@
+[Continents]
+ASIA 4
+AFRICA 7
+[Territories]
+India ASIA China
+China ASIA India
+Pak ASIA Uganda
+Uganda AFRICA Pak
+
