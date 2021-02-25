@@ -4,6 +4,7 @@ import model.*;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +28,6 @@ public class GamePlay implements GameController {
 
     /**
      * This is the default constructor
-     *
      */
     public GamePlay() {
         d_GameMap = GameMap.getInstance();
@@ -59,8 +59,10 @@ public class GamePlay implements GameController {
                 if (l_Input.startsWith("exit")) {
                     l_InputList.add(0, "exit");
                 } else {
+                    l_InputList.clear();
                     // if not available in command list forcing to call help
-                    l_InputList.add(0, "help");
+                    l_InputList.add("help");
+                    l_InputList.add("dummy");
                 }
             }
             //Handle loadmap command from console
@@ -105,11 +107,11 @@ public class GamePlay implements GameController {
 
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
-                         d_GameMap.assignCountries();
+                            d_GameMap.assignCountries();
+                            return p_GamePhase.nextState(d_NextState);
                         } else {
                             throw new ValidationException("Create atleast two players");
                         }
-                        break;
                     }
                     //Handle showmap command from console
 
@@ -140,9 +142,8 @@ public class GamePlay implements GameController {
      * @throws ValidationException
      */
     private void loadMap(String p_Filename) throws ValidationException {
-        if(MapValidation.validateMap(d_GameMap,0)) {
-            MapReader.readMap(d_GameMap, p_Filename);
-        } else {
+        MapReader.readMap(d_GameMap, p_Filename);
+        if (!MapValidation.validateMap(d_GameMap, 0)) {
             throw new ValidationException("Invalid Map");
         }
     }
