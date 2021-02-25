@@ -22,7 +22,6 @@ public class MapEditor implements GameController {
     private final Scanner scanner = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
-    SaveMap d_SaveMap;
     GamePhase d_NextState = GamePhase.LoadGame;
 
     public MapEditor() {

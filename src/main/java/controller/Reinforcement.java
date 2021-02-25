@@ -61,7 +61,7 @@ public class Reinforcement implements GameController {
      *
      * @throws InvalidExecutionException upon invalid game phase command
      */
-    private void calculateReinforcements() throws InvalidExecutionException {
+    public void calculateReinforcements() throws InvalidExecutionException {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             d_CurrentPlayer = l_Player;
             setReinforcementTroops();
