@@ -20,7 +20,6 @@ public class Continent {
     private boolean d_Credited;
     private Set<Country> d_Countries;
 
-
     /**
      * Get the continent ID also known as continent value
      *
