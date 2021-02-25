@@ -8,6 +8,9 @@ import model.Country;
 import model.GameMap;
 /**
  * This class is used to save map as a text file
+ * @author Dhananjay Narayan
+ * @author Neona
+ * @author Surya
  */
 public class SaveMap {
 
@@ -18,11 +21,11 @@ public class SaveMap {
      * @return String result of neighbor list
      */
     public String createANeighborList(Set<Country> p_Neighbors) {
-        String result = "";
+        String l_result = "";
         for (Country l_Neighbor : p_Neighbors) {
-            result += l_Neighbor.getName() + " ";
+            l_result += l_Neighbor.getName() + " ";
         }
-        return result.length() > 0 ? result.substring(0, result.length() - 1) : "";
+        return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
     }
     /**
      * Save map into file as continent and country
@@ -31,17 +34,12 @@ public class SaveMap {
      */
 
     public boolean saveMapIntoFile(GameMap p_GameMap, String name) {
-        /**
-         * Add continent name and control values
-         */
         String mapData = "[Map]\n\n[Continents]\n";
         for (Continent continent : p_GameMap.getContinents().values()) {
             mapData += continent.getName() + " " + continent.getAwardArmies();
             mapData += "\n";
         }
-        /**
-         * Add country name, respective continent and neighbor list of countries
-         */
+
         mapData += "[Territories]\n";
         for (Continent continent : p_GameMap.getContinents().values()) {
             for (Country country : p_GameMap.getCountries().values()) {
