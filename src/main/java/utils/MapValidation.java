@@ -155,9 +155,8 @@ public class MapValidation {
             return false;
         }
         if(checkIfNeighbourExist(p_GameMap)){
-            if(checkIfContinentIsConnected(p_GameMap)) {
+            if(!checkIfContinentIsConnected(p_GameMap)) {
                 if(!checkIfMapIsConnected(p_GameMap)) {
-                    System.out.println("Whole Map");
                     return false;
                 }
             }
@@ -324,11 +323,9 @@ public class MapValidation {
      */
     private static boolean checkMapConnectivity(ConnectedGraph p_Graph) {
         if (p_Graph.checkIfStronglyConnected()) {
-            System.out.println("Yes, Map is strongly connected");
             return true;
         }
         else {
-            System.out.println("No, Map is not strongly connected");
             return false;
         }
     }

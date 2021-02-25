@@ -5,6 +5,9 @@ package utils;
  * @author Madhuvanthi Hemanathan
  */
 public class ValidationException extends Exception {
+    /**
+     * initialising a string to hold message
+     */
     String d_Message = "Invalid command. Type help to know further";
 
     /**

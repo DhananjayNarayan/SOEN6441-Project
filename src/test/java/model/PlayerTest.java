@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the functionalities for Player class
+ *
+ * @author Prathika Suvarna
+ */
 public class PlayerTest extends Player {
 
     int d_ReinforcementArmies;
@@ -18,6 +23,11 @@ public class PlayerTest extends Player {
     Country c3 = new Country();
     GameMap d_GameMap = GameMap.getInstance();
 
+    /**
+     * This method initializes each value before execution of every test case
+     *
+     * @throws Exception if initialisation fails
+     */
     @Before
     public void setUp() throws Exception {
         d_ReinforcementArmies = 10;
@@ -35,11 +45,17 @@ public class PlayerTest extends Player {
         d_CapturedCountries.add(c3);
         p.setCapturedCountries(d_CapturedCountries);
     }
+
+    /**
+     * This method will be executed at the end of the test
+     *
+     * @throws Exception when execution fails
+     */
     @After
     public void tearDown() throws Exception {
-            d_GameMap.getContinents().clear();
-            d_GameMap.getCountries().clear();
-            d_GameMap.getPlayers().clear();
+        d_GameMap.getContinents().clear();
+        d_GameMap.getCountries().clear();
+        d_GameMap.getPlayers().clear();
     }
     /**
      * This is the test method to check if Country exists
@@ -63,7 +79,7 @@ public class PlayerTest extends Player {
      */
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
-        assertEquals(true, p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
+        assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
     }
     /**
      * This is the test method to check the invalid deployment of armies

@@ -23,9 +23,12 @@ public class MapReader {
      * in a Hash Map
      *
      * @param p_FileName the map file name
+     * @param p_GameMap  the game map
+     * @throws ValidationException when validation fails
      */
     public static void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
         try {
+            p_GameMap.flushGameMap();
             File l_File = new File("maps/" + p_FileName);
             FileReader l_FileReader = new FileReader(l_File);
             Map<String, List<String>> l_MapFileContents = new HashMap<>();
@@ -54,7 +57,8 @@ public class MapReader {
      * This function reads the Continents from the file
      *
      * @param p_ContinentArray the value list for Continents
-     * @throws ValidationException
+     * @param p_GameMap the game map
+     * @throws ValidationException when validation fails
      */
     public static void readContinentsFromFile(GameMap p_GameMap, List<String> p_ContinentArray) throws ValidationException {
         for (String l_InputString : p_ContinentArray) {
@@ -69,7 +73,9 @@ public class MapReader {
      * This function reads the Countries from the file
      *
      * @param p_CountryArray the value list for Countries
-     * @throws ValidationException
+     * @param p_GameMap the game map
+     * @return Neighbouring countries
+     * @throws ValidationException when validation fails
      */
 
     public static Map<String, List<String>> readCountriesFromFile(GameMap p_GameMap, List<String> p_CountryArray) throws ValidationException {
@@ -88,7 +94,8 @@ public class MapReader {
      * This function adds the neighbouring Countries
      *
      * @param p_NeighborList the neighbouring country list
-     * @throws ValidationException
+     * @param p_GameMap the game map
+     * @throws ValidationException when validation fails
      */
 
     public static void addNeighborsFromFile(GameMap p_GameMap, Map<String, List<String>> p_NeighborList) throws ValidationException {

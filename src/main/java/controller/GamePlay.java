@@ -4,6 +4,7 @@ import model.*;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +28,6 @@ public class GamePlay implements GameController {
 
     /**
      * This is the default constructor
-     *
      */
     public GamePlay() {
         d_GameMap = GameMap.getInstance();
@@ -39,11 +39,11 @@ public class GamePlay implements GameController {
      *
      * @param p_GamePhase current Game Phase
      * @return the next Game Phase
-     * @throws ValidationException
+     * @throws ValidationException when validation fails
      */
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
-            System.out.println("Create your game players:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
+            System.out.println("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList = null;
             if (l_Input.contains("-")) {
@@ -59,8 +59,10 @@ public class GamePlay implements GameController {
                 if (l_Input.startsWith("exit")) {
                     l_InputList.add(0, "exit");
                 } else {
+                    l_InputList.clear();
                     // if not available in command list forcing to call help
-                    l_InputList.add(0, "help");
+                    l_InputList.add("help");
+                    l_InputList.add("dummy");
                 }
             }
             //Handle loadmap command from console
@@ -105,11 +107,12 @@ public class GamePlay implements GameController {
 
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
-                         d_GameMap.assignCountries();
+                            d_GameMap.assignCountries();
+                            System.out.println("================================End of Load Game Phase==================================");
+                            return p_GamePhase.nextState(d_NextState);
                         } else {
                             throw new ValidationException("Create atleast two players");
                         }
-                        break;
                     }
                     //Handle showmap command from console
 
@@ -122,11 +125,14 @@ public class GamePlay implements GameController {
                     }
                     //Print the commands for help
                     default: {
-                        System.out.println("Order of game play commands");
+                        System.out.println("Order of game play commands:");
+                        System.out.println("-----------------------------------------------------------------------------------------");
                         System.out.println("To load the map : loadmap filename");
                         System.out.println("To show the loaded map : showmap");
                         System.out.println("To add or remove a player : gameplayer -add playername -remove playername");
                         System.out.println("To assign countries : assigncountries");
+                        System.out.println("-----------------------------------------------------------------------------------------");
+
                     }
                 }
             }
@@ -137,12 +143,11 @@ public class GamePlay implements GameController {
      * This method loads the game map from the map file
      *
      * @param p_Filename the map file name
-     * @throws ValidationException
+     * @throws ValidationException when validation fails
      */
     private void loadMap(String p_Filename) throws ValidationException {
-        if(MapValidation.validateMap(d_GameMap,0)) {
-            MapReader.readMap(d_GameMap, p_Filename);
-        } else {
+        MapReader.readMap(d_GameMap, p_Filename);
+        if (!MapValidation.validateMap(d_GameMap, 0)) {
             throw new ValidationException("Invalid Map");
         }
     }

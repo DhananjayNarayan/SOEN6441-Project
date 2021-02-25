@@ -5,6 +5,13 @@ import java.util.Scanner;
 
 /**
  *  Class which is the controller for the Issue Order phase
+ *
+ * @author Prathika Suvarna
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ * @author Surya Manian
+ * @author Madhuvanthi Hemanathan
+ * @version 1.0.0
  */
 public class IssueOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
@@ -25,7 +32,7 @@ public class IssueOrder implements GameController {
      *
      * @param p_GamePhase  The current phase which is executing
      * @return the next phase to be executed
-     * @throws Exception
+     * @throws Exception  when execution fails
      */
 
         @Override
@@ -36,8 +43,6 @@ public class IssueOrder implements GameController {
                 for (Player l_Player : d_GameMap.getPlayers().values()) {
                     if (l_Player.getReinforcementArmies() <= 0) {
                         l_Counter++;
-                        System.out.println("Player: " + l_Player.getName() + " You have exhausted all your amries.");
-                        System.out.println("=========================================================================================");
                         continue;
                     }
                     System.out.println("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());

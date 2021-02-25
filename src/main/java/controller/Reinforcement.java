@@ -3,7 +3,6 @@ package controller;
 import model.*;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,8 +10,12 @@ import java.util.stream.Collectors;
 /**
  * Controller for {@code Reinforcement} phase of game.
  *
+ * @author Prathika Suvarna
+ * @author Neona Pinto
+ * @author Dhananjay Narayan
+ * @author Surya Manian
  * @author Madhuvanthi Hemanathan
- * @version 1.0
+ * @version 1.0.0
  */
 public class Reinforcement implements GameController {
     /**
@@ -87,8 +90,10 @@ public class Reinforcement implements GameController {
                     }
                 }
                 d_CurrentPlayer.setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
+                System.out.println("The Player:" + d_CurrentPlayer.getName() + " is assigned with " + d_CurrentPlayer.getReinforcementArmies() + " armies.");
             } else {
                 d_CurrentPlayer.setReinforcementArmies(3);
+                System.out.println("The Player:" + d_CurrentPlayer.getName() + " is assigned with " + d_CurrentPlayer.getReinforcementArmies() + " armies.");
             }
 
         } else throw new InvalidExecutionException();
