@@ -1,6 +1,8 @@
 package controller;
 
 import model.*;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -38,10 +40,13 @@ public class IssueOrder implements GameController {
         @Override
         public GamePhase start(GamePhase p_GamePhase) throws Exception {
             d_GamePhase = p_GamePhase;
+            Boolean[] l_PlayerStatus = new Boolean[d_GameMap.getPlayers().size()];
             int l_Counter = 0;
-            while (l_Counter < d_GameMap.getPlayers().size()) {
+            Arrays.fill(l_PlayerStatus, Boolean.FALSE);
+            while (!ifVisited(l_PlayerStatus)) {
                 for (Player l_Player : d_GameMap.getPlayers().values()) {
                     if (l_Player.getReinforcementArmies() <= 0) {
+                        l_PlayerStatus[l_Counter] = true;
                         l_Counter++;
                         continue;
                     }
@@ -53,7 +58,9 @@ public class IssueOrder implements GameController {
                     System.out.println("=========================================================================================");
                     String l_Commands = readFromPlayer();
                     l_Player.issueOrder(l_Commands);
+                    l_Counter++;
                 }
+                l_Counter = 0;
             }
             System.out.println("You have exhausted all your armies. Moving to the next phase.");
             System.out.println("=========================================================================================");
@@ -75,7 +82,12 @@ public class IssueOrder implements GameController {
                     if (checkIfCommandIsDeploy(l_Command.toLowerCase())) {
                         return l_Command;
                     }
-                } else {
+                }
+                else if("showmap".equalsIgnoreCase(l_Command.split(" ")[0])){
+                    d_GameMap.showMap();
+                    System.out.println("Please enter the command again:");
+                }
+                else{
                     System.out.println("List of game loop commands");
                     System.out.println("To deploy the armies : deploy countryID armies");
                     System.out.println("Please enter the correct command");
@@ -97,6 +109,22 @@ public class IssueOrder implements GameController {
             else
                 return false;
         }
+
+    /**
+     * A function to check if Players exhausted the armies
+     *
+     * @param p_PlayerStatus The array of the status for each player if
+     *                       they have exhausted the army or not
+     * @return true if all players have exhausted the army else false
+     */
+    private boolean ifVisited(Boolean[] p_PlayerStatus){
+        for (Boolean l_Status : p_PlayerStatus){
+            if(!l_Status){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
 

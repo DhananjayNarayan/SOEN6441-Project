@@ -138,7 +138,7 @@ public class Player {
             System.out.println("The country does not belong to you");
             l_IssueCommand = false;
         }
-        if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
+        else if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
             System.out.println("You do have enough Reinforcement Armies to deploy.");
             l_IssueCommand = false;
         }
