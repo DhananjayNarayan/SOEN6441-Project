@@ -3,8 +3,7 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
-import model.order.Order;
-import static model.Player.OrderList;
+import model.Player;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -38,12 +37,7 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        if(ExecuteOrders()){
-            System.out.println("All the orders have been executed successfully");
-        }
-        else{
-            System.out.println("Could not execute the orders.");
-        }
+        ExecuteOrders();
         return p_GamePhase.nextState(d_NextGamePhase);
     }
 
@@ -52,13 +46,14 @@ public class ExecuteOrder implements GameController {
      *
      * @return true if execution is successful
      */
-    private boolean ExecuteOrders()
+    private void ExecuteOrders()
     {
-        for (Order l_Order : OrderList){
-            if(!l_Order.execute()){
-                return false;
+        while(true){
+            for (Player player : d_GameMap.getPlayers().values()) {
+                if (player.nextOrder() != null) {
+                    player.nextOrder().execute();
+                }
             }
         }
-        return true;
     }
 }

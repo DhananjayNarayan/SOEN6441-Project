@@ -24,7 +24,7 @@ public class Player {
     /**
      * Initialising List to hold orders
      */
-    public static List<Order> OrderList = new ArrayList<>();
+//    public static List<Order> OrderList = new ArrayList<>();
 
     /**
      * A function to get the player ID
@@ -145,13 +145,15 @@ public class Player {
 
         if (l_IssueCommand) {
             Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
-            OrderList.add(l_Order);
+//            OrderList.add(l_Order);
             addOrder(l_Order);
             System.out.println("Your Order has been added to the list: deploy " + l_Order.getOrderInfo().getDestination() + " with " + l_Order.getOrderInfo().getNumberOfArmy() + " armies");
             System.out.println("=========================================================================================");
         }
     }
-
+    public Order nextOrder(){
+        return d_Orders.poll();
+    }
     /**
      * A function to check if the country exists in the list of player assigned countries
      *
