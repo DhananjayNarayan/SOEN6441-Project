@@ -96,6 +96,7 @@ public class IssueOrder implements GameController {
                 return false;
             }
             try {
+
                 l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
             }
             catch (NumberFormatException l_Exception){

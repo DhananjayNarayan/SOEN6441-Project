@@ -32,7 +32,6 @@ public class Order {
     }
     /**
      * A function to get order information
-     *
      * @return the order information in an object
      */
     public OrderInfo getOrderInfo() {
