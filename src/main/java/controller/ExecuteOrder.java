@@ -4,6 +4,7 @@ import model.GameController;
 import model.GameMap;
 import model.GamePhase;
 import model.Player;
+import model.order.Order;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -44,14 +45,19 @@ public class ExecuteOrder implements GameController {
     /**
      * This method executes each order in the order list
      *
-     * @return true if execution is successful
      */
     private void ExecuteOrders()
     {
-        while(true){
+        int l_Counter = 0;
+        while(l_Counter <= d_GameMap.getPlayers().size()){
+            l_Counter=0;
             for (Player player : d_GameMap.getPlayers().values()) {
-                if (player.nextOrder() != null) {
-                    player.nextOrder().execute();
+                Order l_Order = player.nextOrder();
+                if (l_Order == null) {
+                    l_Counter++;
+                }
+                else{
+                    l_Order.execute();
                 }
             }
         }

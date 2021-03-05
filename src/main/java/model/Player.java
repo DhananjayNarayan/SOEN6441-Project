@@ -1,5 +1,6 @@
 package model;
 
+import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
 import java.util.*;
@@ -21,10 +22,6 @@ public class Player {
     private List<Country> d_CapturedCountries = new ArrayList<>();
     private Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
-    /**
-     * Initialising List to hold orders
-     */
-//    public static List<Order> OrderList = new ArrayList<>();
 
     /**
      * A function to get the player ID
@@ -128,32 +125,33 @@ public class Player {
     /**
      * A function to get the issue order from player and add to the order list
      *
-     * @param p_Commands the type of order issued
      */
-    public void issueOrder(String p_Commands) {
-        boolean l_IssueCommand = true;
-        String[] l_CommandArr = p_Commands.split(" ");
-        int l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
-        if (!checkIfCountryExists(l_CommandArr[1], this)) {
-            System.out.println("The country does not belong to you");
-            l_IssueCommand = false;
-        }
-        else if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
-            System.out.println("You do have enough Reinforcement Armies to deploy.");
-            l_IssueCommand = false;
-        }
-
-        if (l_IssueCommand) {
-            Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
-//            OrderList.add(l_Order);
-            addOrder(l_Order);
-            System.out.println("Your Order has been added to the list: deploy " + l_Order.getOrderInfo().getDestination() + " with " + l_Order.getOrderInfo().getNumberOfArmy() + " armies");
+    public void issueOrder() {
+        boolean l_IssueCommand = false;
+        String l_Commands = null;
+        while(!l_IssueCommand){
+            System.out.println("List of game loop commands");
+            System.out.println("To deploy the armies : deploy countryID armies");
+            System.out.println("Please enter the correct command");
             System.out.println("=========================================================================================");
+            l_Commands = IssueOrder.ReadFromPlayer();
+            l_IssueCommand = IssueOrder.ValidateCommand(l_Commands, this);
         }
+        Order l_Order = OrderCreater.createOrder(l_Commands.split(" "), this);
+        addOrder(l_Order);
+        System.out.println("Your Order has been added to the list: deploy " + l_Order.getOrderInfo().getDestination() + " with " + l_Order.getOrderInfo().getNumberOfArmy() + " armies");
+        System.out.println("=========================================================================================");
     }
+
+    /**
+     * A function to return the next order for execution
+     *
+     * @return order for executing for each player
+     */
     public Order nextOrder(){
         return d_Orders.poll();
     }
+
     /**
      * A function to check if the country exists in the list of player assigned countries
      *

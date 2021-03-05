@@ -20,7 +20,7 @@ public class IssueOrder implements GameController {
     GamePhase d_GamePhase = GamePhase.IssueOrder;
     GameMap d_GameMap;
 
-    private final Scanner SCANNER = new Scanner(System.in);
+    private final static Scanner SCANNER = new Scanner(System.in);
 
     /**
      * Constructor to get the GameMap instance
@@ -56,8 +56,7 @@ public class IssueOrder implements GameController {
                         System.out.println(l_Country.getName() + " ");
                     }
                     System.out.println("=========================================================================================");
-                    String l_Commands = readFromPlayer();
-                    l_Player.issueOrder(l_Commands);
+                    l_Player.issueOrder();
                     l_Counter++;
                 }
                 l_Counter = 0;
@@ -72,43 +71,45 @@ public class IssueOrder implements GameController {
      *
      * @return command entered by the player
      */
-    private String readFromPlayer() {
-            String l_Command;
-            System.out.println("To issue your orders: ");
-            System.out.println("1. Enter help to view the set of command");
-            while(true){
-                l_Command = SCANNER.nextLine();
-                if ("deploy".equalsIgnoreCase(l_Command.split(" ")[0])) {
-                    if (checkIfCommandIsDeploy(l_Command.toLowerCase())) {
-                        return l_Command;
-                    }
-                }
-                else if("showmap".equalsIgnoreCase(l_Command.split(" ")[0])){
-                    d_GameMap.showMap();
-                    System.out.println("Please enter the command again:");
-                }
-                else{
-                    System.out.println("List of game loop commands");
-                    System.out.println("To deploy the armies : deploy countryID armies");
-                    System.out.println("Please enter the correct command");
-                }
-            }
+    public static String ReadFromPlayer() {
+            return SCANNER.nextLine();
         }
 
     /**
-     * A function to validate if the command is correct
+     * A static function to validate the deploy command
      *
-     * @param p_Command The command entered by player
-     * @return true if the format is valid else false
+     * @param p_CommandArr The string entered by the user
+     * @param p_player The player instance
+     * @return true if the command is correct else false
      */
-    private boolean checkIfCommandIsDeploy(String p_Command){
-            String[] l_Commands = p_Command.split(" ");
-            if(l_Commands.length ==  3){
-                return l_Commands[0].equals("deploy");
-            }
-            else
+    public static  boolean ValidateCommand(String p_CommandArr, Player p_player){
+            int l_ReinforcementArmies;
+            String[] l_CommandArr = p_CommandArr.split(" ");
+            if(l_CommandArr.length !=3){
                 return false;
-        }
+            }
+            else if(!l_CommandArr[0].equalsIgnoreCase("deploy")){
+                return false;
+            }
+            else if (!p_player.checkIfCountryExists(l_CommandArr[1], p_player)) {
+                System.out.println("The country does not belong to you");
+                return false;
+            }
+            try {
+                l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
+            }
+            catch (NumberFormatException l_Exception){
+                System.out.println("The number format is wrong.");
+                return false;
+            }
+            if (!p_player.deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
+                System.out.println("You do not have enough Reinforcement Armies to deploy.");
+                return false;
+            }
+            else{
+                return  true;
+            }
+    }
 
     /**
      * A function to check if Players exhausted the armies
