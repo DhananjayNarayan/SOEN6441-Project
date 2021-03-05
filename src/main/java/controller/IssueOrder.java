@@ -103,7 +103,7 @@ public class IssueOrder implements GameController {
                 return false;
             }
             if (!p_player.deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
-                System.out.println("You do not have enough Reinforcement Armies to deploy.");
+                System.out.println("You do not have enough Reinforcement Armies to deploy..");
                 return false;
             }
             else{

@@ -26,6 +26,7 @@ public class DeployOrder extends Order {
      *
      * @return true if the execution was successful else return false
      */
+
     public boolean execute() {
         if (getOrderInfo().getPlayer() == null || getOrderInfo().getDestination() == null) {
             System.out.println("Fail to execute Deploy order: Invalid order information.");

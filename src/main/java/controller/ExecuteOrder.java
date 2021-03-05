@@ -44,7 +44,6 @@ public class ExecuteOrder implements GameController {
 
     /**
      * This method executes each order in the order list
-     *
      */
     private void ExecuteOrders()
     {

@@ -18,37 +18,6 @@ public class Order {
     private static Order d_Order;
     private String d_Type;
     private OrderInfo d_OrderInfo;
-//    private List<Order> d_OrderList = new ArrayList<Order>();
-
-    /**
-     * A function to get the order list
-     *
-     * @return the list of type Order class
-     */
-//    public List<Order> getOrderList() {
-//
-//        return d_OrderList;
-//    }
-
-    /**
-     * A function to set the order list
-     *
-     * @param p_OrderList Order List of type Order class
-     */
-//    public void setOrderList(List<Order> p_OrderList) {
-//
-//        this.d_OrderList = p_OrderList;
-//    }
-
-    /**
-     * A function to add the order to the order list
-     *
-     * @param p_Order The order to be added to the list
-     */
-//    public void AddToOrderList(Order p_Order){
-//
-//        d_OrderList.add(p_Order);
-//    }
 
     /**
      * A function to get the instance of the class Order
