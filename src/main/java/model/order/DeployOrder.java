@@ -21,11 +21,13 @@ public class DeployOrder extends Order {
         super();
         setType("deploy");
     }
+
     /**
      * Overriding the execute function for the order type deploy
      *
      * @return true if the execution was successful else return false
      */
+
     public boolean execute() {
         if (getOrderInfo().getPlayer() == null || getOrderInfo().getDestination() == null) {
             System.out.println("Fail to execute Deploy order: Invalid order information.");
@@ -34,13 +36,13 @@ public class DeployOrder extends Order {
         Player l_Player = getOrderInfo().getPlayer();
         String l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
+        System.out.println("Deployed " + l_ArmiesToDeploy + " armies to " + l_Destination + ".");
         for(Country l_Country : l_Player.getCapturedCountries()){
             if(l_Country.getName().equals(l_Destination)){
                 l_Country.deployArmies(l_ArmiesToDeploy);
-                System.out.println("The country " + l_Country.getName() + " has been deployed with " + l_Country.getArmies() + " armies.");
+                System.out.println("Execution is completed: The country " + l_Country.getName() + " has been deployed with " + l_Country.getArmies() + " armies.");
             }
         }
-        System.out.println("\nExecution is completed: deployed " + l_ArmiesToDeploy + " armies to " + l_Destination + ".");
         System.out.println("=========================================================================================");
         return true;
     }

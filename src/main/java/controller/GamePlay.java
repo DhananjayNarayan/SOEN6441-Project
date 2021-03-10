@@ -108,11 +108,10 @@ public class GamePlay implements GameController {
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
                             d_GameMap.assignCountries();
-                            System.out.println("================================End of Load Game Phase==================================");
-                            return p_GamePhase.nextState(d_NextState);
                         } else {
                             throw new ValidationException("Create atleast two players");
                         }
+                        break;
                     }
                     //Handle showmap command from console
 
