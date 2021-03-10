@@ -140,26 +140,37 @@ public class MapValidation {
      */
     public static boolean validateMap(GameMap p_GameMap, int p_Size) {
         if(checkIfContinentIsEmpty(p_GameMap)){
+            System.out.println("continent empty");
             return false;
         }
         if(checkDuplicateContinents(p_GameMap)){
+            System.out.println("duplicate continent");
             return false;
         }
         if(checkDuplicateCountries(p_GameMap)){
-            return false;
-        }
-        if(!checkCountryCount(p_GameMap, p_Size)){
+            System.out.println("duplicate countries");
             return false;
         }
         if(checkDuplicateNeighbours(p_GameMap)){
+            System.out.println("duplicate neighbors");
+            return false;
+        }
+        if(!checkCountryCount(p_GameMap, p_Size)){
+            System.out.println("country size");
             return false;
         }
         if(checkIfNeighbourExist(p_GameMap)){
-            if(!checkIfContinentIsConnected(p_GameMap)) {
-                if(!checkIfMapIsConnected(p_GameMap)) {
-                    return false;
-                }
+//            if(!checkIfContinentIsConnected(p_GameMap)){
+//                System.out.println("continent check");
+//                return false;
+//            }
+            if(!checkIfMapIsConnected(p_GameMap.getCountries())) {
+                System.out.println("whole map check");
+                return false;
             }
+        }
+        else{
+            return false;
         }
         return true;
     }
@@ -256,62 +267,51 @@ public class MapValidation {
 
     /**
      * A function to check if the Continent is connected graph
-     * @param p_GameMap The GameMap object which contains all the data
+     * @param p_GameMap The GameMap Continent object which contains all the data
      * @return true if continent is strongly connected else false
      */
     public static boolean checkIfContinentIsConnected(GameMap p_GameMap){
-        Set<String> l_List =  p_GameMap.getCountries().keySet();
-        List<String> l_ListOfCountries = new ArrayList<>();
-        for(String l_Name : l_List) {
-            l_ListOfCountries.add(l_Name.toLowerCase());
+        for(Continent l_Continent : p_GameMap.getContinents().values()){
+             if(!checkContinent(l_Continent)){
+                 return false;
+             }
         }
-
-        int l_NoOfVertices = l_ListOfCountries.size();
-        ConnectedGraph l_Graph = new ConnectedGraph(l_NoOfVertices);
-
-
-        for (int l_Vertex = 0; l_Vertex < l_NoOfVertices; l_Vertex++) {
-            for (Map.Entry<String, Continent> l_ContinentEntry : p_GameMap.getContinents().entrySet()) {
-                for (Country l_Country : l_ContinentEntry.getValue().getCountries()) {
-                    if (l_Country.getName().equalsIgnoreCase(p_GameMap.getCountries().get(l_Country.getName()).getName())) {
-                        Set<Country> l_Neighbors = l_Country.getNeighbors();
-                        for (Country l_Current : l_Neighbors) {
-                            int l_Index = l_ListOfCountries.indexOf(l_Current.getName().toLowerCase());
-                            l_Graph.addEdge(l_Vertex, l_Index);
-                        }
-                    }
-                }
-            }
-        }
-        return checkMapConnectivity(l_Graph);
+        return true;
     }
 
+    private static  boolean checkContinent(Continent p_Continent){
+        HashMap<String, Country> l_CountriesMap = new HashMap<>();
+        Set<Country> l_Countries = p_Continent.getCountries();
+        for(Country l_Country : l_Countries){
+            l_CountriesMap.put(l_Country.getName(), l_Country);
+        }
+        return checkIfMapIsConnected(l_CountriesMap);
+    }
     /**
      * A function to check if the Whole Map is connected graph
-     * @param p_GameMap The GameMap object which contains all the data
+     * @param p_Countries The GameMap Country object which contains all the data
      * @return true if whole map is strongly connected else false
      */
-    public static boolean checkIfMapIsConnected(GameMap p_GameMap){
-        Set<String> l_List =  p_GameMap.getCountries().keySet();
+    public static boolean checkIfMapIsConnected(HashMap<String, Country> p_Countries){
         List<String> l_ListOfCountries = new ArrayList<>();
-        for(String l_Name : l_List) {
+        for(String l_Name : p_Countries.keySet()) {
             l_ListOfCountries.add(l_Name.toLowerCase());
         }
 
         int l_NoOfVertices = l_ListOfCountries.size();
         ConnectedGraph l_Graph = new ConnectedGraph(l_NoOfVertices);
-
-        for (int l_Vertex = 0; l_Vertex < l_NoOfVertices; l_Vertex++) {
-            for (Map.Entry<String, Country> l_Country : p_GameMap.getCountries().entrySet()) {
-                Set<Country> l_Neighbors = l_Country.getValue().getNeighbors();
-                for (Country l_Current : l_Neighbors) {
-                    int l_Index = l_ListOfCountries.indexOf(l_Current.getName().toLowerCase());
-                    l_Graph.addEdge(l_Vertex, l_Index);
+        int temp = 0;
+        for (Map.Entry<String, Country> l_Country : p_Countries.entrySet()) {
+            Set<Country> l_Neighbors = l_Country.getValue().getNeighbors();
+            for (Country l_Current : l_Neighbors) {
+                int l_Index = l_ListOfCountries.indexOf(l_Current.getName().toLowerCase());
+                if(l_Index != -1){
+                    l_Graph.addEdge(temp, l_Index);
                 }
             }
+            temp++;
         }
         return checkMapConnectivity(l_Graph);
-
     }
 
 

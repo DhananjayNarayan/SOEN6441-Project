@@ -92,6 +92,6 @@ public class MapValidationTest {
      */
     @Test
     public void checkIfMapIsConnected() {
-        assertEquals(true, MapValidation.checkIfMapIsConnected(d_GameMap));
+        assertEquals(true, MapValidation.checkIfMapIsConnected(d_GameMap.getCountries()));
     }
 }
