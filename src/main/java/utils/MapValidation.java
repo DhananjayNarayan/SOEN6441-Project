@@ -160,10 +160,10 @@ public class MapValidation {
             return false;
         }
         if(checkIfNeighbourExist(p_GameMap)){
-//            if(!checkIfContinentIsConnected(p_GameMap)){
-//                System.out.println("continent check");
-//                return false;
-//            }
+            if(!checkIfContinentIsConnected(p_GameMap)){
+                System.out.println("continent check");
+                return false;
+            }
             if(!checkIfMapIsConnected(p_GameMap.getCountries())) {
                 System.out.println("whole map check");
                 return false;
