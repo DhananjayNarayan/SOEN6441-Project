@@ -279,6 +279,11 @@ public class MapValidation {
         return true;
     }
 
+    /**
+     * utility function to check the continent
+     * @param p_Continent Continent object
+     * @return true if continent is connected else false
+     */
     private static  boolean checkContinent(Continent p_Continent){
         HashMap<String, Country> l_CountriesMap = new HashMap<>();
         Set<Country> l_Countries = p_Continent.getCountries();
