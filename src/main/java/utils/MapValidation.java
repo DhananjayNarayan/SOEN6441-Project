@@ -84,10 +84,10 @@ public class MapValidation {
      * @return true if there any duplicates of the continent are present else false
      */
     public static boolean checkDuplicateContinents(GameMap p_GameMap) {
-        HashMap<String, Continent> p_ContinentNames = p_GameMap.getContinents();
-        HashSet<String> p_ContinentSet = new HashSet<>(p_ContinentNames.keySet());
-        ArrayList<String> p_Result = new ArrayList<>(p_ContinentSet);
-        if (!(p_Result.size() == p_ContinentNames.size())) {
+        HashMap<String, Continent> l_ContinentNames = p_GameMap.getContinents();
+        HashSet<String> l_ContinentSet = new HashSet<>(l_ContinentNames.keySet());
+        ArrayList<String> l_Result = new ArrayList<>(l_ContinentSet);
+        if (!(l_Result.size() == l_ContinentNames.size())) {
             System.out.println("There are duplicate continents present in the map.");
             return true;
         }
@@ -101,10 +101,10 @@ public class MapValidation {
      * @return true if there any duplicates of the continent are present else false
      */
     private static boolean checkDuplicateCountries(GameMap p_GameMap) {
-        HashMap<String, Country> p_CountryNames = p_GameMap.getCountries();
-        HashSet<String> p_Set = new HashSet<>(p_CountryNames.keySet());
-        ArrayList<String> p_Result = new ArrayList<>(p_Set);
-        if (!(p_Result.size() == p_CountryNames.size())) {
+        HashMap<String, Country> l_CountryNames = p_GameMap.getCountries();
+        HashSet<String> l_Set = new HashSet<>(l_CountryNames.keySet());
+        ArrayList<String> l_Result = new ArrayList<>(l_Set);
+        if (!(l_Result.size() == l_CountryNames.size())) {
             System.out.println("There are duplicate countries present in the map.");
             return true;
         }
