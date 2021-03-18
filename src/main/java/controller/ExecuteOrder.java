@@ -28,6 +28,7 @@ public class ExecuteOrder implements GameController {
     public ExecuteOrder(){
         d_GameMap = GameMap.getInstance();
     }
+
     /**
      * This method starts the current game phase
      *
@@ -35,7 +36,6 @@ public class ExecuteOrder implements GameController {
      * @return the next game phase
      * @throws Exception when execution fails
      */
-
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
@@ -44,7 +44,7 @@ public class ExecuteOrder implements GameController {
     }
 
     /**
-     * This method executes each order in the order list
+     * This method taht executes each order in the order list
      */
     private void ExecuteOrders()
     {
@@ -57,7 +57,9 @@ public class ExecuteOrder implements GameController {
                     l_Counter++;
                 }
                 else{
-                    l_Order.execute();
+                    if(l_Order.execute()){
+                        l_Order.printOrderCommand();
+                    }
                 }
             }
         }

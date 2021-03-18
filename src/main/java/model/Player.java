@@ -87,15 +87,6 @@ public class Player {
     }
 
     /**
-     * A function to set the orders
-     *
-     * @param p_Orders the list of orders
-     */
-    private void setOrders(Deque<Order> p_Orders) {
-        this.d_Orders = p_Orders;
-    }
-
-    /**
      * A function to add the orders to the issue order list
      *
      * @param p_Order The order to be added
@@ -126,22 +117,27 @@ public class Player {
      * A function to get the issue order from player and add to the order list
      *
      */
-
-    public void issueOrder() {
+    public void issueOrder(){
         boolean l_IssueCommand = false;
         String l_Commands = null;
         while(!l_IssueCommand){
             System.out.println("List of game loop commands");
             System.out.println("To deploy the armies : deploy countryID armies");
+            System.out.println("To skip: pass");
             System.out.println("Please enter the correct command");
             System.out.println("=========================================================================================");
             l_Commands = IssueOrder.ReadFromPlayer();
             l_IssueCommand = IssueOrder.ValidateCommand(l_Commands, this);
+            if(l_Commands.equals("pass")) {
+                break;
+            }
         }
-        Order l_Order = OrderCreater.createOrder(l_Commands.split(" "), this);
-        addOrder(l_Order);
-        System.out.println("Your Order has been added to the list: deploy " + l_Order.getOrderInfo().getDestination() + " with " + l_Order.getOrderInfo().getNumberOfArmy() + " armies");
-        System.out.println("=========================================================================================");
+        if(!l_Commands.equals("pass")){
+            Order l_Order = OrderCreater.CreateOrder(l_Commands.split(" "), this);
+            addOrder(l_Order);
+            System.out.println("Your Order has been added to the list.");
+            System.out.println("=========================================================================================");
+        }
     }
 
 

@@ -27,24 +27,53 @@ public class DeployOrder extends Order {
      *
      * @return true if the execution was successful else return false
      */
-
     public boolean execute() {
-        if (getOrderInfo().getPlayer() == null || getOrderInfo().getDestination() == null) {
-            System.out.println("Fail to execute Deploy order: Invalid order information.");
-            return false;
-        }
         Player l_Player = getOrderInfo().getPlayer();
         String l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
-        System.out.println("Deployed " + l_ArmiesToDeploy + " armies to " + l_Destination + ".");
-        for(Country l_Country : l_Player.getCapturedCountries()){
-            if(l_Country.getName().equals(l_Destination)){
-                l_Country.deployArmies(l_ArmiesToDeploy);
-                System.out.println("Execution is completed: The country " + l_Country.getName() + " has been deployed with " + l_Country.getArmies() + " armies.");
+        System.out.println("--------------------------------------------------------------------------------------------");
+        System.out.println("The order: " + getType() + " " + getOrderInfo().getDestination() + " " + getOrderInfo().getNumberOfArmy());
+        if(validateCommand()){
+            for(Country l_Country : l_Player.getCapturedCountries()){
+                if(l_Country.getName().equals(l_Destination)){
+                    l_Country.deployArmies(l_ArmiesToDeploy);
+                }
             }
+            return true;
         }
-        System.out.println("=========================================================================================");
-        return true;
+        return false;
+    }
+
+    /**
+     * A function to validate the commands
+     *
+     * @return true if command can be executed else false
+     */
+    public boolean validateCommand(){
+        Player l_Player = getOrderInfo().getPlayer();
+        String l_Destination = getOrderInfo().getDestination();
+        int l_Reinforcements = getOrderInfo().getNumberOfArmy();
+        if (l_Player == null || l_Destination == null) {
+            System.out.println("Fail to execute Deploy order: Invalid order information.");
+            return false;
+        }
+        if (!l_Player.checkIfCountryExists(l_Destination,l_Player)) {
+            System.out.println("The country does not belong to you");
+            return false;
+        }
+        if (!l_Player.deployReinforcementArmiesFromPlayer(l_Reinforcements)) {
+            System.out.println("You do not have enough Reinforcement Armies to deploy.");
+            return false;
+        }
+        return  true;
+    }
+
+    /**
+     * A function to print the order on completion
+     */
+    public void printOrderCommand(){
+        System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination() + ".");
+        System.out.println("--------------------------------------------------------------------------------------------");
     }
 
 }
