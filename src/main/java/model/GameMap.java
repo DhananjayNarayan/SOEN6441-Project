@@ -304,19 +304,19 @@ public class GameMap {
     public void saveMap() throws ValidationException {
         //Ask p_size for minimum number of countries based on player
         if (MapValidation.validateMap(d_GameMap, 0)) {
-            SaveMap d_SaveMap = new SaveMap();
-            boolean bool = true;
-            while (bool) {
+            SaveMap l_SaveMap = new SaveMap();
+            boolean l_Bool = true;
+            while (l_Bool) {
                 d_GameMap.getName();
                 if (Objects.isNull(d_GameMap.getName()) || d_GameMap.getName().isEmpty()) {
                     throw new ValidationException("Please enter the file name:");
                 } else {
-                    if (d_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
+                    if (l_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
                         System.out.println("The map has been validated and is saved.");
                     } else {
                         throw new ValidationException("Map name already exists, enter different name.");
                     }
-                    bool = false;
+                    l_Bool = false;
                 }
             }
         } else {
@@ -328,21 +328,21 @@ public class GameMap {
      * Assign countries to each player of the game in random.
      */
     public void assignCountries() {
-        int d_player_index = 0;
-        List<Player> d_players = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
+        int l_PlayerIndex = 0;
+        List<Player> l_Players = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
 
-        List<Country> d_countryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());  //get all countries from each continent
-        Collections.shuffle(d_countryList);
-        for (int i = 0; i < d_countryList.size(); i++) {
-            Country d_c = d_countryList.get(i);                // loop for get each country of the map
-            Player d_p = d_players.get(d_player_index);          // find the corresponding player by the order of the player
-            d_p.getCapturedCountries().add(d_c);
-            d_c.setPlayer(d_p);
-            System.out.println(d_c.getName() + " Assigned to " + d_p.getName());
-            if (d_player_index < d_GameMap.getPlayers().size() - 1) {     //if not all players get a new country in this round
-                d_player_index++;
+        List<Country> l_CountryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());  //get all countries from each continent
+        Collections.shuffle(l_CountryList);
+        for (int i = 0; i < l_CountryList.size(); i++) {
+            Country l_Country = l_CountryList.get(i);                // loop for get each country of the map
+            Player l_Player = l_Players.get(l_PlayerIndex);          // find the corresponding player by the order of the player
+            l_Player.getCapturedCountries().add(l_Country);
+            l_Country.setPlayer(l_Player);
+            System.out.println(l_Country.getName() + " Assigned to " + l_Player.getName());
+            if (l_PlayerIndex < d_GameMap.getPlayers().size() - 1) {     //if not all players get a new country in this round
+                l_PlayerIndex++;
             } else {                                         //if all players get a new counter in this round, start from player 1
-                d_player_index = 0;
+                l_PlayerIndex = 0;
             }
         }
     }
@@ -358,21 +358,21 @@ public class GameMap {
 
         // Showing Continents in Map
         System.out.println("\nThe Continents in this Map are : \n");
-        Iterator<Map.Entry<String, Continent>> d_iteratorForContinents = d_GameMap.getContinents().entrySet()
+        Iterator<Map.Entry<String, Continent>> l_IteratorForContinents = d_GameMap.getContinents().entrySet()
                 .iterator();
 
-        String table = "|%-18s|%n";
+        String l_Table = "|%-18s|%n";
 
         System.out.format("+------------------+%n");
         System.out.format("| Continent's name |%n");
         System.out.format("+------------------+%n");
 
-        while (d_iteratorForContinents.hasNext()) {
-            Map.Entry<String, Continent> continentMap = (Map.Entry<String, Continent>) d_iteratorForContinents.next();
-            String d_continentId = (String) continentMap.getKey();
-            Continent d_continent = d_GameMap.getContinents().get(d_continentId); //Get the particular continent by its ID(Name)
+        while (l_IteratorForContinents.hasNext()) {
+            Map.Entry<String, Continent> continentMap = (Map.Entry<String, Continent>) l_IteratorForContinents.next();
+            String l_ContinentId = (String) continentMap.getKey();
+            Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); //Get the particular continent by its ID(Name)
 
-            System.out.format(table, d_continent.getName());
+            System.out.format(l_Table, l_Continent.getName());
         }
         System.out.format("+------------------+%n");
 
@@ -380,10 +380,10 @@ public class GameMap {
         // Showing Countries in the Continent and their details
         System.out.println("\nThe countries in this Map and their details are : \n");
 
-        Iterator<Map.Entry<String, Continent>> d_iteratorForContinent = d_GameMap.getContinents().entrySet()
+        Iterator<Map.Entry<String, Continent>> l_IteratorForContinent = d_GameMap.getContinents().entrySet()
                 .iterator();
 
-        table = "|%-23s|%-18s|%-60s|%-15s|%n";
+        l_Table = "|%-23s|%-18s|%-60s|%-15s|%n";
 
         System.out.format(
                 "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
@@ -392,17 +392,16 @@ public class GameMap {
         System.out.format(
                 "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
 
-        while (d_iteratorForContinent.hasNext()) {
-            Map.Entry<String, Continent> d_continentMap = (Map.Entry<String, Continent>) d_iteratorForContinent.next();
-            String d_continentId = (String) d_continentMap.getKey();
-            Continent d_continent = d_GameMap.getContinents().get(d_continentId); // to get the continent by its ID(Name)
-            //ListIterator<Country> listIterator = continent.getCountries().listIterator();
-            Iterator<Country> d_listIterator = d_continent.getCountries().iterator();
+        while (l_IteratorForContinent.hasNext()) {
+            Map.Entry<String, Continent> l_ContinentMap = (Map.Entry<String, Continent>) l_IteratorForContinent.next();
+            String l_ContinentId = (String) l_ContinentMap.getKey();
+            Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); // to get the continent by its ID(Name)
+            Iterator<Country> l_ListIterator = l_Continent.getCountries().iterator();
 
-            while (d_listIterator.hasNext()) {
+            while (l_ListIterator.hasNext()) {
 
-                Country d_country = (Country) d_listIterator.next();
-                System.out.format(table, d_country.getName(), d_continent.getName(), d_country.createANeighborList(d_country.getNeighbors()), d_country.getArmies());
+                Country l_Country = (Country) l_ListIterator.next();
+                System.out.format(l_Table, l_Country.getName(), l_Continent.getName(), l_Country.createANeighborList(l_Country.getNeighbors()), l_Country.getArmies());
             }
         }
 
@@ -411,17 +410,16 @@ public class GameMap {
 
         // Showing the players in game. Have to modify
 
-        HashMap<String, Player> d_players = d_GameMap.getPlayers();
+        HashMap<String, Player> l_Players = d_GameMap.getPlayers();
         System.out.println("\n\n\n\nPlayers in this game if the game has started are : ");
-        if (d_players != null) {
-            d_players.forEach((key, value) -> System.out.println((String) key));  // will slightly modify the output after testing with the entire project
+        if (l_Players != null) {
+            l_Players.forEach((key, value) -> System.out.println((String) key));  // will slightly modify the output after testing with the entire project
             System.out.println();
         }
 
 
         //Showing the Ownership of the players
         System.out.println("\nThe Map ownership of the players are : \n");
-        //  String table1 = "|%-15s|%-30s|%-21d|%n";
 
         System.out.format(
                 "+---------------+-----------------------+----------------------------+%n");
@@ -431,15 +429,15 @@ public class GameMap {
                 "+---------------+-----------------------+---------------------------+%n");
 
 
-        List<Player> d_playerss = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
-        String table1 = "|%-15s|%-30s|%-21d|%n";
+        List<Player> l_Playerss = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
+        String l_Table1 = "|%-15s|%-30s|%-21d|%n";
 
 
-        for (Player d_player : d_playerss) {
+        for (Player l_Player : l_Playerss) {
 
             //Iterator<Country> listIterator = continent.getCountries().iterator();
 
-            System.out.format(table1, d_player.getName(), d_player.createACaptureList(d_player.getCapturedCountries()), d_player.getReinforcementArmies());
+            System.out.format(l_Table1, l_Player.getName(), l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
 
 
         }
