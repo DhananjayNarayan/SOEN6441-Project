@@ -23,7 +23,6 @@ public class OrderInfo {
      * @return the object of player
      */
     public Player getPlayer() {
-
         return d_Player;
     }
 
@@ -32,7 +31,6 @@ public class OrderInfo {
      * @param d_Player the object of player
      */
     public void setPlayer(Player d_Player) {
-
         this.d_Player = d_Player;
     }
 
@@ -41,7 +39,6 @@ public class OrderInfo {
      * @return  the departure country object
      */
     public Country getDeparture() {
-
         return d_Departure;
     }
 
@@ -50,7 +47,6 @@ public class OrderInfo {
      * @param d_Departure departure country object
      */
     public void setDeparture(Country d_Departure) {
-
         this.d_Departure = d_Departure;
     }
 
@@ -59,7 +55,6 @@ public class OrderInfo {
      * @return the destination of armies
      */
     public String getDestination() {
-
         return d_Destination;
     }
 
@@ -68,7 +63,6 @@ public class OrderInfo {
      * @param d_Destination the destination of armies
      */
     public void setDestination(String d_Destination) {
-
         this.d_Destination = d_Destination;
     }
 
@@ -78,7 +72,6 @@ public class OrderInfo {
      * @return the number of armies
      */
     public int getNumberOfArmy() {
-
         return d_NumberOfArmy;
     }
 
@@ -87,7 +80,6 @@ public class OrderInfo {
      * @param d_NumberOfArmy the number of armies
      */
     public void setNumberOfArmy(int d_NumberOfArmy) {
-
         this.d_NumberOfArmy = d_NumberOfArmy;
     }
 
