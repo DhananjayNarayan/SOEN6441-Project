@@ -31,7 +31,7 @@ public enum GamePhase {
          */
         @Override
         public List<GamePhase> possibleStates() {
-            return Collections.singletonList(LoadGame);
+            return Collections.singletonList(StartUp);
         }
 
         /**
@@ -47,15 +47,15 @@ public enum GamePhase {
     },
 
     /**
-     * LoadGame state handling load map, player creation and countries
+     * StartUp state handling load map, player creation and countries
      * allocation operations
      */
-    LoadGame {
+    StartUp {
         /**
          * Overrides possibleStates() method which returns the list
-         * of allowed next states from LoadGame state
+         * of allowed next states from StartUp state
          *
-         * @return List of allowed states from {@code LoadGame phase}
+         * @return List of allowed states from {@code StartUp phase}
          */
         @Override
         public List<GamePhase> possibleStates() {
