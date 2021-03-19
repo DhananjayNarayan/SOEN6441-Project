@@ -39,14 +39,14 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        ExecuteOrders();
+        executeOrders();
         return p_GamePhase.nextState(d_NextGamePhase);
     }
 
     /**
-     * This method taht executes each order in the order list
+     * This method  executes each order in the order list
      */
-    private void ExecuteOrders()
+    private void executeOrders()
     {
         int l_Counter = 0;
         while(l_Counter <= d_GameMap.getPlayers().size()){
