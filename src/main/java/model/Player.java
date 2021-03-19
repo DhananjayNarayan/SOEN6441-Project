@@ -3,7 +3,9 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Concrete class with the details of the player
@@ -115,12 +117,11 @@ public class Player {
 
     /**
      * A function to get the issue order from player and add to the order list
-     *
      */
     public void issueOrder(){
         boolean l_IssueCommand = false;
         String l_Commands = null;
-        while(!l_IssueCommand){
+        while (!l_IssueCommand) {
             System.out.println("List of game loop commands");
             System.out.println("To deploy the armies : deploy countryID armies");
             System.out.println("To skip: pass");
@@ -146,7 +147,7 @@ public class Player {
      *
      * @return order for executing for each player
      */
-    public Order nextOrder(){
+    public Order nextOrder() {
         return d_Orders.poll();
     }
 
@@ -154,7 +155,7 @@ public class Player {
      * A function to check if the country exists in the list of player assigned countries
      *
      * @param p_Country The country to be checked if present
-     * @param p_Player The Player for whom the function is checked for
+     * @param p_Player  The Player for whom the function is checked for
      * @return true if country exists in the assigned country list else false
      */
     public boolean checkIfCountryExists(String p_Country, Player p_Player) {
@@ -182,16 +183,41 @@ public class Player {
     }
 
     /**
-     *  A function to create a list of countries assigned to player in a formatted string
+     * A function to create a list of countries assigned to player in a formatted string
      *
      * @param p_Capture The list of countries of the player
      * @return the formatted string
      */
-    public String createACaptureList(List<Country>  p_Capture) {
+    public String createACaptureList(List<Country> p_Capture) {
         String l_Result = "";
-        for (Country l_Capture : p_Capture ){
+        for (Country l_Capture : p_Capture) {
             l_Result += l_Capture.getName() + "-";
         }
-        return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1): "";
+        return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
+    }
+
+    public void calculateReinforcementArmies(GameMap p_gameMap) {
+        if (getCapturedCountries().size() > 0) {
+            int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
+            reinforcements += getBonusIfKingOfContinents(p_gameMap);
+            setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
+            System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        } else {
+            setReinforcementArmies(3);
+            System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        }
+    }
+
+    private int getBonusIfKingOfContinents(GameMap p_gameMap) {
+        int reinforcements = 0;
+        Map<String, List<Country>> l_CountryMap = getCapturedCountries()
+                .stream()
+                .collect(Collectors.groupingBy(Country::getContinent));
+        for (String continent : l_CountryMap.keySet()) {
+            if (p_gameMap.getContinent(continent).getCountries().size() == l_CountryMap.get(continent).size()) {
+                reinforcements += p_gameMap.getContinent(continent).getAwardArmies();
+            }
+        }
+        return reinforcements;
     }
 }
