@@ -208,9 +208,9 @@ public class MapValidation {
          */
         private void dfsTraversal(int p_Node, Boolean[] p_Visited) {
             p_Visited[p_Node] = true;
-            for (Integer integer : (Iterable<Integer>) d_Edges[p_Node]) {
+            for (Integer l_Integer : (Iterable<Integer>) d_Edges[p_Node]) {
                 int l_NextNode;
-                l_NextNode = integer;
+                l_NextNode = l_Integer;
                 if (!p_Visited[l_NextNode]) {
                     dfsTraversal(l_NextNode, p_Visited);
                 }
@@ -256,8 +256,8 @@ public class MapValidation {
 
             l_Graph.dfsTraversal(0, l_Visited);
 
-            for (int i = 0; i < d_Vertices; i++) {
-                if (!l_Visited[i]) {
+            for (int l_i = 0; l_i < d_Vertices; l_i++) {
+                if (!l_Visited[l_i]) {
                     return false;
                 }
             }
@@ -305,16 +305,16 @@ public class MapValidation {
 
         int l_NoOfVertices = l_ListOfCountries.size();
         ConnectedGraph l_Graph = new ConnectedGraph(l_NoOfVertices);
-        int temp = 0;
+        int l_Temp = 0;
         for (Map.Entry<String, Country> l_Country : p_Countries.entrySet()) {
             Set<Country> l_Neighbors = l_Country.getValue().getNeighbors();
             for (Country l_Current : l_Neighbors) {
                 int l_Index = l_ListOfCountries.indexOf(l_Current.getName().toLowerCase());
                 if(l_Index != -1){
-                    l_Graph.addEdge(temp, l_Index);
+                    l_Graph.addEdge(l_Temp, l_Index);
                 }
             }
-            temp++;
+            l_Temp++;
         }
         return checkMapConnectivity(l_Graph);
     }
