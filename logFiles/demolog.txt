@@ -1,0 +1,32 @@
+ STARTUP PHASE 
+
+Added Continent: AFRICA
+Added Continent: ASIA
+Added Continent: USA
+Added Continent: ANTARTICA
+Added Continent: AUSTRALIA
+Added Country: Pak
+Added Country: india
+Added Country: NY
+Added Country: penquin
+Added Country: Melbourne
+Connected neighbors: penquin - india
+Connected neighbors: penquin - Melbourne
+Connected neighbors: Pak - india
+Connected neighbors: Pak - NY
+Connected neighbors: NY - Pak
+Connected neighbors: india - Pak
+Connected neighbors: india - penquin
+Connected neighbors: Melbourne - penquin
+Added Player: qwerty
+Added Player: uiop
+Melbourne Assigned to uiop
+Pak Assigned to qwerty
+NY Assigned to uiop
+penquin Assigned to qwerty
+india Assigned to uiop
+The Player:uiop is assigned with 22 armies.
+The Player:qwerty is assigned with 17 armies.
+
+ ISSUE ORDER PHASE 
+
