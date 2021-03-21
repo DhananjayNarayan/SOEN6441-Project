@@ -18,6 +18,7 @@ public class IssueOrder implements GameController {
     GameMap d_GameMap;
     private final static Scanner Scanner = new Scanner(System.in);
     private static Map<Player, Boolean> PlayerMap = new HashMap<>();
+    public static String Commands = null;
     
     /**
      * Constructor to get the GameMap instance
@@ -47,8 +48,25 @@ public class IssueOrder implements GameController {
                     for(Country l_Country : l_Player.getCapturedCountries() ){
                         System.out.println(l_Country.getName() + " ");
                     }
-                    System.out.println("==================================================================================");
-                    l_Player.issueOrder();
+                    System.out.println("=================================================================================");
+                    boolean l_IssueCommand = false;
+                    while (!l_IssueCommand) {
+                        System.out.println("List of game loop commands");
+                        System.out.println("To deploy the armies : deploy countryID armies");
+                        System.out.println("To skip: pass");
+                        System.out.println("Please enter the correct command");
+                        System.out.println("=============================================================================");
+                        Commands = ReadFromPlayer();
+                        l_IssueCommand = ValidateCommand(Commands, l_Player);
+                        if(Commands.equals("pass")) {
+                            break;
+                        }
+                    }
+                    if(!Commands.equals("pass")) {
+                        l_Player.issueOrder();
+                        System.out.println("The order has been had to the list of orders.");
+                        System.out.println("=============================================================================");
+                    }
                 }
             }
             return p_GamePhase.nextState(d_NextGamePhase);

@@ -31,7 +31,7 @@ public class DeployOrder extends Order {
         Player l_Player = getOrderInfo().getPlayer();
         String l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
-        System.out.println("--------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------");
         System.out.println("The order: " + getType() + " " + getOrderInfo().getDestination() + " " + getOrderInfo().getNumberOfArmy());
         if(validateCommand()){
             for(Country l_Country : l_Player.getCapturedCountries()){
@@ -73,7 +73,7 @@ public class DeployOrder extends Order {
      */
     public void printOrderCommand(){
         System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination() + ".");
-        System.out.println("--------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------");
     }
 
 }

@@ -54,26 +54,18 @@ public abstract class Order {
      *
      * @return false as there is not order to be executed
      */
-    public boolean execute() {
-        System.out.println("Void order is not able to execute.");
-        return false;
-    }
+    public abstract boolean execute();
 
     /**
      *
      * @return true if command is valid else false
      */
-    public boolean validateCommand(){
-        System.out.println("Invalid Command.");
-        return false;
-    }
+    public abstract boolean validateCommand();
 
     /**
      *
      */
-    public void printOrderCommand(){
-        System.out.println("Default Order.");
-    }
+    public abstract void printOrderCommand();
 
 }
 
