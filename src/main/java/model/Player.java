@@ -119,26 +119,8 @@ public class Player {
      * A function to get the issue order from player and add to the order list
      */
     public void issueOrder(){
-        boolean l_IssueCommand = false;
-        String l_Commands = null;
-        while (!l_IssueCommand) {
-            System.out.println("List of game loop commands");
-            System.out.println("To deploy the armies : deploy countryID armies");
-            System.out.println("To skip: pass");
-            System.out.println("Please enter the correct command");
-            System.out.println("=========================================================================================");
-            l_Commands = IssueOrder.ReadFromPlayer();
-            l_IssueCommand = IssueOrder.ValidateCommand(l_Commands, this);
-            if(l_Commands.equals("pass")) {
-                break;
-            }
-        }
-        if(!l_Commands.equals("pass")){
-            Order l_Order = OrderCreater.CreateOrder(l_Commands.split(" "), this);
-            addOrder(l_Order);
-            System.out.println("Your Order has been added to the list.");
-            System.out.println("=========================================================================================");
-        }
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), this);
+        addOrder(l_Order);
     }
 
 
