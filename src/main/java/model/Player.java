@@ -3,7 +3,7 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
-
+import utils.LogEntryBuffer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,6 +24,7 @@ public class Player {
     private List<Country> d_CapturedCountries = new ArrayList<>();
     private Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
+    LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
      * A function to get the player ID
@@ -184,9 +185,12 @@ public class Player {
             reinforcements += getBonusIfKingOfContinents(p_gameMap);
             setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
             System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+            d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
         } else {
             setReinforcementArmies(3);
             System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+            d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+
         }
     }
 
