@@ -50,7 +50,8 @@ public class SaveMap {
             }
             PrintWriter l_WriteData = null;
             try {
-                l_WriteData = new PrintWriter("maps/" + p_Name + ".map");
+                final String PATH = "maps/";
+                l_WriteData = new PrintWriter(PATH + p_Name + ".map");
                 l_WriteData.println(l_MapData);
                 return true;
             } catch (Exception ex) {
