@@ -5,6 +5,7 @@ import model.GameMap;
 import model.GamePhase;
 import model.Player;
 import model.order.Order;
+import utils.LogEntryBuffer;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -20,7 +21,7 @@ public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.Reinforcement;
     GamePhase d_GamePhase = GamePhase.ExecuteOrder;
     GameMap d_GameMap;
-
+    LogEntryBuffer d_leb = new LogEntryBuffer();
     /**
      * This is the default constructor
      *
@@ -39,6 +40,7 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
+        d_leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         return p_GamePhase.nextState(d_NextGamePhase);
     }
