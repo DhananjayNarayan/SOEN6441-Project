@@ -18,9 +18,9 @@ public class Card {
 
         public static String getRandomCard()
         {
-            Random random = new Random();
-            CardType c= values()[random.nextInt(values().length)];
-            return c.name();}
+            Random d_Random = new Random();
+            CardType d_Type= values()[d_Random.nextInt(values().length)];
+            return d_Type.name();}
     }
 
 
