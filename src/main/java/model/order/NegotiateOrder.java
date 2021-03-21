@@ -1,6 +1,10 @@
 package model.order;
 
+import utils.LogEntryBuffer;
+
 public class NegotiateOrder extends Order {
+
+    LogEntryBuffer d_leb = new LogEntryBuffer();
     /**
      * Constructor for class Negotiate Order
      */
@@ -26,5 +30,6 @@ public class NegotiateOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Negotiated with " + getOrderInfo().getPlayer() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
+        d_leb.logInfo("Negotiated with " + getOrderInfo().getPlayer() + ".");
     }
 }
