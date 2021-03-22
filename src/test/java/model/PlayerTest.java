@@ -1,6 +1,5 @@
 package model;
 
-import model.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +21,9 @@ public class PlayerTest extends Player {
     Player d_player = new Player();
     String d_CountryValid, d_CountryInvalid;
     List<Country> d_CapturedCountries = new ArrayList<>();
-    Country c1 = new Country();
-    Country c2 = new Country();
-    Country c3 = new Country();
+    Country d_country1 = new Country();
+    Country d_country2 = new Country();
+    Country d_country3 = new Country();
     GameMap d_GameMap = GameMap.getInstance();
 
     /**
@@ -35,22 +34,24 @@ public class PlayerTest extends Player {
     @Before
     public void setUp() throws Exception {
 
-        d_player.setId(1);
+        d_id = 1;
+        d_player.setId(d_id);
         d_Name = "Maria";
+        d_player.setName(d_Name);
 
         d_ReinforcementArmies = 10;
         d_ArmyCountValid = 5;
         d_ArmyCountInvalid = 13;
         d_player.setReinforcementArmies(d_ReinforcementArmies);
 
-        c1.setName("India");
-        c2.setName("China");
-        c3.setName("Japan");
+        d_country1.setName("India");
+        d_country2.setName("China");
+        d_country3.setName("Japan");
         d_CountryValid = "India";
         d_CountryInvalid = "Canada";
-        d_CapturedCountries.add(c1);            //add to list
-        d_CapturedCountries.add(c2);
-        d_CapturedCountries.add(c3);
+        d_CapturedCountries.add(d_country1);            //add to list
+        d_CapturedCountries.add(d_country2);
+        d_CapturedCountries.add(d_country3);
         d_player.setCapturedCountries(d_CapturedCountries);
 
     }
@@ -66,10 +67,21 @@ public class PlayerTest extends Player {
         d_GameMap.getCountries().clear();
         d_GameMap.getPlayers().clear();
     }
+
+    /**
+     * This is the test method to check the player ID
+     *
+     */
     @Test
     public void testPlayerId(){
-        int id = d_player.getId();
-        assertEquals(d_id,id);
+        int l_Id = d_player.getId();
+        assertEquals(d_id,l_Id);
+    }
+
+    @Test
+    public void testPlayerName(){
+        String l_Name = d_player.getName();
+        assertEquals(d_Name,l_Name);
     }
 
     /**
