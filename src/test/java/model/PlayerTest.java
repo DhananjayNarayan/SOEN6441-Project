@@ -1,4 +1,6 @@
 package model;
+
+import model.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,9 +15,11 @@ import static org.junit.Assert.*;
  */
 public class PlayerTest extends Player {
 
+    int d_id;
+    String d_Name;
     int d_ReinforcementArmies;
     int d_ArmyCountValid, d_ArmyCountInvalid;
-    Player p = new Player();
+    Player d_player = new Player();
     String d_CountryValid, d_CountryInvalid;
     List<Country> d_CapturedCountries = new ArrayList<>();
     Country c1 = new Country();
@@ -30,10 +34,14 @@ public class PlayerTest extends Player {
      */
     @Before
     public void setUp() throws Exception {
+
+        d_player.setId(1);
+        d_Name = "Maria";
+
         d_ReinforcementArmies = 10;
         d_ArmyCountValid = 5;
         d_ArmyCountInvalid = 13;
-        p.setReinforcementArmies(d_ReinforcementArmies);
+        d_player.setReinforcementArmies(d_ReinforcementArmies);
 
         c1.setName("India");
         c2.setName("China");
@@ -43,7 +51,8 @@ public class PlayerTest extends Player {
         d_CapturedCountries.add(c1);            //add to list
         d_CapturedCountries.add(c2);
         d_CapturedCountries.add(c3);
-        p.setCapturedCountries(d_CapturedCountries);
+        d_player.setCapturedCountries(d_CapturedCountries);
+
     }
 
     /**
@@ -57,13 +66,19 @@ public class PlayerTest extends Player {
         d_GameMap.getCountries().clear();
         d_GameMap.getPlayers().clear();
     }
+    @Test
+    public void testPlayerId(){
+        int id = d_player.getId();
+        assertEquals(d_id,id);
+    }
+
     /**
      * This is the test method to check if Country exists
      *
      */
     @Test
     public void testValidCheckIfCountryExists() {
-        assertTrue(p.checkIfCountryExists(d_CountryValid,p));
+        assertTrue(d_player.checkIfCountryExists(d_CountryValid,d_player));
     }
     /**
      * This is the test method to check if Country does not exist
@@ -71,7 +86,7 @@ public class PlayerTest extends Player {
      */
     @Test
     public void testInvalidCheckIfCountryExists() {
-        assertFalse(p.checkIfCountryExists(d_CountryInvalid,p));
+        assertFalse(d_player.checkIfCountryExists(d_CountryInvalid,d_player));
     }
     /**
      * This is the test method to check the valid deployment of armies
@@ -79,7 +94,7 @@ public class PlayerTest extends Player {
      */
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
-        assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
+        assertTrue(d_player.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
     }
     /**
      * This is the test method to check the invalid deployment of armies
@@ -87,7 +102,7 @@ public class PlayerTest extends Player {
      */
     @Test
     public void testInvalidDeployReinforcementArmiesFromPlayer() {
-        assertFalse(p.deployReinforcementArmiesFromPlayer(d_ArmyCountInvalid));
+        assertFalse(d_player.deployReinforcementArmiesFromPlayer(d_ArmyCountInvalid));
     }
 }
 
