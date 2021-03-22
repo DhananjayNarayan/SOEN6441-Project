@@ -1,7 +1,7 @@
 package controller;
 import model.*;
 import java.util.*;
-
+import utils.LogEntryBuffer;
 /**
  *  Class which is the controller for the Issue Order phase
  *
@@ -19,7 +19,7 @@ public class IssueOrder implements GameController {
     private final static Scanner Scanner = new Scanner(System.in);
     private static Map<Player, Boolean> PlayerMap = new HashMap<>();
     public static String Commands = null;
-    
+    LogEntryBuffer d_leb = new LogEntryBuffer();
     /**
      * Constructor to get the GameMap instance
      */
@@ -37,6 +37,7 @@ public class IssueOrder implements GameController {
         @Override
         public GamePhase start(GamePhase p_GamePhase) throws Exception {
             d_GamePhase = p_GamePhase;
+            d_leb.logInfo("\n ISSUE ORDER PHASE \n");
             while (!(PlayerMap.size() == d_GameMap.getPlayers().size())) {
                 for (Player l_Player : d_GameMap.getPlayers().values()) {
                     if(!PlayerMap.isEmpty() && PlayerMap.containsKey(l_Player)){

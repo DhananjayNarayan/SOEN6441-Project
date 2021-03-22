@@ -5,6 +5,11 @@ import utils.SaveMap;
 import utils.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
+import utils.LogEntryBuffer;
+
+
+
+
 
 /**
  * Concrete Class to set and get all the properties of the GameMap.
@@ -23,6 +28,7 @@ public class GameMap {
     private HashMap<String, Player> d_Players = new HashMap<>();
     private String d_Name;
     private String d_ErrorMessage;
+    LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
      * Default Constructor
@@ -165,6 +171,9 @@ public class GameMap {
         l_Continent.setAwardArmies(Integer.parseInt(p_ControlValue));
         this.getContinents().put(p_ContinentName, l_Continent);
         System.out.println("Successfully added Continent: " + p_ContinentName);
+        d_leb.logInfo("Added Continent: " + p_ContinentName);
+
+
     }
 
     /**
@@ -186,6 +195,7 @@ public class GameMap {
         this.getCountries().put(p_CountryName, l_Country);
         this.getContinent(p_ContinentName).getCountries().add(l_Country);
         System.out.println("Successfully added Country: " + p_CountryName);
+        d_leb.logInfo("Added Country: " + p_CountryName);
     }
 
     /**
@@ -208,6 +218,7 @@ public class GameMap {
             this.getCountries().remove(l_CountryName);
         }
         System.out.println("Successfully deleted the continent: " + p_ContinentName);
+        d_leb.logInfo("Deleted the continent: " + p_ContinentName);
     }
 
     /**
@@ -225,6 +236,11 @@ public class GameMap {
         this.getContinent(l_Country.getContinent()).getCountries().remove(l_Country);
         this.getCountries().remove(l_Country.getName());
         System.out.println("Successfully deleted the country");
+        d_leb.logInfo("Deleted the country"+ p_CountryName);
+
+
+
+
     }
 
     /**
@@ -242,6 +258,7 @@ public class GameMap {
         }
         l_Country1.getNeighbors().add(l_Country2);
         System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
+        d_leb.logInfo("Connected neighbors: "+ p_CountryName+" - "+ p_NeighborCountryName);
     }
 
 
@@ -262,6 +279,11 @@ public class GameMap {
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
+            d_leb.logInfo("Removed neighbors: "+ p_CountryName+" - "+ p_NeighborCountryName);
+
+
+
+
         }
     }
 
@@ -279,6 +301,7 @@ public class GameMap {
         l_Player.setName(p_PlayerName);
         this.getPlayers().put(p_PlayerName, l_Player);
         System.out.println("Successfully added Player: " + p_PlayerName);
+        d_leb.logInfo("Added Player: " + p_PlayerName);
     }
 
     /**
@@ -294,6 +317,11 @@ public class GameMap {
         }
         this.getPlayers().remove(l_Player.getName());
         System.out.println("Successfully deleted the player: " + p_PlayerName);
+        d_leb.logInfo("Deleted the player: " + p_PlayerName);
+
+
+
+
     }
 
     /**
@@ -313,6 +341,7 @@ public class GameMap {
                 } else {
                     if (l_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
                         System.out.println("The map has been validated and is saved.");
+                        d_leb.logInfo("The map has been validated and is saved.");
                     } else {
                         throw new ValidationException("Map name already exists, enter different name.");
                     }
@@ -331,17 +360,19 @@ public class GameMap {
         int l_PlayerIndex = 0;
         List<Player> l_Players = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
 
-        List<Country> l_CountryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());  //get all countries from each continent
+        List<Country> l_CountryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());
         Collections.shuffle(l_CountryList);
         for (int i = 0; i < l_CountryList.size(); i++) {
-            Country l_Country = l_CountryList.get(i);                // loop for get each country of the map
-            Player l_Player = l_Players.get(l_PlayerIndex);          // find the corresponding player by the order of the player
+            Country l_Country = l_CountryList.get(i);
+            Player l_Player = l_Players.get(l_PlayerIndex);
             l_Player.getCapturedCountries().add(l_Country);
             l_Country.setPlayer(l_Player);
             System.out.println(l_Country.getName() + " Assigned to " + l_Player.getName());
-            if (l_PlayerIndex < d_GameMap.getPlayers().size() - 1) {     //if not all players get a new country in this round
+            d_leb.logInfo(l_Country.getName() + " Assigned to " + l_Player.getName());
+
+            if (l_PlayerIndex < d_GameMap.getPlayers().size() - 1) {
                 l_PlayerIndex++;
-            } else {                                         //if all players get a new counter in this round, start from player 1
+            } else {
                 l_PlayerIndex = 0;
             }
         }
