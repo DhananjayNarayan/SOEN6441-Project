@@ -1,6 +1,5 @@
 package model.order;
 
-import model.Card;
 import model.Country;
 import model.Player;
 
@@ -17,20 +16,28 @@ import java.util.List;
 public class OrderInfo {
 
     private Player d_Player;
-
-    public String getPlayerName() {
-        return d_PlayerName;
-    }
-
-    public void setPlayerName(String d_PlayerName) {
-        this.d_PlayerName = d_PlayerName;
-    }
-
     private String d_PlayerName;
     private Country d_Departure;
     private String d_Destination;
     private int d_NumberOfArmy;
-    private String d_Card;
+
+    /**
+     * A function to set the players Name
+     *
+     * @return the players Name
+     */
+    public String getPlayerName() {
+        return d_PlayerName;
+    }
+
+    /**
+     * A function to set players name
+     *
+     * @param d_PlayerName the players name
+     */
+    public void setPlayerName(String d_PlayerName) {
+        this.d_PlayerName = d_PlayerName;
+    }
 
     /**
      * A function to get the player information
@@ -95,14 +102,6 @@ public class OrderInfo {
      */
     public void setNumberOfArmy(int p_NumberOfArmy) {
         this.d_NumberOfArmy = p_NumberOfArmy;
-    }
-
-    public void setTheCard(String p_ListOfCards){
-        d_Card = p_ListOfCards;
-    }
-
-    public String getTheCard(){
-        return d_Card;
     }
 
 }

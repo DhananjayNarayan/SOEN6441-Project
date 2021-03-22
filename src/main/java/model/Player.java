@@ -6,6 +6,7 @@ import model.order.OrderCreater;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import utils.LogEntryBuffer;
 
 /**
  * Concrete class with the details of the player
@@ -26,6 +27,7 @@ public class Player {
     private int d_ReinforcementArmies;
     private List<Card> d_PlayerCards = new ArrayList<>();
     private List<Player> d_NeutralPlayers = new ArrayList<>();
+    LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
      * A function to get the player ID
@@ -117,25 +119,41 @@ public class Player {
         this.d_ReinforcementArmies = p_AssignedArmies;
     }
 
+    /**
+     * A function to get list of all cards for the player
+     *
+     * @return list of all cards
+     */
     public List<Card> getPlayerCards() {
         return d_PlayerCards;
     }
 
-    public void setPlayerCards(List<Card> p_PlayerCards){
-        d_PlayerCards = p_PlayerCards;
-    }
-
+    /**
+     * Add the card to the player on conquering the territory
+     *
+     * @param p_Card card to be added to player
+     */
     public void addPlayerCard(Card p_Card){
         d_PlayerCards.add(p_Card);
     }
+
+    /**
+     * Get the list of all players you cannot attack
+     *
+     * @return list of players
+     */
     public List<Player> getNeutralPlayers() {
         return d_NeutralPlayers;
     }
 
+    /**
+     * Add the neutral player to the list
+     *
+     * @param p_NeutralPlayer The player you cannot attack
+     */
     public void addNeutralPlayers(Player p_NeutralPlayer) {
         d_NeutralPlayers.add(p_NeutralPlayer);
     }
-
 
     /**
      * A function to get the issue order from player and add to the order list
@@ -185,15 +203,18 @@ public class Player {
         return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
     }
 
+
     public void calculateReinforcementArmies(GameMap p_gameMap) {
         if (getCapturedCountries().size() > 0) {
             int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
             reinforcements += getBonusIfKingOfContinents(p_gameMap);
             setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
             System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+            d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
         } else {
             setReinforcementArmies(3);
             System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+            d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
         }
     }
 

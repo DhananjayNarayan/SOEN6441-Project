@@ -62,7 +62,6 @@ public class OrderCreater {
     private static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setPlayer(p_Player);
-        l_OrderInfo.setTheCard(p_Command[0]);
         l_OrderInfo.setPlayerName(p_Command[1]);
         return l_OrderInfo;
     }

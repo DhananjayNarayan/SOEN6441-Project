@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class Card {
 
-    private final String d_CardType;
+    private String d_CardType;
 
     /**
      * This is an Enum for Card Type
@@ -54,6 +54,15 @@ public class Card {
      */
     public String getCardType() {
             return d_CardType;
+    }
+
+    /**
+     * A method to set the card
+     *
+     * @param p_CardType The card type
+     */
+    public void setCardType(String p_CardType){
+        d_CardType = p_CardType;
     }
 }
 
