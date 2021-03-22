@@ -57,26 +57,6 @@ public class PlayerTest extends Player {
         d_GameMap.getCountries().clear();
         d_GameMap.getPlayers().clear();
     }
-    /**
-     * This is the test method to check if Country exists
-     *
-     */
-    @Test
-    public void testValidCheckIfCountryExists() {
-        assertTrue(p.checkIfCountryExists(d_CountryValid,p));
-    }
-    /**
-     * This is the test method to check if Country does not exist
-     *
-     */
-    @Test
-    public void testInvalidCheckIfCountryExists() {
-        assertFalse(p.checkIfCountryExists(d_CountryInvalid,p));
-    }
-    /**
-     * This is the test method to check the valid deployment of armies
-     *
-     */
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
         assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));

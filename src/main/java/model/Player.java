@@ -3,9 +3,10 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
-import utils.LogEntryBuffer;
+
 import java.util.*;
 import java.util.stream.Collectors;
+import utils.LogEntryBuffer;
 
 /**
  * Concrete class with the details of the player
@@ -24,6 +25,8 @@ public class Player {
     private List<Country> d_CapturedCountries = new ArrayList<>();
     private Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
+    private List<Card> d_PlayerCards = new ArrayList<>();
+    private List<Player> d_NeutralPlayers = new ArrayList<>();
     LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
@@ -117,6 +120,42 @@ public class Player {
     }
 
     /**
+     * A function to get list of all cards for the player
+     *
+     * @return list of all cards
+     */
+    public List<Card> getPlayerCards() {
+        return d_PlayerCards;
+    }
+
+    /**
+     * Add the card to the player on conquering the territory
+     *
+     * @param p_Card card to be added to player
+     */
+    public void addPlayerCard(Card p_Card){
+        d_PlayerCards.add(p_Card);
+    }
+
+    /**
+     * Get the list of all players you cannot attack
+     *
+     * @return list of players
+     */
+    public List<Player> getNeutralPlayers() {
+        return d_NeutralPlayers;
+    }
+
+    /**
+     * Add the neutral player to the list
+     *
+     * @param p_NeutralPlayer The player you cannot attack
+     */
+    public void addNeutralPlayers(Player p_NeutralPlayer) {
+        d_NeutralPlayers.add(p_NeutralPlayer);
+    }
+
+    /**
      * A function to get the issue order from player and add to the order list
      */
     public void issueOrder(){
@@ -134,22 +173,7 @@ public class Player {
         return d_Orders.poll();
     }
 
-    /**
-     * A function to check if the country exists in the list of player assigned countries
-     *
-     * @param p_Country The country to be checked if present
-     * @param p_Player  The Player for whom the function is checked for
-     * @return true if country exists in the assigned country list else false
-     */
-    public boolean checkIfCountryExists(String p_Country, Player p_Player) {
-        List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
-        for (Country l_Country : l_ListOfCountries) {
-            if (l_Country.getName().equals(p_Country)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     /**
      * A function to check if the army to deployed is valid
@@ -179,6 +203,7 @@ public class Player {
         return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
     }
 
+
     public void calculateReinforcementArmies(GameMap p_gameMap) {
         if (getCapturedCountries().size() > 0) {
             int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
@@ -190,7 +215,6 @@ public class Player {
             setReinforcementArmies(3);
             System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
             d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
-
         }
     }
 

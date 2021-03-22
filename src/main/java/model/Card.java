@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class Card {
 
-    private final String d_CardType;
+    private String d_CardType;
 
     /**
      * This is an Enum for Card Type
@@ -33,7 +33,8 @@ public class Card {
         {
             Random d_Random = new Random();
             CardType d_Type= values()[d_Random.nextInt(values().length)];
-            return d_Type.name();}
+            return d_Type.name();
+        }
     }
 
     /**
@@ -52,9 +53,16 @@ public class Card {
      * @return the Card Type
      */
     public String getCardType() {
-
             return d_CardType;
+    }
 
+    /**
+     * A method to set the card
+     *
+     * @param p_CardType The card type
+     */
+    public void setCardType(String p_CardType){
+        d_CardType = p_CardType;
     }
 }
 

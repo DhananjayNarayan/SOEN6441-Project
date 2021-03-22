@@ -4,6 +4,8 @@ import model.Country;
 import model.Player;
 import utils.LogEntryBuffer;
 
+import java.util.List;
+
 /**
  * Class DeployOrder which is a child of Order, used to execute the orders
  *
@@ -56,10 +58,10 @@ public class DeployOrder extends Order {
         String l_Destination = getOrderInfo().getDestination();
         int l_Reinforcements = getOrderInfo().getNumberOfArmy();
         if (l_Player == null || l_Destination == null) {
-            System.out.println("Fail to execute Deploy order: Invalid order information.");
+            System.out.println("Invalid order information.");
             return false;
         }
-        if (!l_Player.checkIfCountryExists(l_Destination,l_Player)) {
+        if (checkIfCountryExists(l_Destination,l_Player)) {
             System.out.println("The country does not belong to you");
             return false;
         }
@@ -68,6 +70,22 @@ public class DeployOrder extends Order {
             return false;
         }
         return  true;
+    }
+    /**
+     * A function to check if the country exists in the list of player assigned countries
+     *
+     * @param p_Country The country to be checked if present
+     * @param p_Player  The Player for whom the function is checked for
+     * @return true if country exists in the assigned country list else false
+     */
+    private boolean checkIfCountryExists(String p_Country, Player p_Player) {
+        List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
+        for (Country l_Country : l_ListOfCountries) {
+            if (l_Country.getName().equals(p_Country)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
