@@ -78,6 +78,10 @@ public class PlayerTest extends Player {
         assertEquals(d_Id,l_Id);
     }
 
+    /**
+     * This is the test method to check the player Name
+     *
+     */
     @Test
     public void testPlayerName(){
         String l_Name = d_Player.getName();
