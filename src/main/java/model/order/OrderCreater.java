@@ -26,6 +26,10 @@ public class OrderCreater {
                 l_Order = new DeployOrder();
                 l_Order.setOrderInfo(GenerateDeployOrderInfo(p_commands, player));
                 break;
+            case "negotiate":
+                l_Order = new NegotiateOrder();
+                l_Order.setOrderInfo(GenerateNegotiateOrderInfo(p_commands, player));
+                break;
             default:
                 System.out.println("\nFailed to create an order due to invalid arguments");
                 l_Order = null;
@@ -48,5 +52,21 @@ public class OrderCreater {
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
         return l_OrderInfo;
     }
+
+    /**
+     * A function to generate the information of Negotiate order
+     * @param p_Command the command entered
+     * @param p_Player object parameter of type Player
+     * @return the order information of deploy
+     */
+    private static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
+        OrderInfo l_OrderInfo = new OrderInfo();
+        l_OrderInfo.setPlayer(p_Player);
+        l_OrderInfo.setTheCard(p_Command[0]);
+        l_OrderInfo.setPlayerName(p_Command[1]);
+        return l_OrderInfo;
+    }
+
+
 
 }

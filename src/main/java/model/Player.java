@@ -24,6 +24,8 @@ public class Player {
     private List<Country> d_CapturedCountries = new ArrayList<>();
     private Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
+    private List<Card> d_PlayerCards = new ArrayList<>();
+    private List<Player> d_NeutralPlayers = new ArrayList<>();
 
     /**
      * A function to get the player ID
@@ -115,6 +117,26 @@ public class Player {
         this.d_ReinforcementArmies = p_AssignedArmies;
     }
 
+    public List<Card> getPlayerCards() {
+        return d_PlayerCards;
+    }
+
+    public void setPlayerCards(List<Card> p_PlayerCards){
+        d_PlayerCards = p_PlayerCards;
+    }
+
+    public void addPlayerCard(Card p_Card){
+        d_PlayerCards.add(p_Card);
+    }
+    public List<Player> getNeutralPlayers() {
+        return d_NeutralPlayers;
+    }
+
+    public void addNeutralPlayers(Player p_NeutralPlayer) {
+        d_NeutralPlayers.add(p_NeutralPlayer);
+    }
+
+
     /**
      * A function to get the issue order from player and add to the order list
      */
@@ -133,22 +155,7 @@ public class Player {
         return d_Orders.poll();
     }
 
-    /**
-     * A function to check if the country exists in the list of player assigned countries
-     *
-     * @param p_Country The country to be checked if present
-     * @param p_Player  The Player for whom the function is checked for
-     * @return true if country exists in the assigned country list else false
-     */
-    public boolean checkIfCountryExists(String p_Country, Player p_Player) {
-        List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
-        for (Country l_Country : l_ListOfCountries) {
-            if (l_Country.getName().equals(p_Country)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     /**
      * A function to check if the army to deployed is valid

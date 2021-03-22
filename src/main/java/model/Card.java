@@ -33,7 +33,8 @@ public class Card {
         {
             Random d_Random = new Random();
             CardType d_Type= values()[d_Random.nextInt(values().length)];
-            return d_Type.name();}
+            return d_Type.name();
+        }
     }
 
     /**
@@ -52,9 +53,7 @@ public class Card {
      * @return the Card Type
      */
     public String getCardType() {
-
             return d_CardType;
-
     }
 }
 
