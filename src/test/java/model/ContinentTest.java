@@ -25,7 +25,7 @@ public class ContinentTest extends Continent{
 
         d_Id = "1";
         d_Continent.setId(d_Id);
-        d_Name = "Canada";
+        d_Name = "Asia";
         d_Continent.setName(d_Name);
 
     }
