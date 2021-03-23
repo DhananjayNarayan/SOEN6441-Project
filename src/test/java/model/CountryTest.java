@@ -28,6 +28,10 @@ public class CountryTest extends Country{
         d_Country.setName(d_Name);
 
     }
+    /**
+     * This is the test method to check the Country ID
+     *
+     */
 
     @Test
     public void testCountryId(){
@@ -35,6 +39,10 @@ public class CountryTest extends Country{
         assertEquals(d_Id,l_Id);
     }
 
+    /**
+     * This is the test method to check the Country Name
+     *
+     */
 
     @Test
     public void testCountryName(){
