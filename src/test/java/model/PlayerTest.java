@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +21,7 @@ public class PlayerTest extends Player {
     int d_ArmyCountValid, d_ArmyCountInvalid;
     Player p = new Player();
     String d_CountryValid, d_CountryInvalid;
-    Set<Country> d_CapturedCountries = new HashSet<>();
+    List<Country> d_CapturedCountries = new ArrayList<>();
     Country c1 = new Country();
     Country c2 = new Country();
     Country c3 = new Country();

@@ -34,16 +34,15 @@ public class AdvanceOrder extends Order {
             if (l_Player.isCaptured(l_To) || Objects.isNull(l_To.getPlayer())) {
                 l_From.depleteArmies(l_Armies);
                 l_To.deployArmies(l_Armies);
-                /*
-                 * captured countries are of Set datatype. So no need to check if it is not captured (contains in the captured list)
-                 */
-                l_Player.getCapturedCountries().add(l_To);
+                if (!l_Player.getCapturedCountries().contains(l_To)) {
+                    l_Player.getCapturedCountries().add(l_To);
+                }
                 l_To.setPlayer(l_Player);
-                System.out.println("Advanced/Moved "+ l_Armies +" from " + l_From +" to "+ l_To);
+                System.out.println("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
             } else {
                 if (d_gameStrategy.attack(l_Player, l_From, l_To, l_Armies)) {
                     l_Player.addPlayerCard(new Card());
-                    System.out.println("Attacker: "+ l_Player +" received a card");
+                    System.out.println("Attacker: " + l_Player + " received a card");
                 }
             }
         }

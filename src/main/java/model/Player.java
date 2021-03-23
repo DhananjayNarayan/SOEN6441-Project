@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class Player {
     private int d_Id;
     private String d_Name;
-    private Set<Country> d_CapturedCountries = new HashSet<>();
+    private List<Country> d_CapturedCountries = new ArrayList<>();
     private final Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
     private final List<Card> d_PlayerCards = new ArrayList<>();
-    private final Set<Player> d_NeutralPlayers = new HashSet<>();
+    private final List<Player> d_NeutralPlayers = new ArrayList<>();
     LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
@@ -70,7 +70,7 @@ public class Player {
      *
      * @return The list of captured countries
      */
-    public Set<Country> getCapturedCountries() {
+    public List<Country> getCapturedCountries() {
         return d_CapturedCountries;
     }
 
@@ -79,7 +79,7 @@ public class Player {
      *
      * @param p_CapturedCountries List of the captured countries
      */
-    public void setCapturedCountries(Set<Country> p_CapturedCountries) {
+    public void setCapturedCountries(List<Country> p_CapturedCountries) {
         this.d_CapturedCountries = p_CapturedCountries;
     }
 
@@ -97,7 +97,7 @@ public class Player {
      *
      * @param p_Order The order to be added
      */
-    private void addOrder(Order p_Order) {
+    public void addOrder(Order p_Order) {
         d_Orders.add(p_Order);
     }
 
@@ -142,7 +142,7 @@ public class Player {
      *
      * @return list of players
      */
-    public Set<Player> getNeutralPlayers() {
+    public List<Player> getNeutralPlayers() {
         return d_NeutralPlayers;
     }
 
@@ -152,7 +152,9 @@ public class Player {
      * @param p_NeutralPlayer The player you cannot attack
      */
     public void addNeutralPlayers(Player p_NeutralPlayer) {
-        d_NeutralPlayers.add(p_NeutralPlayer);
+        if (!d_NeutralPlayers.contains(p_NeutralPlayer)) {
+            d_NeutralPlayers.add(p_NeutralPlayer);
+        }
     }
 
     /**
@@ -194,7 +196,7 @@ public class Player {
      * @param p_Capture The list of countries of the player
      * @return the formatted string
      */
-    public String createACaptureList(Set<Country> p_Capture) {
+    public String createACaptureList(List<Country> p_Capture) {
         String l_Result = "";
         for (Country l_Capture : p_Capture) {
             l_Result += l_Capture.getName() + "-";
