@@ -182,7 +182,7 @@ public class Player {
      * @return true if the armies are valid and deducted from the assigned army pool else false
      */
     public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
-        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount < 0) {
+        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount <= 0) {
             return false;
         }
         d_ReinforcementArmies -= p_ArmyCount;
