@@ -110,10 +110,6 @@ public class IssueOrder implements GameController {
         }
         switch (l_CommandArr[0].toLowerCase()) {
             case "deploy":
-                if (l_CommandArr.length < 3) {
-                    System.out.println("The command syntax is invalid.");
-                    return false;
-                }
                 try {
                     Integer.parseInt(l_CommandArr[2]);
                 } catch (NumberFormatException l_Exception) {
