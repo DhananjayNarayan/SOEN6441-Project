@@ -97,7 +97,7 @@ public class Player {
      *
      * @param p_Order The order to be added
      */
-    private void addOrder(Order p_Order) {
+    public void addOrder(Order p_Order) {
         d_Orders.add(p_Order);
     }
 
@@ -182,7 +182,7 @@ public class Player {
      * @return true if the armies are valid and deducted from the assigned army pool else false
      */
     public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
-        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount < 0) {
+        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount <= 0) {
             return false;
         }
         d_ReinforcementArmies -= p_ArmyCount;

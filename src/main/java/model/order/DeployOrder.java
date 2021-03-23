@@ -61,7 +61,7 @@ public class DeployOrder extends Order {
             System.out.println("Invalid order information.");
             return false;
         }
-        if (checkIfCountryExists(l_Destination,l_Player)) {
+        if (!checkIfCountryExists(l_Destination,l_Player)) {
             System.out.println("The country does not belong to you");
             return false;
         }
