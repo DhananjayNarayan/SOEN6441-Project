@@ -3,10 +3,10 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
+import utils.LogEntryBuffer;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import utils.LogEntryBuffer;
 
 /**
  * Concrete class with the details of the player
@@ -23,10 +23,10 @@ public class Player {
     private int d_Id;
     private String d_Name;
     private List<Country> d_CapturedCountries = new ArrayList<>();
-    private Deque<Order> d_Orders = new ArrayDeque<>();
+    private final Deque<Order> d_Orders = new ArrayDeque<>();
     private int d_ReinforcementArmies;
-    private List<Card> d_PlayerCards = new ArrayList<>();
-    private List<Player> d_NeutralPlayers = new ArrayList<>();
+    private final List<Card> d_PlayerCards = new ArrayList<>();
+    private final List<Player> d_NeutralPlayers = new ArrayList<>();
     LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
@@ -133,7 +133,7 @@ public class Player {
      *
      * @param p_Card card to be added to player
      */
-    public void addPlayerCard(Card p_Card){
+    public void addPlayerCard(Card p_Card) {
         d_PlayerCards.add(p_Card);
     }
 
@@ -152,14 +152,16 @@ public class Player {
      * @param p_NeutralPlayer The player you cannot attack
      */
     public void addNeutralPlayers(Player p_NeutralPlayer) {
-        d_NeutralPlayers.add(p_NeutralPlayer);
+        if (!d_NeutralPlayers.contains(p_NeutralPlayer)) {
+            d_NeutralPlayers.add(p_NeutralPlayer);
+        }
     }
 
     /**
      * A function to get the issue order from player and add to the order list
      */
-    public void issueOrder(){
-        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), this);
+    public void issueOrder() {
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.d_Commands.split(" "), this);
         addOrder(l_Order);
     }
 
@@ -174,7 +176,6 @@ public class Player {
     }
 
 
-
     /**
      * A function to check if the army to deployed is valid
      *
@@ -182,7 +183,7 @@ public class Player {
      * @return true if the armies are valid and deducted from the assigned army pool else false
      */
     public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
-        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount <= 0) {
+        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount < 0) {
             return false;
         }
         d_ReinforcementArmies -= p_ArmyCount;
@@ -229,5 +230,15 @@ public class Player {
             }
         }
         return reinforcements;
+    }
+
+    /**
+     * A function to check if the country exists in the list of player captured countries
+     *
+     * @param p_Country The country to be checked if present
+     * @return true if country exists in the assigned country list else false
+     */
+    public boolean isCaptured(Country p_Country) {
+        return d_CapturedCountries.contains(p_Country);
     }
 }

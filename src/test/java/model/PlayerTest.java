@@ -1,10 +1,14 @@
 package model;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the functionalities for Player class
@@ -57,13 +61,14 @@ public class PlayerTest extends Player {
         d_GameMap.getCountries().clear();
         d_GameMap.getPlayers().clear();
     }
+
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
         assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
     }
+
     /**
      * This is the test method to check the invalid deployment of armies
-     *
      */
     @Test
     public void testInvalidDeployReinforcementArmiesFromPlayer() {
