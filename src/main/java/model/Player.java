@@ -97,7 +97,7 @@ public class Player {
      *
      * @param p_Order The order to be added
      */
-    private void addOrder(Order p_Order) {
+    public void addOrder(Order p_Order) {
         d_Orders.add(p_Order);
     }
 
