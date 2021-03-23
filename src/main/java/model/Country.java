@@ -192,10 +192,10 @@ public class Country {
      * @return the neighbors as String
      */
     public String createANeighborList(Set<Country> p_Neighbors){
-        String result = "";
+        String l_result = "";
         for (Country l_Neighbor : p_Neighbors ){
-            result += l_Neighbor.getName() + "-";
+            l_result += l_Neighbor.getName() + "-";
         }
-        return result.length() > 0 ? result.substring(0, result.length() - 1): "";
+        return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1): "";
     }
 }

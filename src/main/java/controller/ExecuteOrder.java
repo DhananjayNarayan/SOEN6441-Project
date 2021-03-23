@@ -5,6 +5,7 @@ import model.GameMap;
 import model.GamePhase;
 import model.Player;
 import model.order.Order;
+import utils.LogEntryBuffer;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -20,7 +21,7 @@ public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.Reinforcement;
     GamePhase d_GamePhase = GamePhase.ExecuteOrder;
     GameMap d_GameMap;
-
+    LogEntryBuffer d_leb = new LogEntryBuffer();
     /**
      * This is the default constructor
      *
@@ -28,6 +29,7 @@ public class ExecuteOrder implements GameController {
     public ExecuteOrder(){
         d_GameMap = GameMap.getInstance();
     }
+
     /**
      * This method starts the current game phase
      *
@@ -35,18 +37,18 @@ public class ExecuteOrder implements GameController {
      * @return the next game phase
      * @throws Exception when execution fails
      */
-
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        ExecuteOrders();
+        d_leb.logInfo("\n EXECUTE ORDER PHASE \n");
+        executeOrders();
         return p_GamePhase.nextState(d_NextGamePhase);
     }
 
     /**
-     * This method executes each order in the order list
+     * This method  executes each order in the order list
      */
-    private void ExecuteOrders()
+    private void executeOrders()
     {
         int l_Counter = 0;
         while(l_Counter <= d_GameMap.getPlayers().size()){
@@ -57,7 +59,9 @@ public class ExecuteOrder implements GameController {
                     l_Counter++;
                 }
                 else{
-                    l_Order.execute();
+                    if(l_Order.execute()){
+                        l_Order.printOrderCommand();
+                    }
                 }
             }
         }

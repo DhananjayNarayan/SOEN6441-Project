@@ -8,6 +8,7 @@ import utils.MapValidation;
 import utils.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
+import utils.LogEntryBuffer;
 
 /**
  * This class is used to create map using game console commands.
@@ -23,7 +24,8 @@ public class MapEditor implements GameController {
     private final Scanner SCANNER = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
-    GamePhase d_NextState = GamePhase.LoadGame;
+    GamePhase d_NextState = GamePhase.StartUp;
+    LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
      * This is the default constructor
@@ -41,10 +43,12 @@ public class MapEditor implements GameController {
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
+        d_leb.clearNewFile();
+        d_leb.logInfo("MAP EDITOR PHASE ");
         while (true) {
             System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
             String l_Input = SCANNER.nextLine();
-            List<String> l_InputList = null;
+            List<String> l_InputList;
             if (l_Input.contains("-")) {
                 l_InputList = Arrays.stream(l_Input.split("-"))
                         .filter(s -> !s.isEmpty())

@@ -31,35 +31,34 @@ public class SaveMap {
     /**
      * Save map into file as continent and country
      *
-     * @param name name of file
+     * @param p_Name name of file
      * @param p_GameMap parameter o GameMap class
      * @return boolean true if written
      */
 
-    public boolean saveMapIntoFile(GameMap p_GameMap, String name) {
-        String mapData = "[Map]\n\n[Continents]\n";
-        for (Continent continent : p_GameMap.getContinents().values()) {
-            mapData += continent.getName() + " " + continent.getAwardArmies();
-            mapData += "\n";
+    public boolean saveMapIntoFile(GameMap p_GameMap, String p_Name) {
+        String l_MapData = "[Map]\n\n[Continents]\n";
+        for (Continent l_Continent : p_GameMap.getContinents().values()) {
+            l_MapData += l_Continent.getName() + " " + l_Continent.getAwardArmies();
+            l_MapData += "\n";
         }
 
-        mapData += "[Territories]\n";
-        for (Continent continent : p_GameMap.getContinents().values()) {
-            for (Country country : p_GameMap.getCountries().values()) {
-                mapData += country.getName() + " " + country.getContinent() + " " + createANeighborList(country.getNeighbors()) + "\n";
+        l_MapData += "[Territories]\n";
+        for (Continent l_Continent : p_GameMap.getContinents().values()) {
+            for (Country l_Country : p_GameMap.getCountries().values()) {
+                l_MapData += l_Country.getName() + " " + l_Country.getContinent() + " " + createANeighborList(l_Country.getNeighbors()) + "\n";
             }
-
-            PrintWriter writeData = null;
+            PrintWriter l_WriteData = null;
             try {
-                writeData = new PrintWriter("maps/" + name + ".map");
-                writeData.println(mapData);
+                final String PATH = "maps/";
+                l_WriteData = new PrintWriter(PATH + p_Name + ".map");
+                l_WriteData.println(l_MapData);
                 return true;
             } catch (Exception ex) {
                 return false;
             } finally {
-                writeData.close();
+                l_WriteData.close();
             }
-
         }
         return true;
 

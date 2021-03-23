@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import utils.LogEntryBuffer;
 
 /**
  * This class implements the Game Controller and it executes the current phases
@@ -25,7 +26,7 @@ public class GamePlay implements GameController {
     GamePhase d_NextState = GamePhase.Reinforcement;
     private final Scanner SCANNER = new Scanner(System.in);
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
-
+    LogEntryBuffer d_leb = new LogEntryBuffer();
     /**
      * This is the default constructor
      */
@@ -109,6 +110,7 @@ public class GamePlay implements GameController {
                         if (d_GameMap.getPlayers().size() > 1) {
                             d_GameMap.assignCountries();
                         } else {
+                            d_leb.logInfo("Game ended as the minimum players are not there.");
                             throw new ValidationException("Create atleast two players");
                         }
                         break;

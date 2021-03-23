@@ -1,11 +1,11 @@
 package controller;
 
-import model.*;
+import model.GameController;
+import model.GameMap;
+import model.GamePhase;
+import model.Player;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Controller for {@code Reinforcement} phase of game.
@@ -79,23 +79,7 @@ public class Reinforcement implements GameController {
      */
     public void setReinforcementTroops() throws InvalidExecutionException {
         if (d_GamePhase.equals(GamePhase.Reinforcement)) {
-            if (d_CurrentPlayer.getCapturedCountries().size() > 0) {
-                int reinforcements = (int) Math.floor(d_CurrentPlayer.getCapturedCountries().size() / 3f);
-                Map<String, List<Country>> l_CountryMap = d_CurrentPlayer.getCapturedCountries()
-                        .stream()
-                        .collect(Collectors.groupingBy(Country::getContinent));
-                for (String continent : l_CountryMap.keySet()) {
-                    if (d_GameMap.getContinent(continent).getCountries().size() == l_CountryMap.get(continent).size()) {
-                        reinforcements += d_GameMap.getContinent(continent).getAwardArmies();
-                    }
-                }
-                d_CurrentPlayer.setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
-                System.out.println("The Player:" + d_CurrentPlayer.getName() + " is assigned with " + d_CurrentPlayer.getReinforcementArmies() + " armies.");
-            } else {
-                d_CurrentPlayer.setReinforcementArmies(3);
-                System.out.println("The Player:" + d_CurrentPlayer.getName() + " is assigned with " + d_CurrentPlayer.getReinforcementArmies() + " armies.");
-            }
-
+            d_CurrentPlayer.calculateReinforcementArmies(d_GameMap);
         } else throw new InvalidExecutionException();
     }
 }
