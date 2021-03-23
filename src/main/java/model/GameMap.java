@@ -1,14 +1,12 @@
 package model;
 
+import utils.LogEntryBuffer;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
+
 import java.util.*;
 import java.util.stream.Collectors;
-import utils.LogEntryBuffer;
-
-
-
 
 
 /**
@@ -236,9 +234,7 @@ public class GameMap {
         this.getContinent(l_Country.getContinent()).getCountries().remove(l_Country);
         this.getCountries().remove(l_Country.getName());
         System.out.println("Successfully deleted the country");
-        d_leb.logInfo("Deleted the country"+ p_CountryName);
-
-
+        d_leb.logInfo("Deleted the country" + p_CountryName);
 
 
     }
@@ -258,7 +254,7 @@ public class GameMap {
         }
         l_Country1.getNeighbors().add(l_Country2);
         System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
-        d_leb.logInfo("Connected neighbors: "+ p_CountryName+" - "+ p_NeighborCountryName);
+        d_leb.logInfo("Connected neighbors: " + p_CountryName + " - " + p_NeighborCountryName);
     }
 
 
@@ -279,9 +275,7 @@ public class GameMap {
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
             System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
-            d_leb.logInfo("Removed neighbors: "+ p_CountryName+" - "+ p_NeighborCountryName);
-
-
+            d_leb.logInfo("Removed neighbors: " + p_CountryName + " - " + p_NeighborCountryName);
 
 
         }
@@ -318,8 +312,6 @@ public class GameMap {
         this.getPlayers().remove(l_Player.getName());
         System.out.println("Successfully deleted the player: " + p_PlayerName);
         d_leb.logInfo("Deleted the player: " + p_PlayerName);
-
-
 
 
     }
@@ -460,11 +452,10 @@ public class GameMap {
                 "+---------------+-----------------------+---------------------------+%n");
 
 
-        List<Player> l_Playerss = d_GameMap.getPlayers().values().stream().collect(Collectors.toList());
         String l_Table1 = "|%-15s|%-30s|%-21d|%n";
 
 
-        for (Player l_Player : l_Playerss) {
+        for (Player l_Player : d_GameMap.getPlayers().values()) {
 
             //Iterator<Country> listIterator = continent.getCountries().iterator();
 

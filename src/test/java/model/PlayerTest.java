@@ -1,10 +1,14 @@
 package model;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.Assert.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the functionalities for Player class
@@ -17,7 +21,7 @@ public class PlayerTest extends Player {
     int d_ArmyCountValid, d_ArmyCountInvalid;
     Player p = new Player();
     String d_CountryValid, d_CountryInvalid;
-    List<Country> d_CapturedCountries = new ArrayList<>();
+    Set<Country> d_CapturedCountries = new HashSet<>();
     Country c1 = new Country();
     Country c2 = new Country();
     Country c3 = new Country();
@@ -57,13 +61,14 @@ public class PlayerTest extends Player {
         d_GameMap.getCountries().clear();
         d_GameMap.getPlayers().clear();
     }
+
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
         assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
     }
+
     /**
      * This is the test method to check the invalid deployment of armies
-     *
      */
     @Test
     public void testInvalidDeployReinforcementArmiesFromPlayer() {

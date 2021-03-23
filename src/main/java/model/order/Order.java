@@ -16,6 +16,7 @@ public abstract class Order {
 
     /**
      * A function to get order information
+     *
      * @return the order information in an object
      */
     public OrderInfo getOrderInfo() {
@@ -57,7 +58,6 @@ public abstract class Order {
     public abstract boolean execute();
 
     /**
-     *
      * @return true if command is valid else false
      */
     public abstract boolean validateCommand();
