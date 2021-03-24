@@ -33,14 +33,14 @@ public class BombOrder extends Order{
     @Override
     public boolean execute() {
         Player l_Player = getOrderInfo().getPlayer();
-        Country l_Country = getOrderInfo().getTargetCountry();
+        Country l_TargetCountry = getOrderInfo().getTargetCountry();
         if (validateCommand()) {
-            int l_Armies = l_Country.getArmies();
+            int l_Armies = l_TargetCountry.getArmies();
             int l_NewArmies = l_Armies/2;
             if (l_NewArmies<0){
                 l_NewArmies = 0;
             }
-            l_Country.setArmies(l_NewArmies);
+            l_TargetCountry.setArmies(l_NewArmies);
             l_Player.removeCard(CardType.BOMB);
             return true;
         }
@@ -54,7 +54,7 @@ public class BombOrder extends Order{
     @Override
     public boolean validateCommand() {
         Player l_Player = getOrderInfo().getPlayer();
-        Country l_Country = getOrderInfo().getTargetCountry();
+        Country l_TargetCountry = getOrderInfo().getTargetCountry();
 
 
         if (l_Player == null) {
@@ -67,7 +67,7 @@ public class BombOrder extends Order{
             return false;
         }
         //check whether the target country belongs to the player
-        if(l_Player.getCapturedCountries().contains(l_Country)){
+        if(l_Player.getCapturedCountries().contains(l_TargetCountry)){
             System.out.println("The player cannot destroy armies in his own country.");
             return false;
         }
@@ -78,9 +78,9 @@ public class BombOrder extends Order{
 
         // validate that the country is adjacent to one of the neighbors of the current player
         Boolean l_Adjacent = false;
-        for (Country l_PCountry : l_Player.getCapturedCountries()) {
-            for (Country l_NCountry : l_PCountry.getNeighbors()) {
-                if (l_NCountry.getName().equals(l_Country.getName())) {
+        for (Country l_PlayerCountry : l_Player.getCapturedCountries()) {
+            for (Country l_NeighbourCountry : l_PlayerCountry.getNeighbors()) {
+                if (l_NeighbourCountry.getName().equals(l_TargetCountry.getName())) {
                     l_Adjacent = true;
                     break;
                 }

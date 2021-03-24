@@ -14,7 +14,7 @@ import utils.LogEntryBuffer;
  */
 public class BlockadeOrder extends Order {
     private GameMap d_GameMap;
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * Constructor for class Blockade Order
@@ -38,7 +38,7 @@ public class BlockadeOrder extends Order {
             l_Country.setArmies(l_Country.getArmies() * 3);
             l_Player.getCapturedCountries().remove(l_Country);
             System.out.println("The order: " + getType() + " " + l_Country);
-            d_leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry() + " by " + getOrderInfo().getPlayer());
+            d_Leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry() + " by " + getOrderInfo().getPlayer());
             l_Player.removeCard(CardType.BLOCKADE);
             return true;
         }
