@@ -19,7 +19,7 @@ import utils.LogEntryBuffer;
  */
 public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.Reinforcement;
-    GamePhase d_GamePhase = GamePhase.ExecuteOrder;
+    GamePhase d_GamePhase;
     GameMap d_GameMap;
     LogEntryBuffer d_leb = new LogEntryBuffer();
     /**
@@ -65,5 +65,6 @@ public class ExecuteOrder implements GameController {
                 }
             }
         }
+
     }
 }

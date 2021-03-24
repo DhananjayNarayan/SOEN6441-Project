@@ -1,9 +1,12 @@
 package controller;
+
 import model.*;
-import java.util.*;
 import utils.LogEntryBuffer;
+
+import java.util.*;
+
 /**
- *  Class which is the controller for the Issue Order phase
+ * Class which is the controller for the Issue Order phase
  *
  * @author Prathika Suvarna
  * @author Neona Pinto
@@ -13,73 +16,75 @@ import utils.LogEntryBuffer;
  * @version 1.0.0
  */
 public class IssueOrder implements GameController {
+    private final static Scanner SCANNER = new Scanner(System.in);
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
-    GamePhase d_GamePhase = GamePhase.IssueOrder;
+    GamePhase d_GamePhase;
     GameMap d_GameMap;
-    private final static Scanner Scanner = new Scanner(System.in);
-    private static Map<Player, Boolean> PlayerMap = new HashMap<>();
-    public static String Commands = null;
+    private static Set<Player> d_skippedPlayers = new HashSet<>();
+    public static String d_Commands = null;
     LogEntryBuffer d_leb = new LogEntryBuffer();
+
     /**
      * Constructor to get the GameMap instance
      */
     public IssueOrder() {
-            d_GameMap = GameMap.getInstance();
-        }
-        
+        d_GameMap = GameMap.getInstance();
+    }
+
     /**
      * A function to start the issue order phase
      *
-     * @param p_GamePhase  The current phase which is executing
+     * @param p_GamePhase The current phase which is executing
      * @return the next phase to be executed
-     * @throws Exception  when execution fails
+     * @throws Exception when execution fails
      */
-        @Override
-        public GamePhase start(GamePhase p_GamePhase) throws Exception {
-            d_GamePhase = p_GamePhase;
-            d_leb.logInfo("\n ISSUE ORDER PHASE \n");
-            while (!(PlayerMap.size() == d_GameMap.getPlayers().size())) {
-                for (Player l_Player : d_GameMap.getPlayers().values()) {
-                    if(!PlayerMap.isEmpty() && PlayerMap.containsKey(l_Player)){
-                        continue;
-                    }
-                    System.out.println("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
-                    System.out.println("The countries to be assigned to the player are: ");
-                    //show the cards available
-                    for(Country l_Country : l_Player.getCapturedCountries() ){
-                        System.out.println(l_Country.getName() + " ");
-                    }
-                    System.out.println("=================================================================================");
-                    boolean l_IssueCommand = false;
-                    while (!l_IssueCommand) {
-                        System.out.println("List of game loop commands");
-                        System.out.println("To deploy the armies : deploy countryID armies");
-                        System.out.println("To skip: pass");
-                        System.out.println("Please enter the correct command");
-                        System.out.println("=============================================================================");
-                        Commands = ReadFromPlayer();
-                        l_IssueCommand = ValidateCommand(Commands, l_Player);
-                        if(Commands.equals("pass")) {
-                            break;
-                        }
-                    }
-                    if(!Commands.equals("pass")) {
-                        l_Player.issueOrder();
-                        System.out.println("The order has been had to the list of orders.");
-                        System.out.println("=============================================================================");
+    @Override
+    public GamePhase start(GamePhase p_GamePhase) throws Exception {
+        d_GamePhase = p_GamePhase;
+        d_leb.logInfo("\n ISSUE ORDER PHASE \n");
+        while (!(d_skippedPlayers.size() == d_GameMap.getPlayers().size())) {
+            for (Player l_Player : d_GameMap.getPlayers().values()) {
+                if (!d_skippedPlayers.isEmpty() && d_skippedPlayers.contains(l_Player)) {
+                    continue;
+                }
+                System.out.println("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
+                System.out.println("The countries to be assigned to the player are: ");
+                //show the cards available
+                for (Country l_Country : l_Player.getCapturedCountries()) {
+                    System.out.println(l_Country.getName() + " ");
+                }
+                System.out.println("=================================================================================");
+                boolean l_IssueCommand = false;
+                while (!l_IssueCommand) {
+                    System.out.println("List of game loop commands");
+                    System.out.println("To deploy the armies : deploy countryID armies");
+                    System.out.println("To advance/attack the armies : advance countrynamefrom countynameto numarmies");
+                    System.out.println("To skip: pass");
+                    System.out.println("Please enter the correct command");
+                    System.out.println("=============================================================================");
+                    d_Commands = ReadFromPlayer();
+                    l_IssueCommand = ValidateCommand(d_Commands, l_Player);
+                    if (d_Commands.equals("pass")) {
+                        break;
                     }
                 }
+                if (!d_Commands.equals("pass")) {
+                    l_Player.issueOrder();
+                    System.out.println("The order has been had to the list of orders.");
+                    System.out.println("=============================================================================");
+                }
             }
-            return p_GamePhase.nextState(d_NextGamePhase);
         }
+        return p_GamePhase.nextState(d_NextGamePhase);
+    }
 
     /**
-     *  A function to read all the commands from player
+     * A function to read all the commands from player
      *
      * @return command entered by the player
      */
     public static String ReadFromPlayer() {
-            return Scanner.nextLine();
+        return SCANNER.nextLine();
     }
 
     /**
@@ -88,36 +93,44 @@ public class IssueOrder implements GameController {
      * @param p_CommandArr The string entered by the user
      * @return true if the command is correct else false
      */
-    public static  boolean ValidateCommand(String p_CommandArr, Player p_Player) {
+    public static boolean ValidateCommand(String p_CommandArr, Player p_Player) {
         List<String> l_Commands = Arrays.asList("deploy", "advance", "bomb", "blockade", "airlift", "negotiate");
         String[] l_CommandArr = p_CommandArr.split(" ");
-        if(p_CommandArr.toLowerCase().contains("pass")){
+        if (p_CommandArr.toLowerCase().contains("pass")) {
             AddToSetOfPlayers(p_Player);
             return false;
         }
-        if(l_CommandArr.length <=2){
+        if (!l_Commands.contains(l_CommandArr[0].toLowerCase())) {
             System.out.println("The command syntax is invalid.");
             return false;
         }
-        if(!l_Commands.contains(l_CommandArr[0].toLowerCase())){
+        if (!CheckLengthOfCommand(l_CommandArr[0], l_CommandArr.length)) {
             System.out.println("The command syntax is invalid.");
             return false;
         }
-        if(!CheckLengthOfCommand(l_CommandArr[0], l_CommandArr.length)){
-            System.out.println("The command syntax is invalid.");
-            return false;
-        }
-        switch (l_CommandArr[0].toLowerCase()){
+        switch (l_CommandArr[0].toLowerCase()) {
             case "deploy":
-                try{
+                try {
                     Integer.parseInt(l_CommandArr[2]);
-                }
-                catch (NumberFormatException l_Exception){
+                } catch (NumberFormatException l_Exception) {
                     System.out.println("The number format is invalid");
                     return false;
                 }
                 break;
-            default: break;
+            case "advance":
+                if (l_CommandArr.length < 4) {
+                    System.out.println("The command syntax is invalid.");
+                    return false;
+                }
+                try {
+                    Integer.parseInt(l_CommandArr[3]);
+                } catch (NumberFormatException l_Exception) {
+                    System.out.println("The number format is invalid");
+                    return false;
+                }
+
+            default:
+                break;
 
         }
         return true;
@@ -128,24 +141,22 @@ public class IssueOrder implements GameController {
      *
      * @param p_Player The player who has skipped his iteration for the issuing
      */
-    private static void AddToSetOfPlayers(Player p_Player){
-        PlayerMap.put(p_Player, true);
+    private static void AddToSetOfPlayers(Player p_Player) {
+        d_skippedPlayers.add(p_Player);
     }
-    
+
     /**
      * A function to check the length of each command
      *
      * @param p_Command the command to be validated
      * @return true if length is correct else false
      */
-    private static boolean CheckLengthOfCommand(String p_Command, int p_Length){
-        if(p_Command.contains("deploy") || p_Command.contains("advance")){
+    private static boolean CheckLengthOfCommand(String p_Command, int p_Length) {
+        if (p_Command.contains("deploy")) {
             return p_Length == 3;
-        }
-        else if(p_Command.contains("bomb") || p_Command.contains("blockade") || p_Command.contains("negotiate")){
+        } else if (p_Command.contains("bomb") || p_Command.contains("blockade") || p_Command.contains("negotiate")) {
             return (p_Length == 2);
-        }
-        else if(p_Command.contains("airlift")){
+        } else if (p_Command.contains("airlift") || p_Command.contains("advance")) {
             return (p_Length == 4);
         }
         return false;

@@ -3,10 +3,9 @@ package model.order;
 import model.Country;
 import model.Player;
 
-import java.util.List;
-
 /**
  * A class with the information of Order details
+ *
  * @author Neona Pinto
  * @author Dhananjay Narayan
  * @author Surya Manian
@@ -18,7 +17,8 @@ public class OrderInfo {
     private Player d_Player;
     private String d_PlayerName;
     private Country d_Departure;
-    private String d_Destination;
+    private Country d_Destination;
+    private Country d_TargetCountry;
     private int d_NumberOfArmy;
 
     /**
@@ -41,6 +41,7 @@ public class OrderInfo {
 
     /**
      * A function to get the player information
+     *
      * @return the object of player
      */
     public Player getPlayer() {
@@ -49,6 +50,7 @@ public class OrderInfo {
 
     /**
      * A function to set the player information
+     *
      * @param p_Player the object of player
      */
     public void setPlayer(Player p_Player) {
@@ -57,7 +59,8 @@ public class OrderInfo {
 
     /**
      * A function to get the departure of the armies from the order
-     * @return  the departure country object
+     *
+     * @return the departure country object
      */
     public Country getDeparture() {
         return d_Departure;
@@ -65,6 +68,7 @@ public class OrderInfo {
 
     /**
      * A function to set the departure of the armies from the order
+     *
      * @param p_Departure departure country object
      */
     public void setDeparture(Country p_Departure) {
@@ -73,23 +77,26 @@ public class OrderInfo {
 
     /**
      * A function to get where the army is going to.
+     *
      * @return the destination of armies
      */
-    public String getDestination() {
+    public Country getDestination() {
         return d_Destination;
     }
 
     /**
      * A function to set the destination of the armies
+     *
      * @param p_Destination the destination of armies
      */
-    public void setDestination(String p_Destination) {
+    public void setDestination(Country p_Destination) {
         this.d_Destination = p_Destination;
     }
 
 
     /**
      * A function to get the number of armies in the order
+     *
      * @return the number of armies
      */
     public int getNumberOfArmy() {
@@ -98,10 +105,27 @@ public class OrderInfo {
 
     /**
      * A function to set the number of armies in the order
+     *
      * @param p_NumberOfArmy the number of armies
      */
     public void setNumberOfArmy(int p_NumberOfArmy) {
         this.d_NumberOfArmy = p_NumberOfArmy;
     }
 
+    /**
+     * A function to set the target country of the order
+     * @param p_TargetCountry the target country
+     */
+    public void setTargetCountry(Country p_TargetCountry) {
+        this.d_TargetCountry = p_TargetCountry;
+    }
+
+    /**
+     * A function to get the target country of the order
+     * @return the target country
+     */
+
+    public Country getTargetCountry() {
+        return this.d_TargetCountry;
+    }
 }

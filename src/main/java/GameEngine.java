@@ -1,7 +1,10 @@
 import model.GameController;
 import model.GamePhase;
+import model.GameSettings;
+import model.strategy.DiceStrategy;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
+
 import java.util.Objects;
 
 /**
@@ -19,32 +22,33 @@ public class GameEngine {
 
     /**
      * Main method to run the game
-     * 
+     *
      * @param args passed to main if used in command line
      */
     public static void main(String[] args) {
-        new GameEngine().start();
+        GameSettings l_gameSettings = GameSettings.getInstance();
+        l_gameSettings.setStrategy(new DiceStrategy());
+        new GameEngine().start(l_gameSettings);
     }
 
     /**
      * The function which runs the whole game in phases
-     *
      */
-    public void start() {
+    public void start(GameSettings p_gameSettings) {
         try {
             if (!d_GamePhase.equals(GamePhase.ExitGame)) {
                 GameController l_GameController = d_GamePhase.getController();
-                if(Objects.isNull(l_GameController)) {
+                if (Objects.isNull(l_GameController)) {
                     throw new Exception("No Controller found");
                 }
                 d_GamePhase = l_GameController.start(d_GamePhase);
                 System.out.println("You have entered the " + d_GamePhase + " Phase.");
                 System.out.println("-----------------------------------------------------------------------------------------");
-                start();
+                start(p_gameSettings);
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {
             System.err.println(p_Exception.getMessage());
-            start();
+            start(p_gameSettings);
         } catch (Exception p_Exception) {
             p_Exception.printStackTrace();
         }
