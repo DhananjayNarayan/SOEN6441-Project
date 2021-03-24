@@ -1,6 +1,5 @@
 package model.order;
 
-import model.Card;
 import model.Country;
 import model.GameMap;
 import model.Player;
@@ -16,7 +15,7 @@ import utils.LogEntryBuffer;
  */
 public class OrderCreater {
     public static GameMap d_GameMap = GameMap.getInstance();
-    static LogEntryBuffer d_leb = new LogEntryBuffer();
+    static LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * A function to creaate an order
@@ -48,6 +47,10 @@ public class OrderCreater {
             case "airlift":
                 l_Order = new AirliftOrder();
                 l_Order.setOrderInfo(GenerateAirliftOrderInfo(p_commands, player));
+            case "bomb":
+                l_Order = new BombOrder();
+                l_Order.setOrderInfo(GenerateAdvanceOrderInfo(p_commands, player));
+                break;
             default:
                 System.out.println("\nFailed to create an order due to invalid arguments");
                 l_Order = null;
@@ -70,7 +73,7 @@ public class OrderCreater {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_Country);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
-        d_leb.logInfo("Player "+ l_OrderInfo.getPlayer().getName()+" has given an order to deploy "+l_OrderInfo.getNumberOfArmy()+" armies to "+  l_OrderInfo.getDestination().getName());
+        d_Leb.logInfo("Player "+ l_OrderInfo.getPlayer().getName()+" has given an order to deploy "+l_OrderInfo.getNumberOfArmy()+" armies to "+  l_OrderInfo.getDestination().getName());
         return l_OrderInfo;
     }
 
