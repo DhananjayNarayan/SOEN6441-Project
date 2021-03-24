@@ -53,9 +53,9 @@ public class IssueOrder implements GameController {
                     System.out.println(l_Country.getName() + " ");
                 }
                 if(!l_Player.getPlayerCards().isEmpty()){
-                    System.out.println("The Cards assigned to the Players are:");
+                    System.out.println("The Cards assigned to the Players are:" );
                     for(Card l_Card : l_Player.getPlayerCards()){
-                        System.out.println();
+                        System.out.println(l_Card.getCardType());
                     }
                 }
                 System.out.println("=================================================================================");

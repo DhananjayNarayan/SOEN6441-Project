@@ -6,7 +6,7 @@ import model.Player;
 import utils.logger.LogEntryBuffer;
 
 public class NegotiateOrder extends Order {
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
     private final GameMap d_GameMap;
 
     /**
@@ -72,6 +72,6 @@ public class NegotiateOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_leb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
+        d_Leb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
     }
 }
