@@ -1,6 +1,6 @@
 package model;
 
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;

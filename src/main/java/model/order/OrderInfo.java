@@ -1,6 +1,5 @@
 package model.order;
 
-import model.Card;
 import model.Country;
 import model.Player;
 
@@ -39,6 +38,7 @@ public class OrderInfo {
     public void setNeutralPlayer(Player d_NeutralPlayer) {
         this.d_NeutralPlayer = d_NeutralPlayer;
     }
+
     /**
      * A function to get the player information
      *
@@ -113,19 +113,20 @@ public class OrderInfo {
     }
 
     /**
+     * A function to get the target country of the order
+     *
+     * @return the target country
+     */
+    public Country getTargetCountry() {
+        return this.d_TargetCountry;
+    }
+
+    /**
      * A function to set the target country of the order
+     *
      * @param p_TargetCountry the target country
      */
     public void setTargetCountry(Country p_TargetCountry) {
         this.d_TargetCountry = p_TargetCountry;
-    }
-
-    /**
-     * A function to get the target country of the order
-     * @return the target country
-     */
-
-    public Country getTargetCountry() {
-        return this.d_TargetCountry;
     }
 }

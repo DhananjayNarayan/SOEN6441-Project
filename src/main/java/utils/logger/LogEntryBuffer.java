@@ -1,4 +1,6 @@
-package utils;
+package utils.logger;
+
+import utils.Observable;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -6,9 +8,9 @@ import java.io.PrintWriter;
 
 /**
  * This class gets all the actions of the game. It is an Observable.
+ *
  * @author Dhananjay Narayan
  * @author Surya Manian
- *
  */
 public class LogEntryBuffer implements Observable {
 
@@ -16,6 +18,7 @@ public class LogEntryBuffer implements Observable {
 
     /**
      * This method gets the information from the game and notifies the Observer.
+     *
      * @param p_s The message to be notified
      */
     public void logInfo(String p_s) {
@@ -24,6 +27,7 @@ public class LogEntryBuffer implements Observable {
 
     /**
      * This method updates the Observer with the message.
+     *
      * @param p_s The message to be updated
      */
     public void notifyObservers(String p_s) {
@@ -35,9 +39,9 @@ public class LogEntryBuffer implements Observable {
      */
     public void clearNewFile() {
         PrintWriter l_writeData = null;
-        String l_filename ="demolog";
+        String l_filename = "demo";
         try {
-            l_writeData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_filename + ".txt", false)));
+            l_writeData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_filename + ".log", false)));
         } catch (Exception ex) {
 
         }

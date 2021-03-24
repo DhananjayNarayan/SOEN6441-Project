@@ -4,7 +4,7 @@ import model.CardType;
 import model.Country;
 import model.GameMap;
 import model.Player;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 /**
  * This class implements the bomb order card

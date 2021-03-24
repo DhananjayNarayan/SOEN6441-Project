@@ -3,7 +3,8 @@ package model.order;
 import model.Country;
 import model.GameMap;
 import model.Player;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
+
 /**
  * A class to create Orders in the game.
  *
@@ -15,10 +16,10 @@ import utils.LogEntryBuffer;
  */
 public class OrderCreater {
     public static GameMap d_GameMap = GameMap.getInstance();
-    static LogEntryBuffer d_Leb = new LogEntryBuffer();
+    static LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
-     * A function to creaate an order
+     * A function to create an order
      *
      * @param p_commands the command entered
      * @param player     object parameter of type Player
@@ -47,10 +48,6 @@ public class OrderCreater {
             case "airlift":
                 l_Order = new AirliftOrder();
                 l_Order.setOrderInfo(GenerateAirliftOrderInfo(p_commands, player));
-            case "bomb":
-                l_Order = new BombOrder();
-                l_Order.setOrderInfo(GenerateAdvanceOrderInfo(p_commands, player));
-                break;
             default:
                 System.out.println("\nFailed to create an order due to invalid arguments");
                 l_Order = null;
@@ -73,7 +70,7 @@ public class OrderCreater {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_Country);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
-        d_Leb.logInfo("Player "+ l_OrderInfo.getPlayer().getName()+" has given an order to deploy "+l_OrderInfo.getNumberOfArmy()+" armies to "+  l_OrderInfo.getDestination().getName());
+        d_leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to deploy " + l_OrderInfo.getNumberOfArmy() + " armies to " + l_OrderInfo.getDestination().getName());
         return l_OrderInfo;
     }
 
@@ -115,8 +112,9 @@ public class OrderCreater {
 
     /**
      * A function to generate information about Blockade Order
+     *
      * @param p_command the command entered
-     * @param p_player object parameter of type Player
+     * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
     private static OrderInfo GenerateBlockadeOrderInfo(String[] p_command, Player p_player) {
@@ -125,13 +123,15 @@ public class OrderCreater {
         String l_CountryID = p_command[1];
         Country l_TargetCountry = d_GameMap.getCountry(l_CountryID);
         l_OrderInfo.setTargetCountry(l_TargetCountry);
+
         return l_OrderInfo;
     }
 
     /**
      * function to generate information about Airlift Order
+     *
      * @param p_command the command entered
-     * @param p_player object parameter of type Player
+     * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
     private static OrderInfo GenerateAirliftOrderInfo(String[] p_command, Player p_player) {

@@ -5,7 +5,7 @@ import model.GameMap;
 import model.GamePhase;
 import model.Player;
 import model.order.Order;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -51,7 +51,7 @@ public class ExecuteOrder implements GameController {
      */
     private void executeOrders() {
         int l_Counter = 0;
-        while (l_Counter <= d_GameMap.getPlayers().size()) {
+        while (l_Counter < d_GameMap.getPlayers().size()) {
             l_Counter = 0;
             for (Player player : d_GameMap.getPlayers().values()) {
                 Order l_Order = player.nextOrder();

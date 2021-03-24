@@ -2,7 +2,7 @@ package model.order;
 
 import model.Country;
 import model.Player;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 /**
  * Class DeployOrder which is a child of Order, used to execute the orders

@@ -1,6 +1,7 @@
 package utils;
 
 import model.GameMap;
+import utils.logger.LogEntryBuffer;
 
 import java.io.BufferedReader;
 import java.io.File;
