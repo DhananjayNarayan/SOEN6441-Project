@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * This is the class to create card and assign the Card Type randomly
  *
@@ -17,6 +19,11 @@ public class Card {
         d_CardType = CardType.getRandomCard();
     }
 
+    public Card(CardType p_cardType) {
+        d_CardType = p_cardType;
+    }
+
+
     /**
      * This method is used to get the Card Type
      *
@@ -28,6 +35,19 @@ public class Card {
 
     public void setCardType(CardType p_cardType) {
         d_CardType = p_cardType;
+    }
+
+    @Override
+    public boolean equals(Object p_obj) {
+        if (this == p_obj) return true;
+        if (!(p_obj instanceof Card)) return false;
+        Card l_l_card = (Card) p_obj;
+        return d_CardType == l_l_card.d_CardType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(d_CardType);
     }
 }
 
