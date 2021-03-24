@@ -18,6 +18,7 @@ public class OrderInfo {
     private String d_PlayerName;
     private Country d_Departure;
     private Country d_Destination;
+    private Country d_TargetCountry;
     private int d_NumberOfArmy;
 
     /**
@@ -111,4 +112,20 @@ public class OrderInfo {
         this.d_NumberOfArmy = p_NumberOfArmy;
     }
 
+    /**
+     * A function to set the target country of the order
+     * @param p_TargetCountry the target country
+     */
+    public void setTargetCountry(Country p_TargetCountry) {
+        this.d_TargetCountry = p_TargetCountry;
+    }
+
+    /**
+     * A function to get the target country of the order
+     * @return the target country
+     */
+
+    public Country getTargetCountry() {
+        return this.d_TargetCountry;
+    }
 }
