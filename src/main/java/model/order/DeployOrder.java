@@ -35,7 +35,7 @@ public class DeployOrder extends Order {
         Country l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
         System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.println("The order: " + getType() + " " + getOrderInfo().getDestination() + " " + getOrderInfo().getNumberOfArmy());
+        System.out.println("The order: " + getType() + " " + getOrderInfo().getDestination().getName() + " " + getOrderInfo().getNumberOfArmy());
         if (validateCommand()) {
             l_Destination.deployArmies(l_ArmiesToDeploy);
             return true;
@@ -71,9 +71,9 @@ public class DeployOrder extends Order {
      * A function to print the order on completion
      */
     public void printOrderCommand() {
-        System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination() + ".");
+        System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_leb.logInfo("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination() + ".");
+        d_leb.logInfo("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
     }
 
 }
