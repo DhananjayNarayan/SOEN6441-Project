@@ -103,7 +103,7 @@ public class BombOrder extends Order{
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Bomb Order issued by player:" + getOrderInfo().getPlayer().getName() + " on Country" + getOrderInfo().getTargetCountry().getName());
+        System.out.println("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName() + " on Country: " + getOrderInfo().getTargetCountry().getName());
         System.out.println("---------------------------------------------------------------------------------------------");
 
     }
