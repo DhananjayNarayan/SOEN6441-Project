@@ -63,4 +63,26 @@ public class BlockadeOrderTest {
         }
     }
 
+    /**
+     * This function just does a simple test if the country belongs to a player or not
+     */
+    @Test
+    public void verifyIfCountryBelongsToPlayer() {
+        // if country not in country not in d_CapturedCountries, return false
+        boolean x=true;
+        boolean y=false;
+        if(country2.getPlayer() != player) {
+            System.out.println("The target country 2 does not belong to the player.Blockade will not be issued.");
+            x=false;
+        }
+        assertFalse(x);
+
+
+        if(country1.getPlayer() == player) {
+            System.out.println("The target country belongs to Player. Blockade can be issued.");
+            y=true;
+        }
+        assertTrue(y);
+    }
+
 }
