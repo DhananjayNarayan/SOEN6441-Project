@@ -14,15 +14,22 @@ import utils.LogEntryBuffer;
 public class BombOrder extends Order{
 
     private GameMap d_GameMap;
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
-    LogEntryBuffer d_leb = new LogEntryBuffer();
-
+    /**
+     * This is the Constructor for Bomb Order class
+     */
     public BombOrder() {
         super();
         setType("bomb");
         d_GameMap = GameMap.getInstance();
     }
 
+    /**
+     *  This is the execute method for bomb order
+     *
+     * @return true if the execute was successful else false
+     */
     @Override
     public boolean execute() {
         Player l_Player = getOrderInfo().getPlayer();
@@ -39,18 +46,24 @@ public class BombOrder extends Order{
         }
         return false;
     }
-
+    /**
+     * This method Contains the Validations for the bomb command
+     *
+     * @return true if successful or else false
+     */
     @Override
     public boolean validateCommand() {
         Player l_Player = getOrderInfo().getPlayer();
         Country l_Country = getOrderInfo().getTargetCountry();
 
+
         if (l_Player == null) {
             System.out.println("The Player is not valid.");
             return false;
         }
+        // validate that the player has the bomb card
         if (!l_Player.checkIfCardAvailable(CardType.BOMB)) {
-            System.out.println("Player doesn't have Blockade Card.");
+            System.out.println("Player doesn't have Bomb Card.");
             return false;
         }
         //check whether the target country belongs to the player
@@ -63,7 +76,7 @@ public class BombOrder extends Order{
 
 
 
-        // validate that the country is adjacent to one of the current player’s neighbors.
+        // validate that the country is adjacent to one of the neighbors of the current player
         Boolean l_Adjacent = false;
         for (Country l_PCountry : l_Player.getCapturedCountries()) {
             for (Country l_NCountry : l_PCountry.getNeighbors()) {
@@ -80,6 +93,10 @@ public class BombOrder extends Order{
         return true;
     }
 
+    /**
+     * This is the method to print
+     *
+     */
     @Override
     public void printOrderCommand() {
         System.out.println("Bomb Order issued by player:" + getOrderInfo().getPlayer().getName() + " on Country" + getOrderInfo().getTargetCountry().getName());
