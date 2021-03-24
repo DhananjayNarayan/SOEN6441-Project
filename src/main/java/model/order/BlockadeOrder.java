@@ -38,7 +38,7 @@ public class BlockadeOrder extends Order {
             l_Country.setArmies(l_Country.getArmies() * 3);
             l_Player.getCapturedCountries().remove(l_Country);
             System.out.println("The order: " + getType() + " " + l_Country);
-            d_leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry() + " by " + getOrderInfo().getPlayer());
+            d_leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
             l_Player.removeCard(CardType.BLOCKADE);
             return true;
         }
@@ -76,7 +76,7 @@ public class BlockadeOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer());
+        System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
         System.out.println("---------------------------------------------------------------------------------------------");
 
     }
