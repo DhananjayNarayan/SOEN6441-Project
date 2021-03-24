@@ -78,7 +78,7 @@ public class BlockadeOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
+        d_Leb.logInfo("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
 
     }
 }

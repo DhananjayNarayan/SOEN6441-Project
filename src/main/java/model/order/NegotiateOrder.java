@@ -72,6 +72,6 @@ public class NegotiateOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
+        d_Leb.logInfo("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
     }
 }

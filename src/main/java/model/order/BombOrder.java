@@ -105,7 +105,7 @@ public class BombOrder extends Order{
     public void printOrderCommand() {
         System.out.println("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName() + " on Country: " + getOrderInfo().getTargetCountry().getName());
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Bomb on" + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
+        d_Leb.logInfo("Bomb on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
     }
 }
 
