@@ -1,7 +1,5 @@
 package model.order;
 
-import model.Card;
-
 /**
  * Concrete Class to manage the orders of the players
  *
@@ -14,7 +12,6 @@ import model.Card;
  */
 public abstract class Order {
     private String d_Type;
-    private Card d_Card;
     private OrderInfo d_OrderInfo;
 
     /**
@@ -51,24 +48,6 @@ public abstract class Order {
      */
     public void setType(String p_Type) {
         this.d_Type = p_Type;
-    }
-
-    /**
-     * Getter for power card
-     *
-     * @return the respective card
-     */
-    public Card getCard() {
-        return d_Card;
-    }
-
-    /**
-     * Setter for power card
-     *
-     * @param p_card the card object
-     */
-    public void setCard(Card p_card) {
-        d_Card = p_card;
     }
 
     /**

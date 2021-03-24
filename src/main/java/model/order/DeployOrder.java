@@ -15,7 +15,7 @@ import utils.logger.LogEntryBuffer;
  * @version 1.0.0
  */
 public class DeployOrder extends Order {
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * Constructor for class DeployOrder
@@ -72,7 +72,7 @@ public class DeployOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_leb.logInfo("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
+        d_Leb.logInfo("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
     }
 
 }

@@ -11,7 +11,7 @@ import utils.logger.LogEntryBuffer;
  */
 public class AirliftOrder extends Order {
 
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
     private final GameMap d_GameMap;
 
     /**
@@ -92,7 +92,7 @@ public class AirliftOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Airlifted " + getOrderInfo().getNumberOfArmy() + " armies from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_leb.logInfo("Airlifted " + getOrderInfo().getNumberOfArmy() + " armies from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Leb.logInfo("Airlifted " + getOrderInfo().getNumberOfArmy() + " armies from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
     }
 }
 
