@@ -17,9 +17,9 @@ import java.util.List;
  */
 
 public class BlockadeOrderTest {
-    Player player = new Player();
-    Country country1= new Country();
-    Country country2= new Country();
+    Player d_player = new Player();
+    Country d_country1= new Country();
+    Country d_country2= new Country();
     List<Country> d_CapturedCountries = new ArrayList<>();
 
     /**
@@ -28,12 +28,12 @@ public class BlockadeOrderTest {
     @Before
     public void setUp() {
 
-        player.setName("Dhananjay");
-        country1.setName("India");
-        country2.setName("Pakistan");
-        country1.setPlayer(player);
-        d_CapturedCountries.add(country1);
-        player.setCapturedCountries(d_CapturedCountries);
+        d_player.setName("Dhananjay");
+        d_country1.setName("India");
+        d_country2.setName("Pakistan");
+        d_country1.setPlayer(d_player);
+        d_CapturedCountries.add(d_country1);
+        d_player.setCapturedCountries(d_CapturedCountries);
     }
 
     /**
@@ -41,24 +41,24 @@ public class BlockadeOrderTest {
      */
     @Test
     public void verifyIfArmiesUpdated() {
-        int initialArmies =10;
+        int l_initialArmies =10;
 
-        if(country1.getPlayer() == player) {
-            country1.setArmies(initialArmies);
-            System.out.println("Set armies: "+ country1.getArmies());
-            country1.setArmies(country1.getArmies()*3);
-            System.out.println("New Set armies: "+ country1.getArmies());
-            int updatedArmies = country1.getArmies();
-            System.out.println("Blockade on " + country1.getName() + " by "+player.getName());
-            assertEquals((3*initialArmies),updatedArmies);
+        if(d_country1.getPlayer() == d_player) {
+            d_country1.setArmies(l_initialArmies);
+            System.out.println("Set armies: "+ d_country1.getArmies());
+            d_country1.setArmies(d_country1.getArmies()*3);
+            System.out.println("New Set armies: "+ d_country1.getArmies());
+            int l_updatedArmies = d_country1.getArmies();
+            System.out.println("Blockade on " + d_country1.getName() + " by "+ d_player.getName());
+            assertEquals((3*l_initialArmies),l_updatedArmies);
 
             //Now checking that the country is neutral (Not belonging to the player anymore after blockade)
-            player.getCapturedCountries().remove(country1);
-            d_CapturedCountries.remove(country1);
-            System.out.println("After Blockade, Removed Country: "+country1.getName()+" for player "+player.getName());
-            assertFalse( player.getCapturedCountries().contains(country1));
-            country1.setPlayer(null);
-            System.out.println(country1.getPlayer());
+            d_player.getCapturedCountries().remove(d_country1);
+            d_CapturedCountries.remove(d_country1);
+            System.out.println("After Blockade, Removed Country: "+ d_country1.getName()+" for player "+ d_player.getName());
+            assertFalse( d_player.getCapturedCountries().contains(d_country1));
+            d_country1.setPlayer(null);
+            System.out.println(d_country1.getPlayer());
 
         }
     }
@@ -69,20 +69,20 @@ public class BlockadeOrderTest {
     @Test
     public void verifyIfCountryBelongsToPlayer() {
         // if country not in country not in d_CapturedCountries, return false
-        boolean x=true;
-        boolean y=false;
-        if(country2.getPlayer() != player) {
+        boolean l_x=true;
+        boolean l_y=false;
+        if(d_country2.getPlayer() != d_player) {
             System.out.println("The target country 2 does not belong to the player.Blockade will not be issued.");
-            x=false;
+            l_x=false;
         }
-        assertFalse(x);
+        assertFalse(l_x);
 
 
-        if(country1.getPlayer() == player) {
+        if(d_country1.getPlayer() == d_player) {
             System.out.println("The target country belongs to Player. Blockade can be issued.");
-            y=true;
+            l_y=true;
         }
-        assertTrue(y);
+        assertTrue(l_y);
     }
 
 }
