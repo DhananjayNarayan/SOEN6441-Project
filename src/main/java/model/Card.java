@@ -9,6 +9,25 @@ package model;
 public class Card {
 
     private CardType d_CardType;
+    private String d_CardId;
+
+    /**
+     * Get the card Id for the Card Object
+     *
+     * @return Card Id
+     */
+    public String getCardId() {
+        return d_CardId;
+    }
+
+    /**
+     * Set the Card Id for the Card Object
+     *
+     * @param p_CardId Card ID
+     */
+    public void setCardId(String p_CardId) {
+        this.d_CardId = p_CardId;
+    }
 
     /**
      * This is a Constructor for Class Card

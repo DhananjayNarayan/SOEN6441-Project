@@ -138,6 +138,18 @@ public class Player {
     }
 
     /**
+     * Remove the card for the player
+     *
+     * @param p_CardType card  to be removed
+     */
+    public void removeCard(Card p_CardType){
+        //needs to be tested
+        if(!d_PlayerCards.isEmpty()){
+            d_PlayerCards.remove(p_CardType);
+        }
+    }
+
+    /**
      * Get the list of all players you cannot attack
      *
      * @return list of players
@@ -154,6 +166,16 @@ public class Player {
     public void addNeutralPlayers(Player p_NeutralPlayer) {
         if (!d_NeutralPlayers.contains(p_NeutralPlayer)) {
             d_NeutralPlayers.add(p_NeutralPlayer);
+        }
+    }
+
+    /**
+     * Remove all the neutral players from list
+     *
+     */
+    public void removeNeutralPlayer(){
+        if(!d_NeutralPlayers.isEmpty()){
+            d_NeutralPlayers.clear();
         }
     }
 
@@ -241,4 +263,5 @@ public class Player {
     public boolean isCaptured(Country p_Country) {
         return d_CapturedCountries.contains(p_Country);
     }
+
 }
