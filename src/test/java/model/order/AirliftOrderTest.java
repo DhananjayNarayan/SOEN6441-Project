@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class AirliftOrderTest {
     Player d_Player = new Player();
-    Player d_player1 = new Player();
+    Player d_Player1 = new Player();
     List<Country> d_CapturedCountries = new ArrayList<>();
     Country d_CountryA= new Country();
     Country d_CountryB= new Country();
@@ -44,7 +44,7 @@ public class AirliftOrderTest {
         boolean l_A=true;
         boolean l_B=false;
         {
-            if(d_player1 != null) {
+            if(d_Player1 != null) {
                 System.out.println("The player is  valid!");
                 l_B=true;
                 assertTrue(l_B);

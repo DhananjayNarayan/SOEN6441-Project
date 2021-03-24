@@ -28,7 +28,7 @@ public class MapEditor implements GameController {
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.StartUp;
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * This is the default constructor
@@ -46,8 +46,8 @@ public class MapEditor implements GameController {
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
-        d_leb.clearNewFile();
-        d_leb.logInfo("MAP EDITOR PHASE ");
+        d_Leb.clearNewFile();
+        d_Leb.logInfo("MAP EDITOR PHASE ");
         while (true) {
             System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
             String l_Input = SCANNER.nextLine();

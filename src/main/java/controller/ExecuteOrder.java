@@ -21,7 +21,7 @@ public class ExecuteOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.Reinforcement;
     GamePhase d_GamePhase;
     GameMap d_GameMap;
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * This is the default constructor
@@ -40,7 +40,7 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_leb.logInfo("\n EXECUTE ORDER PHASE \n");
+        d_Leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
         return p_GamePhase.nextState(d_NextGamePhase);
