@@ -51,7 +51,7 @@ public class ExecuteOrder implements GameController {
      */
     private void executeOrders() {
         int l_Counter = 0;
-        while (l_Counter <= d_GameMap.getPlayers().size()) {
+        while (l_Counter < d_GameMap.getPlayers().size()) {
             l_Counter = 0;
             for (Player player : d_GameMap.getPlayers().values()) {
                 Order l_Order = player.nextOrder();

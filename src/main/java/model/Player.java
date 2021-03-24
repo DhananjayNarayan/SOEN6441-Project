@@ -152,17 +152,6 @@ public class Player {
         d_PlayerCards.add(p_Card);
     }
 
-    /**
-     * Remove the card for the player
-     *
-     * @param p_CardType card  to be removed
-     */
-    public void removeCard(Card p_CardType) {
-        //needs to be tested
-        if (!d_PlayerCards.isEmpty()) {
-            d_PlayerCards.remove(p_CardType);
-        }
-    }
 
     /**
      * Get the list of all players you cannot attack
@@ -197,7 +186,7 @@ public class Player {
      * A function to get the issue order from player and add to the order list
      */
     public void issueOrder() {
-        Order l_Order = OrderCreater.CreateOrder(IssueOrder.d_Commands.split(" "), this);
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), this);
         addOrder(l_Order);
     }
 
@@ -219,7 +208,7 @@ public class Player {
      * @return true if the armies are valid and deducted from the assigned army pool else false
      */
     public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
-        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount < 0) {
+        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount <= 0) {
             return false;
         }
         d_ReinforcementArmies -= p_ArmyCount;

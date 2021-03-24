@@ -14,7 +14,6 @@ import model.Card;
  */
 public abstract class Order {
     private String d_Type;
-    private Card d_Card;
     private OrderInfo d_OrderInfo;
 
     /**
@@ -51,14 +50,6 @@ public abstract class Order {
      */
     public void setType(String p_Type) {
         this.d_Type = p_Type;
-    }
-
-    public Card getCard() {
-        return d_Card;
-    }
-
-    public void setCard(Card p_card) {
-        d_Card = p_card;
     }
 
     /**

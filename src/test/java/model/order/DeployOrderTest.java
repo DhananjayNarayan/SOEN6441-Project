@@ -39,8 +39,8 @@ public class DeployOrderTest {
     public void execute() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
         Player l_Player = d_GameMap.getPlayer("Player1");
-        IssueOrder.d_Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " " + l_Player.getReinforcementArmies();
-        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.d_Commands.split(" "), l_Player);
+        IssueOrder.Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " " + l_Player.getReinforcementArmies();
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
         l_Player.addOrder(l_Order1);
         assertTrue(l_Player.nextOrder().execute());
     }
@@ -50,18 +50,18 @@ public class DeployOrderTest {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
         List<Country> l_CountriesPlayer2 = d_GameMap.getPlayer("Player2").getCapturedCountries();
         Player l_Player = d_GameMap.getPlayer("Player1");
-        IssueOrder.d_Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " " + l_Player.getReinforcementArmies();
-        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.d_Commands.split(" "), l_Player);
+        IssueOrder.Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " " + l_Player.getReinforcementArmies();
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
         l_Player.addOrder(l_Order1);
         assertTrue(l_Player.nextOrder().validateCommand());
 
-        IssueOrder.d_Commands = "deploy " + l_CountriesPlayer2.get(0).getName() + " " + l_Player.getReinforcementArmies();
-        l_Order1 = OrderCreater.CreateOrder(IssueOrder.d_Commands.split(" "), l_Player);
+        IssueOrder.Commands = "deploy " + l_CountriesPlayer2.get(0).getName() + " " + l_Player.getReinforcementArmies();
+        l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
         l_Player.addOrder(l_Order1);
         assertFalse(l_Player.nextOrder().validateCommand());
 
-        IssueOrder.d_Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " 10";
-        l_Order1 = OrderCreater.CreateOrder(IssueOrder.d_Commands.split(" "), l_Player);
+        IssueOrder.Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " 10";
+        l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
         l_Player.addOrder(l_Order1);
         assertFalse(l_Player.nextOrder().validateCommand());
     }
