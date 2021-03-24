@@ -24,7 +24,7 @@ public class AirliftOrder extends Order {
     }
 
     /**
-     * execute the Negotiate Order
+     * execute the Airlift Order
      *
      * @return true if the execute was successful else false
      */
