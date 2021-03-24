@@ -4,7 +4,7 @@ import model.CardType;
 import model.Country;
 import model.GameMap;
 import model.Player;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 
 /**
@@ -13,8 +13,8 @@ import utils.LogEntryBuffer;
  * @author Dhananjay
  */
 public class BlockadeOrder extends Order {
-    private GameMap d_GameMap;
     LogEntryBuffer d_leb = new LogEntryBuffer();
+    private final GameMap d_GameMap;
 
     /**
      * Constructor for class Blockade Order

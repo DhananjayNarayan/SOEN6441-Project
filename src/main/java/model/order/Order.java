@@ -14,6 +14,7 @@ import model.Card;
  */
 public abstract class Order {
     private String d_Type;
+    private Card d_Card;
     private OrderInfo d_OrderInfo;
 
     /**
@@ -53,6 +54,24 @@ public abstract class Order {
     }
 
     /**
+     * Getter for power card
+     *
+     * @return the respective card
+     */
+    public Card getCard() {
+        return d_Card;
+    }
+
+    /**
+     * Setter for power card
+     *
+     * @param p_card the card object
+     */
+    public void setCard(Card p_card) {
+        d_Card = p_card;
+    }
+
+    /**
      * A function to be overridden  by the Child class
      *
      * @return false as there is not order to be executed
@@ -60,12 +79,14 @@ public abstract class Order {
     public abstract boolean execute();
 
     /**
+     * A function to validate each command.
+     *
      * @return true if command is valid else false
      */
     public abstract boolean validateCommand();
 
     /**
-     *
+     * Print the command that is executed successfully
      */
     public abstract void printOrderCommand();
 

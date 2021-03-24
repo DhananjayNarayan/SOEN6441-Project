@@ -1,10 +1,10 @@
 package model.order;
 
-import model.Card;
 import model.Country;
 import model.GameMap;
 import model.Player;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
+
 /**
  * A class to create Orders in the game.
  *
@@ -70,7 +70,7 @@ public class OrderCreater {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_Country);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
-        d_leb.logInfo("Player "+ l_OrderInfo.getPlayer().getName()+" has given an order to deploy "+l_OrderInfo.getNumberOfArmy()+" armies to "+  l_OrderInfo.getDestination().getName());
+        d_leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to deploy " + l_OrderInfo.getNumberOfArmy() + " armies to " + l_OrderInfo.getDestination().getName());
         return l_OrderInfo;
     }
 
@@ -112,8 +112,9 @@ public class OrderCreater {
 
     /**
      * A function to generate information about Blockade Order
+     *
      * @param p_command the command entered
-     * @param p_player object parameter of type Player
+     * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
     private static OrderInfo GenerateBlockadeOrderInfo(String[] p_command, Player p_player) {
@@ -128,8 +129,9 @@ public class OrderCreater {
 
     /**
      * function to generate information about Airlift Order
+     *
      * @param p_command the command entered
-     * @param p_player object parameter of type Player
+     * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
     private static OrderInfo GenerateAirliftOrderInfo(String[] p_command, Player p_player) {

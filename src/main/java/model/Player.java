@@ -3,7 +3,7 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -128,12 +128,23 @@ public class Player {
         return d_PlayerCards;
     }
 
+    /**
+     * Method to check if particular card is available in the player's card list
+     *
+     * @param p_cardType The type of card
+     * @return true if card is available else false
+     */
     public boolean checkIfCardAvailable(CardType p_cardType) {
         return d_PlayerCards.stream().anyMatch(p_card -> p_card.getCardType().equals(p_cardType));
     }
 
-    public boolean removeCard(CardType p_cardType) {
-        return d_PlayerCards.remove(new Card(p_cardType));
+    /**
+     * Remove the card for the player
+     *
+     * @param p_CardType card  to be removed
+     */
+    public boolean removeCard(CardType p_CardType) {
+        return d_PlayerCards.remove(new Card(p_CardType));
     }
 
     /**
@@ -230,20 +241,29 @@ public class Player {
     }
 
 
+    /**
+     * Calculate the number of the armies to be assigned in reinforcement phase.
+     *
+     * @param p_gameMap The game map object
+     */
     public void calculateReinforcementArmies(GameMap p_gameMap) {
         if (getCapturedCountries().size() > 0) {
             int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
             reinforcements += getBonusIfKingOfContinents(p_gameMap);
             setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
-            System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
-            d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
         } else {
             setReinforcementArmies(3);
-            System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
-            d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
         }
+        System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
+    /**
+     * Add bonus armies to reinforcement armies if a player owns the continent.
+     *
+     * @param p_gameMap The game map object
+     * @return reinforcements armies added with bonus armies
+     */
     private int getBonusIfKingOfContinents(GameMap p_gameMap) {
         int reinforcements = 0;
         Map<String, List<Country>> l_CountryMap = getCapturedCountries()

@@ -1,7 +1,7 @@
 package controller;
 
 import model.*;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 import java.util.*;
 
@@ -17,11 +17,11 @@ import java.util.*;
  */
 public class IssueOrder implements GameController {
     private final static Scanner SCANNER = new Scanner(System.in);
+    private static Set<Player> SkippedPlayers = new HashSet<>();
+    public static String Commands = null;
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
     GamePhase d_GamePhase;
     GameMap d_GameMap;
-    private static Set<Player> SkippedPlayers = new HashSet<>();
-    public static String Commands = null;
     LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**

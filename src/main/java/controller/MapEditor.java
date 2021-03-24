@@ -6,9 +6,12 @@ import model.GamePhase;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
-import java.util.*;
+import utils.logger.LogEntryBuffer;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
-import utils.LogEntryBuffer;
 
 /**
  * This class is used to create map using game console commands.
@@ -154,10 +157,8 @@ public class MapEditor implements GameController {
                         break;
                     }
 
-                    /**
-                     * Handle showmap command from console
-                     */
 
+                    // Handle showmap command from console
                     case "showmap": {
                         d_GameMap.showMap();
                         break;
@@ -172,10 +173,8 @@ public class MapEditor implements GameController {
                         break;
                     }
 
-                    /**
-                     * Handle savemap command from console
-                     */
 
+                    //Handle savemap command from console
                     case "savemap": {
                         if (l_CommandArray.length == 1) {
                             d_GameMap.setName(l_CommandArray[0]);
@@ -184,10 +183,8 @@ public class MapEditor implements GameController {
                         break;
                     }
 
-                    /**
-                     * Handle editmap command from console
-                     */
 
+                    //Handle editmap command from console
                     case "editmap": {
                         if (l_CommandArray.length == 1) {
                             MapReader.readMap(d_GameMap, l_CommandArray[0]);
@@ -195,16 +192,13 @@ public class MapEditor implements GameController {
                         break;
                     }
 
-                    /**
-                     * To exit the map creation phase type "exit"
-                     */
 
+                    //To exit the map creation phase type "exit"
                     case "exit": {
                         d_GameMap.flushGameMap();
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help
-
                     default: {
                         System.out.println("List of user map creation commands from console:");
                         System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
