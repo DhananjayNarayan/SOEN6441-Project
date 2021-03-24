@@ -1,6 +1,6 @@
 package model.order;
 
-import model.Card;
+import model.CardType;
 import model.GameMap;
 import model.Player;
 import utils.LogEntryBuffer;
@@ -27,11 +27,12 @@ public class NegotiateOrder extends Order {
     public boolean execute() {
         Player l_NeutralPlayer = getOrderInfo().getNeutralPlayer();
         System.out.println("The order: " + getType() + " " + l_NeutralPlayer.getName());
-        if(validateCommand()){
+        if (validateCommand()) {
             Player l_Player = getOrderInfo().getPlayer();
             l_Player.addNeutralPlayers(l_NeutralPlayer);
             l_NeutralPlayer.addNeutralPlayers(l_Player);
-            //remove the card here
+            //set card as used. Used cards will be removed
+            l_Player.removeCard(CardType.AIRLIFT);
         }
         return false;
     }
@@ -46,26 +47,25 @@ public class NegotiateOrder extends Order {
         Player l_Player = getOrderInfo().getPlayer();
         Player l_NeutralPlayer = getOrderInfo().getNeutralPlayer();
         //check if the player has the card
-        if(!l_Player.getPlayerCards().contains(getType())){
+        if (!l_Player.checkIfCardAvailable(CardType.DIPLOMACY)) {
             System.out.println("Player doesn't have the card to be used.");
             return false;
         }
         //check if player is valid
-        if(l_NeutralPlayer == null || l_Player == null){
+        if (l_NeutralPlayer == null || l_Player == null) {
             System.out.println("The Player is not valid.");
             return false;
         }
         // check if the player exists
-        if(!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())){
+        if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
             System.out.println("The Player name doesn't exist.");
             return false;
         }
-        return true ;
+        return true;
     }
 
     /**
      * Print the command
-     *
      */
     @Override
     public void printOrderCommand() {

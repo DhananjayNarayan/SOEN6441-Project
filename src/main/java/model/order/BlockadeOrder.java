@@ -1,15 +1,16 @@
 package model.order;
-import model.GameMap;
-import utils.LogEntryBuffer;
-import model.Country;
-import model.Player;
 
+import model.CardType;
+import model.Country;
+import model.GameMap;
+import model.Player;
+import utils.LogEntryBuffer;
 
 
 /**
  * This class helps in executing the Blockade Card
- * @author Dhananjay
  *
+ * @author Dhananjay
  */
 public class BlockadeOrder extends Order {
     private GameMap d_GameMap;
@@ -36,10 +37,11 @@ public class BlockadeOrder extends Order {
         if (validateCommand()) {
             l_Country.setArmies(l_Country.getArmies() * 3);
             l_Player.getCapturedCountries().remove(l_Country);
+            System.out.println("The order: " + getType() + " " + l_Country);
+            d_leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry() + " by " + getOrderInfo().getPlayer());
+            l_Player.removeCard(CardType.BLOCKADE);
+            return true;
         }
-        System.out.println("The order: " + getType() + " " + l_Country);
-        d_leb.logInfo("Blockade on" + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
-
         return false;
     }
 
@@ -62,7 +64,7 @@ public class BlockadeOrder extends Order {
             System.out.println("The target country does not belong to the player");
             return false;
         }
-        if (!l_Player.getPlayerCards().contains(getType())) {
+        if (!l_Player.checkIfCardAvailable(CardType.BLOCKADE)) {
             System.out.println("Player doesn't have Blockade Card.");
             return false;
         }
@@ -74,7 +76,7 @@ public class BlockadeOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
+        System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer());
         System.out.println("---------------------------------------------------------------------------------------------");
 
     }

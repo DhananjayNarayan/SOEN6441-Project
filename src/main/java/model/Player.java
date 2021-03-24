@@ -128,6 +128,21 @@ public class Player {
         return d_PlayerCards;
     }
 
+    public boolean checkIfCardAvailable(CardType p_cardType) {
+        return d_PlayerCards.stream().anyMatch(p_card -> p_card.getCardType().equals(p_cardType));
+    }
+
+    public boolean removeCard(CardType p_cardType) {
+        return d_PlayerCards.remove(new Card(p_cardType));
+    }
+
+    /**
+     * A function to remove the all cards from the player
+     */
+    public void removeCards() {
+        d_PlayerCards.clear();
+    }
+
     /**
      * Add the card to the player on conquering the territory
      *
@@ -142,9 +157,9 @@ public class Player {
      *
      * @param p_CardType card  to be removed
      */
-    public void removeCard(Card p_CardType){
+    public void removeCard(Card p_CardType) {
         //needs to be tested
-        if(!d_PlayerCards.isEmpty()){
+        if (!d_PlayerCards.isEmpty()) {
             d_PlayerCards.remove(p_CardType);
         }
     }
@@ -171,10 +186,9 @@ public class Player {
 
     /**
      * Remove all the neutral players from list
-     *
      */
-    public void removeNeutralPlayer(){
-        if(!d_NeutralPlayers.isEmpty()){
+    public void removeNeutralPlayer() {
+        if (!d_NeutralPlayers.isEmpty()) {
             d_NeutralPlayers.clear();
         }
     }
