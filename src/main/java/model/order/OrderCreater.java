@@ -19,7 +19,7 @@ public class OrderCreater {
     static LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
-     * A function to creaate an order
+     * A function to create an order
      *
      * @param p_commands the command entered
      * @param player     object parameter of type Player
@@ -123,6 +123,7 @@ public class OrderCreater {
         String l_CountryID = p_command[1];
         Country l_TargetCountry = d_GameMap.getCountry(l_CountryID);
         l_OrderInfo.setTargetCountry(l_TargetCountry);
+
         return l_OrderInfo;
     }
 

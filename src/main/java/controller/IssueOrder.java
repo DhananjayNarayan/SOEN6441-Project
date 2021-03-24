@@ -17,8 +17,8 @@ import java.util.*;
  */
 public class IssueOrder implements GameController {
     private final static Scanner SCANNER = new Scanner(System.in);
-    public static String d_Commands = null;
-    private static final Set<Player> d_skippedPlayers = new HashSet<>();
+    private static Set<Player> SkippedPlayers = new HashSet<>();
+    public static String Commands = null;
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
     GamePhase d_GamePhase;
     GameMap d_GameMap;
@@ -29,6 +29,63 @@ public class IssueOrder implements GameController {
      */
     public IssueOrder() {
         d_GameMap = GameMap.getInstance();
+    }
+
+    /**
+     * A function to start the issue order phase
+     *
+     * @param p_GamePhase The current phase which is executing
+     * @return the next phase to be executed
+     * @throws Exception when execution fails
+     */
+    @Override
+    public GamePhase start(GamePhase p_GamePhase) throws Exception {
+        d_GamePhase = p_GamePhase;
+        d_leb.logInfo("\n ISSUE ORDER PHASE \n");
+        while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
+            for (Player l_Player : d_GameMap.getPlayers().values()) {
+                if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
+                    continue;
+                }
+                System.out.println("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
+                System.out.println("The countries to be assigned to the player are: ");
+                for (Country l_Country : l_Player.getCapturedCountries()) {
+                    System.out.println(l_Country.getName() + " ");
+                }
+                if(!l_Player.getPlayerCards().isEmpty()){
+                    System.out.println("The Cards assigned to the Players are:");
+                    for(Card l_Card : l_Player.getPlayerCards()){
+                        System.out.println();
+                    }
+                }
+                System.out.println("=================================================================================");
+                boolean l_IssueCommand = false;
+                while (!l_IssueCommand) {
+                    System.out.println("List of game loop commands");
+                    System.out.println("To deploy the armies : deploy countryID numarmies");
+                    System.out.println("To advance/attack the armies : advance countrynamefrom countynameto numarmies");
+                    System.out.println("To airlift the armies : airlift sourcecountryID targetcountryID numarmies");
+                    System.out.println("To blockade the armies : blockade countryID");
+                    System.out.println("To negotiate with player : negotiate playerID");
+                    System.out.println("To bomb the country : bomb countryID");
+                    System.out.println("To skip: pass");
+                    System.out.println("Please enter the correct command");
+                    System.out.println("=============================================================================");
+                    Commands = ReadFromPlayer();
+                    l_IssueCommand = ValidateCommand(Commands, l_Player);
+                    if (Commands.equals("pass")) {
+                        break;
+                    }
+                }
+                if (!Commands.equals("pass")) {
+                    l_Player.issueOrder();
+                    System.out.println("The order has been had to the list of orders.");
+                    System.out.println("=============================================================================");
+                }
+            }
+        }
+        SkippedPlayers.clear();
+        return p_GamePhase.nextState(d_NextGamePhase);
     }
 
     /**
@@ -95,7 +152,7 @@ public class IssueOrder implements GameController {
      * @param p_Player The player who has skipped his iteration for the issuing
      */
     private static void AddToSetOfPlayers(Player p_Player) {
-        d_skippedPlayers.add(p_Player);
+        SkippedPlayers.add(p_Player);
     }
 
     /**
@@ -113,53 +170,6 @@ public class IssueOrder implements GameController {
             return (p_Length == 4);
         }
         return false;
-    }
-
-    /**
-     * A function to start the issue order phase
-     *
-     * @param p_GamePhase The current phase which is executing
-     * @return the next phase to be executed
-     * @throws Exception when execution fails
-     */
-    @Override
-    public GamePhase start(GamePhase p_GamePhase) throws Exception {
-        d_GamePhase = p_GamePhase;
-        d_leb.logInfo("\n ISSUE ORDER PHASE \n");
-        while (!(d_skippedPlayers.size() == d_GameMap.getPlayers().size())) {
-            for (Player l_Player : d_GameMap.getPlayers().values()) {
-                if (!d_skippedPlayers.isEmpty() && d_skippedPlayers.contains(l_Player)) {
-                    continue;
-                }
-                System.out.println("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
-                System.out.println("The countries to be assigned to the player are: ");
-                //show the cards available
-                for (Country l_Country : l_Player.getCapturedCountries()) {
-                    System.out.println(l_Country.getName() + " ");
-                }
-                System.out.println("=================================================================================");
-                boolean l_IssueCommand = false;
-                while (!l_IssueCommand) {
-                    System.out.println("List of game loop commands");
-                    System.out.println("To deploy the armies : deploy countryID armies");
-                    System.out.println("To advance/attack the armies : advance countrynamefrom countynameto numarmies");
-                    System.out.println("To skip: pass");
-                    System.out.println("Please enter the correct command");
-                    System.out.println("=============================================================================");
-                    d_Commands = ReadFromPlayer();
-                    l_IssueCommand = ValidateCommand(d_Commands, l_Player);
-                    if (d_Commands.equals("pass")) {
-                        break;
-                    }
-                }
-                if (!d_Commands.equals("pass")) {
-                    l_Player.issueOrder();
-                    System.out.println("The order has been had to the list of orders.");
-                    System.out.println("=============================================================================");
-                }
-            }
-        }
-        return p_GamePhase.nextState(d_NextGamePhase);
     }
 
 }

@@ -26,13 +26,13 @@ public class NegotiateOrder extends Order {
     @Override
     public boolean execute() {
         Player l_NeutralPlayer = getOrderInfo().getNeutralPlayer();
-        System.out.println("The order: " + getType() + " " + l_NeutralPlayer.getName());
         if (validateCommand()) {
+            System.out.println("The order: " + getType() + " " + l_NeutralPlayer.getName());
             Player l_Player = getOrderInfo().getPlayer();
             l_Player.addNeutralPlayers(l_NeutralPlayer);
             l_NeutralPlayer.addNeutralPlayers(l_Player);
-            //set card as used. Used cards will be removed
-            l_Player.removeCard(CardType.AIRLIFT);
+            l_Player.removeCard(CardType.DIPLOMACY);
+            return true;
         }
         return false;
     }
@@ -52,11 +52,12 @@ public class NegotiateOrder extends Order {
             return false;
         }
         //check if player is valid
-        if (l_NeutralPlayer == null || l_Player == null) {
+        if (l_NeutralPlayer == null) {
             System.out.println("The Player is not valid.");
             return false;
         }
         // check if the player exists
+        System.out.println(d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName()));
         if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
             System.out.println("The Player name doesn't exist.");
             return false;
