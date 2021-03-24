@@ -129,6 +129,13 @@ public class Player {
     }
 
     /**
+     * A function to remove the used cards from the player
+     */
+    public void removeUsedCards() {
+        d_PlayerCards.removeIf(Card::isUsed);
+    }
+
+    /**
      * Add the card to the player on conquering the territory
      *
      * @param p_Card card to be added to player

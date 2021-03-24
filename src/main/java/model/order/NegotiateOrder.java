@@ -46,7 +46,7 @@ public class NegotiateOrder extends Order {
             System.out.println("The Player is not valid.");
             return false;
         }
-        if(!d_GameMap.getPlayers().keySet().contains(l_PlayerName)){
+        if(!d_GameMap.getPlayers().containsKey(l_PlayerName)){
             System.out.println("The Player name doesn't exist.");
             return false;
         }

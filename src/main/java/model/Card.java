@@ -9,12 +9,22 @@ package model;
 public class Card {
 
     private CardType d_CardType;
+    private boolean used = false;
 
     /**
      * This is a Constructor for Class Card
      */
     public Card() {
         d_CardType = CardType.getRandomCard();
+    }
+
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void used() {
+        used = true;
     }
 
     /**
