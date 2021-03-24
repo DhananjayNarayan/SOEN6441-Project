@@ -31,7 +31,6 @@ public class DeployOrder extends Order {
      * @return true if the execution was successful else return false
      */
     public boolean execute() {
-        Player l_Player = getOrderInfo().getPlayer();
         Country l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
         System.out.println("---------------------------------------------------------------------------------------------");

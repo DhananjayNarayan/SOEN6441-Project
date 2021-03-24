@@ -42,6 +42,7 @@ public class ExecuteOrder implements GameController {
         d_GamePhase = p_GamePhase;
         d_leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
+        clearAllNeutralPlayers();
         return p_GamePhase.nextState(d_NextGamePhase);
     }
 
@@ -65,6 +66,11 @@ public class ExecuteOrder implements GameController {
                 }
             }
         }
+    }
 
+    public void clearAllNeutralPlayers(){
+        for(Player l_Player : d_GameMap.getPlayers().values()){
+            l_Player.removeNeutralPlayer();
+        }
     }
 }

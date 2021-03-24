@@ -1,5 +1,6 @@
 package model.order;
 
+import model.Card;
 import model.Country;
 import model.Player;
 
@@ -15,30 +16,29 @@ import model.Player;
 public class OrderInfo {
 
     private Player d_Player;
-    private String d_PlayerName;
+    private Player d_NeutralPlayer;
     private Country d_Departure;
     private Country d_Destination;
     private Country d_TargetCountry;
     private int d_NumberOfArmy;
 
     /**
-     * A function to set the players Name
+     * function to get the Neutral player
      *
-     * @return the players Name
+     * @return the Neutral player
      */
-    public String getPlayerName() {
-        return d_PlayerName;
+    public Player getNeutralPlayer() {
+        return d_NeutralPlayer;
     }
 
     /**
-     * A function to set players name
+     * function to set the Neutral Player
      *
-     * @param d_PlayerName the players name
+     * @param d_NeutralPlayer the Neutral player
      */
-    public void setPlayerName(String d_PlayerName) {
-        this.d_PlayerName = d_PlayerName;
+    public void setNeutralPlayer(Player d_NeutralPlayer) {
+        this.d_NeutralPlayer = d_NeutralPlayer;
     }
-
     /**
      * A function to get the player information
      *
