@@ -6,32 +6,53 @@ import model.Player;
 
 import java.util.stream.IntStream;
 
+/**
+ * Class holding the Dice strategy for advance logic
+ *
+ * @author Madhuvanthi Hemanathan
+ */
 public class DiceStrategy implements GameStrategy {
-
+    /**
+     * Game settings object
+     */
     GameSettings SETTINGS = GameSettings.getInstance();
 
+    /**
+     * Method holding the default attack logic
+     *
+     * @param p_Player The player who initiated attack
+     * @param p_From   The country from which the attack is initiated
+     * @param p_To     The country on which the attack is going to happen
+     * @param p_Armies The number of armies to be moved
+     * @return true on successful execution else false
+     */
     @Override
-    public boolean attack(Player p_player, Country p_from, Country p_to, int p_armies) {
-        p_from.depleteArmies(p_armies);
-        int l_attackerKills = (int) IntStream.range(0, p_armies).boxed().filter((p_integer) -> Math.random() <= SETTINGS.ATTACKER_PROBABILITY).count();
-        int l_defenderKills = (int) IntStream.range(0, p_to.getArmies()).boxed().filter(p_integer -> Math.random() <= SETTINGS.DEFENDER_PROBABILITY).count();
+    public boolean attack(Player p_Player, Country p_From, Country p_To, int p_Armies) {
+        try{
+            p_From.depleteArmies(p_Armies);
+            int l_AttackerKills = (int) IntStream.range(0, p_Armies).boxed().filter((p_integer) -> Math.random() <= SETTINGS.ATTACKER_PROBABILITY).count();
+            int l_DefenderKills = (int) IntStream.range(0, p_To.getArmies()).boxed().filter(p_integer -> Math.random() <= SETTINGS.DEFENDER_PROBABILITY).count();
 
-        int l_armiesLeftAttacker = p_armies - l_defenderKills;
-        int l_armiesLeftDefender = p_to.getArmies() - l_attackerKills;
-        if (l_armiesLeftAttacker > 0 && l_armiesLeftDefender <= 0) {
-            p_to.setArmies(l_armiesLeftAttacker);
-            makeMeKing(p_player, p_to);
-            System.out.println("Attacker : " + p_player.getName() + " won.");
-            System.out.println("Remaining attacker's armies " + p_to.getArmies() + " moved from " + p_from.getName() + " to " + p_to.getName() + ".");
+            int l_ArmiesLeftAttacker = p_Armies - l_DefenderKills;
+            int l_ArmiesLeftDefender = p_To.getArmies() - l_AttackerKills;
+            if (l_ArmiesLeftAttacker > 0 && l_ArmiesLeftDefender <= 0) {
+                p_To.setArmies(l_ArmiesLeftAttacker);
+                makeMeKing(p_Player, p_To);
+                System.out.println("Attacker : " + p_Player.getName() + " won.");
+                System.out.println("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
+
+            } else {
+                p_From.deployArmies(l_ArmiesLeftAttacker);
+                p_To.setArmies(l_ArmiesLeftDefender);
+                System.out.println("Attacker : " + p_Player.getName() + " lost.");
+                System.out.println("Remaining attacker's armies: " + p_From.getArmies());
+                System.out.println("Remaining defender's armies: " + p_To.getArmies());
+            }
             return true;
-        } else {
-            p_from.deployArmies(l_armiesLeftAttacker);
-            p_to.setArmies(l_armiesLeftDefender);
-            System.out.println("Attacker : " + p_player.getName() + " lost.");
-            System.out.println("Remaining attacker's armies: " + p_from.getArmies());
-            System.out.println("Remaining defender's armies: " + p_to.getArmies());
+        } catch (Exception p_Exception) {
+            return false;
         }
-        return false;
+
     }
 
 }

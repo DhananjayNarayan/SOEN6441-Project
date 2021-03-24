@@ -10,6 +10,7 @@ package model;
 
 public interface GameController {
     /**
+     * The start method of Game Controller
      *
      * @param p_GamePhase holding the current game phase
      * @return each phase return the next game phase after it

@@ -53,10 +53,20 @@ public abstract class Order {
         this.d_Type = p_Type;
     }
 
+    /**
+     * Getter for power card
+     *
+     * @return the respective card
+     */
     public Card getCard() {
         return d_Card;
     }
 
+    /**
+     * Setter for power card
+     *
+     * @param p_card the card object
+     */
     public void setCard(Card p_card) {
         d_Card = p_card;
     }
@@ -69,12 +79,14 @@ public abstract class Order {
     public abstract boolean execute();
 
     /**
+     * A function to validate each command.
+     *
      * @return true if command is valid else false
      */
     public abstract boolean validateCommand();
 
     /**
-     *
+     * Print the command that is executed successfully
      */
     public abstract void printOrderCommand();
 

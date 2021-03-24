@@ -4,15 +4,15 @@ import model.CardType;
 import model.Country;
 import model.GameMap;
 import model.Player;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 /**
  * This class gives the order to execute AirliftOrder, from one country to another.
  */
 public class AirliftOrder extends Order {
 
-    private GameMap d_GameMap;
     LogEntryBuffer d_leb = new LogEntryBuffer();
+    private final GameMap d_GameMap;
 
     /**
      * Constructor class for Airlift Order

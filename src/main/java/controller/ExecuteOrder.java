@@ -5,7 +5,7 @@ import model.GameMap;
 import model.GamePhase;
 import model.Player;
 import model.order.Order;
-import utils.LogEntryBuffer;
+import utils.logger.LogEntryBuffer;
 
 /**
  * This is a class which contains the Execute Order phase

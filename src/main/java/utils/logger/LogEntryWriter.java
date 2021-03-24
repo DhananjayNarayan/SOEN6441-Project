@@ -1,4 +1,6 @@
-package utils;
+package utils.logger;
+
+import utils.Observer;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -33,8 +35,8 @@ public class LogEntryWriter implements Observer {
 
             l_writeData.println(p_str);
 
-        } catch (Exception ex) {
-
+        } catch (Exception p_Exception) {
+            System.out.println(p_Exception.getMessage());
         } finally {
             l_writeData.close();
         }
