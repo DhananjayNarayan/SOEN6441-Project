@@ -72,9 +72,13 @@ public class BombOrder extends Order{
             return false;
         }
 
-        //check if DIPLOMACY
-
-
+        //diplomacy
+        if (l_Player.getNeutralPlayers().contains(l_TargetCountry.getPlayer())) {
+            System.out.printf("Truce between %s and %s\n", l_Player.getName(), l_TargetCountry.getPlayer().getName());
+            l_Player.getNeutralPlayers().remove(l_TargetCountry.getPlayer());
+            l_TargetCountry.getPlayer().getNeutralPlayers().remove(l_Player);
+            return false;
+        }
 
         // validate that the country is adjacent to one of the neighbors of the current player
         Boolean l_Adjacent = false;
