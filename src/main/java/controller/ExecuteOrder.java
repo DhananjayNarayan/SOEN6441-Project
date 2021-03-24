@@ -25,7 +25,6 @@ public class ExecuteOrder implements GameController {
 
     /**
      * This is the default constructor
-     *
      */
     public ExecuteOrder() {
         d_GameMap = GameMap.getInstance();
@@ -50,28 +49,25 @@ public class ExecuteOrder implements GameController {
     /**
      * This method  executes each order in the order list
      */
-    private void executeOrders()
-    {
+    private void executeOrders() {
         int l_Counter = 0;
-        while(l_Counter <= d_GameMap.getPlayers().size()){
-            l_Counter=0;
+        while (l_Counter <= d_GameMap.getPlayers().size()) {
+            l_Counter = 0;
             for (Player player : d_GameMap.getPlayers().values()) {
                 Order l_Order = player.nextOrder();
                 if (l_Order == null) {
                     l_Counter++;
-                }
-                else{
-                    if(l_Order.execute()){
+                } else {
+                    if (l_Order.execute()) {
                         l_Order.printOrderCommand();
                     }
                 }
             }
         }
-        d_GameMap.getPlayers().values().forEach(Player::removeUsedCards);
     }
 
-    public void clearAllNeutralPlayers(){
-        for(Player l_Player : d_GameMap.getPlayers().values()){
+    public void clearAllNeutralPlayers() {
+        for (Player l_Player : d_GameMap.getPlayers().values()) {
             l_Player.removeNeutralPlayer();
         }
     }
