@@ -48,9 +48,15 @@ public class OrderCreater {
             case "airlift":
                 l_Order = new AirliftOrder();
                 l_Order.setOrderInfo(GenerateAirliftOrderInfo(p_commands, player));
+                break;
+            case "bomb":
+                l_Order = new BombOrder();
+                l_Order.setOrderInfo(GenerateBombOrderInfo(p_commands, player));
+                break;
             default:
                 System.out.println("\nFailed to create an order due to invalid arguments");
                 l_Order = null;
+
         }
         return l_Order;
     }
@@ -145,6 +151,15 @@ public class OrderCreater {
         l_OrderInfo.setDeparture(l_FromCountry);
         l_OrderInfo.setDestination(l_ToCountry);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmies);
+        return l_OrderInfo;
+    }
+
+    private static OrderInfo GenerateBombOrderInfo(String[] p_command, Player p_player){
+        OrderInfo l_OrderInfo = new OrderInfo();
+        l_OrderInfo.setPlayer(p_player);
+        String l_CountryID = p_command[1];
+        Country l_TargetCountry = d_GameMap.getCountry(l_CountryID);
+        l_OrderInfo.setTargetCountry(l_TargetCountry);
         return l_OrderInfo;
     }
 
