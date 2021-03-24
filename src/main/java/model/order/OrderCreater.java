@@ -1,5 +1,6 @@
 package model.order;
 
+import model.Card;
 import model.Country;
 import model.GameMap;
 import model.Player;
@@ -105,7 +106,7 @@ public class OrderCreater {
     private static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setPlayer(p_Player);
-        l_OrderInfo.setPlayerName(p_Command[1]);
+        l_OrderInfo.setNeutralPlayer(d_GameMap.getPlayer(p_Command[1]));
         return l_OrderInfo;
     }
 
