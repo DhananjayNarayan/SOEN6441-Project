@@ -7,7 +7,7 @@ import model.Player;
 
 
 /**
- * This class helps in executing the Blokcade Card
+ * This class helps in executing the Blockade Card
  * @author Dhananjay
  *
  */
