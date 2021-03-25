@@ -14,7 +14,7 @@ import java.io.PrintWriter;
  */
 public class LogEntryBuffer implements Observable {
 
-    private LogEntryWriter d_lew = new LogEntryWriter(); //d_lew is an observer object
+    private LogEntryWriter d_Lew = new LogEntryWriter(); //d_lew is an observer object
 
     /**
      * This method gets the information from the game and notifies the Observer.
@@ -31,17 +31,17 @@ public class LogEntryBuffer implements Observable {
      * @param p_s The message to be updated
      */
     public void notifyObservers(String p_s) {
-        d_lew.update(p_s);
+        d_Lew.update(p_s);
     }
 
     /**
      * This method is used to clear the log file before a new game starts.
      */
     public void clearNewFile() {
-        PrintWriter l_writeData = null;
-        String l_filename = "demo";
+        PrintWriter l_WriteData = null;
+        String l_Filename = "demo";
         try {
-            l_writeData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_filename + ".log", false)));
+            l_WriteData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_Filename + ".log", false)));
         } catch (Exception ex) {
 
         }
