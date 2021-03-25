@@ -14,10 +14,25 @@ import java.util.Set;
  * @version 1.0.0
  */
 public class Continent {
+    /**
+     * A string to store the ID of continent
+     */
     private String d_Id;
+    /**
+     * A string to store the name of continent
+     */
     private String d_Name;
+    /**
+     * An integer to store the awardedarmies
+     */
     private int d_AwardArmies;
+    /**
+     * A boolean data member to get if credited or not
+     */
     private boolean d_Credited;
+    /**
+     * A set of countries in the continent
+     */
     private Set<Country> d_Countries;
 
     /**

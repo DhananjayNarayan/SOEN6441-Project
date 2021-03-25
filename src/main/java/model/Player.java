@@ -20,12 +20,33 @@ import java.util.stream.Collectors;
  */
 
 public class Player {
+    /**
+     * AN integer to store the ID of player
+     */
     private int d_Id;
+    /**
+     * An integer to store the name of the player
+     */
     private String d_Name;
+    /**
+     * A list of captured countries
+     */
     private List<Country> d_CapturedCountries = new ArrayList<>();
+    /**
+     * A deque to manage the list of orders
+     */
     private final Deque<Order> d_Orders = new ArrayDeque<>();
+    /**
+     * An integer to store the number of reinforcement armies
+     */
     private int d_ReinforcementArmies;
+    /**
+     * A list of cards for the player
+     */
     private final List<Card> d_PlayerCards = new ArrayList<>();
+    /**
+     * A list of neutral players
+     */
     private final List<Player> d_NeutralPlayers = new ArrayList<>();
     LogEntryBuffer d_Leb = new LogEntryBuffer();
 

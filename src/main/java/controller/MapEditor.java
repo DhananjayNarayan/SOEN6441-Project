@@ -24,7 +24,13 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 public class MapEditor implements GameController {
+    /**
+     * A data member for scanner
+     */
     private final Scanner SCANNER = new Scanner(System.in);
+    /**
+     * A data member that stores the list of commands for mapeditor as list
+     */
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.StartUp;

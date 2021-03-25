@@ -20,11 +20,29 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 public class GameMap {
+    /**
+     * An object of the gamemap
+     */
     private static GameMap d_GameMap;
+    /**
+     * A hashmap to store the continents
+     */
     private HashMap<String, Continent> d_Continents = new HashMap<>();
+    /**
+     * A hashmap to store the countries
+     */
     private HashMap<String, Country> d_Countries = new HashMap<>();
+    /**
+     * A hashmap to store the players
+     */
     private HashMap<String, Player> d_Players = new HashMap<>();
+    /**
+     * A string to store the name
+     */
     private String d_Name;
+    /**
+     * A string to store the error message
+     */
     private String d_ErrorMessage;
     LogEntryBuffer d_Leb = new LogEntryBuffer();
 

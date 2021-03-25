@@ -14,6 +14,9 @@ import model.GameMap;
  */
 public class SaveMap {
 
+    /**
+     * An object of gamemap
+     */
     private GameMap gameMap;
     /**
      * Create a neighbor list as a string for the countries
