@@ -19,12 +19,12 @@ public class PlayerTest extends Player {
 
     int d_ReinforcementArmies;
     int d_ArmyCountValid, d_ArmyCountInvalid;
-    Player d_P = new Player();
+    Player p = new Player();
     String d_CountryValid, d_CountryInvalid;
     List<Country> d_CapturedCountries = new ArrayList<>();
-    Country d_C1 = new Country();
-    Country d_C2 = new Country();
-    Country d_C3 = new Country();
+    Country c1 = new Country();
+    Country c2 = new Country();
+    Country c3 = new Country();
     GameMap d_GameMap = GameMap.getInstance();
 
     /**
@@ -37,17 +37,17 @@ public class PlayerTest extends Player {
         d_ReinforcementArmies = 10;
         d_ArmyCountValid = 5;
         d_ArmyCountInvalid = 13;
-        d_P.setReinforcementArmies(d_ReinforcementArmies);
+        p.setReinforcementArmies(d_ReinforcementArmies);
 
-        d_C1.setName("India");
-        d_C2.setName("China");
-        d_C3.setName("Japan");
+        c1.setName("India");
+        c2.setName("China");
+        c3.setName("Japan");
         d_CountryValid = "India";
         d_CountryInvalid = "Canada";
-        d_CapturedCountries.add(d_C1);            //add to list
-        d_CapturedCountries.add(d_C2);
-        d_CapturedCountries.add(d_C3);
-        d_P.setCapturedCountries(d_CapturedCountries);
+        d_CapturedCountries.add(c1);            //add to list
+        d_CapturedCountries.add(c2);
+        d_CapturedCountries.add(c3);
+        p.setCapturedCountries(d_CapturedCountries);
     }
 
     /**
@@ -64,7 +64,7 @@ public class PlayerTest extends Player {
 
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
-        assertTrue(d_P.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
+        assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
     }
 
     /**
@@ -72,7 +72,7 @@ public class PlayerTest extends Player {
      */
     @Test
     public void testInvalidDeployReinforcementArmiesFromPlayer() {
-        assertFalse(d_P.deployReinforcementArmiesFromPlayer(d_ArmyCountInvalid));
+        assertFalse(p.deployReinforcementArmiesFromPlayer(d_ArmyCountInvalid));
     }
 }
 

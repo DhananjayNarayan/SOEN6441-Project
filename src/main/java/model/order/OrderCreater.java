@@ -76,7 +76,6 @@ public class OrderCreater {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_Country);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmy);
-        d_Leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to deploy " + l_OrderInfo.getNumberOfArmy() + " armies to " + l_OrderInfo.getDestination().getName());
         return l_OrderInfo;
     }
 
@@ -98,7 +97,6 @@ public class OrderCreater {
         l_OrderInfo.setDeparture(l_FromCountry);
         l_OrderInfo.setDestination(l_ToCountry);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmies);
-        d_Leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to advance " + l_OrderInfo.getNumberOfArmy() + " armies from "+l_OrderInfo.getDeparture().getName()+" to " + l_OrderInfo.getDestination().getName());
         return l_OrderInfo;
     }
 
@@ -114,7 +112,6 @@ public class OrderCreater {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setNeutralPlayer(d_GameMap.getPlayer(p_Command[1]));
-        d_Leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to negotiate with " +  l_OrderInfo.getNeutralPlayer().getName());
         return l_OrderInfo;
     }
 
@@ -131,7 +128,6 @@ public class OrderCreater {
         String l_CountryID = p_command[1];
         Country l_TargetCountry = d_GameMap.getCountry(l_CountryID);
         l_OrderInfo.setTargetCountry(l_TargetCountry);
-        d_Leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to blockade " +  l_OrderInfo.getTargetCountry().getName());
         return l_OrderInfo;
     }
 
@@ -153,7 +149,6 @@ public class OrderCreater {
         l_OrderInfo.setDeparture(l_FromCountry);
         l_OrderInfo.setDestination(l_ToCountry);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmies);
-        d_Leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to airlift " + l_OrderInfo.getNumberOfArmy() + " armies from "+l_OrderInfo.getDeparture().getName()+" to " + l_OrderInfo.getDestination().getName());
         return l_OrderInfo;
     }
 
@@ -163,7 +158,6 @@ public class OrderCreater {
         String l_CountryID = p_command[1];
         Country l_TargetCountry = d_GameMap.getCountry(l_CountryID);
         l_OrderInfo.setTargetCountry(l_TargetCountry);
-        d_Leb.logInfo("Player " + l_OrderInfo.getPlayer().getName() + " has given an order to bomb " +  l_OrderInfo.getTargetCountry().getName());
         return l_OrderInfo;
     }
 
