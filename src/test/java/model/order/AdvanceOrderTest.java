@@ -15,13 +15,30 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test cases for Advance Order
+ */
 public class AdvanceOrderTest {
+    /**
+     * Game map object
+     */
     GameMap d_GameMap;
-    GameStrategy d_GameStrategy;
 
+    /**
+     * Basic setup before each test case runs
+     *
+     * @throws Exception if an exception occurs
+     */
     @Before
     public void setUp() throws Exception {
+        /**
+         * Singleton game map instance
+         */
         d_GameMap = GameMap.getInstance();
+
+        /**
+         * Singleton game settings instance
+         */
         GameSettings l_GameSettings = GameSettings.getInstance();
         l_GameSettings.setStrategy(new DiceStrategy());
 
@@ -49,11 +66,19 @@ public class AdvanceOrderTest {
         d_GameMap.getPlayer("Player2").setReinforcementArmies(10);
     }
 
+    /**
+     * Tear down the setup after each test runs
+     *
+     * @throws Exception if an exception occurs
+     */
     @After
     public void tearDown() throws Exception {
         d_GameMap.flushGameMap();
     }
 
+    /**
+     * Test to check if advance execution fails on no troops deployed
+     */
     @Test
     public void checkExecutionFailOnNoTroopsDeployed() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -66,6 +91,9 @@ public class AdvanceOrderTest {
         assertFalse(l_Player1.nextOrder().execute());
     }
 
+    /**
+     * Test to check if advance execution fails, if destination is not neighbor
+     */
     @Test
     public void checkExecutionFailOnNotANeighbor() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -77,6 +105,10 @@ public class AdvanceOrderTest {
         assertFalse(l_Player1.nextOrder().execute());
     }
 
+    /**
+     * Test to check if advance execution succeeds, if destination is neighbor
+     * and troops deployed.
+     */
     @Test
     public void checkExecutionSuccessOnNeighborAndTroopsDeployedInOwnCountry() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -88,6 +120,11 @@ public class AdvanceOrderTest {
         assertTrue(l_Player1.nextOrder().execute());
     }
 
+    /**
+     * Test to check if advance execution succeeds, if destination is neighbor
+     * and troops deployed and no king exists. Also proper armies distribution
+     * after successful attack.
+     */
     @Test
     public void checkAdvanceSuccessOnNeighborIfNoKingExists() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -104,6 +141,10 @@ public class AdvanceOrderTest {
         assertTrue(l_CountriesPlayer1.get(0).getArmies() > 0);
     }
 
+    /**
+     * Test to check if advance execution succeeds, if destination is neighbor
+     * and troops deployed and king exists.
+     */
     @Test
     public void checkAttackSuccessOnNeighborWithKing() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -123,6 +164,10 @@ public class AdvanceOrderTest {
         assertTrue(l_Player1.nextOrder().execute());
     }
 
+    /**
+     * Test to check if attack execution succeeds and ownership changed, if destination is neighbor
+     * and troops deployed and king exists.
+     */
     @Test
     public void checkOwnershipChangeOnAdvanceSuccess() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -143,6 +188,9 @@ public class AdvanceOrderTest {
         assertEquals("Ownership changed",l_Player1,d_GameMap.getCountry("China").getPlayer());
     }
 
+    /**
+     * Test to check if advance command gets skipped if on neutral player
+     */
     @Test
     public void checkExecutionSkipsOnNeutralPlayer() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -165,6 +213,9 @@ public class AdvanceOrderTest {
         assertTrue(l_Player1.nextOrder().execute());
     }
 
+    /**
+     * Test to check if advance execution fails and gets skipped if invalid command
+     */
     @Test
     public void checkExecutionFailOnInvalidCommand() {
         List<Country> l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
@@ -176,8 +227,4 @@ public class AdvanceOrderTest {
         assertFalse(l_Player1.nextOrder().execute());
     }
 
-    @Test
-    public void printOrderCommand() {
-
-    }
 }
