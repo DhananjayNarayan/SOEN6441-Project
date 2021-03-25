@@ -13,12 +13,33 @@ import java.util.Set;
  * @author Prathika Suvarna
  */
 public class Country {
+    /**
+     * A string to store the ID of the country
+     */
     private String d_Id;
+    /**
+     * A string to store the name of country
+     */
     private String d_Name;
+    /**
+     * A string to store the name of the continent
+     */
     private String d_Continent;
+    /**
+     * A string to store the name of the player for the country
+     */
     private Player d_Player;
+    /**
+     * An integer to store the armies in the country
+     */
     private int d_Armies;
+    /**
+     * A set of countries to store the neighboring countries
+     */
     private Set<Country> d_Neighbors;
+    /**
+     * A set of strings to store the neighbors name
+     */
     private Set<String> d_NeighborsName;
 
     /**
@@ -97,7 +118,6 @@ public class Country {
      * @param p_Player Player instance
      */
     public void setPlayer(Player p_Player) {
-
         this.d_Player = p_Player;
     }
 
@@ -122,6 +142,15 @@ public class Country {
     }
 
     /**
+     * This method depletes the number of armies
+     *
+     * @param p_armies the number of armies
+     */
+    public void depleteArmies(int p_armies) {
+        d_Armies -= p_armies;
+    }
+
+    /**
      * Set the armies for the country
      *
      * @param p_Armies Number of armies for the country
@@ -133,6 +162,7 @@ public class Country {
 
     /**
      * A function to get the list of neighbors
+     *
      * @return set of neighbors
      */
     public Set<Country> getNeighbors() {
@@ -143,7 +173,18 @@ public class Country {
     }
 
     /**
+     * Method that checks if the country is a neighbour
+     *
+     * @param p_Neighbor the neighboring country
+     * @return the neighbour list
+     */
+    public boolean isNeighbor(Country p_Neighbor) {
+        return this.getNeighbors().contains(p_Neighbor);
+    }
+
+    /**
      * A function to set the list of neighbours
+     *
      * @param p_Neighbor An object of the Country class
      */
     public void setNeighbors(Country p_Neighbor) {
@@ -155,6 +196,7 @@ public class Country {
 
     /**
      * A function to store the names of the neighbours of a country
+     *
      * @param p_NeighborCountryName the name of the neighbour country being added to the set
      */
     public void setNeighborsName(String p_NeighborCountryName) {
@@ -166,6 +208,7 @@ public class Country {
 
     /**
      * A function to fetch the set of neighbors of a country
+     *
      * @return The set of neighbors of a country
      */
     public Set<String> getNeighborsName() {
@@ -177,6 +220,7 @@ public class Country {
 
     /**
      * A function to remove a neighbour from the list of neighbours of a country
+     *
      * @param p_NeighborCountryName the name of the neighbor to be removed from the set
      */
     public void removeNeighborsName(String p_NeighborCountryName) {
@@ -188,14 +232,15 @@ public class Country {
 
     /**
      * A function to store the list of neighbors for a country
+     *
      * @param p_Neighbors the set of neighbors
      * @return the neighbors as String
      */
-    public String createANeighborList(Set<Country> p_Neighbors){
-        String result = "";
-        for (Country l_Neighbor : p_Neighbors ){
-            result += l_Neighbor.getName() + "-";
+    public String createANeighborList(Set<Country> p_Neighbors) {
+        String l_result = "";
+        for (Country l_Neighbor : p_Neighbors) {
+            l_result += l_Neighbor.getName() + "-";
         }
-        return result.length() > 0 ? result.substring(0, result.length() - 1): "";
+        return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
     }
 }

@@ -63,7 +63,7 @@ public class MapValidationTest {
     @Test
     public void checkIfContinentIsEmpty() throws ValidationException {
         d_GameMap.addContinent("Europe", "5");
-        assertEquals(true, MapValidation.checkIfContinentIsEmpty(d_GameMap));
+        assertTrue(MapValidation.checkIfContinentIsEmpty(d_GameMap));
     }
 
     /**
@@ -74,7 +74,7 @@ public class MapValidationTest {
     @Test
     public void checkDuplicateNeighbours() throws ValidationException {
         d_GameMap.addNeighbor("Pak", "Pak");
-        assertEquals(true, MapValidation.checkDuplicateNeighbours(d_GameMap));
+        assertTrue(MapValidation.checkDuplicateNeighbours(d_GameMap));
     }
 
     /**
@@ -84,7 +84,7 @@ public class MapValidationTest {
      */
     @Test
     public void checkIfContinentIsConnected() throws ValidationException {
-        assertEquals(true, MapValidation.checkIfContinentIsConnected(d_GameMap));
+        assertTrue(MapValidation.checkIfContinentIsConnected(d_GameMap));
     }
 
     /**
@@ -92,6 +92,12 @@ public class MapValidationTest {
      */
     @Test
     public void checkIfMapIsConnected() {
-        assertEquals(true, MapValidation.checkIfMapIsConnected(d_GameMap));
+        assertTrue(MapValidation.checkIfMapIsConnected(d_GameMap.getCountries()));
+    }
+
+    @Test
+    public void CheckIfMapIsInvalid() throws ValidationException {
+        d_GameMap.removeNeighbor("Newyork", "Pak");
+        assertFalse(MapValidation.checkIfMapIsConnected(d_GameMap.getCountries()));
     }
 }

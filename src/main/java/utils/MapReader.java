@@ -1,6 +1,7 @@
 package utils;
 
 import model.GameMap;
+import utils.logger.LogEntryBuffer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +19,11 @@ import java.util.stream.Collectors;
  * @author Prathika Suvarna
  */
 public class MapReader {
+
+    /**
+     * static log entry buffer to read the actions
+     */
+    static LogEntryBuffer d_Leb = new LogEntryBuffer();
     /**
      * This function reads the file and places the contents of the file
      * in a Hash Map
@@ -27,6 +33,9 @@ public class MapReader {
      * @throws ValidationException when validation fails
      */
     public static void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
+        d_Leb.clearNewFile();
+        d_Leb.logInfo(" STARTUP PHASE \n");
+
         try {
             p_GameMap.flushGameMap();
             File l_File = new File("maps/" + p_FileName);
@@ -62,7 +71,7 @@ public class MapReader {
      */
     public static void readContinentsFromFile(GameMap p_GameMap, List<String> p_ContinentArray) throws ValidationException {
         for (String l_InputString : p_ContinentArray) {
-            String[] l_InputArray = l_InputString.split(" ");
+            String[] l_InputArray = l_InputString.split("=");
             if (l_InputArray.length == 2) {
                 p_GameMap.addContinent(l_InputArray[0], l_InputArray[1]);
             }

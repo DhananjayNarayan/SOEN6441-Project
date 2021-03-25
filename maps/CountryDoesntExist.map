@@ -1,0 +1,8 @@
+[Map]
+author=Anonymous
+[Continents]
+africa=9
+asia=6
+[Territories]
+Pak africa india
+india asia nepal

@@ -2,6 +2,7 @@ package model.order;
 
 import model.Country;
 import model.Player;
+import utils.logger.LogEntryBuffer;
 
 /**
  * Class DeployOrder which is a child of Order, used to execute the orders
@@ -14,6 +15,8 @@ import model.Player;
  * @version 1.0.0
  */
 public class DeployOrder extends Order {
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
+
     /**
      * Constructor for class DeployOrder
      */
@@ -21,28 +24,55 @@ public class DeployOrder extends Order {
         super();
         setType("deploy");
     }
+
     /**
      * Overriding the execute function for the order type deploy
      *
      * @return true if the execution was successful else return false
      */
     public boolean execute() {
-        if (getOrderInfo().getPlayer() == null || getOrderInfo().getDestination() == null) {
-            System.out.println("Fail to execute Deploy order: Invalid order information.");
+        Country l_Destination = getOrderInfo().getDestination();
+        int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("The order: " + getType() + " " + getOrderInfo().getDestination().getName() + " " + getOrderInfo().getNumberOfArmy());
+        if (validateCommand()) {
+            l_Destination.deployArmies(l_ArmiesToDeploy);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * A function to validate the commands
+     *
+     * @return true if command can be executed else false
+     */
+    public boolean validateCommand() {
+        Player l_Player = getOrderInfo().getPlayer();
+        Country l_Destination = getOrderInfo().getDestination();
+        int l_Reinforcements = getOrderInfo().getNumberOfArmy();
+        if (l_Player == null || l_Destination == null) {
+            System.out.println("Invalid order information.");
             return false;
         }
-        Player l_Player = getOrderInfo().getPlayer();
-        String l_Destination = getOrderInfo().getDestination();
-        int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
-        for(Country l_Country : l_Player.getCapturedCountries()){
-            if(l_Country.getName().equals(l_Destination)){
-                l_Country.deployArmies(l_ArmiesToDeploy);
-                System.out.println("The country " + l_Country.getName() + " has been deployed with " + l_Country.getArmies() + " armies.");
-            }
+        if (!l_Player.isCaptured(l_Destination)) {
+            System.out.println("The country does not belong to you");
+            return false;
         }
-        System.out.println("\nExecution is completed: deployed " + l_ArmiesToDeploy + " armies to " + l_Destination + ".");
-        System.out.println("=========================================================================================");
+        if (!l_Player.deployReinforcementArmiesFromPlayer(l_Reinforcements)) {
+            System.out.println("You do not have enough Reinforcement Armies to deploy.");
+            return false;
+        }
         return true;
+    }
+
+    /**
+     * A function to print the order on completion
+     */
+    public void printOrderCommand() {
+        System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        d_Leb.logInfo("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
     }
 
 }

@@ -1,8 +1,12 @@
 package model;
 
+import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
+import utils.logger.LogEntryBuffer;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Concrete class with the details of the player
@@ -16,15 +20,35 @@ import java.util.*;
  */
 
 public class Player {
+    /**
+     * AN integer to store the ID of player
+     */
     private int d_Id;
+    /**
+     * An integer to store the name of the player
+     */
     private String d_Name;
+    /**
+     * A list of captured countries
+     */
     private List<Country> d_CapturedCountries = new ArrayList<>();
-    private Deque<Order> d_Orders = new ArrayDeque<>();
+    /**
+     * A deque to manage the list of orders
+     */
+    private final Deque<Order> d_Orders = new ArrayDeque<>();
+    /**
+     * An integer to store the number of reinforcement armies
+     */
     private int d_ReinforcementArmies;
     /**
-     * Initialising List to hold orders
+     * A list of cards for the player
      */
-    public static List<Order> OrderList = new ArrayList<>();
+    private final List<Card> d_PlayerCards = new ArrayList<>();
+    /**
+     * A list of neutral players
+     */
+    private final List<Player> d_NeutralPlayers = new ArrayList<>();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * A function to get the player ID
@@ -90,20 +114,11 @@ public class Player {
     }
 
     /**
-     * A function to set the orders
-     *
-     * @param p_Orders the list of orders
-     */
-    private void setOrders(Deque<Order> p_Orders) {
-        this.d_Orders = p_Orders;
-    }
-
-    /**
      * A function to add the orders to the issue order list
      *
      * @param p_Order The order to be added
      */
-    private void addOrder(Order p_Order) {
+    public void addOrder(Order p_Order) {
         d_Orders.add(p_Order);
     }
 
@@ -126,48 +141,98 @@ public class Player {
     }
 
     /**
-     * A function to get the issue order from player and add to the order list
+     * A function to get list of all cards for the player
      *
-     * @param p_Commands the type of order issued
+     * @return list of all cards
      */
-    public void issueOrder(String p_Commands) {
-        boolean l_IssueCommand = true;
-        String[] l_CommandArr = p_Commands.split(" ");
-        int l_ReinforcementArmies = Integer.parseInt(l_CommandArr[2]);
-        if (!checkIfCountryExists(l_CommandArr[1], this)) {
-            System.out.println("The country does not belong to you");
-            l_IssueCommand = false;
-        }
-        if (!deployReinforcementArmiesFromPlayer(l_ReinforcementArmies)) {
-            System.out.println("You do have enough Reinforcement Armies to deploy.");
-            l_IssueCommand = false;
-        }
+    public List<Card> getPlayerCards() {
+        return d_PlayerCards;
+    }
 
-        if (l_IssueCommand) {
-            Order l_Order = OrderCreater.createOrder(l_CommandArr, this);
-            OrderList.add(l_Order);
-            addOrder(l_Order);
-            System.out.println("Your Order has been added to the list: deploy " + l_Order.getOrderInfo().getDestination() + " with " + l_Order.getOrderInfo().getNumberOfArmy() + " armies");
-            System.out.println("=========================================================================================");
+    /**
+     * Method to check if particular card is available in the player's card list
+     *
+     * @param p_cardType The type of card
+     * @return true if card is available else false
+     */
+    public boolean checkIfCardAvailable(CardType p_cardType) {
+        return d_PlayerCards.stream().anyMatch(p_card -> p_card.getCardType().equals(p_cardType));
+    }
+
+    /**
+     * Remove the card for the player
+     *
+     * @param p_CardType card to be removed
+     * @return the player cards
+     */
+    public boolean removeCard(CardType p_CardType) {
+        return d_PlayerCards.remove(new Card(p_CardType));
+    }
+
+    /**
+     * A function to remove the all cards from the player
+     */
+    public void removeCards() {
+        d_PlayerCards.clear();
+    }
+
+    /**
+     * Add the card to the player on conquering the territory
+     *
+     * @param p_Card card to be added to player
+     */
+    public void addPlayerCard(Card p_Card) {
+        d_PlayerCards.add(p_Card);
+    }
+
+
+    /**
+     * Get the list of all players you cannot attack
+     *
+     * @return list of players
+     */
+    public List<Player> getNeutralPlayers() {
+        return d_NeutralPlayers;
+    }
+
+    /**
+     * Add the neutral player to the list
+     *
+     * @param p_NeutralPlayer The player you cannot attack
+     */
+    public void addNeutralPlayers(Player p_NeutralPlayer) {
+        if (!d_NeutralPlayers.contains(p_NeutralPlayer)) {
+            d_NeutralPlayers.add(p_NeutralPlayer);
         }
     }
 
     /**
-     * A function to check if the country exists in the list of player assigned countries
-     *
-     * @param p_Country The country to be checked if present
-     * @param p_Player The Player for whom the function is checked for
-     * @return true if country exists in the assigned country list else false
+     * Remove all the neutral players from list
      */
-    public boolean checkIfCountryExists(String p_Country, Player p_Player) {
-        List<Country> l_ListOfCountries = p_Player.getCapturedCountries();
-        for (Country l_Country : l_ListOfCountries) {
-            if (l_Country.getName().equals(p_Country)) {
-                return true;
-            }
+    public void removeNeutralPlayer() {
+        if (!d_NeutralPlayers.isEmpty()) {
+            d_NeutralPlayers.clear();
         }
-        return false;
     }
+
+    /**
+     * A function to get the issue order from player and add to the order list
+     */
+    public void issueOrder() {
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), this);
+        addOrder(l_Order);
+    }
+
+
+    /**
+     * A function to return the next order for execution
+     *
+     * @return order for executing for each player
+     */
+    public Order nextOrder() {
+        return d_Orders.poll();
+    }
+
 
     /**
      * A function to check if the army to deployed is valid
@@ -176,7 +241,7 @@ public class Player {
      * @return true if the armies are valid and deducted from the assigned army pool else false
      */
     public boolean deployReinforcementArmiesFromPlayer(int p_ArmyCount) {
-        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount < 0) {
+        if (p_ArmyCount > d_ReinforcementArmies || p_ArmyCount <= 0) {
             return false;
         }
         d_ReinforcementArmies -= p_ArmyCount;
@@ -184,16 +249,64 @@ public class Player {
     }
 
     /**
-     *  A function to create a list of countries assigned to player in a formatted string
+     * A function to create a list of countries assigned to player in a formatted string
      *
      * @param p_Capture The list of countries of the player
      * @return the formatted string
      */
-    public String createACaptureList(List<Country>  p_Capture) {
+    public String createACaptureList(List<Country> p_Capture) {
         String l_Result = "";
-        for (Country l_Capture : p_Capture ){
+        for (Country l_Capture : p_Capture) {
             l_Result += l_Capture.getName() + "-";
         }
-        return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1): "";
+        return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
     }
+
+
+    /**
+     * Calculate the number of the armies to be assigned in reinforcement phase.
+     *
+     * @param p_gameMap The game map object
+     */
+    public void calculateReinforcementArmies(GameMap p_gameMap) {
+        if (getCapturedCountries().size() > 0) {
+            int reinforcements = (int) Math.floor(getCapturedCountries().size() / 3f);
+            reinforcements += getBonusIfKingOfContinents(p_gameMap);
+            setReinforcementArmies(reinforcements > 2 ? reinforcements : 3);
+        } else {
+            setReinforcementArmies(3);
+        }
+        System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_Leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+    }
+
+    /**
+     * Add bonus armies to reinforcement armies if a player owns the continent.
+     *
+     * @param p_gameMap The game map object
+     * @return reinforcements armies added with bonus armies
+     */
+    private int getBonusIfKingOfContinents(GameMap p_gameMap) {
+        int reinforcements = 0;
+        Map<String, List<Country>> l_CountryMap = getCapturedCountries()
+                .stream()
+                .collect(Collectors.groupingBy(Country::getContinent));
+        for (String continent : l_CountryMap.keySet()) {
+            if (p_gameMap.getContinent(continent).getCountries().size() == l_CountryMap.get(continent).size()) {
+                reinforcements += p_gameMap.getContinent(continent).getAwardArmies();
+            }
+        }
+        return reinforcements;
+    }
+
+    /**
+     * A function to check if the country exists in the list of player captured countries
+     *
+     * @param p_Country The country to be checked if present
+     * @return true if country exists in the assigned country list else false
+     */
+    public boolean isCaptured(Country p_Country) {
+        return d_CapturedCountries.contains(p_Country);
+    }
+
 }

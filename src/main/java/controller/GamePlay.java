@@ -1,9 +1,12 @@
 package controller;
 
-import model.*;
+import model.GameController;
+import model.GameMap;
+import model.GamePhase;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
+import utils.logger.LogEntryBuffer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,10 +24,17 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 public class GamePlay implements GameController {
+    /**
+     * A data member for scanner
+     */
+    private final Scanner SCANNER = new Scanner(System.in);
+    /**
+     * A data member that stores the list of commands for gameplay as list
+     */
+    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.Reinforcement;
-    private final Scanner SCANNER = new Scanner(System.in);
-    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
+    LogEntryBuffer d_leb = new LogEntryBuffer();
 
     /**
      * This is the default constructor
@@ -45,7 +55,7 @@ public class GamePlay implements GameController {
         while (true) {
             System.out.println("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
             String l_Input = SCANNER.nextLine();
-            List<String> l_InputList = null;
+            List<String> l_InputList;
             if (l_Input.contains("-")) {
                 l_InputList = Arrays.stream(l_Input.split("-"))
                         .filter(s -> !s.isEmpty())
@@ -108,11 +118,11 @@ public class GamePlay implements GameController {
                     case "assigncountries": {
                         if (d_GameMap.getPlayers().size() > 1) {
                             d_GameMap.assignCountries();
-                            System.out.println("================================End of Load Game Phase==================================");
-                            return p_GamePhase.nextState(d_NextState);
                         } else {
+                            d_leb.logInfo("Game ended as the minimum players are not there.");
                             throw new ValidationException("Create atleast two players");
                         }
+                        break;
                     }
                     //Handle showmap command from console
 
