@@ -10,10 +10,20 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class IssueOrderTest {
-    GamePhase d_NextGamePhase = GamePhase.IssueOrder;
+    /**
+     * gameMap instance
+     */
     GameMap d_GameMap;
+    /**
+     * Issue Order instance
+     */
     private IssueOrder d_IssueOrder;
 
+    /**
+     * Setup for test case
+     *
+     * @throws Exception exception
+     */
     @Before
     public void setUp() throws Exception {
         d_GameMap = GameMap.getInstance();
@@ -27,11 +37,19 @@ public class IssueOrderTest {
         d_IssueOrder.d_GamePhase = GamePhase.IssueOrder;
     }
 
+    /**
+     * Clear the setup after the test case
+     *
+     * @throws Exception exception
+     */
     @After
     public void tearDown() throws Exception {
         d_GameMap.flushGameMap();
     }
 
+    /**
+     * Validate the command syntax
+     */
     @Test
     public void validateCommand() {
         assertEquals(true, IssueOrder.ValidateCommand("deploy india 10", d_GameMap.getPlayer("Player1")));
