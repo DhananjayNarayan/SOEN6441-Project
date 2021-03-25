@@ -10,6 +10,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import utils.MapValidationTest;
 
+
+/**
+ * A class for test suites
+ */
 @RunWith(Suite.class)
 
 /**
@@ -22,7 +26,7 @@ import utils.MapValidationTest;
         MapValidationTest.class})
 
 /**
- * class for test suite
+ * A class for test suites
  */
 public class AllTestSuite {
 

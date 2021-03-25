@@ -90,6 +90,10 @@ public class PlayerTest extends Player {
         String l_Name = d_Player.getName();
         assertEquals(d_Name,l_Name);
     }
+
+    /**
+     * Checks the reinforcement armies
+     */
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
         assertTrue(d_Player.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));

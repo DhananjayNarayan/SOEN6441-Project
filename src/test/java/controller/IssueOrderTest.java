@@ -9,6 +9,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * A class to check to test the Issue Order
+ */
 public class IssueOrderTest {
     /**
      * gameMap instance
