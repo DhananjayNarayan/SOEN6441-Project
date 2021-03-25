@@ -22,7 +22,7 @@ public class IssueOrder implements GameController {
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
     GamePhase d_GamePhase;
     GameMap d_GameMap;
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * Constructor to get the GameMap instance
@@ -41,7 +41,7 @@ public class IssueOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_leb.logInfo("\n ISSUE ORDER PHASE \n");
+        d_Leb.logInfo("\n ISSUE ORDER PHASE \n");
         while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
             for (Player l_Player : d_GameMap.getPlayers().values()) {
                 if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
@@ -53,9 +53,9 @@ public class IssueOrder implements GameController {
                     System.out.println(l_Country.getName() + " ");
                 }
                 if(!l_Player.getPlayerCards().isEmpty()){
-                    System.out.println("The Cards assigned to the Players are:");
+                    System.out.println("The Cards assigned to the Players are:" );
                     for(Card l_Card : l_Player.getPlayerCards()){
-                        System.out.println();
+                        System.out.println(l_Card.getCardType());
                     }
                 }
                 System.out.println("=================================================================================");

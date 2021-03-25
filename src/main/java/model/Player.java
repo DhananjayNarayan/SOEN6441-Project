@@ -27,7 +27,7 @@ public class Player {
     private int d_ReinforcementArmies;
     private final List<Card> d_PlayerCards = new ArrayList<>();
     private final List<Player> d_NeutralPlayers = new ArrayList<>();
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
      * A function to get the player ID
@@ -255,7 +255,7 @@ public class Player {
             setReinforcementArmies(3);
         }
         System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
-        d_leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_Leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
     /**

@@ -62,6 +62,7 @@ public class NegotiateOrder extends Order {
             return false;
         }
         // check if the player exists
+        System.out.println(d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName()));
         if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
             System.err.println("The Player name doesn't exist.");
             dLeb.logInfo("The Player name doesn't exist.");

@@ -1,9 +1,6 @@
 package model.order;
 
-import model.Card;
-import model.Country;
-import model.GameSettings;
-import model.Player;
+import model.*;
 import model.strategy.GameStrategy;
 import utils.logger.LogEntryBuffer;
 
@@ -16,8 +13,8 @@ import java.util.Objects;
  */
 public class AdvanceOrder extends Order {
 
-    LogEntryBuffer LOGGER = new LogEntryBuffer();
-    GameSettings SETTINGS = GameSettings.getInstance();
+    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    GameSettings d_Settings = GameSettings.getInstance();
     GameStrategy d_GameStrategy;
 
     /**
@@ -26,7 +23,7 @@ public class AdvanceOrder extends Order {
     public AdvanceOrder() {
         super();
         setType("advance");
-        d_GameStrategy = SETTINGS.getStrategy();
+        d_GameStrategy = d_Settings.getStrategy();
     }
 
     /**
@@ -62,12 +59,13 @@ public class AdvanceOrder extends Order {
                 }
                 l_To.setPlayer(l_Player);
                 System.out.println("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
-                LOGGER.logInfo("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
+                d_Leb.logInfo("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
                 return true;
             } else if (d_GameStrategy.attack(l_Player, l_From, l_To, l_Armies)) {
-                l_Player.addPlayerCard(new Card());
-                System.out.println("Attacker: " + l_Player + " received a card");
-                LOGGER.logInfo("Attacker: " + l_Player + " received a card");
+                Card l_AssignedCard = new Card();
+                l_Player.addPlayerCard(l_AssignedCard);
+                System.out.println("Attacker: " + l_Player.getName() + " received a card " + l_AssignedCard.getCardType());
+                d_Leb.logInfo("Attacker: " + l_Player.getName() + " received a card " + l_AssignedCard.getCardType());
                 return true;
             }
         }
@@ -107,7 +105,7 @@ public class AdvanceOrder extends Order {
         }
         if (!success) {
             System.err.println(log);
-            LOGGER.logInfo(log);
+            d_Leb.logInfo(log);
         }
         return success;
     }
@@ -119,6 +117,6 @@ public class AdvanceOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Advanced " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        LOGGER.logInfo("Advanced " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Leb.logInfo("Advanced " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
     }
 }
