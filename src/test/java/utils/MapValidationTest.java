@@ -95,6 +95,10 @@ public class MapValidationTest {
         assertTrue(MapValidation.checkIfMapIsConnected(d_GameMap.getCountries()));
     }
 
+    /**
+     * Checks that the map is invalid
+     * @throws ValidationException if exception occurs
+     */
     @Test
     public void CheckIfMapIsInvalid() throws ValidationException {
         d_GameMap.removeNeighbor("Newyork", "Pak");
