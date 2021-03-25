@@ -1,6 +1,8 @@
 package model.order;
 
-import model.*;
+import model.Country;
+import model.GameSettings;
+import model.Player;
 import model.strategy.GameStrategy;
 import utils.logger.LogEntryBuffer;
 
@@ -62,10 +64,6 @@ public class AdvanceOrder extends Order {
                 d_Leb.logInfo("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
                 return true;
             } else if (d_GameStrategy.attack(l_Player, l_From, l_To, l_Armies)) {
-                Card l_AssignedCard = new Card();
-                l_Player.addPlayerCard(l_AssignedCard);
-                System.out.println("Attacker: " + l_Player.getName() + " received a card " + l_AssignedCard.getCardType());
-                d_Leb.logInfo("Attacker: " + l_Player.getName() + " received a card " + l_AssignedCard.getCardType());
                 return true;
             }
         }
