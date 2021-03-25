@@ -120,6 +120,11 @@ public class Country {
         d_Armies += p_armies;
     }
 
+    /**
+     * This method depletes the number of armies
+     *
+     * @param p_armies the number of armies
+     */
     public void depleteArmies(int p_armies) {
         d_Armies -= p_armies;
     }
@@ -146,6 +151,12 @@ public class Country {
         return d_Neighbors;
     }
 
+    /**
+     * Method that checks if the country is a neighbour
+     *
+     * @param p_Neighbor the neighboring country
+     * @return the neighbour list
+     */
     public boolean isNeighbor(Country p_Neighbor) {
         return this.getNeighbors().contains(p_Neighbor);
     }
