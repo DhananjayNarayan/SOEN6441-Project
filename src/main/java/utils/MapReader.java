@@ -68,7 +68,7 @@ public class MapReader {
      */
     public static void readContinentsFromFile(GameMap p_GameMap, List<String> p_ContinentArray) throws ValidationException {
         for (String l_InputString : p_ContinentArray) {
-            String[] l_InputArray = l_InputString.split(" ");
+            String[] l_InputArray = l_InputString.split("=");
             if (l_InputArray.length == 2) {
                 p_GameMap.addContinent(l_InputArray[0], l_InputArray[1]);
             }
