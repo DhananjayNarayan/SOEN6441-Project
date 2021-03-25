@@ -15,6 +15,9 @@ import utils.logger.LogEntryBuffer;
  * @author Prathika Suvarna
  */
 public class OrderCreater {
+    /**
+     * Static object of Game Map to hold instance of game map
+     */
     public static GameMap d_GameMap = GameMap.getInstance();
     static LogEntryBuffer d_Leb = new LogEntryBuffer();
 

@@ -10,7 +10,9 @@ import java.util.Objects;
  * @version 1.0.0
  */
 public class Card {
-
+    /**
+     * Data member to hold card type
+     */
     private CardType d_CardType;
 
     /**
