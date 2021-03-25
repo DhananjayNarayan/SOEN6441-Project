@@ -33,9 +33,9 @@ public class GameEngine {
 
     /**
      * The function which runs the whole game in phases
-     * @param p_gameSettings controls the game phase
+     * @param p_GameSettings controls the game phase
      */
-    public void start(GameSettings p_gameSettings) {
+    public void start(GameSettings p_GameSettings) {
         try {
             if (!d_GamePhase.equals(GamePhase.ExitGame)) {
                 GameController l_GameController = d_GamePhase.getController();
@@ -45,11 +45,11 @@ public class GameEngine {
                 d_GamePhase = l_GameController.start(d_GamePhase);
                 System.out.println("You have entered the " + d_GamePhase + " Phase.");
                 System.out.println("-----------------------------------------------------------------------------------------");
-                start(p_gameSettings);
+                start(p_GameSettings);
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {
             System.err.println(p_Exception.getMessage());
-            start(p_gameSettings);
+            start(p_GameSettings);
         } catch (Exception p_Exception) {
             p_Exception.printStackTrace();
         }
