@@ -18,7 +18,8 @@ import utils.logger.LogEntryBuffer;
  * @version 1.0.0
  */
 public class ExecuteOrder implements GameController {
-    GamePhase d_NextGamePhase = GamePhase.Reinforcement;
+    GamePhase d_ReinforcementGamePhase = GamePhase.Reinforcement;
+    GamePhase d_ExitGamePhase = GamePhase.ExitGame;
     GamePhase d_GamePhase;
     GameMap d_GameMap;
     LogEntryBuffer d_Leb = new LogEntryBuffer();
@@ -43,7 +44,7 @@ public class ExecuteOrder implements GameController {
         d_Leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
-        return p_GamePhase.nextState(d_NextGamePhase);
+        return p_GamePhase.nextState(d_ReinforcementGamePhase);
     }
 
     /**
