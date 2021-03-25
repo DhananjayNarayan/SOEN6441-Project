@@ -55,4 +55,14 @@ public class BlockadeOrderTest {
         assertTrue(l_Player.nextOrder().execute());
     }
 
+    @Test
+    public void checkIfCommandIsTrue() {
+        Player l_Player = d_GameMap.getPlayer("Player1");
+        l_Player.addPlayerCard(new Card(CardType.BLOCKADE));
+        IssueOrder.Commands = "blockade " + d_CountryList1.get(0).getName() ;
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
+
+        l_Player.addOrder(l_Order1);
+        assertTrue(l_Player.nextOrder().validateCommand());
+    }
 }
