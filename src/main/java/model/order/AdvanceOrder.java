@@ -15,8 +15,19 @@ import java.util.Objects;
  */
 public class AdvanceOrder extends Order {
 
+    /**
+     * Log entry buffer object
+     */
     LogEntryBuffer d_Leb = new LogEntryBuffer();
+
+    /**
+     * Game Settings object
+     */
     GameSettings d_Settings = GameSettings.getInstance();
+
+    /**
+     * Game Strategy object
+     */
     GameStrategy d_GameStrategy;
 
     /**
