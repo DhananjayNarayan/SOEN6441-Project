@@ -33,6 +33,7 @@ public class GameEngine {
 
     /**
      * The function which runs the whole game in phases
+     * @param p_gameSettings controls the game phase
      */
     public void start(GameSettings p_gameSettings) {
         try {
