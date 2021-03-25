@@ -18,9 +18,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class DeployOrderTest {
     GameMap d_GameMap;
-    List<Country> l_CountriesPlayer1;
-    List<Country> l_CountriesPlayer2;
-    Player l_Player;
+    List<Country> d_CountriesPlayer1;
+    List<Country> d_CountriesPlayer2;
+    Player d_Player;
 
     /**
      * Setup for the test cases
@@ -38,8 +38,8 @@ public class DeployOrderTest {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             l_Player.calculateReinforcementArmies(d_GameMap);
         }
-        l_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
-        l_Player = d_GameMap.getPlayer("Player1");
+        d_CountriesPlayer1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
+        d_Player = d_GameMap.getPlayer("Player1");
     }
 
     /**
@@ -57,10 +57,10 @@ public class DeployOrderTest {
      */
     @Test
     public void execute() {
-        IssueOrder.Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " " + l_Player.getReinforcementArmies();
-        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
-        l_Player.addOrder(l_Order1);
-        assertTrue(l_Player.nextOrder().execute());
+        IssueOrder.Commands = "deploy " + d_CountriesPlayer1.get(0).getName() + " " + d_Player.getReinforcementArmies();
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), d_Player);
+        d_Player.addOrder(l_Order1);
+        assertTrue(d_Player.nextOrder().execute());
     }
 
     /**
@@ -68,10 +68,10 @@ public class DeployOrderTest {
      */
     @Test
     public void checkIfTheCommandIsValid() {
-        IssueOrder.Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " " + l_Player.getReinforcementArmies();
-        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
-        l_Player.addOrder(l_Order);
-        assertTrue(l_Player.nextOrder().validateCommand());
+        IssueOrder.Commands = "deploy " + d_CountriesPlayer1.get(0).getName() + " " + d_Player.getReinforcementArmies();
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), d_Player);
+        d_Player.addOrder(l_Order);
+        assertTrue(d_Player.nextOrder().validateCommand());
     }
 
     /**
@@ -79,11 +79,11 @@ public class DeployOrderTest {
      */
     @Test
     public void checkIfTheCountriesAreValid() {
-        l_CountriesPlayer2 = d_GameMap.getPlayer("Player2").getCapturedCountries();
-        IssueOrder.Commands = "deploy " + l_CountriesPlayer2.get(0).getName() + " " + l_Player.getReinforcementArmies();
-        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
-        l_Player.addOrder(l_Order);
-        assertFalse(l_Player.nextOrder().validateCommand());
+        d_CountriesPlayer2 = d_GameMap.getPlayer("Player2").getCapturedCountries();
+        IssueOrder.Commands = "deploy " + d_CountriesPlayer2.get(0).getName() + " " + d_Player.getReinforcementArmies();
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), d_Player);
+        d_Player.addOrder(l_Order);
+        assertFalse(d_Player.nextOrder().validateCommand());
     }
 
     /**
@@ -91,9 +91,9 @@ public class DeployOrderTest {
      */
     @Test
     public void checkIfTheArmiesAreValid() {
-        IssueOrder.Commands = "deploy " + l_CountriesPlayer1.get(0).getName() + " 10";
-        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
-        l_Player.addOrder(l_Order);
-        assertFalse(l_Player.nextOrder().validateCommand());
+        IssueOrder.Commands = "deploy " + d_CountriesPlayer1.get(0).getName() + " 10";
+        Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), d_Player);
+        d_Player.addOrder(l_Order);
+        assertFalse(d_Player.nextOrder().validateCommand());
     }
 }

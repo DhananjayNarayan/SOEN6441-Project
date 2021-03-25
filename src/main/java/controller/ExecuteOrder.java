@@ -66,6 +66,10 @@ public class ExecuteOrder implements GameController {
         }
     }
 
+    /**
+     * This method Clears the neutral players
+     *
+     */
     public void clearAllNeutralPlayers() {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             l_Player.removeNeutralPlayer();

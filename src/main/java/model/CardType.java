@@ -3,12 +3,25 @@ package model;
 import java.util.Random;
 
 /**
- * This is an Enum for Card Type
+ * This is the enum class for card type
+ *
  */
 public enum CardType {
+    /**
+     * Bomb Card Type
+     */
     BOMB,
+    /**
+     * Blockade Card Type
+     */
     BLOCKADE,
+    /**
+     * Airlift Card Type
+     */
     AIRLIFT,
+    /**
+     * Diplomacy Card Type
+     */
     DIPLOMACY;
 
     /**
