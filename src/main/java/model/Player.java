@@ -141,7 +141,8 @@ public class Player {
     /**
      * Remove the card for the player
      *
-     * @param p_CardType card  to be removed
+     * @param p_CardType card to be removed
+     * @return the player cards
      */
     public boolean removeCard(CardType p_CardType) {
         return d_PlayerCards.remove(new Card(p_CardType));
