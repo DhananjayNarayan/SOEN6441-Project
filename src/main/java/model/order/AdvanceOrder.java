@@ -65,9 +65,6 @@ public class AdvanceOrder extends Order {
                 LOGGER.logInfo("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
                 return true;
             } else if (d_GameStrategy.attack(l_Player, l_From, l_To, l_Armies)) {
-                l_Player.addPlayerCard(new Card());
-                System.out.println("Attacker: " + l_Player + " received a card");
-                LOGGER.logInfo("Attacker: " + l_Player + " received a card");
                 return true;
             }
         }
