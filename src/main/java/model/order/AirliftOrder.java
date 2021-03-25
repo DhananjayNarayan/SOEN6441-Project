@@ -39,6 +39,7 @@ public class AirliftOrder extends Order {
         if (validateCommand()) {
             l_fromCountry.setArmies(l_fromCountry.getArmies() - p_armyNumberToAirLift);
             l_toCountry.setArmies(l_toCountry.getArmies() + p_armyNumberToAirLift);
+            System.out.println("The order: " + getType() + " " + p_armyNumberToAirLift + " armies from "+l_fromCountry.getName()+" to "+l_toCountry.getName());
             l_Player.removeCard(CardType.AIRLIFT);
             return true;
         }
@@ -80,7 +81,7 @@ public class AirliftOrder extends Order {
         }
         //check if army number is more that they own
         if (l_fromCountry.getArmies() < p_armyNumberToAirLift) {
-            System.out.println("Player has less no. of army in country " + getOrderInfo().getDeparture());
+            System.out.println("Player has less no. of army in country " + getOrderInfo().getDeparture().getName());
             return false;
         }
         return true;

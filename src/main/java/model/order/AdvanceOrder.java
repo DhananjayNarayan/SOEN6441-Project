@@ -71,8 +71,8 @@ public class AdvanceOrder extends Order {
                     l_Player.getCapturedCountries().add(l_To);
                 }
                 l_To.setPlayer(l_Player);
-                System.out.println("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
-                d_Leb.logInfo("Advanced/Moved " + l_Armies + " from " + l_From + " to " + l_To);
+                System.out.println("Advanced/Moved " + l_Armies + " from " + l_From.getName() + " to " + l_To.getName());
+                d_Leb.logInfo("Advanced/Moved " + l_Armies + " from " + l_From.getName() + " to " + l_To.getName());
                 return true;
             } else if (d_GameStrategy.attack(l_Player, l_From, l_To, l_Armies)) {
                 return true;

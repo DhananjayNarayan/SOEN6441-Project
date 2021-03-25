@@ -1,11 +1,17 @@
 package model.order;
+
+import controller.IssueOrder;
+import model.Card;
+import model.CardType;
 import model.Country;
+import model.GameMap;
 import model.Player;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,93 +20,84 @@ import java.util.List;
  * @author Surya Manian
  */
 public class AirliftOrderTest {
-    Player d_Player = new Player();
-    Player d_Player1 = new Player();
-    List<Country> d_CapturedCountries = new ArrayList<>();
-    Country d_CountryA= new Country();
-    Country d_CountryB= new Country();
+    GameMap d_GameMap;
+    List<Country> l_CountryList1 = new ArrayList<Country>();
+    List<Country> l_CountryList2 = new ArrayList<Country>();
 
     /**
-     * This function sets up the assignment requirements for the tests
+     * Setup for the test case
+     * @throws Exception in case of any exception
      */
     @Before
-    public void setUp() {
-
-        d_Player.setName("P1");
-        d_CountryA.setName("C1");
-        d_CountryB.setName("C2");
-        d_CountryA.setPlayer(d_Player);
-        d_CapturedCountries.add(d_CountryA);
-        d_Player.setCapturedCountries(d_CapturedCountries);
-
+    public void setUp() throws Exception {
+        d_GameMap = GameMap.getInstance();
+        d_GameMap.addPlayer("Player1");
+        d_GameMap.addPlayer("Player2");
+        d_GameMap.addContinent("Asia", "5");
+        d_GameMap.addCountry("India", "Asia");
+        d_GameMap.addCountry("Pakistan", "Asia");
+        d_GameMap.addCountry("SriLanka", "Asia");
+        d_GameMap.addCountry("Afganisthan", "Asia");
+        d_GameMap.addCountry("Bangladesh", "Asia");
+        d_GameMap.addCountry("Myanmar", "Asia");
+        d_GameMap.addCountry("China", "Asia");
+        d_GameMap.assignCountries();
+        l_CountryList1 = d_GameMap.getPlayer("Player1").getCapturedCountries();
+        l_CountryList2 = d_GameMap.getPlayer("Player2").getCapturedCountries();
     }
 
     /**
-     * This function tests if the player is valid.
+     * Clear the instance
+     *
+     * @throws Exception in case of any exception
      */
-    @Test
-    public void CheckPlayerValidity() {
-        // If player is null, return false
-        boolean l_A=true;
-        boolean l_B=false;
-        {
-            if(d_Player1 != null) {
-                System.out.println("The player is  valid!");
-                l_B=true;
-                assertTrue(l_B);
-            }
-            else {
-
-                l_A=false;
-                System.out.println("The Player is not valid.");
-                assertFalse(l_A);
-            }
-        }
+    @After
+    public void tearDown() throws Exception {
+        d_GameMap.flushGameMap();
     }
 
     /**
-     * This function tests if the source country belongs to the player.
+     * Test to check if the command executes correctly
+     *
      */
     @Test
-    public void CheckSourceCountryValidity() {
-        // if country not in d_CapturedCountries, return false
-        boolean l_A=true;
-        boolean l_B=false;
-        if(d_CountryA.getPlayer() != d_Player) {
-            System.out.println("The source country does not belong to the player. AirliftOrder validation failed.");
-            l_A=false;
-            assertFalse(l_A);
-        }
-
-
-        if(d_CountryA.getPlayer() == d_Player) {
-            System.out.println("The source country belongs to the player.Success!");
-            l_B=true;
-            assertTrue(l_B);
-        }
-
+    public void execute() {
+        Player l_Player = d_GameMap.getPlayer("Player1");
+        l_Player.addPlayerCard(new Card(CardType.AIRLIFT));
+        l_CountryList1.get(0).setArmies(100);
+        IssueOrder.Commands = "airlift " + l_CountryList1.get(0).getName() + " " + l_CountryList1.get(1).getName()+ " "+ 10;
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
+        l_Player.addOrder(l_Order1);
+        assertTrue(l_Player.nextOrder().execute());
     }
 
     /**
-     * This function tests if the target country belongs to the player.
+     * Test the validation of Airlift command for when the target country belongs to same player
      */
     @Test
-    public void CheckTargetCountryValidity() {
-        // if country not in d_CapturedCountries, return false
-        boolean l_A=true;
-        boolean l_B=false;
-        if(d_CountryB.getPlayer() != d_Player) {
-            System.out.println("The target country does not belong to the player. AirliftOrder validation failed.");
-            l_A=false;
-            assertFalse(l_A);
-        }
-
-
-        if(d_CountryB.getPlayer() == d_Player) {
-            System.out.println("The target country belongs to Player.Success!");
-            l_B=true;
-            assertTrue(l_B);
-        }
-
+    public void checkIfCommandIsTrue() {
+        Player l_Player = d_GameMap.getPlayer("Player1");
+        l_Player.addPlayerCard(new Card(CardType.AIRLIFT));
+        l_CountryList1.get(0).setArmies(100);
+        System.out.println("Source: "+ l_CountryList1.get(0).getArmies());
+        IssueOrder.Commands = "airlift " + l_CountryList1.get(0).getName() + " " + l_CountryList1.get(1).getName()+ " "+ 10;
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
+        l_Player.addOrder(l_Order1);
+        assertTrue(l_Player.nextOrder().validateCommand());
     }
+
+    /**
+     * Test the validation of Airlift command when the target country does not belong to player
+     *
+     */
+    @Test
+    public void checkIfCommandIsfalse() {
+        Player l_Player1 = d_GameMap.getPlayer("Player1");
+        l_Player1.addPlayerCard(new Card(CardType.AIRLIFT));
+        IssueOrder.Commands = "airlift " + l_CountryList1.get(0).getName() + " " + l_CountryList2.get(1).getName()+" "+2;
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player1);
+        l_Player1.addOrder(l_Order1);
+        assertFalse(l_Player1.nextOrder().validateCommand());
+    }
+
 }

@@ -37,9 +37,9 @@ public class SaveMap {
      */
 
     public boolean saveMapIntoFile(GameMap p_GameMap, String p_Name) {
-        String l_MapData = "[Map]\n\n[Continents]\n";
+        String l_MapData = "[Map]\nauthor=Anonymous\n[Continents]\n";
         for (Continent l_Continent : p_GameMap.getContinents().values()) {
-            l_MapData += l_Continent.getName() + " " + l_Continent.getAwardArmies();
+            l_MapData += l_Continent.getName() + "=" + l_Continent.getAwardArmies();
             l_MapData += "\n";
         }
 
