@@ -56,16 +56,19 @@ public class BlockadeOrder extends Order {
         Country l_Country = getOrderInfo().getTargetCountry();
 
         if (l_Player == null) {
-            System.out.println("The Player is not valid.");
+            System.err.println("The Player is not valid.");
+            d_Leb.logInfo("The Player is not valid.");
             return false;
         }
 
         if (l_Country.getPlayer() != l_Player) {
-            System.out.println("The target country does not belong to the player");
+            System.err.println("The target country does not belong to the player");
+            d_Leb.logInfo("The target country does not belong to the player");
             return false;
         }
         if (!l_Player.checkIfCardAvailable(CardType.BLOCKADE)) {
-            System.out.println("Player doesn't have Blockade Card.");
+            System.err.println("Player doesn't have Blockade Card.");
+            d_Leb.logInfo("Player doesn't have Blockade Card.");
             return false;
         }
         return true;
