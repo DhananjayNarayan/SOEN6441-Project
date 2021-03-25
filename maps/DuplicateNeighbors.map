@@ -1,7 +1,8 @@
-
+[Map]
+author=Anonymous
 [Continents]
-Asia 4
-africa 8
+Asia=4
+africa=8
 [Territories]
 Pak Asia Pak
 India Asia Pak

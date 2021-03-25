@@ -1,6 +1,8 @@
-
-Asia 4
-africa 7
+[Map]
+author=Anonymous
+[Continents]
+Asia=4
+africa=7
 [Territories]
 India Asia Pak Uruguay
 Pak Asia India
