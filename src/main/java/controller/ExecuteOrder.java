@@ -1,11 +1,10 @@
 package controller;
 
-import model.GameController;
-import model.GameMap;
-import model.GamePhase;
-import model.Player;
+import model.*;
 import model.order.Order;
 import utils.logger.LogEntryBuffer;
+
+import java.util.HashMap;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -18,10 +17,25 @@ import utils.logger.LogEntryBuffer;
  * @version 1.0.0
  */
 public class ExecuteOrder implements GameController {
+    /**
+     * Reinforcement Phase enum keyword
+     */
     GamePhase d_ReinforcementGamePhase = GamePhase.Reinforcement;
+    /**
+     * Exit Phase enum keyword
+     */
     GamePhase d_ExitGamePhase = GamePhase.ExitGame;
+    /**
+     * GamePhase
+     */
     GamePhase d_GamePhase;
+    /**
+     * GameMap instance
+     */
     GameMap d_GameMap;
+    /**
+     * Log entry Buffer Object
+     */
     LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
@@ -44,7 +58,7 @@ public class ExecuteOrder implements GameController {
         d_Leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
-        return p_GamePhase.nextState(d_ReinforcementGamePhase);
+        return  checkIfPlayerWon(p_GamePhase);
     }
 
     /**
@@ -71,9 +85,28 @@ public class ExecuteOrder implements GameController {
      * This method Clears the neutral players
      *
      */
-    public void clearAllNeutralPlayers() {
+    private void clearAllNeutralPlayers() {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             l_Player.removeNeutralPlayer();
         }
     }
+
+    /**
+     * Check if the player won the game after every turn
+     *
+     * @param p_GamePhase the next phase based on the status of player
+     * @return the gamephase it has to change to based on the win
+     */
+    public GamePhase checkIfPlayerWon(GamePhase p_GamePhase){
+        HashMap<String, Country> l_ListOfAllCountries = d_GameMap.getCountries();
+        for(Player l_Player : d_GameMap.getPlayers().values()){
+            if(l_Player.getCapturedCountries().equals(l_ListOfAllCountries.values())){
+                System.out.println("The Player " + l_Player.getName() + " won the game.");
+                System.out.println("Exiting the game...");
+                return p_GamePhase.nextState(d_ExitGamePhase);
+            }
+        }
+        return  p_GamePhase.nextState(d_ReinforcementGamePhase);
+    }
+
 }

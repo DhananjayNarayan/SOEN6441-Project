@@ -1,3 +1,4 @@
+import controller.ExecuteOrderTest;
 import controller.IssueOrderTest;
 import controller.ReinforcementTest;
 import model.ContinentTest;
@@ -15,8 +16,8 @@ import utils.MapValidationTest;
  * Run all test cases
  */
 @Suite.SuiteClasses({
-        IssueOrderTest.class, ReinforcementTest.class,
-        AirliftOrderTest.class, BlockadeOrderTest.class, DeployOrderTest.class, NegotiateOrderTest.class, AdvanceOrderTest.class,
+        IssueOrderTest.class, ReinforcementTest.class, ExecuteOrderTest.class,
+        AirliftOrderTest.class, BlockadeOrderTest.class, DeployOrderTest.class, NegotiateOrderTest.class, AdvanceOrderTest.class, BombOrderTest.class,
         ContinentTest.class, CountryTest.class, GameMapTest.class, PlayerTest.class,
         MapValidationTest.class})
 
