@@ -18,6 +18,9 @@ import java.util.Objects;
  * @version 1.0.0
  */
 public class GameEngine {
+    /**
+     * gamephase instance for the state
+     */
     GamePhase d_GamePhase = GamePhase.MapEditor;
 
     /**

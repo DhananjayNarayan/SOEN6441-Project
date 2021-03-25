@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
  */
 public class MapReader {
 
+    /**
+     * static log entry buffer to read the actions
+     */
     static LogEntryBuffer d_Leb = new LogEntryBuffer();
     /**
      * This function reads the file and places the contents of the file
