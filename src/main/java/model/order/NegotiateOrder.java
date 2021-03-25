@@ -5,6 +5,9 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+/**
+ * The class is a extended from Order, and overrides the methods from Order
+ */
 public class NegotiateOrder extends Order {
     LogEntryBuffer d_leb = new LogEntryBuffer();
     private final GameMap d_GameMap;
@@ -57,7 +60,6 @@ public class NegotiateOrder extends Order {
             return false;
         }
         // check if the player exists
-        System.out.println(d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName()));
         if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
             System.out.println("The Player name doesn't exist.");
             return false;
