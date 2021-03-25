@@ -8,6 +8,7 @@ import utils.logger.LogEntryBuffer;
 
 /**
  * This class gives the order to execute AirliftOrder, from one country to another.
+ * @author Surya Manian
  */
 public class AirliftOrder extends Order {
 
@@ -24,7 +25,7 @@ public class AirliftOrder extends Order {
     }
 
     /**
-     * execute the Negotiate Order
+     * execute the Airlift Order
      *
      * @return true if the execute was successful else false
      */

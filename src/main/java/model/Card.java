@@ -58,8 +58,8 @@ public class Card {
     public boolean equals(Object p_obj) {
         if (this == p_obj) return true;
         if (!(p_obj instanceof Card)) return false;
-        Card l_l_card = (Card) p_obj;
-        return d_CardType == l_l_card.d_CardType;
+        Card l_Card = (Card) p_obj;
+        return d_CardType == l_Card.d_CardType;
     }
 
     /**

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class MapReader {
 
-    static LogEntryBuffer d_leb = new LogEntryBuffer();
+    static LogEntryBuffer d_Leb = new LogEntryBuffer();
     /**
      * This function reads the file and places the contents of the file
      * in a Hash Map
@@ -30,8 +30,8 @@ public class MapReader {
      * @throws ValidationException when validation fails
      */
     public static void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
-        d_leb.clearNewFile();
-        d_leb.logInfo(" STARTUP PHASE \n");
+        d_Leb.clearNewFile();
+        d_Leb.logInfo(" STARTUP PHASE \n");
 
         try {
             p_GameMap.flushGameMap();

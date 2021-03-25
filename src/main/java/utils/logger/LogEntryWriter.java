@@ -28,17 +28,17 @@ public class LogEntryWriter implements Observer {
      */
     public void writeLogFile(String p_str) {
 
-        PrintWriter l_writeData = null;
-        String l_filename ="demolog";
+        PrintWriter l_WriteData = null;
+        String l_Filename ="demo";
         try {
-            l_writeData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_filename + ".txt", true)));
+            l_WriteData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_Filename + ".log", true)));
 
-            l_writeData.println(p_str);
+            l_WriteData.println(p_str);
 
         } catch (Exception p_Exception) {
             System.out.println(p_Exception.getMessage());
         } finally {
-            l_writeData.close();
+            l_WriteData.close();
         }
 
     }

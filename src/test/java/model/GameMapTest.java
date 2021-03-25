@@ -19,21 +19,21 @@ public class GameMapTest {
     @Test
     public void assignCountries() throws ValidationException {
 
-        List<String> l_countryList = new ArrayList<String>();
-        l_countryList.add("India");
-        l_countryList.add("Pakistan");
-        l_countryList.add("Bangladesh");
-        l_countryList.add("England");
-        l_countryList.add("Australia");
-        l_countryList.add("Sri Lanka");
-        Collections.shuffle(l_countryList);
-        List<String> l_captured = new ArrayList<String>();
-        for(int i = 0; i < l_countryList.size(); i++) {
-            String c = l_countryList.get(i);
-            l_captured.add(c);
-            l_countryList.set(i,"Assigned to some player");
+        List<String> l_CountryList = new ArrayList<String>();
+        l_CountryList.add("India");
+        l_CountryList.add("Pakistan");
+        l_CountryList.add("Bangladesh");
+        l_CountryList.add("England");
+        l_CountryList.add("Australia");
+        l_CountryList.add("Sri Lanka");
+        Collections.shuffle(l_CountryList);
+        List<String> l_Captured = new ArrayList<String>();
+        for(int i = 0; i < l_CountryList.size(); i++) {
+            String l_C = l_CountryList.get(i);
+            l_Captured.add(l_C);
+            l_CountryList.set(i,"Assigned to some player");
         }
-        boolean x= l_countryList.equals(l_captured);
-        assertFalse(x);
+        boolean l_X= l_CountryList.equals(l_Captured);
+        assertFalse(l_X);
     }
 }
