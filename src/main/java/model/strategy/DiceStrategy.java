@@ -1,8 +1,10 @@
 package model.strategy;
 
+import model.Card;
 import model.Country;
 import model.GameSettings;
 import model.Player;
+import utils.logger.LogEntryBuffer;
 
 import java.util.stream.IntStream;
 
@@ -16,6 +18,11 @@ public class DiceStrategy implements GameStrategy {
      * Game settings object
      */
     GameSettings SETTINGS = GameSettings.getInstance();
+
+    /**
+     * Logger for game a actions
+     */
+    LogEntryBuffer d_LogEntryBuffer = new LogEntryBuffer();
 
     /**
      * Method holding the default attack logic
@@ -38,6 +45,10 @@ public class DiceStrategy implements GameStrategy {
             if (l_ArmiesLeftAttacker > 0 && l_ArmiesLeftDefender <= 0) {
                 p_To.setArmies(l_ArmiesLeftAttacker);
                 makeMeKing(p_Player, p_To);
+                Card l_AssignedCard = new Card();
+                p_Player.addPlayerCard(l_AssignedCard);
+                System.out.println("Attacker: " + p_Player.getName() + " received a card: " + l_AssignedCard);
+                d_LogEntryBuffer.logInfo("Attacker: " + p_Player.getName() + " received a card: "+ l_AssignedCard);
                 System.out.println("Attacker : " + p_Player.getName() + " won.");
                 System.out.println("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
 
