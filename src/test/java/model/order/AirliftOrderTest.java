@@ -15,11 +15,19 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class tests the Airlift Order
+ * @author Surya Manian
+ */
 public class AirliftOrderTest {
     GameMap d_GameMap;
     List<Country> l_CountryList1 = new ArrayList<Country>();
     List<Country> l_CountryList2 = new ArrayList<Country>();
 
+    /**
+     * Setup for the test case
+     * @throws Exception in case of any exception
+     */
     @Before
     public void setUp() throws Exception {
         d_GameMap = GameMap.getInstance();
@@ -38,11 +46,20 @@ public class AirliftOrderTest {
         l_CountryList2 = d_GameMap.getPlayer("Player2").getCapturedCountries();
     }
 
+    /**
+     * Clear the instance
+     *
+     * @throws Exception in case of any exception
+     */
     @After
     public void tearDown() throws Exception {
         d_GameMap.flushGameMap();
     }
 
+    /**
+     * Test to check if the command executes correctly
+     *
+     */
     @Test
     public void execute() {
         Player l_Player = d_GameMap.getPlayer("Player1");
@@ -54,6 +71,9 @@ public class AirliftOrderTest {
         assertTrue(l_Player.nextOrder().execute());
     }
 
+    /**
+     * Test the validation of Airlift command for when the target country belongs to same player
+     */
     @Test
     public void checkIfCommandIsTrue() {
         Player l_Player = d_GameMap.getPlayer("Player1");
@@ -66,6 +86,10 @@ public class AirliftOrderTest {
         assertTrue(l_Player.nextOrder().validateCommand());
     }
 
+    /**
+     * Test the validation of Airlift command when the target country does not belong to player
+     *
+     */
     @Test
     public void checkIfCommandIsfalse() {
         Player l_Player1 = d_GameMap.getPlayer("Player1");
@@ -75,7 +99,5 @@ public class AirliftOrderTest {
         l_Player1.addOrder(l_Order1);
         assertFalse(l_Player1.nextOrder().validateCommand());
     }
-
-
 
 }
