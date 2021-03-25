@@ -35,6 +35,7 @@ public class BombOrder extends Order{
         Player l_Player = getOrderInfo().getPlayer();
         Country l_TargetCountry = getOrderInfo().getTargetCountry();
         if (validateCommand()) {
+            System.out.println("The order: " + getType() + " " + l_TargetCountry.getName());
             int l_Armies = l_TargetCountry.getArmies();
             int l_NewArmies = l_Armies/2;
             if (l_NewArmies<0){
@@ -56,27 +57,22 @@ public class BombOrder extends Order{
         Player l_Player = getOrderInfo().getPlayer();
         Country l_TargetCountry = getOrderInfo().getTargetCountry();
 
-
         if (l_Player == null) {
-            System.out.println("The Player is not valid.");
+            System.err.println("The Player is not valid.");
+            d_Leb.logInfo("The Player is not valid.");
             return false;
         }
         // validate that the player has the bomb card
         if (!l_Player.checkIfCardAvailable(CardType.BOMB)) {
-            System.out.println("Player doesn't have Bomb Card.");
-            return false;
-        }
-        //check whether the target country belongs to the player
-        if(l_Player.getCapturedCountries().contains(l_TargetCountry)){
-            System.out.println("The player cannot destroy armies in his own country.");
+            System.err.println("Player doesn't have Bomb Card.");
+            d_Leb.logInfo("Player doesn't have Bomb Card.");
             return false;
         }
 
-        //diplomacy
-        if (l_Player.getNeutralPlayers().contains(l_TargetCountry.getPlayer())) {
-            System.out.printf("Truce between %s and %s\n", l_Player.getName(), l_TargetCountry.getPlayer().getName());
-            l_Player.getNeutralPlayers().remove(l_TargetCountry.getPlayer());
-            l_TargetCountry.getPlayer().getNeutralPlayers().remove(l_Player);
+        //check whether the target country belongs to the player
+        if(l_Player.getCapturedCountries().contains(l_TargetCountry)){
+            System.err.println("The player cannot destroy armies in his own country.");
+            d_Leb.logInfo("The player cannot destroy armies in his own country.");
             return false;
         }
 
@@ -91,7 +87,17 @@ public class BombOrder extends Order{
             }
         }
         if (!l_Adjacent){
-            System.out.println("The target country is not adjacent to one of the countries that belong to the player.");
+            System.err.println("The target country is not adjacent to one of the countries that belong to the player.");
+            d_Leb.logInfo("The target country is not adjacent to one of the countries that belong to the player.");
+            return false;
+        }
+
+        //Check diplomacy
+        if (l_Player.getNeutralPlayers().contains(l_TargetCountry.getPlayer())) {
+            System.err.printf("Truce between %s and %s\n", l_Player.getName(), l_TargetCountry.getPlayer().getName());
+            d_Leb.logInfo("Truce between" + l_Player.getName() + "and " + l_TargetCountry.getPlayer().getName());
+            l_Player.getNeutralPlayers().remove(l_TargetCountry.getPlayer());
+            l_TargetCountry.getPlayer().getNeutralPlayers().remove(l_Player);
             return false;
         }
         return true;
@@ -103,9 +109,12 @@ public class BombOrder extends Order{
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName() + " on Country: " + getOrderInfo().getTargetCountry().getName());
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Bomb on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
+        System.out.println("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName()
+                + " on Country: " + getOrderInfo().getTargetCountry().getName());
+        System.out.println("------------------------------------------------------------------------" +
+                "---------------------");
+        d_Leb.logInfo("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName()
+                + " on Country: " + getOrderInfo().getTargetCountry().getName());
     }
 }
 
