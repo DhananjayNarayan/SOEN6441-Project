@@ -13,7 +13,9 @@ import java.io.PrintWriter;
  * @author Surya Manian
  */
 public class LogEntryBuffer implements Observable {
-
+    /**
+     * An object of LogEntryWriter
+     */
     private LogEntryWriter d_Lew = new LogEntryWriter(); //d_lew is an observer object
 
     /**

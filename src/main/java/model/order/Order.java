@@ -11,7 +11,13 @@ package model.order;
  * @version 1.0.0
  */
 public abstract class Order {
+    /**
+     * A data member to strore the order type
+     */
     private String d_Type;
+    /**
+     * An object of OrderInfo
+     */
     private OrderInfo d_OrderInfo;
 
     /**

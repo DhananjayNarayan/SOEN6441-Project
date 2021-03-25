@@ -14,6 +14,9 @@ import utils.logger.LogEntryBuffer;
  */
 public class BlockadeOrder extends Order {
     LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * A Gamemap object
+     */
     private final GameMap d_GameMap;
 
     /**

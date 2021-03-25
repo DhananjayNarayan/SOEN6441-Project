@@ -13,12 +13,29 @@ import model.Player;
  * @author Prathika Suvarna
  */
 public class OrderInfo {
-
+    /**
+     * A player object
+     */
     private Player d_Player;
+    /**
+     * An object for neutral player
+     */
     private Player d_NeutralPlayer;
+    /**
+     * A country object for departure
+     */
     private Country d_Departure;
+    /**
+     * A country object for destination
+     */
     private Country d_Destination;
+    /**
+     * A country object for a target country
+     */
     private Country d_TargetCountry;
+    /**
+     * An integer data member to store the number of armies
+     */
     private int d_NumberOfArmy;
 
     /**

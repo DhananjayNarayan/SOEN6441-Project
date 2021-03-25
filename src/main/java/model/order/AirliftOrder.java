@@ -13,6 +13,9 @@ import utils.logger.LogEntryBuffer;
 public class AirliftOrder extends Order {
 
     LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * A data member to store the instance of the gamemap.
+     */
     private final GameMap d_GameMap;
 
     /**

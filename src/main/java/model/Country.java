@@ -13,12 +13,33 @@ import java.util.Set;
  * @author Prathika Suvarna
  */
 public class Country {
+    /**
+     * A string to store the ID of the country
+     */
     private String d_Id;
+    /**
+     * A string to store the name of country
+     */
     private String d_Name;
+    /**
+     * A string to store the name of the continent
+     */
     private String d_Continent;
+    /**
+     * A string to store the name of the player for the country
+     */
     private Player d_Player;
+    /**
+     * An integer to store the armies in the country
+     */
     private int d_Armies;
+    /**
+     * A set of countries to store the neighboring countries
+     */
     private Set<Country> d_Neighbors;
+    /**
+     * A set of strings to store the neighbors name
+     */
     private Set<String> d_NeighborsName;
 
     /**

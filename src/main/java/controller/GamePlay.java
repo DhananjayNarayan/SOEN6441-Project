@@ -24,7 +24,13 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 public class GamePlay implements GameController {
+    /**
+     * A data member for scanner
+     */
     private final Scanner SCANNER = new Scanner(System.in);
+    /**
+     * A data member that stores the list of commands for gameplay as list
+     */
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.Reinforcement;

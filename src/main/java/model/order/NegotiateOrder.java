@@ -10,6 +10,9 @@ import utils.logger.LogEntryBuffer;
  */
 public class NegotiateOrder extends Order {
     LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * A gamemap object
+     */
     private final GameMap d_GameMap;
 
     /**
