@@ -9,7 +9,7 @@ import utils.logger.LogEntryBuffer;
  * The class is a extended from Order, and overrides the methods from Order
  */
 public class NegotiateOrder extends Order {
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    LogEntryBuffer dLeb = new LogEntryBuffer();
     private final GameMap d_GameMap;
 
     /**
@@ -52,19 +52,19 @@ public class NegotiateOrder extends Order {
         //check if the player has the card
         if (!l_Player.checkIfCardAvailable(CardType.DIPLOMACY)) {
             System.err.println("Player doesn't have the card to be used.");
-            d_leb.logInfo("Player doesn't have the card to be used.");
+            dLeb.logInfo("Player doesn't have the card to be used.");
             return false;
         }
         //check if player is valid
         if (l_NeutralPlayer == null) {
             System.err.println("The Player is not valid.");
-            d_leb.logInfo("The Player is not valid.");
+            dLeb.logInfo("The Player is not valid.");
             return false;
         }
         // check if the player exists
         if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
             System.err.println("The Player name doesn't exist.");
-            d_leb.logInfo("The Player name doesn't exist.");
+            dLeb.logInfo("The Player name doesn't exist.");
             return false;
         }
         return true;
@@ -77,6 +77,6 @@ public class NegotiateOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_leb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
+        dLeb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
     }
 }
