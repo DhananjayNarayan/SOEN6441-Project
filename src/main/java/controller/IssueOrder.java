@@ -16,15 +16,33 @@ import java.util.*;
  * @version 1.0.0
  */
 public class IssueOrder implements GameController {
+    /**
+     * scanner to read from user
+     */
     private final static Scanner SCANNER = new Scanner(System.in);
+    /**
+     * variable to keep track of players who skipped
+     */
     private static Set<Player> SkippedPlayers = new HashSet<>();
     /**
      * Static variable to hold commands
      */
     public static String Commands = null;
+    /**
+     * GamePhase Instance with next phase
+     */
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
+    /**
+     * GamePhase instance
+     */
     GamePhase d_GamePhase;
+    /**
+     * GameMap instance
+     */
     GameMap d_GameMap;
+    /**
+     * Log Entry
+     */
     LogEntryBuffer d_Leb = new LogEntryBuffer();
 
     /**
