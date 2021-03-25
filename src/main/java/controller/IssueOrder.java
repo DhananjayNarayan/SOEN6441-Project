@@ -73,6 +73,7 @@ public class IssueOrder implements GameController {
                     System.out.println("=============================================================================");
                     Commands = ReadFromPlayer();
                     l_IssueCommand = ValidateCommand(Commands, l_Player);
+                    d_Leb.logInfo(l_Player.getName()+" has issued this order :- " + Commands );
                     if (Commands.equals("pass")) {
                         break;
                     }
