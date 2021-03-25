@@ -18,6 +18,9 @@ import java.util.*;
 public class IssueOrder implements GameController {
     private final static Scanner SCANNER = new Scanner(System.in);
     private static Set<Player> SkippedPlayers = new HashSet<>();
+    /**
+     * Static variable to hold commands
+     */
     public static String Commands = null;
     GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
     GamePhase d_GamePhase;
@@ -102,6 +105,7 @@ public class IssueOrder implements GameController {
      * A static function to validate the deploy command
      *
      * @param p_CommandArr The string entered by the user
+     * @param p_Player the player object
      * @return true if the command is correct else false
      */
     public static boolean ValidateCommand(String p_CommandArr, Player p_Player) {

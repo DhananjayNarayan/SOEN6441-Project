@@ -13,6 +13,9 @@ import utils.logger.LogEntryBuffer;
  */
 public class BombOrder extends Order{
 
+    /**
+     * the Game Map Object
+     */
     private GameMap d_GameMap;
     LogEntryBuffer d_Leb = new LogEntryBuffer();
 

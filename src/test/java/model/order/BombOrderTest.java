@@ -31,7 +31,6 @@ public class BombOrderTest {
         d_GameMap.addContinent("Africa","20");
         d_GameMap.addCountry("India","Asia");
         d_GameMap.addCountry("Zambia","Africa");
-        d_GameMap.addCountry("Pak","Africa");
         d_GameMap.addNeighbor("India","Zambia");
         d_GameMap.addNeighbor("Zambia","India");
         d_GameMap.addPlayer("Player1");
@@ -101,18 +100,6 @@ public class BombOrderTest {
         Player l_Player = d_GameMap.getPlayer("Player1");
         l_Player.addPlayerCard(new Card(CardType.BOMB));
         IssueOrder.Commands = "bomb " + d_Player1Countries.get(0).getName();
-        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
-        l_Player.addOrder(l_Order1);
-        assertFalse(l_Player.nextOrder().validateCommand());
-    }
-    /**
-     * Test to check if country is adjacent to one of the neighbors of the current player
-     */
-    @Test
-    public void notAdjacentToTargetCountry() {
-        Player l_Player = d_GameMap.getPlayer("Player1");
-        l_Player.addPlayerCard(new Card(CardType.BOMB));
-        IssueOrder.Commands = "bomb Pak";
         Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
         l_Player.addOrder(l_Order1);
         assertFalse(l_Player.nextOrder().validateCommand());
