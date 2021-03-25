@@ -22,11 +22,11 @@ public class SaveMap {
      * @return String result of neighbor list
      */
     public String createANeighborList(Set<Country> p_Neighbors) {
-        String l_Result = "";
+        String l_result = "";
         for (Country l_Neighbor : p_Neighbors) {
-            l_Result += l_Neighbor.getName() + " ";
+            l_result += l_Neighbor.getName() + " ";
         }
-        return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
+        return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
     }
     /**
      * Save map into file as continent and country

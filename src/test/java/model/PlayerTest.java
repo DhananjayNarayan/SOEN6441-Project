@@ -7,8 +7,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the functionalities for Player class
@@ -17,16 +17,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class PlayerTest extends Player {
 
-    int d_Id;
-    String d_Name;
     int d_ReinforcementArmies;
     int d_ArmyCountValid, d_ArmyCountInvalid;
-    Player d_Player = new Player();
+    Player p = new Player();
     String d_CountryValid, d_CountryInvalid;
     List<Country> d_CapturedCountries = new ArrayList<>();
-    Country d_Country1 = new Country();
-    Country d_Country2 = new Country();
-    Country d_Country3 = new Country();
+    Country c1 = new Country();
+    Country c2 = new Country();
+    Country c3 = new Country();
     GameMap d_GameMap = GameMap.getInstance();
 
     /**
@@ -36,25 +34,20 @@ public class PlayerTest extends Player {
      */
     @Before
     public void setUp() throws Exception {
-        d_Id = 2;
-        d_Player.setId(d_Id);
-        d_Name = "Shano";
-        d_Player.setName(d_Name);
-
         d_ReinforcementArmies = 10;
         d_ArmyCountValid = 5;
         d_ArmyCountInvalid = 13;
-        d_Player.setReinforcementArmies(d_ReinforcementArmies);
+        p.setReinforcementArmies(d_ReinforcementArmies);
 
-        d_Country1.setName("India");
-        d_Country2.setName("China");
-        d_Country3.setName("Japan");
+        c1.setName("India");
+        c2.setName("China");
+        c3.setName("Japan");
         d_CountryValid = "India";
         d_CountryInvalid = "Canada";
-        d_CapturedCountries.add(d_Country1);            //add to list
-        d_CapturedCountries.add(d_Country2);
-        d_CapturedCountries.add(d_Country3);
-        d_Player.setCapturedCountries(d_CapturedCountries);
+        d_CapturedCountries.add(c1);            //add to list
+        d_CapturedCountries.add(c2);
+        d_CapturedCountries.add(c3);
+        p.setCapturedCountries(d_CapturedCountries);
     }
 
     /**
@@ -69,35 +62,9 @@ public class PlayerTest extends Player {
         d_GameMap.getPlayers().clear();
     }
 
-    /**
-     * This is the test method to check the Player ID
-     *
-     */
-
-    @Test
-    public void testPlayerId(){
-        int l_Id = d_Player.getId();
-        assertEquals(d_Id,l_Id);
-    }
-
-    /**
-     * This is the test method to check the Player Name
-     *
-     */
-
-    @Test
-    public void testPlayerName(){
-        String l_Name = d_Player.getName();
-        assertEquals(d_Name,l_Name);
-    }
-
-    /**
-     * This is the test method to check the valid deployment of armies
-     *
-     */
     @Test
     public void testValidDeployReinforcementArmiesFromPlayer() {
-        assertTrue(d_Player.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
+        assertTrue(p.deployReinforcementArmiesFromPlayer(d_ArmyCountValid));
     }
 
     /**
@@ -105,7 +72,7 @@ public class PlayerTest extends Player {
      */
     @Test
     public void testInvalidDeployReinforcementArmiesFromPlayer() {
-        assertFalse(d_Player.deployReinforcementArmiesFromPlayer(d_ArmyCountInvalid));
+        assertFalse(p.deployReinforcementArmiesFromPlayer(d_ArmyCountInvalid));
     }
 }
 

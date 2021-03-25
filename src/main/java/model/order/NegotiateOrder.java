@@ -5,8 +5,11 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+/**
+ * The class is a extended from Order, and overrides the methods from Order
+ */
 public class NegotiateOrder extends Order {
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    LogEntryBuffer dLeb = new LogEntryBuffer();
     private final GameMap d_GameMap;
 
     /**
@@ -48,18 +51,21 @@ public class NegotiateOrder extends Order {
         Player l_NeutralPlayer = getOrderInfo().getNeutralPlayer();
         //check if the player has the card
         if (!l_Player.checkIfCardAvailable(CardType.DIPLOMACY)) {
-            System.out.println("Player doesn't have the card to be used.");
+            System.err.println("Player doesn't have the card to be used.");
+            dLeb.logInfo("Player doesn't have the card to be used.");
             return false;
         }
         //check if player is valid
         if (l_NeutralPlayer == null) {
-            System.out.println("The Player is not valid.");
+            System.err.println("The Player is not valid.");
+            dLeb.logInfo("The Player is not valid.");
             return false;
         }
         // check if the player exists
         System.out.println(d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName()));
         if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
-            System.out.println("The Player name doesn't exist.");
+            System.err.println("The Player name doesn't exist.");
+            dLeb.logInfo("The Player name doesn't exist.");
             return false;
         }
         return true;
@@ -72,6 +78,6 @@ public class NegotiateOrder extends Order {
     public void printOrderCommand() {
         System.out.println("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
         System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
+        dLeb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
     }
 }
