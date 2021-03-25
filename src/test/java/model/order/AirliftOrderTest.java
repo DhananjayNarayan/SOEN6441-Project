@@ -54,4 +54,17 @@ public class AirliftOrderTest {
         assertTrue(l_Player.nextOrder().execute());
     }
 
+    @Test
+    public void checkIfCommandIsTrue() {
+        Player l_Player = d_GameMap.getPlayer("Player1");
+        l_Player.addPlayerCard(new Card(CardType.AIRLIFT));
+        l_CountryList1.get(0).setArmies(100);
+        System.out.println("Source: "+ l_CountryList1.get(0).getArmies());
+        IssueOrder.Commands = "airlift " + l_CountryList1.get(0).getName() + " " + l_CountryList1.get(1).getName()+ " "+ 10;
+        Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player);
+        l_Player.addOrder(l_Order1);
+        assertTrue(l_Player.nextOrder().validateCommand());
+    }
+
+
 }
