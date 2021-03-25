@@ -58,7 +58,7 @@ public class ExecuteOrder implements GameController {
         d_Leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
-        return  checkIfPlayerWon(p_GamePhase);
+        return checkIfPlayerWon(p_GamePhase);
     }
 
     /**
@@ -83,7 +83,6 @@ public class ExecuteOrder implements GameController {
 
     /**
      * This method Clears the neutral players
-     *
      */
     private void clearAllNeutralPlayers() {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
@@ -92,21 +91,21 @@ public class ExecuteOrder implements GameController {
     }
 
     /**
-     * Check if the player won the game after every turn
+     * Check if the player won the game after every execution phase
      *
      * @param p_GamePhase the next phase based on the status of player
      * @return the gamephase it has to change to based on the win
      */
-    public GamePhase checkIfPlayerWon(GamePhase p_GamePhase){
+    public GamePhase checkIfPlayerWon(GamePhase p_GamePhase) {
         HashMap<String, Country> l_ListOfAllCountries = d_GameMap.getCountries();
-        for(Player l_Player : d_GameMap.getPlayers().values()){
-            if(l_Player.getCapturedCountries().equals(l_ListOfAllCountries.values())){
+        for (Player l_Player : d_GameMap.getPlayers().values()) {
+            if (l_Player.getCapturedCountries().size() == d_GameMap.getCountries().size()) {
                 System.out.println("The Player " + l_Player.getName() + " won the game.");
                 System.out.println("Exiting the game...");
                 return p_GamePhase.nextState(d_ExitGamePhase);
             }
         }
-        return  p_GamePhase.nextState(d_ReinforcementGamePhase);
+        return p_GamePhase.nextState(d_ReinforcementGamePhase);
     }
 
 }

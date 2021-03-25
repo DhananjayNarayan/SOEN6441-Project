@@ -8,12 +8,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Execute order test class
@@ -69,19 +67,20 @@ public class ExecuteOrderTest {
 
     /**
      * Check if the player won
+     *
      * @return
      */
     @Test
     public void checkIfPlayerWon() {
-//        HashMap<String, Country> l_ListOfAllCountries = d_GameMap.getCountries();
-//        d_Player = d_GameMap.getPlayer("Player1");
-//        d_CountriesPlayer1 = d_Player.getCapturedCountries();
-//        for(Country l_Country : l_ListOfAllCountries.values()){
-//            if(!d_Player.isCaptured(l_Country)){
-//                d_Player.getCapturedCountries().add((l_Country));
-//            }
-//        }
-//        GamePhase l_Output = d_ExecuteOrder.checkIfPlayerWon(GamePhase.Reinforcement);
-//        assertEquals(GamePhase.ExitGame, l_Output);
+        HashMap<String, Country> l_ListOfAllCountries = d_GameMap.getCountries();
+        d_Player = d_GameMap.getPlayer("Player1");
+        for (Country l_Country : l_ListOfAllCountries.values()) {
+            if (!d_Player.isCaptured(l_Country)) {
+                d_Player.getCapturedCountries().add((l_Country));
+                l_Country.setPlayer(d_Player);
+            }
+        }
+        GamePhase l_Output = d_ExecuteOrder.checkIfPlayerWon(GamePhase.ExecuteOrder);
+        assertEquals(GamePhase.ExitGame, l_Output);
     }
 }
