@@ -67,8 +67,6 @@ public class ExecuteOrderTest {
 
     /**
      * Check if the player won
-     *
-     * @return
      */
     @Test
     public void checkIfPlayerWon() {
