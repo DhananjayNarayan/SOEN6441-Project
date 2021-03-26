@@ -44,6 +44,10 @@ public class GameMap {
      * A string to store the error message
      */
     private String d_ErrorMessage;
+
+    /**
+     * LogEntry Buffer Instance
+     */
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**

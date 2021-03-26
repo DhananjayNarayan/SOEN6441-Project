@@ -19,7 +19,7 @@ public class AirliftOrder extends Order {
     /**
      * Logger Observable
      */
-    private LogEntryBuffer d_Logger;
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor class for Airlift Order

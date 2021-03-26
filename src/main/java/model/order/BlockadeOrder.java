@@ -20,7 +20,7 @@ public class BlockadeOrder extends Order {
     /**
      * Logger Observable
      */
-    private LogEntryBuffer d_Logger;
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor for class Blockade Order

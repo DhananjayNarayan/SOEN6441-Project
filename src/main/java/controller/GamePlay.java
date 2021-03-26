@@ -34,6 +34,10 @@ public class GamePlay implements GameController {
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.Reinforcement;
+
+    /**
+     * LogEntry Buffer Instance
+     */
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
