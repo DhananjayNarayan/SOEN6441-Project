@@ -1,10 +1,11 @@
 package controller;
 
-import model.*;
+import model.GameController;
+import model.GameMap;
+import model.GamePhase;
+import model.Player;
 import model.order.Order;
 import utils.logger.LogEntryBuffer;
-
-import java.util.HashMap;
 
 /**
  * This is a class which contains the Execute Order phase
@@ -36,7 +37,7 @@ public class ExecuteOrder implements GameController {
     /**
      * Log entry Buffer Object
      */
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the default constructor
@@ -55,7 +56,7 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_Leb.logInfo("\n EXECUTE ORDER PHASE \n");
+        d_Logger.log("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
         return checkIfPlayerWon(p_GamePhase);
@@ -97,11 +98,10 @@ public class ExecuteOrder implements GameController {
      * @return the gamephase it has to change to based on the win
      */
     public GamePhase checkIfPlayerWon(GamePhase p_GamePhase) {
-        HashMap<String, Country> l_ListOfAllCountries = d_GameMap.getCountries();
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             if (l_Player.getCapturedCountries().size() == d_GameMap.getCountries().size()) {
-                System.out.println("The Player " + l_Player.getName() + " won the game.");
-                System.out.println("Exiting the game...");
+                d_Logger.log("The Player " + l_Player.getName() + " won the game.");
+                d_Logger.log("Exiting the game...");
                 return p_GamePhase.nextState(d_ExitGamePhase);
             }
         }

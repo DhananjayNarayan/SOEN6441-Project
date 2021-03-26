@@ -15,7 +15,10 @@ import utils.logger.LogEntryBuffer;
  * @version 1.0.0
  */
 public class DeployOrder extends Order {
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor for class DeployOrder
@@ -33,8 +36,8 @@ public class DeployOrder extends Order {
     public boolean execute() {
         Country l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.println("The order: " + getType() + " " + getOrderInfo().getDestination().getName() + " " + getOrderInfo().getNumberOfArmy());
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log("The order: " + getType() + " " + getOrderInfo().getDestination().getName() + " " + getOrderInfo().getNumberOfArmy());
         if (validateCommand()) {
             l_Destination.deployArmies(l_ArmiesToDeploy);
             return true;
@@ -52,15 +55,15 @@ public class DeployOrder extends Order {
         Country l_Destination = getOrderInfo().getDestination();
         int l_Reinforcements = getOrderInfo().getNumberOfArmy();
         if (l_Player == null || l_Destination == null) {
-            System.out.println("Invalid order information.");
+            d_Logger.log("Invalid order information.");
             return false;
         }
         if (!l_Player.isCaptured(l_Destination)) {
-            System.out.println("The country does not belong to you");
+            d_Logger.log("The country does not belong to you");
             return false;
         }
         if (!l_Player.deployReinforcementArmiesFromPlayer(l_Reinforcements)) {
-            System.out.println("You do not have enough Reinforcement Armies to deploy.");
+            d_Logger.log("You do not have enough Reinforcement Armies to deploy.");
             return false;
         }
         return true;
@@ -70,9 +73,8 @@ public class DeployOrder extends Order {
      * A function to print the order on completion
      */
     public void printOrderCommand() {
-        System.out.println("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("Deployed " + getOrderInfo().getNumberOfArmy() + " armies to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 
 }

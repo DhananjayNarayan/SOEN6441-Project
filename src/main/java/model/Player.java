@@ -48,7 +48,10 @@ public class Player {
      * A list of neutral players
      */
     private final List<Player> d_NeutralPlayers = new ArrayList<>();
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * LogEntry Buffer
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * A function to get the player ID
@@ -276,8 +279,7 @@ public class Player {
         } else {
             setReinforcementArmies(3);
         }
-        System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
-        d_Leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_Logger.log("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
     /**

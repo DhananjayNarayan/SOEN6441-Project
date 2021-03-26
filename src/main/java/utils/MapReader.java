@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * A class to handle reading data from the map
+ *
  * @author Neona Pinto
  * @author Dhananjay Narayan
  * @author Surya Manian
@@ -21,9 +22,10 @@ import java.util.stream.Collectors;
 public class MapReader {
 
     /**
-     * static log entry buffer to read the actions
+     * Logger Observable
      */
-    static LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private static LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
+
     /**
      * This function reads the file and places the contents of the file
      * in a Hash Map
@@ -33,8 +35,8 @@ public class MapReader {
      * @throws ValidationException when validation fails
      */
     public static void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
-        d_Leb.clearNewFile();
-        d_Leb.logInfo(" STARTUP PHASE \n");
+        d_Logger.clear();
+        d_Logger.log("Reading Map \n");
 
         try {
             p_GameMap.flushGameMap();
@@ -66,7 +68,7 @@ public class MapReader {
      * This function reads the Continents from the file
      *
      * @param p_ContinentArray the value list for Continents
-     * @param p_GameMap the game map
+     * @param p_GameMap        the game map
      * @throws ValidationException when validation fails
      */
     public static void readContinentsFromFile(GameMap p_GameMap, List<String> p_ContinentArray) throws ValidationException {
@@ -82,7 +84,7 @@ public class MapReader {
      * This function reads the Countries from the file
      *
      * @param p_CountryArray the value list for Countries
-     * @param p_GameMap the game map
+     * @param p_GameMap      the game map
      * @return Neighbouring countries
      * @throws ValidationException when validation fails
      */
@@ -103,7 +105,7 @@ public class MapReader {
      * This function adds the neighbouring Countries
      *
      * @param p_NeighborList the neighbouring country list
-     * @param p_GameMap the game map
+     * @param p_GameMap      the game map
      * @throws ValidationException when validation fails
      */
 

@@ -34,7 +34,7 @@ public class MapEditor implements GameController {
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.StartUp;
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the default constructor
@@ -52,10 +52,10 @@ public class MapEditor implements GameController {
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
-        d_Leb.clearNewFile();
-        d_Leb.logInfo("MAP EDITOR PHASE ");
+        d_Logger.clear();
+        d_Logger.log("MAP EDITOR PHASE ");
         while (true) {
-            System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
+            d_Logger.log("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList;
             if (l_Input.contains("-")) {
@@ -172,9 +172,9 @@ public class MapEditor implements GameController {
                     //Handle validatemap command from console
                     case "validatemap": {
                         if (MapValidation.validateMap(d_GameMap, 0)) {
-                            System.out.println("Validation successful");
+                            d_Logger.log("Validation successful");
                         } else {
-                            System.out.println("Validation failed");
+                            d_Logger.log("Validation failed");
                         }
                         break;
                     }
@@ -202,25 +202,25 @@ public class MapEditor implements GameController {
                     //To exit the map creation phase type "exit"
                     case "exit": {
                         d_GameMap.flushGameMap();
+                        d_Logger.log("================================End of Map Editor Phase==================================");
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help
                     default: {
-                        System.out.println("List of user map creation commands from console:");
-                        System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
-                        System.out.println("To add or remove a country : editcountry -add countryID continentID -remove countryID");
-                        System.out.println("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("Read/Update existing map commands:");
-                        System.out.println("To edit map: editmap filename");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("Additional map commands:");
-                        System.out.println("To show the map: showmap");
-                        System.out.println("To validate map: validatemap");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("Note: To save the created map use the command:");
-                        System.out.println("To save map: savemap filename");
-                        System.out.println("================================End of Map Editor Phase==================================");
+                        d_Logger.log("List of user map creation commands from console:");
+                        d_Logger.log("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
+                        d_Logger.log("To add or remove a country : editcountry -add countryID continentID -remove countryID");
+                        d_Logger.log("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Read/Update existing map commands:");
+                        d_Logger.log("To edit map: editmap filename");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Additional map commands:");
+                        d_Logger.log("To show the map: showmap");
+                        d_Logger.log("To validate map: validatemap");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Note: To save the created map use the command:");
+                        d_Logger.log("To save map: savemap filename");
                     }
                 }
             }

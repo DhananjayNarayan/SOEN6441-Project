@@ -5,8 +5,6 @@ import model.Country;
 import model.GameMap;
 import model.GameSettings;
 import model.Player;
-import model.strategy.DiceStrategy;
-import model.strategy.GameStrategy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +40,7 @@ public class AdvanceOrderTest {
          * Singleton game settings instance
          */
         GameSettings l_GameSettings = GameSettings.getInstance();
-        l_GameSettings.setStrategy(new DiceStrategy());
+        l_GameSettings.setStrategy("dice");
 
         //Add Continent
         d_GameMap.addContinent("Asia", "4");
@@ -139,7 +137,7 @@ public class AdvanceOrderTest {
         Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player1);
         l_Player1.addOrder(l_Order1);
         assertTrue(l_Player1.nextOrder().execute());
-        assertEquals("Armies Depleted from source and deployed to target",5,d_GameMap.getCountry("China").getArmies());
+        assertEquals("Armies Depleted from source and deployed to target", 5, d_GameMap.getCountry("China").getArmies());
         assertTrue(l_CountriesPlayer1.get(0).getArmies() > 0);
     }
 
@@ -187,7 +185,7 @@ public class AdvanceOrderTest {
         Order l_Order1 = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), l_Player1);
         l_Player1.addOrder(l_Order1);
         assertTrue(l_Player1.nextOrder().execute());
-        assertEquals("Ownership changed",l_Player1,d_GameMap.getCountry("China").getPlayer());
+        assertEquals("Ownership changed", l_Player1, d_GameMap.getCountry("China").getPlayer());
     }
 
     /**

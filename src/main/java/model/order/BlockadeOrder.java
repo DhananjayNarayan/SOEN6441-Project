@@ -13,11 +13,14 @@ import utils.logger.LogEntryBuffer;
  * @author Dhananjay
  */
 public class BlockadeOrder extends Order {
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
     /**
      * A Gamemap object
      */
     private final GameMap d_GameMap;
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger;
 
     /**
      * Constructor for class Blockade Order
@@ -41,7 +44,7 @@ public class BlockadeOrder extends Order {
             l_Country.setArmies(l_Country.getArmies() * 3);
             l_Player.getCapturedCountries().remove(l_Country);
             l_Country.setPlayer(null);
-            System.out.println("The order: " + getType() + " " + l_Country.getName());
+            d_Logger.log("The order: " + getType() + " " + l_Country.getName());
             l_Player.removeCard(CardType.BLOCKADE);
             return true;
         }
@@ -60,18 +63,18 @@ public class BlockadeOrder extends Order {
 
         if (l_Player == null) {
             System.err.println("The Player is not valid.");
-            d_Leb.logInfo("The Player is not valid.");
+            d_Logger.log("The Player is not valid.");
             return false;
         }
 
         if (l_Country.getPlayer() != l_Player) {
             System.err.println("The target country does not belong to the player");
-            d_Leb.logInfo("The target country does not belong to the player");
+            d_Logger.log("The target country does not belong to the player");
             return false;
         }
         if (!l_Player.checkIfCardAvailable(CardType.BLOCKADE)) {
             System.err.println("Player doesn't have Blockade Card.");
-            d_Leb.logInfo("Player doesn't have Blockade Card.");
+            d_Logger.log("Player doesn't have Blockade Card.");
             return false;
         }
         return true;
@@ -82,9 +85,7 @@ public class BlockadeOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
-
+        d_Logger.log("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
+        d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 }

@@ -19,10 +19,12 @@ public class OrderCreater {
      * Static object of Game Map to hold instance of game map
      */
     public static GameMap d_GameMap = GameMap.getInstance();
+
     /**
-     * Static object of LogEntryBuffer to hold instance
+     * Logger Observable
      */
-    static LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private static LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
+
 
     /**
      * A function to create an order
@@ -60,7 +62,7 @@ public class OrderCreater {
                 l_Order.setOrderInfo(GenerateBombOrderInfo(p_commands, player));
                 break;
             default:
-                System.out.println("\nFailed to create an order due to invalid arguments");
+                d_Logger.log("\nFailed to create an order due to invalid arguments");
                 l_Order = null;
 
         }
@@ -158,7 +160,7 @@ public class OrderCreater {
         return l_OrderInfo;
     }
 
-    private static OrderInfo GenerateBombOrderInfo(String[] p_command, Player p_player){
+    private static OrderInfo GenerateBombOrderInfo(String[] p_command, Player p_player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setPlayer(p_player);
         String l_CountryID = p_command[1];

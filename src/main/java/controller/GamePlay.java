@@ -34,7 +34,7 @@ public class GamePlay implements GameController {
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.Reinforcement;
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the default constructor
@@ -53,7 +53,7 @@ public class GamePlay implements GameController {
      */
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
-            System.out.println("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
+            d_Logger.log("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList;
             if (l_Input.contains("-")) {
@@ -119,7 +119,7 @@ public class GamePlay implements GameController {
                         if (d_GameMap.getPlayers().size() > 1) {
                             d_GameMap.assignCountries();
                         } else {
-                            d_leb.logInfo("Game ended as the minimum players are not there.");
+                            d_Logger.log("Game ended as the minimum players are not there.");
                             throw new ValidationException("Create atleast two players");
                         }
                         break;
@@ -135,13 +135,13 @@ public class GamePlay implements GameController {
                     }
                     //Print the commands for help
                     default: {
-                        System.out.println("Order of game play commands:");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("To load the map : loadmap filename");
-                        System.out.println("To show the loaded map : showmap");
-                        System.out.println("To add or remove a player : gameplayer -add playername -remove playername");
-                        System.out.println("To assign countries : assigncountries");
-                        System.out.println("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Order of game play commands:");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("To load the map : loadmap filename");
+                        d_Logger.log("To show the loaded map : showmap");
+                        d_Logger.log("To add or remove a player : gameplayer -add playername -remove playername");
+                        d_Logger.log("To assign countries : assigncountries");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
 
                     }
                 }

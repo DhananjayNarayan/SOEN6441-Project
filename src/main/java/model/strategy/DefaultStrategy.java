@@ -19,9 +19,9 @@ public class DefaultStrategy implements GameStrategy {
     GameSettings SETTINGS = GameSettings.getInstance();
 
     /**
-     * Logger for game actions
+     * Logger Observable
      */
-    LogEntryBuffer d_LogEntryBuffer = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Method holding the default attack logic
@@ -47,16 +47,15 @@ public class DefaultStrategy implements GameStrategy {
                 //Assign power card to king
                 Card l_AssignedCard = new Card();
                 p_Player.addPlayerCard(l_AssignedCard);
-                System.out.println("Attacker: " + p_Player.getName() + " received a card: " + l_AssignedCard);
-                d_LogEntryBuffer.logInfo("Attacker: " + p_Player.getName() + " received a card: "+ l_AssignedCard);
-                System.out.println("Attacker : " + p_Player.getName() + " won.");
-                System.out.println("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
+                d_Logger.log("Attacker: " + p_Player.getName() + " received a card: " + l_AssignedCard.getCardType().toString());
+                d_Logger.log("Attacker : " + p_Player.getName() + " won.");
+                d_Logger.log("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
             } else {
                 p_From.deployArmies(l_armiesLeftAttacker);
                 p_To.setArmies(l_armiesLeftDefender);
-                System.out.println("Attacker : " + p_Player.getName() + " lost.");
-                System.out.println("Remaining attacker's armies: " + p_From.getArmies());
-                System.out.println("Remaining defender's armies: " + p_To.getArmies());
+                d_Logger.log("Attacker : " + p_Player.getName() + " lost.");
+                d_Logger.log("Remaining attacker's armies: " + p_From.getArmies());
+                d_Logger.log("Remaining defender's armies: " + p_To.getArmies());
             }
             return true;
         } catch (Exception p_Exception) {

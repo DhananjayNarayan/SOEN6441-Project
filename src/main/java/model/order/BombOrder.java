@@ -8,16 +8,19 @@ import utils.logger.LogEntryBuffer;
 
 /**
  * This class implements the bomb order card
- * 
- * @author Prathika 
+ *
+ * @author Prathika
  */
-public class BombOrder extends Order{
+public class BombOrder extends Order {
 
     /**
      * the Game Map Object
      */
     private GameMap d_GameMap;
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the Constructor for Bomb Order class
@@ -29,7 +32,7 @@ public class BombOrder extends Order{
     }
 
     /**
-     *  This is the execute method for bomb order
+     * This is the execute method for bomb order
      *
      * @return true if the execute was successful else false
      */
@@ -38,10 +41,10 @@ public class BombOrder extends Order{
         Player l_Player = getOrderInfo().getPlayer();
         Country l_TargetCountry = getOrderInfo().getTargetCountry();
         if (validateCommand()) {
-            System.out.println("The order: " + getType() + " " + l_TargetCountry.getName());
+            d_Logger.log("The order: " + getType() + " " + l_TargetCountry.getName());
             int l_Armies = l_TargetCountry.getArmies();
-            int l_NewArmies = l_Armies/2;
-            if (l_NewArmies<0){
+            int l_NewArmies = l_Armies / 2;
+            if (l_NewArmies < 0) {
                 l_NewArmies = 0;
             }
             l_TargetCountry.setArmies(l_NewArmies);
@@ -50,6 +53,7 @@ public class BombOrder extends Order{
         }
         return false;
     }
+
     /**
      * This method Contains the Validations for the bomb command
      *
@@ -62,20 +66,20 @@ public class BombOrder extends Order{
 
         if (l_Player == null) {
             System.err.println("The Player is not valid.");
-            d_Leb.logInfo("The Player is not valid.");
+            d_Logger.log("The Player is not valid.");
             return false;
         }
         // validate that the player has the bomb card
         if (!l_Player.checkIfCardAvailable(CardType.BOMB)) {
             System.err.println("Player doesn't have Bomb Card.");
-            d_Leb.logInfo("Player doesn't have Bomb Card.");
+            d_Logger.log("Player doesn't have Bomb Card.");
             return false;
         }
 
         //check whether the target country belongs to the player
-        if(l_Player.getCapturedCountries().contains(l_TargetCountry)){
+        if (l_Player.getCapturedCountries().contains(l_TargetCountry)) {
             System.err.println("The player cannot destroy armies in his own country.");
-            d_Leb.logInfo("The player cannot destroy armies in his own country.");
+            d_Logger.log("The player cannot destroy armies in his own country.");
             return false;
         }
 
@@ -89,16 +93,16 @@ public class BombOrder extends Order{
                 }
             }
         }
-        if (!l_Adjacent){
+        if (!l_Adjacent) {
             System.err.println("The target country is not adjacent to one of the countries that belong to the player.");
-            d_Leb.logInfo("The target country is not adjacent to one of the countries that belong to the player.");
+            d_Logger.log("The target country is not adjacent to one of the countries that belong to the player.");
             return false;
         }
 
         //Check diplomacy
         if (l_Player.getNeutralPlayers().contains(l_TargetCountry.getPlayer())) {
             System.err.printf("Truce between %s and %s\n", l_Player.getName(), l_TargetCountry.getPlayer().getName());
-            d_Leb.logInfo("Truce between" + l_Player.getName() + "and " + l_TargetCountry.getPlayer().getName());
+            d_Logger.log("Truce between" + l_Player.getName() + "and " + l_TargetCountry.getPlayer().getName());
             l_Player.getNeutralPlayers().remove(l_TargetCountry.getPlayer());
             l_TargetCountry.getPlayer().getNeutralPlayers().remove(l_Player);
             return false;
@@ -108,16 +112,13 @@ public class BombOrder extends Order{
 
     /**
      * This is the method to print
-     *
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName()
+        d_Logger.log("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName()
                 + " on Country: " + getOrderInfo().getTargetCountry().getName());
-        System.out.println("------------------------------------------------------------------------" +
+        d_Logger.log("------------------------------------------------------------------------" +
                 "---------------------");
-        d_Leb.logInfo("Bomb Order issued by player: " + getOrderInfo().getPlayer().getName()
-                + " on Country: " + getOrderInfo().getTargetCountry().getName());
     }
 }
 

@@ -1,30 +1,52 @@
 package utils.logger;
 
 import utils.Observable;
+import utils.Observer;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This class gets all the actions of the game. It is an Observable.
+ * Singleton class
  *
  * @author Dhananjay Narayan
  * @author Surya Manian
  */
 public class LogEntryBuffer implements Observable {
     /**
-     * An object of LogEntryWriter
+     * A static object of LogEntryBuffer
      */
-    private LogEntryWriter d_Lew = new LogEntryWriter(); //d_lew is an observer object
+    private static LogEntryBuffer Logger;
+    private List<Observer> d_ObserverList = new ArrayList<>();
+
+    private LogEntryBuffer() {
+
+    }
+
+    public static LogEntryBuffer getInstance() {
+        if (Objects.isNull(Logger)) {
+            Logger = new LogEntryBuffer();
+        }
+        return Logger;
+    }
 
     /**
      * This method gets the information from the game and notifies the Observer.
      *
      * @param p_s The message to be notified
      */
-    public void logInfo(String p_s) {
+    public void log(String p_s) {
         notifyObservers(p_s);
+    }
+
+
+    /**
+     * Clear logs
+     */
+    public void clear() {
+        clearObservers();
     }
 
     /**
@@ -32,20 +54,20 @@ public class LogEntryBuffer implements Observable {
      *
      * @param p_s The message to be updated
      */
+    @Override
     public void notifyObservers(String p_s) {
-        d_Lew.update(p_s);
+        d_ObserverList.forEach(p_observer -> p_observer.update(p_s));
     }
 
-    /**
-     * This method is used to clear the log file before a new game starts.
-     */
-    public void clearNewFile() {
-        PrintWriter l_WriteData = null;
-        String l_Filename = "demo";
-        try {
-            l_WriteData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_Filename + ".log", false)));
-        } catch (Exception ex) {
-
-        }
+    @Override
+    public void addObserver(Observer p_Observer) {
+        this.d_ObserverList.add(p_Observer);
     }
+
+
+    @Override
+    public void clearObservers() {
+        d_ObserverList.forEach(Observer::clearLogs);
+    }
+
 }

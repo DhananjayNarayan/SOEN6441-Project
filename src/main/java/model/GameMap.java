@@ -44,7 +44,7 @@ public class GameMap {
      * A string to store the error message
      */
     private String d_ErrorMessage;
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Default Constructor
@@ -186,10 +186,7 @@ public class GameMap {
         l_Continent.setName(p_ContinentName);
         l_Continent.setAwardArmies(Integer.parseInt(p_ControlValue));
         this.getContinents().put(p_ContinentName, l_Continent);
-        System.out.println("Successfully added Continent: " + p_ContinentName);
-        d_Leb.logInfo("Added Continent: " + p_ContinentName);
-
-
+        d_Logger.log("Successfully added Continent: " + p_ContinentName);
     }
 
     /**
@@ -210,8 +207,7 @@ public class GameMap {
         l_Country.setContinent(p_ContinentName);
         this.getCountries().put(p_CountryName, l_Country);
         this.getContinent(p_ContinentName).getCountries().add(l_Country);
-        System.out.println("Successfully added Country: " + p_CountryName);
-        d_Leb.logInfo("Added Country: " + p_CountryName);
+        d_Logger.log("Successfully added Country: " + p_CountryName);
     }
 
     /**
@@ -233,8 +229,7 @@ public class GameMap {
         for (String l_CountryName : l_CountrySet) {
             this.getCountries().remove(l_CountryName);
         }
-        System.out.println("Successfully deleted the continent: " + p_ContinentName);
-        d_Leb.logInfo("Deleted the continent: " + p_ContinentName);
+        d_Logger.log("Successfully deleted the continent: " + p_ContinentName);
     }
 
     /**
@@ -251,10 +246,7 @@ public class GameMap {
         }
         this.getContinent(l_Country.getContinent()).getCountries().remove(l_Country);
         this.getCountries().remove(l_Country.getName());
-        System.out.println("Successfully deleted the country");
-        d_Leb.logInfo("Deleted the country" + p_CountryName);
-
-
+        d_Logger.log("Successfully deleted the country");
     }
 
     /**
@@ -271,8 +263,7 @@ public class GameMap {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
-        d_Leb.logInfo("Connected neighbors: " + p_CountryName + " - " + p_NeighborCountryName);
+        d_Logger.log(String.format("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName));
     }
 
 
@@ -292,10 +283,7 @@ public class GameMap {
             throw new ValidationException("Mentioned Countries are not neighbors");
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
-            System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
-            d_Leb.logInfo("Removed neighbors: " + p_CountryName + " - " + p_NeighborCountryName);
-
-
+            d_Logger.log(String.format("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName));
         }
     }
 
@@ -312,8 +300,7 @@ public class GameMap {
         Player l_Player = new Player();
         l_Player.setName(p_PlayerName);
         this.getPlayers().put(p_PlayerName, l_Player);
-        System.out.println("Successfully added Player: " + p_PlayerName);
-        d_Leb.logInfo("Added Player: " + p_PlayerName);
+        d_Logger.log("Successfully added Player: " + p_PlayerName);
     }
 
     /**
@@ -328,10 +315,7 @@ public class GameMap {
             throw new ValidationException("Player does not exist: " + p_PlayerName);
         }
         this.getPlayers().remove(l_Player.getName());
-        System.out.println("Successfully deleted the player: " + p_PlayerName);
-        d_Leb.logInfo("Deleted the player: " + p_PlayerName);
-
-
+        d_Logger.log("Successfully deleted the player: " + p_PlayerName);
     }
 
     /**
@@ -350,8 +334,7 @@ public class GameMap {
                     throw new ValidationException("Please enter the file name:");
                 } else {
                     if (l_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
-                        System.out.println("The map has been validated and is saved.");
-                        d_Leb.logInfo("The map has been validated and is saved.");
+                        d_Logger.log("The map has been validated and is saved.");
                     } else {
                         throw new ValidationException("Map name already exists, enter different name.");
                     }
@@ -377,8 +360,7 @@ public class GameMap {
             Player l_Player = l_Players.get(l_PlayerIndex);
             l_Player.getCapturedCountries().add(l_Country);
             l_Country.setPlayer(l_Player);
-            System.out.println(l_Country.getName() + " Assigned to " + l_Player.getName());
-            d_Leb.logInfo(l_Country.getName() + " Assigned to " + l_Player.getName());
+            d_Logger.log(l_Country.getName() + " Assigned to " + l_Player.getName());
 
             if (l_PlayerIndex < d_GameMap.getPlayers().size() - 1) {
                 l_PlayerIndex++;
@@ -395,10 +377,10 @@ public class GameMap {
      */
 
     public void showMap() {
-        System.out.println("\nShowing the Map Details : \n");
+        d_Logger.log("\nShowing the Map Details : \n");
 
         // Showing Continents in Map
-        System.out.println("\nThe Continents in this Map are : \n");
+        d_Logger.log("\nThe Continents in this Map are : \n");
         Iterator<Map.Entry<String, Continent>> l_IteratorForContinents = d_GameMap.getContinents().entrySet()
                 .iterator();
 
@@ -419,7 +401,7 @@ public class GameMap {
 
 
         // Showing Countries in the Continent and their details
-        System.out.println("\nThe countries in this Map and their details are : \n");
+        d_Logger.log("\nThe countries in this Map and their details are : \n");
 
         Iterator<Map.Entry<String, Continent>> l_IteratorForContinent = d_GameMap.getContinents().entrySet()
                 .iterator();
@@ -452,15 +434,15 @@ public class GameMap {
         // Showing the players in game. Have to modify
 
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
-        System.out.println("\n\n\n\nPlayers in this game if the game has started are : ");
+        d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
-            l_Players.forEach((key, value) -> System.out.println((String) key));  // will slightly modify the output after testing with the entire project
-            System.out.println();
+            l_Players.forEach((key, value) -> d_Logger.log((String) key));  // will slightly modify the output after testing with the entire project
+            d_Logger.log("");
         }
 
 
         //Showing the Ownership of the players
-        System.out.println("\nThe Map ownership of the players are : \n");
+        d_Logger.log("\nThe Map ownership of the players are : \n");
 
         System.out.format(
                 "+---------------+-----------------------+----------------------------+%n");
