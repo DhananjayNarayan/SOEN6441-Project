@@ -70,8 +70,12 @@ public class GameEngine {
         } catch (ValidationException | InvalidExecutionException p_Exception) {
             System.err.println(p_Exception.getMessage());
             start();
-        } catch (Exception p_Exception) {
-            p_Exception.printStackTrace();
+        } catch (Throwable p_Exception) {
+            System.err.println(p_Exception.getMessage());
+            System.err.println("Please try again with valid data");
+            if(d_GamePhase.equals(GamePhase.MapEditor)){
+                start();
+            }
         }
     }
 
