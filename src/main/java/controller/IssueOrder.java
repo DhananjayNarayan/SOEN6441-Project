@@ -181,6 +181,10 @@ public class IssueOrder implements GameController {
         return false;
     }
 
+    /**
+     * A function to show the player the status while issuing the order
+     * @param p_Player The current player object
+     */
     public void showStatus(Player p_Player) {
         Player l_Player = p_Player;
         String  l_Table = "|%-15s|%-19s|%-22s|%n";
