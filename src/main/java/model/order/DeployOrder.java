@@ -37,7 +37,7 @@ public class DeployOrder extends Order {
         Country l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
         d_Logger.log("---------------------------------------------------------------------------------------------");
-        d_Logger.log("The order: " + getType() + " " + getOrderInfo().getDestination().getName() + " " + getOrderInfo().getNumberOfArmy());
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_Destination.deployArmies(l_ArmiesToDeploy);
             return true;
@@ -55,7 +55,7 @@ public class DeployOrder extends Order {
         Country l_Destination = getOrderInfo().getDestination();
         int l_Reinforcements = getOrderInfo().getNumberOfArmy();
         if (l_Player == null || l_Destination == null) {
-            d_Logger.log("Invalid order information.");
+            d_Logger.log("Invalid order information.The entered values are invalid.");
             return false;
         }
         if (!l_Player.isCaptured(l_Destination)) {

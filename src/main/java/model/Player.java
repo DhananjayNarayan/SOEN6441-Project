@@ -40,6 +40,15 @@ public class Player {
      * An integer to store the number of reinforcement armies
      */
     private int d_ReinforcementArmies;
+
+    public int getIssuedArmies() {
+        return d_ArmiesToIssue;
+    }
+    public void setIssuedArmies(int p_ArmiesToIssue) {
+        d_ArmiesToIssue = p_ArmiesToIssue;
+    }
+
+    private int d_ArmiesToIssue = 0;
     /**
      * A list of cards for the player
      */
@@ -279,6 +288,7 @@ public class Player {
         } else {
             setReinforcementArmies(3);
         }
+        d_ArmiesToIssue = getReinforcementArmies();
         d_Logger.log("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 

@@ -40,11 +40,11 @@ public class BlockadeOrder extends Order {
     public boolean execute() {
         Player l_Player = getOrderInfo().getPlayer();
         Country l_Country = getOrderInfo().getTargetCountry();
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_Country.setArmies(l_Country.getArmies() * 3);
             l_Player.getCapturedCountries().remove(l_Country);
-            l_Country.setPlayer(null);
-            d_Logger.log("The order: " + getType() + " " + l_Country.getName());
             l_Player.removeCard(CardType.BLOCKADE);
             return true;
         }

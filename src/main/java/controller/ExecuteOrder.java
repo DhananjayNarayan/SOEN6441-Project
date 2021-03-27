@@ -56,7 +56,7 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_Logger.log("\n EXECUTE ORDER PHASE \n");
+        d_Logger.log("\nEXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
         return checkIfPlayerWon(p_GamePhase);

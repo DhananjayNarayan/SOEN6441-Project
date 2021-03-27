@@ -41,11 +41,11 @@ public class AirliftOrder extends Order {
         Country l_fromCountry = getOrderInfo().getDeparture();
         Country l_toCountry = getOrderInfo().getDestination();
         int p_armyNumberToAirLift = getOrderInfo().getNumberOfArmy();
-
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_fromCountry.setArmies(l_fromCountry.getArmies() - p_armyNumberToAirLift);
             l_toCountry.setArmies(l_toCountry.getArmies() + p_armyNumberToAirLift);
-            d_Logger.log("The order: " + getType() + " " + p_armyNumberToAirLift + " armies from "+l_fromCountry.getName()+" to "+l_toCountry.getName());
             l_Player.removeCard(CardType.AIRLIFT);
             return true;
         }

@@ -32,8 +32,9 @@ public class NegotiateOrder extends Order {
     @Override
     public boolean execute() {
         Player l_NeutralPlayer = getOrderInfo().getNeutralPlayer();
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
-            d_Logger.log("The order: " + getType() + " " + l_NeutralPlayer.getName());
             Player l_Player = getOrderInfo().getPlayer();
             l_Player.addNeutralPlayers(l_NeutralPlayer);
             l_NeutralPlayer.addNeutralPlayers(l_Player);

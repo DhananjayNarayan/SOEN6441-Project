@@ -52,6 +52,8 @@ public class AdvanceOrder extends Order {
      */
     @Override
     public boolean execute() {
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             Player l_Player = getOrderInfo().getPlayer();
             Country l_From = getOrderInfo().getDeparture();
@@ -76,7 +78,6 @@ public class AdvanceOrder extends Order {
                 return true;
             }
         }
-        d_Logger.log("---------------------------------------------------");
         return false;
     }
 
