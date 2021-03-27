@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.order.Order;
 import utils.logger.LogEntryBuffer;
 
 import java.util.*;
@@ -63,24 +64,12 @@ public class IssueOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_Logger.log("\n ISSUE ORDER PHASE \n");
+        d_Logger.log("\nISSUE ORDER PHASE \n");
         while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
             for (Player l_Player : d_GameMap.getPlayers().values()) {
                 if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
                     continue;
                 }
-                d_Logger.log("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
-                d_Logger.log("The countries to be assigned to the player are: ");
-                for (Country l_Country : l_Player.getCapturedCountries()) {
-                    d_Logger.log(l_Country.getName() + " ");
-                }
-                if(!l_Player.getPlayerCards().isEmpty()){
-                    d_Logger.log("The Cards assigned to the Players are:" );
-                    for(Card l_Card : l_Player.getPlayerCards()){
-                        d_Logger.log(l_Card.getCardType().toString());
-                    }
-                }
-                d_Logger.log("=================================================================================");
                 boolean l_IssueCommand = false;
                 while (!l_IssueCommand) {
                     d_Logger.log("List of game loop commands");
@@ -91,16 +80,40 @@ public class IssueOrder implements GameController {
                     d_Logger.log("To negotiate with player : negotiate playerID");
                     d_Logger.log("To bomb the country : bomb countryID");
                     d_Logger.log("To skip: pass");
-                    d_Logger.log("Please enter the correct command");
                     d_Logger.log("=============================================================================");
+                    d_Logger.log("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
+                    d_Logger.log("The countries assigned to the player are: ");
+                    for (Country l_Country : l_Player.getCapturedCountries()) {
+                        System.out.println(l_Country.getName() + "(" + l_Country.getArmies() + ")");
+                        String l_NeighborList = "";
+                        for(Country l_Neighbor : l_Country.getNeighbors()){
+                                l_NeighborList += l_Neighbor.getName() + "-";
+                        }
+                        System.out.println("Neighbors: ");
+                        d_Logger.log(l_NeighborList.length() > 0 ? l_NeighborList.substring(0, l_NeighborList.length() - 1) : "");
+                    }
+                    if(!l_Player.getPlayerCards().isEmpty()){
+                        d_Logger.log("The Cards assigned to the Players are: " );
+                        for(Card l_Card : l_Player.getPlayerCards()){
+                            d_Logger.log(l_Card.getCardType().toString());
+                        }
+                    }
+                    if(!l_Player.getOrders().isEmpty()){
+                        System.out.println("The Orders issued by Player "+ l_Player.getName() + " are:");
+                        for (Order l_Order : l_Player.getOrders()){
+                            System.out.println(l_Order.getOrderInfo().getCommand());
+                        }
+                    }
+                    System.out.println("The armies left to be issues are: " + l_Player.getIssuedArmies());
+                    d_Logger.log("=================================================================================");
                     Commands = ReadFromPlayer();
                     l_IssueCommand = validateCommand(Commands, l_Player);
-                    d_Logger.log(l_Player.getName()+" has issued this order :- " + Commands );
                     if (Commands.equals("pass")) {
                         break;
                     }
                 }
                 if (!Commands.equals("pass")) {
+                    d_Logger.log(l_Player.getName()+" has issued this order :- " + Commands );
                     l_Player.issueOrder();
                     d_Logger.log("The order has been had to the list of orders.");
                     d_Logger.log("=============================================================================");
@@ -152,10 +165,6 @@ public class IssueOrder implements GameController {
                 }
                 break;
             case "advance":
-                if (l_CommandArr.length < 4) {
-                    d_Logger.log("The command syntax is invalid.");
-                    return false;
-                }
                 try {
                     Integer.parseInt(l_CommandArr[3]);
                 } catch (NumberFormatException l_Exception) {
