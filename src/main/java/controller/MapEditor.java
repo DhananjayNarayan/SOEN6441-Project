@@ -53,7 +53,7 @@ public class MapEditor implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         d_Logger.clear();
-        d_Logger.log("MAP EDITOR PHASE ");
+        d_Logger.log("/************************************ You are in MAP EDITOR PHASE *******************************/");
         while (true) {
             d_Logger.log("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
             String l_Input = SCANNER.nextLine();
@@ -202,7 +202,7 @@ public class MapEditor implements GameController {
                     //To exit the map creation phase type "exit"
                     case "exit": {
                         d_GameMap.flushGameMap();
-                        d_Logger.log("================================End of Map Editor Phase==================================");
+                        d_Logger.log("================================ End of Map Editor Phase ==================================");
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help
