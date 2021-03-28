@@ -56,6 +56,11 @@ public class LogEntryWriter implements Observer {
 
     }
 
+    /**
+     * Check if the path is a folder or not
+     *
+     * @param path the path to check
+     */
     private void checkDirectory(String path) {
         File directory = new File(path);
         if (!directory.exists() || !directory.isDirectory()) {
