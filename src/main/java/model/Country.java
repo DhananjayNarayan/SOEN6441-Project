@@ -134,11 +134,11 @@ public class Country {
     /**
      * deploy the armies for the player
      *
-     * @param p_armies number of armies to be deployed
+     * @param p_Armies number of armies to be deployed
      */
-    public void deployArmies(int p_armies) {
-
-        d_Armies += p_armies;
+    public void deployArmies(int p_Armies) {
+        p_Armies =Math.max(p_Armies, 0);
+        d_Armies += p_Armies;
     }
 
     /**
@@ -148,6 +148,7 @@ public class Country {
      */
     public void depleteArmies(int p_armies) {
         d_Armies -= p_armies;
+        d_Armies =Math.max(d_Armies, 0);
     }
 
     /**
@@ -156,7 +157,7 @@ public class Country {
      * @param p_Armies Number of armies for the country
      */
     public void setArmies(int p_Armies) {
-
+        p_Armies =Math.max(p_Armies, 0);
         this.d_Armies = p_Armies;
     }
 

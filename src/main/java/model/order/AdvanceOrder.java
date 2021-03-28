@@ -123,7 +123,7 @@ public class AdvanceOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        d_Logger.log("Advanced " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("Order Info: Advance " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
         d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 }
