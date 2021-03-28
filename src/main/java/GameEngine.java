@@ -44,7 +44,7 @@ public class GameEngine {
      */
     public static void main(String[] args) {
         d_GameSettings = GameSettings.getInstance();
-        d_GameSettings.setStrategy("dice");
+        d_GameSettings.setStrategy("default");
         d_Logger = LogEntryBuffer.getInstance();
         d_Logger.addObserver(new LogEntryWriter());
         d_Logger.addObserver(new ConsoleWriter());

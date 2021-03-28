@@ -52,8 +52,8 @@ public class DiceStrategy implements GameStrategy {
                 d_Logger.log("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
 
             } else {
-                p_From.deployArmies(l_ArmiesLeftAttacker);
-                p_To.setArmies(l_ArmiesLeftDefender);
+                p_From.deployArmies(Math.max(l_ArmiesLeftAttacker, 0));
+                p_To.setArmies(Math.max(l_ArmiesLeftDefender, 0));
                 d_Logger.log("Attacker : " + p_Player.getName() + " lost.");
                 d_Logger.log("Remaining attacker's armies: " + p_From.getArmies());
                 d_Logger.log("Remaining defender's armies: " + p_To.getArmies());
