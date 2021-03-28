@@ -111,9 +111,6 @@ public class OrderCreater {
         l_OrderInfo.setDeparture(l_FromCountry);
         l_OrderInfo.setDestination(l_ToCountry);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmies);
-        if(p_Player.getIssuedArmies() > 0 ){
-            p_Player.setIssuedArmies(p_Player.getIssuedArmies() - l_NumberOfArmies);
-        }
         return l_OrderInfo;
     }
 
