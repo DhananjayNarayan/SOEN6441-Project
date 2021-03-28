@@ -40,8 +40,9 @@ public class BombOrder extends Order {
     public boolean execute() {
         Player l_Player = getOrderInfo().getPlayer();
         Country l_TargetCountry = getOrderInfo().getTargetCountry();
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
-            d_Logger.log("The order: " + getType() + " " + l_TargetCountry.getName());
             int l_Armies = l_TargetCountry.getArmies();
             int l_NewArmies = l_Armies / 2;
             if (l_NewArmies < 0) {
