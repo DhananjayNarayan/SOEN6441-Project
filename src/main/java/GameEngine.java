@@ -63,8 +63,8 @@ public class GameEngine {
                     throw new Exception("No Controller found");
                 }
                 d_GamePhase = l_GameController.start(d_GamePhase);
-                d_Logger.log("You have entered the " + d_GamePhase + " Phase.");
-                d_Logger.log("-----------------------------------------------------------------------------------------");
+                d_Logger.log("\n\n\n/*************************** You have entered the " + d_GamePhase + " Phase *************************/");
+//                d_Logger.log("-----------------------------------------------------------------------------------------");
                 start();
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {

@@ -135,6 +135,7 @@ public class GamePlay implements GameController {
                         break;
                     }
                     case "exit": {
+                        d_Logger.log("================================ End of StartUp Phase ==================================");
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help

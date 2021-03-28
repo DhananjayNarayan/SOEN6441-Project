@@ -45,15 +45,16 @@ public class DiceStrategy implements GameStrategy {
             if (l_ArmiesLeftAttacker > 0 && l_ArmiesLeftDefender <= 0) {
                 p_To.setArmies(l_ArmiesLeftAttacker);
                 makeMeKing(p_Player, p_To);
+                d_Logger.log(String.format("Attacker : %s (%s) won",p_Player.getName(),p_From.getName()));
+                // Assign a card
                 Card l_AssignedCard = new Card();
                 p_Player.addPlayerCard(l_AssignedCard);
                 d_Logger.log("Attacker: " + p_Player.getName() + " received a card: " + l_AssignedCard.getCardType().toString());
-                d_Logger.log("Attacker : " + p_Player.getName() + " won.");
-                d_Logger.log("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
+                d_Logger.log(String.format("Since won, left out %s (Attacker) armies %s moved to %s.",p_From.getName(),l_ArmiesLeftAttacker,p_To.getName()));
 
             } else {
-                p_From.deployArmies(Math.max(l_ArmiesLeftAttacker, 0));
-                p_To.setArmies(Math.max(l_ArmiesLeftDefender, 0));
+                p_From.deployArmies(l_ArmiesLeftAttacker);
+                p_To.setArmies(l_ArmiesLeftDefender);
                 d_Logger.log("Attacker : " + p_Player.getName() + " lost.");
                 d_Logger.log("Remaining attacker's armies: " + p_From.getArmies());
                 d_Logger.log("Remaining defender's armies: " + p_To.getArmies());

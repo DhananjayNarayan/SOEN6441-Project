@@ -64,7 +64,7 @@ public class IssueOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_Logger.log("\nISSUE ORDER PHASE \n");
+//        d_Logger.log("\nISSUE ORDER PHASE \n");
         while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
             for (Player l_Player : d_GameMap.getPlayers().values()) {
                 if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
@@ -91,7 +91,7 @@ public class IssueOrder implements GameController {
                 if (!Commands.equals("pass")) {
                     d_Logger.log(l_Player.getName()+" has issued this order :- " + Commands );
                     l_Player.issueOrder();
-                    d_Logger.log("The order has been had to the list of orders.");
+                    d_Logger.log("The order has been added to the list of orders.");
                     d_Logger.log("=============================================================================");
                 }
             }
@@ -214,7 +214,7 @@ public class IssueOrder implements GameController {
         System.out.format("+--------------+-----------------------+------------------+---------+\n");
 
         if(!l_Player.getPlayerCards().isEmpty()){
-            d_Logger.log("The Cards assigned to the Players are: " );
+            d_Logger.log("The Cards assigned to the Player are: " );
             for(Card l_Card : l_Player.getPlayerCards()){
                 d_Logger.log(l_Card.getCardType().toString());
             }
