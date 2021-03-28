@@ -81,31 +81,7 @@ public class IssueOrder implements GameController {
                     d_Logger.log("To bomb the country : bomb countryID");
                     d_Logger.log("To skip: pass");
                     d_Logger.log("=============================================================================");
-                    d_Logger.log("Player:" + l_Player.getName() + "; Armies assigned are: " + l_Player.getReinforcementArmies());
-                    d_Logger.log("The countries assigned to the player are: ");
-                    for (Country l_Country : l_Player.getCapturedCountries()) {
-                        System.out.println(l_Country.getName() + "(" + l_Country.getArmies() + ")");
-                        String l_NeighborList = "";
-                        for(Country l_Neighbor : l_Country.getNeighbors()){
-                                l_NeighborList += l_Neighbor.getName() + "-";
-                        }
-                        System.out.println("Neighbors: ");
-                        d_Logger.log(l_NeighborList.length() > 0 ? l_NeighborList.substring(0, l_NeighborList.length() - 1) : "");
-                    }
-                    if(!l_Player.getPlayerCards().isEmpty()){
-                        d_Logger.log("The Cards assigned to the Players are: " );
-                        for(Card l_Card : l_Player.getPlayerCards()){
-                            d_Logger.log(l_Card.getCardType().toString());
-                        }
-                    }
-                    if(!l_Player.getOrders().isEmpty()){
-                        System.out.println("The Orders issued by Player "+ l_Player.getName() + " are:");
-                        for (Order l_Order : l_Player.getOrders()){
-                            System.out.println(l_Order.getOrderInfo().getCommand());
-                        }
-                    }
-                    System.out.println("The armies left to be issues are: " + l_Player.getIssuedArmies());
-                    d_Logger.log("=================================================================================");
+                    showStatus(l_Player);
                     Commands = ReadFromPlayer();
                     l_IssueCommand = validateCommand(Commands, l_Player);
                     if (Commands.equals("pass")) {
@@ -205,6 +181,52 @@ public class IssueOrder implements GameController {
         return false;
     }
 
+    /**
+     * A function to show the player the status while issuing the order
+     * @param p_Player The current player object
+     */
+    public void showStatus(Player p_Player) {
+        Player l_Player = p_Player;
+        String  l_Table = "|%-15s|%-19s|%-22s|%n";
+        System.out.println("Current Player Details Are:\n");
+        System.out.format( "+--------------+-----------------------+------------------+%n");
+        System.out.format("| Player Name   | Initial Assigned  | Left Armies          | %n");
+        System.out.format("+---------------+------------------  +---------------------+%n");
+        System.out.format(l_Table, l_Player.getName(), l_Player.getReinforcementArmies(),l_Player.getIssuedArmies());
+        System.out.format("+--------------+-----------------------+------------------+%n");
+
+        d_Logger.log("The countries assigned to the player are: ");
+        System.out.format("+--------------+-----------------------+------------------+---------+%n");
+
+        System.out.format(
+                "|Country name  |Country Armies  | Neighbors                         |%n");
+        System.out.format(
+                "+--------------+-----------------------+------------------+---------+%n");
+        for (Country l_Country : l_Player.getCapturedCountries()) {
+
+            String tableCountry = "|%-15s|%-15s|%-35s|%n";
+            String l_NeighborList = "";
+            for(Country l_Neighbor : l_Country.getNeighbors()){
+                l_NeighborList += l_Neighbor.getName() + "-";
+            }
+            System.out.format(tableCountry,l_Country.getName(),l_Country.getArmies(),l_Country.createANeighborList(l_Country.getNeighbors()));
+        }
+        System.out.format("+--------------+-----------------------+------------------+---------+\n");
+
+        if(!l_Player.getPlayerCards().isEmpty()){
+            d_Logger.log("The Cards assigned to the Players are: " );
+            for(Card l_Card : l_Player.getPlayerCards()){
+                d_Logger.log(l_Card.getCardType().toString());
+            }
+        }
+        if(!l_Player.getOrders().isEmpty()){
+            System.out.println("The Orders issued by Player "+ l_Player.getName() + " are:");
+            for (Order l_Order : l_Player.getOrders()){
+                System.out.println(l_Order.getOrderInfo().getCommand());
+            }
+        }
+        d_Logger.log("=================================================================================");
+    }
 }
 
 
