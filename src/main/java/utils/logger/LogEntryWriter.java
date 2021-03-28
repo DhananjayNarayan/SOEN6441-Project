@@ -44,8 +44,8 @@ public class LogEntryWriter implements Observer {
      */
     public void writeLogFile(String p_str) {
         try {
+            checkDirectory("logFiles");
             l_WriteData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_Filename + ".log", true)));
-
             l_WriteData.println(p_str);
 
         } catch (Exception p_Exception) {
@@ -57,11 +57,24 @@ public class LogEntryWriter implements Observer {
     }
 
     /**
+     * Check if the path is a folder or not
+     *
+     * @param path the path to check
+     */
+    private void checkDirectory(String path) {
+        File directory = new File(path);
+        if (!directory.exists() || !directory.isDirectory()) {
+            directory.mkdirs();
+        }
+    }
+
+    /**
      * This method is used to clear the log file before a new game starts.
      */
     @Override
     public void clearLogs() {
         try {
+            checkDirectory("logFiles");
             File l_File = new File("logFiles/" + l_Filename + ".log");
             if (l_File.exists()) {
                 l_File.delete();
