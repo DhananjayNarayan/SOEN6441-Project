@@ -3,7 +3,7 @@ package model.order;
 import model.Country;
 import model.GameSettings;
 import model.Player;
-import model.strategy.GameStrategy;
+import model.strategy.game.GameStrategy;
 import utils.logger.LogEntryBuffer;
 
 import java.util.Objects;

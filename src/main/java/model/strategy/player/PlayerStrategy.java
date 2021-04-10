@@ -1,4 +1,4 @@
-package model.player;
+package model.strategy.player;
 
 public interface PlayerStrategy {
     String createCommand();

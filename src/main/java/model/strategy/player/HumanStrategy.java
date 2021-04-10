@@ -1,4 +1,4 @@
-package model.player;
+package model.strategy.player;
 
 import java.util.Scanner;
 

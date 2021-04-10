@@ -3,7 +3,7 @@ package controller;
 import model.GameMap;
 import model.GamePhase;
 import model.Player;
-import model.player.PlayerStrategy;
+import model.strategy.player.PlayerStrategy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
