@@ -1,9 +1,10 @@
 package model;
 
-import utils.logger.LogEntryBuffer;
+import model.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
+import utils.logger.LogEntryBuffer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -301,7 +302,24 @@ public class GameMap {
         if (this.getPlayers().containsKey(p_PlayerName)) {
             throw new ValidationException("Player already exists");
         }
-        Player l_Player = new Player();
+        Player l_Player = new Player(PlayerStrategy.getStrategy("human"));
+        l_Player.setName(p_PlayerName);
+        this.getPlayers().put(p_PlayerName, l_Player);
+        d_Logger.log("Successfully added Player: " + p_PlayerName);
+    }
+
+    /**
+     * Adds player to the game map.
+     *
+     * @param p_PlayerName Player name
+     * @param p_Strategy   Player Strategy
+     * @throws ValidationException if any input/output issue
+     */
+    public void addPlayer(String p_PlayerName, String p_Strategy) throws ValidationException {
+        if (this.getPlayers().containsKey(p_PlayerName)) {
+            throw new ValidationException("Player already exists");
+        }
+        Player l_Player = new Player(PlayerStrategy.getStrategy(p_Strategy));
         l_Player.setName(p_PlayerName);
         this.getPlayers().put(p_PlayerName, l_Player);
         d_Logger.log("Successfully added Player: " + p_PlayerName);

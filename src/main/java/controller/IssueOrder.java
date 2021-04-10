@@ -82,7 +82,7 @@ public class IssueOrder implements GameController {
                     d_Logger.log("To skip: pass");
                     d_Logger.log("=============================================================================");
                     showStatus(l_Player);
-                    Commands = ReadFromPlayer();
+                    Commands = l_Player.readFromPlayer();
                     l_IssueCommand = validateCommand(Commands, l_Player);
                     if (Commands.equals("pass")) {
                         break;
@@ -98,15 +98,6 @@ public class IssueOrder implements GameController {
         }
         SkippedPlayers.clear();
         return p_GamePhase.nextState(d_NextGamePhase);
-    }
-
-    /**
-     * A function to read all the commands from player
-     *
-     * @return command entered by the player
-     */
-    public static String ReadFromPlayer() {
-        return SCANNER.nextLine();
     }
 
     /**

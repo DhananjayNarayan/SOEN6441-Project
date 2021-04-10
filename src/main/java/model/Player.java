@@ -3,6 +3,7 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
+import model.player.PlayerStrategy;
 import utils.logger.LogEntryBuffer;
 
 import java.util.*;
@@ -20,10 +21,17 @@ import java.util.stream.Collectors;
  */
 
 public class Player {
+
+    /**
+     * Player Strategy to create the commands
+     */
+    private final PlayerStrategy d_PlayerStrategy;
+
     /**
      * AN integer to store the ID of player
      */
     private int d_Id;
+
     /**
      * An integer to store the name of the player
      */
@@ -41,9 +49,14 @@ public class Player {
      */
     private int d_ReinforcementArmies;
 
+    public Player(PlayerStrategy p_PlayerStrategy) {
+        this.d_PlayerStrategy = p_PlayerStrategy;
+    }
+
     public int getIssuedArmies() {
         return d_ArmiesToIssue;
     }
+
     public void setIssuedArmies(int p_ArmiesToIssue) {
         d_ArmiesToIssue = p_ArmiesToIssue;
     }
@@ -233,6 +246,15 @@ public class Player {
     public void issueOrder() {
         Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), this);
         addOrder(l_Order);
+    }
+
+    /**
+     * A function to read all the commands from player
+     *
+     * @return command entered by the player
+     */
+    public String readFromPlayer() {
+        return this.d_PlayerStrategy.createCommand();
     }
 
 
