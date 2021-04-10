@@ -1,6 +1,6 @@
 package model;
 
-import model.player.PlayerStrategy;
+import model.strategy.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;

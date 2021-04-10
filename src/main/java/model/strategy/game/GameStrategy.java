@@ -1,4 +1,4 @@
-package model.strategy;
+package model.strategy.game;
 
 import model.Country;
 import model.Player;
