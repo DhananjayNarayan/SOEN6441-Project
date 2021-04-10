@@ -1,7 +1,13 @@
-package model.player;
+package model.strategy.player;
 
 import java.util.Scanner;
 
+/**
+ * Human Strategy class, taking command inputs from human player.
+ *
+ * @author Madhuvanthi Hemanathan
+ * @version 1.0.0
+ */
 public class HumanStrategy implements PlayerStrategy {
 
     /**
@@ -9,6 +15,11 @@ public class HumanStrategy implements PlayerStrategy {
      */
     private final static Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Function to read and return the next input of user
+     *
+     * @return next input of the user
+     */
     @Override
     public String createCommand() {
         return SCANNER.nextLine();

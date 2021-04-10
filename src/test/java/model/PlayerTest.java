@@ -1,6 +1,6 @@
 package model;
 
-import model.player.PlayerStrategy;
+import model.strategy.player.PlayerStrategy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

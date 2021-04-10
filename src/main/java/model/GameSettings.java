@@ -1,8 +1,8 @@
 package model;
 
-import model.strategy.DefaultStrategy;
-import model.strategy.DiceStrategy;
-import model.strategy.GameStrategy;
+import model.strategy.game.DefaultStrategy;
+import model.strategy.game.DiceStrategy;
+import model.strategy.game.GameStrategy;
 
 import java.util.Arrays;
 import java.util.List;

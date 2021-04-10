@@ -3,7 +3,7 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
-import model.player.PlayerStrategy;
+import model.strategy.player.PlayerStrategy;
 import utils.logger.LogEntryBuffer;
 
 import java.util.*;
