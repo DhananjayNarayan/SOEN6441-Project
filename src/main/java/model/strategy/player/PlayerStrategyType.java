@@ -3,25 +3,28 @@ package model.strategy.player;
 import java.util.Random;
 
     /**
-     * This is the enum class for card type
+     * This is the enum class for Player Strategy type
      *
      */
     public enum PlayerStrategyType {
+        /**
+         * Human Strategy Type
+         */
         HUMAN,
         /**
-         * Bomb Card Type
+         * Aggressive Player Strategy Type
          */
         AGGRESSIVE,
         /**
-         * Blockade Card Type
+         * Benevolent Player Strategy Type
          */
         BENEVOLENT,
         /**
-         * Airlift Card Type
+         *  Random Player Strategy Type
          */
         RANDOM,
         /**
-         * Diplomacy Card Type
+         * Cheater Player Strategy Type
          */
         CHEATER;
 
