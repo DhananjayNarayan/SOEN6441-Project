@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.order.Order;
+import utils.GameProgress;
 import utils.logger.LogEntryBuffer;
 
 import java.util.*;
@@ -64,12 +65,12 @@ public class IssueOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-//        d_Logger.log("\nISSUE ORDER PHASE \n");
         while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
             for (Player l_Player : d_GameMap.getPlayers().values()) {
                 if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
                     continue;
                 }
+                d_GameMap.setCurrentPlayer(l_Player);
                 boolean l_IssueCommand = false;
                 while (!l_IssueCommand) {
                     d_Logger.log("List of game loop commands");
@@ -87,6 +88,10 @@ public class IssueOrder implements GameController {
                     if (Commands.equals("pass")) {
                         break;
                     }
+                    if(Commands.split(" ")[0].equals("savegame") && l_IssueCommand){
+                        d_GameMap.setGamePhase(GamePhase.StartUp);
+                        return d_GamePhase.nextState(GamePhase.StartUp);
+                    }
                 }
                 if (!Commands.equals("pass")) {
                     d_Logger.log(l_Player.getName()+" has issued this order :- " + Commands );
@@ -97,6 +102,7 @@ public class IssueOrder implements GameController {
             }
         }
         SkippedPlayers.clear();
+        d_GameMap.setGamePhase(d_NextGamePhase);
         return p_GamePhase.nextState(d_NextGamePhase);
     }
 
@@ -108,7 +114,7 @@ public class IssueOrder implements GameController {
      * @return true if the command is correct else false
      */
     public boolean validateCommand(String p_CommandArr, Player p_Player) {
-        List<String> l_Commands = Arrays.asList("deploy", "advance", "bomb", "blockade", "airlift", "negotiate");
+        List<String> l_Commands = Arrays.asList("deploy", "advance", "bomb", "blockade", "airlift", "negotiate", "savegame");
         String[] l_CommandArr = p_CommandArr.split(" ");
         if (p_CommandArr.toLowerCase().contains("pass")) {
             AddToSetOfPlayers(p_Player);
@@ -138,7 +144,17 @@ public class IssueOrder implements GameController {
                     d_Logger.log("The number format is invalid");
                     return false;
                 }
-
+            case "savegame":
+                System.out.println("Are you sure you want to save the file? Enter Yes/No.");
+                String l_Input = new Scanner(System.in).nextLine();
+                if(l_Input.equalsIgnoreCase("Yes")) {
+                    GameProgress.SaveGameProgress(d_GameMap, l_CommandArr[1]);
+                    return true;
+                }
+                else{
+                    System.out.println("The game has not been saved, continue to play.");
+                    return false;
+                }
             default:
                 break;
 
@@ -164,7 +180,7 @@ public class IssueOrder implements GameController {
     private static boolean CheckLengthOfCommand(String p_Command, int p_Length) {
         if (p_Command.contains("deploy")) {
             return p_Length == 3;
-        } else if (p_Command.contains("bomb") || p_Command.contains("blockade") || p_Command.contains("negotiate")) {
+        } else if (p_Command.contains("bomb") || p_Command.contains("blockade") || p_Command.contains("negotiate") || p_Command.contains("savegame")) {
             return (p_Length == 2);
         } else if (p_Command.contains("airlift") || p_Command.contains("advance")) {
             return (p_Length == 4);

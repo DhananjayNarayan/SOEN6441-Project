@@ -6,6 +6,7 @@ import utils.SaveMap;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,11 +21,15 @@ import java.util.stream.Collectors;
  * @author Prathika Suvarna
  * @version 1.0.0
  */
-public class GameMap {
+public class GameMap implements Serializable {
     /**
      * An object of the gamemap
      */
     private static GameMap d_GameMap;
+    /**
+     * Gamephase object
+     */
+    private GamePhase d_GamePhase;
     /**
      * A hashmap to store the continents
      */
@@ -52,6 +57,11 @@ public class GameMap {
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
+     * Current Player
+     */
+    private Player d_CurrentPlayer;
+
+    /**
      * Default Constructor
      */
     private GameMap() {
@@ -67,6 +77,24 @@ public class GameMap {
             d_GameMap = new GameMap();
         }
         return d_GameMap;
+    }
+
+    /**
+     * To get the current phase
+     *
+     * @return gamephase instance
+     */
+    public GamePhase getGamePhase() {
+        return d_GamePhase;
+    }
+
+    /**
+     * Set the current phase
+     *
+     * @param d_GamePhase gamephase instance
+     */
+    public void setGamePhase(GamePhase d_GamePhase) {
+        this.d_GamePhase = d_GamePhase;
     }
 
     /**
@@ -164,6 +192,25 @@ public class GameMap {
     public void setName(String p_Name) {
         this.d_Name = p_Name;
     }
+
+    /**
+     * Get the current Player
+     *
+     * @return player
+     */
+    public Player getCurrentPlayer() {
+        return d_CurrentPlayer;
+    }
+
+    /**
+     * Set the current Player
+     *
+     * @param d_CurrentPlayer player
+     */
+    public void setCurrentPlayer(Player d_CurrentPlayer) {
+        this.d_CurrentPlayer = d_CurrentPlayer;
+    }
+
 
     /**
      * Method to set the Game map object back to empty after
@@ -462,7 +509,6 @@ public class GameMap {
             d_Logger.log("");
         }
 
-
         //Showing the Ownership of the players
         d_Logger.log("\nThe Map ownership of the players are : \n");
 
@@ -472,24 +518,40 @@ public class GameMap {
                 "| Player's name |    Continent's Controlled    | No. of Armies Owned |%n");
         System.out.format(
                 "+---------------+-----------------------+---------------------------+%n");
-
-
         String l_Table1 = "|%-15s|%-30s|%-21d|%n";
-
-
         for (Player l_Player : d_GameMap.getPlayers().values()) {
-
             //Iterator<Country> listIterator = continent.getCountries().iterator();
-
             System.out.format(l_Table1, l_Player.getName(), l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
-
-
         }
-
         System.out.format(
                 "+---------------+-----------------------+----------------------------+%n");
-
     }
 
+    public void gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
+        this.flushGameMap();
+        for (Map.Entry<String, Continent> l_Continent : p_GameMap.getContinents().entrySet()) {
+            this.addContinent(l_Continent.getKey(), String.valueOf(l_Continent.getValue().getAwardArmies()));
+        }
+        for (Map.Entry<String, Country> l_Country : p_GameMap.getCountries().entrySet()) {
+            this.addCountry(l_Country.getKey(), l_Country.getValue().getContinent());
+        }
+        for (Continent l_Continent : p_GameMap.getContinents().values()) {
+            for (Country l_Country : l_Continent.getCountries()) {
+                for (Country l_Neighbour : l_Country.getNeighbors()) {
+                    p_GameMap.addNeighbor(l_Country.getName(), l_Neighbour.getName());
+                }
+            }
+        }
+        for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
+            this.addPlayer(l_Player.getKey());
+            l_Player.getValue().setCapturedCountries(l_Player.getValue().getCapturedCountries());
+            l_Player.getValue().setReinforcementArmies(l_Player.getValue().getReinforcementArmies());
+            l_Player.getValue().setOrders(l_Player.getValue().getOrders());
+        }
+        this.setGamePhase(p_GameMap.getGamePhase());
+        if(p_GameMap.getGamePhase().equals("IssueOrder")){
+            this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
+        }
+    }
 
 }

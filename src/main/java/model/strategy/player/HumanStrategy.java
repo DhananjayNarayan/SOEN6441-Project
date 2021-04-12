@@ -1,5 +1,6 @@
 package model.strategy.player;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Scanner;
  * @author Madhuvanthi Hemanathan
  * @version 1.0.0
  */
-public class HumanStrategy implements PlayerStrategy {
+public class HumanStrategy implements PlayerStrategy, Serializable {
 
     /**
      * scanner to read from user

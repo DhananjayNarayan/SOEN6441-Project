@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  * @author Prathika Suvarna
  * @version 1.0.0
  */
-public class Continent {
+public class Continent implements Serializable {
     /**
      * A string to store the ID of continent
      */
