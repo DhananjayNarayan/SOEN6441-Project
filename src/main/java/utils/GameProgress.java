@@ -1,6 +1,11 @@
 package utils;
 import model.GameMap;
+import model.GamePhase;
+import model.Player;
+import model.order.Order;
+
 import java.io.*;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -26,6 +31,7 @@ public class GameProgress {
             System.out.println("The game has been saved successfully.");
             l_Os.flush();
             l_Fs.close();
+            p_GameMap.flushGameMap();
         } catch(Exception p_Exception) {
             System.out.println(p_Exception);
         }
@@ -36,15 +42,15 @@ public class GameProgress {
      *
      * @param p_Filename the file name string
      */
-    public static void LoadGameProgress(String p_Filename){
+    public static GamePhase LoadGameProgress(String p_Filename){
         FileInputStream l_Fs = null;
         try {
             l_Fs = new FileInputStream(PATH + p_Filename);
             ObjectInputStream l_Os = new ObjectInputStream(l_Fs);
             GameMap l_LoadedGameMap = (GameMap) l_Os.readObject();
-            GameMap.getInstance().gamePlayBuilder(l_LoadedGameMap);
             System.out.println("The game is loaded successfully will continue where it last stopped.");
             l_Os.close();
+            return GameMap.getInstance().gamePlayBuilder(l_LoadedGameMap);
         } catch (FileNotFoundException p_Exception) {
             System.out.println("The file could not be loaded.");
             p_Exception.printStackTrace();
@@ -54,6 +60,7 @@ public class GameProgress {
         } catch (ValidationException e) {
             e.printStackTrace();
         }
+        return GamePhase.ExitGame;
     }
 
 }

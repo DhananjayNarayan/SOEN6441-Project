@@ -1,5 +1,6 @@
 package model;
 
+import model.order.Order;
 import model.strategy.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
@@ -537,7 +538,7 @@ public class GameMap implements Serializable {
      * @param p_GameMap instance
      * @throws ValidationException Validation exception
      */
-    public void gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
+    public GamePhase gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
         this.flushGameMap();
         for (Map.Entry<String, Continent> l_Continent : p_GameMap.getContinents().entrySet()) {
             this.addContinent(l_Continent.getKey(), String.valueOf(l_Continent.getValue().getAwardArmies()));
@@ -562,8 +563,9 @@ public class GameMap implements Serializable {
         this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
         for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
             this.getPlayer(l_Player.getKey()).setOrders(l_Player.getValue().getOrders());
+            this.getPlayer(l_Player.getKey()).setPlayerCards(l_Player.getValue().getPlayerCards());
         }
-
+        return p_GameMap.getGamePhase();
     }
 
 }

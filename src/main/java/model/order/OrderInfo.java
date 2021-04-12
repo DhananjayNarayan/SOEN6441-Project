@@ -3,6 +3,8 @@ package model.order;
 import model.Country;
 import model.Player;
 
+import java.io.Serializable;
+
 /**
  * A class with the information of Order details
  *
@@ -12,7 +14,7 @@ import model.Player;
  * @author Madhuvanthi Hemanathan
  * @author Prathika Suvarna
  */
-public class OrderInfo {
+public class OrderInfo implements Serializable {
     /**
      * Command entered by the player
      */

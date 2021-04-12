@@ -21,6 +21,10 @@ public interface PlayerStrategy {
             case "human": {
                 return new HumanStrategy();
             }
+            case "random":
+            {
+                return new RandomStrategy();
+            }
         }
         throw new IllegalStateException("not a valid player type");
     }

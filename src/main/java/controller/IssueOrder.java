@@ -37,7 +37,7 @@ public class IssueOrder implements GameController {
     /**
      * GamePhase Instance with next phase
      */
-    GamePhase d_StartupPhase = GamePhase.StartUp;
+    GamePhase d_MapEditorPhase = GamePhase.MapEditor;
     /**
      * GamePhase instance
      */
@@ -69,6 +69,7 @@ public class IssueOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
+        int l_Counter = 0;
         while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
             for (Player l_Player : d_GameMap.getPlayers().values()) {
                 if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
@@ -93,8 +94,8 @@ public class IssueOrder implements GameController {
                         break;
                     }
                     if(Commands.split(" ")[0].equals("savegame") && l_IssueCommand){
-                        d_GameMap.setGamePhase(d_StartupPhase);
-                        return d_StartupPhase;
+                        d_GameMap.setGamePhase(d_MapEditorPhase);
+                        return d_MapEditorPhase;
                     }
                 }
                 if (!Commands.equals("pass")) {

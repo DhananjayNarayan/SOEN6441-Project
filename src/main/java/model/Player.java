@@ -66,7 +66,7 @@ public class Player implements Serializable {
     /**
      * A list of cards for the player
      */
-    private final List<Card> d_PlayerCards = new ArrayList<>();
+    private List<Card> d_PlayerCards = new ArrayList<>();
     /**
      * A list of neutral players
      */
@@ -140,7 +140,7 @@ public class Player implements Serializable {
     }
 
     public void setOrders(Deque<Order> p_Orders){
-        d_Orders = p_Orders;
+        this.d_Orders = p_Orders;
     }
     /**
      * A function to add the orders to the issue order list
@@ -148,7 +148,7 @@ public class Player implements Serializable {
      * @param p_Order The order to be added
      */
     public void addOrder(Order p_Order) {
-        d_Orders.add(p_Order);
+        this.d_Orders.add(p_Order);
     }
 
     /**
@@ -201,8 +201,8 @@ public class Player implements Serializable {
     /**
      * A function to remove the all cards from the player
      */
-    public void removeCards() {
-        d_PlayerCards.clear();
+    public void setPlayerCards(List<Card> p_Cards) {
+        d_PlayerCards = p_Cards;
     }
 
     /**

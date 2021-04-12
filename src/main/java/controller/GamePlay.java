@@ -141,7 +141,7 @@ public class GamePlay implements GameController {
                     }
                     case "loadgame" : {
                         if (l_CommandArray.length == 1) {
-                            GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            return GameProgress.LoadGameProgress(l_CommandArray[0]);
                         }
                         break;
                     }
