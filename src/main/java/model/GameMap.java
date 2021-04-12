@@ -531,6 +531,12 @@ public class GameMap implements Serializable {
                 "+---------------+-----------------------+----------------------------+%n");
     }
 
+    /**
+     * Builder for setting the progress
+     *
+     * @param p_GameMap instance
+     * @throws ValidationException Validation exception
+     */
     public void gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
         this.flushGameMap();
         for (Map.Entry<String, Continent> l_Continent : p_GameMap.getContinents().entrySet()) {
