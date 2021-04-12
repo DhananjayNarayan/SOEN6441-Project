@@ -66,7 +66,6 @@ public class GameEngine {
                 d_GamePhase = l_GameController.start(d_GamePhase);
                 GameMap.getInstance().setGamePhase(d_GamePhase);
                 d_Logger.log("\n\n\n/*************************** You have entered the " + d_GamePhase + " Phase *************************/");
-//                d_Logger.log("-----------------------------------------------------------------------------------------");
                 start();
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {

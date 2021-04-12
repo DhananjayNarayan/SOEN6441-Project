@@ -23,6 +23,10 @@ import java.util.stream.Collectors;
  */
 public class GameMap implements Serializable {
     /**
+     * Serial ID
+     */
+    private static final long serialVersionUID = 45443434343L;
+    /**
      * An object of the gamemap
      */
     private static GameMap d_GameMap;
@@ -544,14 +548,16 @@ public class GameMap implements Serializable {
         }
         for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
             this.addPlayer(l_Player.getKey());
-            l_Player.getValue().setCapturedCountries(l_Player.getValue().getCapturedCountries());
-            l_Player.getValue().setReinforcementArmies(l_Player.getValue().getReinforcementArmies());
-            l_Player.getValue().setOrders(l_Player.getValue().getOrders());
+            this.getPlayer(l_Player.getKey()).setCapturedCountries(l_Player.getValue().getCapturedCountries());
+            this.getPlayer(l_Player.getKey()).setReinforcementArmies(l_Player.getValue().getReinforcementArmies());
         }
+
         this.setGamePhase(p_GameMap.getGamePhase());
-        if(p_GameMap.getGamePhase().equals("IssueOrder")){
-            this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
+        this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
+        for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
+            this.getPlayer(l_Player.getKey()).setOrders(l_Player.getValue().getOrders());
         }
+
     }
 
 }

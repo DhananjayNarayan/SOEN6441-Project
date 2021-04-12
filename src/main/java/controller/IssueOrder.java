@@ -33,7 +33,11 @@ public class IssueOrder implements GameController {
     /**
      * GamePhase Instance with next phase
      */
-    GamePhase d_NextGamePhase = GamePhase.ExecuteOrder;
+    GamePhase d_ExecutePhase = GamePhase.ExecuteOrder;
+    /**
+     * GamePhase Instance with next phase
+     */
+    GamePhase d_StartupPhase = GamePhase.StartUp;
     /**
      * GamePhase instance
      */
@@ -89,8 +93,8 @@ public class IssueOrder implements GameController {
                         break;
                     }
                     if(Commands.split(" ")[0].equals("savegame") && l_IssueCommand){
-                        d_GameMap.setGamePhase(GamePhase.StartUp);
-                        return d_GamePhase.nextState(GamePhase.StartUp);
+                        d_GameMap.setGamePhase(d_StartupPhase);
+                        return d_StartupPhase;
                     }
                 }
                 if (!Commands.equals("pass")) {
@@ -102,8 +106,8 @@ public class IssueOrder implements GameController {
             }
         }
         SkippedPlayers.clear();
-        d_GameMap.setGamePhase(d_NextGamePhase);
-        return p_GamePhase.nextState(d_NextGamePhase);
+        d_GameMap.setGamePhase(d_ExecutePhase);
+        return d_ExecutePhase;
     }
 
     /**
@@ -210,7 +214,6 @@ public class IssueOrder implements GameController {
         System.out.format(
                 "+--------------+-----------------------+------------------+---------+%n");
         for (Country l_Country : l_Player.getCapturedCountries()) {
-
             String tableCountry = "|%-15s|%-15s|%-35s|%n";
             String l_NeighborList = "";
             for(Country l_Neighbor : l_Country.getNeighbors()){

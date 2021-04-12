@@ -1,9 +1,6 @@
 package controller;
 
-import model.GameController;
-import model.GameMap;
-import model.GamePhase;
-import model.Player;
+import model.*;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
 
