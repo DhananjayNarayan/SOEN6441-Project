@@ -122,7 +122,7 @@ public class OrderCreater implements Serializable {
      * @param p_Player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
+    public static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setCommand(ConvertToString(p_Command));
@@ -137,7 +137,7 @@ public class OrderCreater implements Serializable {
      * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateBlockadeOrderInfo(String[] p_Command, Player p_player) {
+    public static OrderInfo GenerateBlockadeOrderInfo(String[] p_Command, Player p_player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setCommand(ConvertToString(p_Command));
         l_OrderInfo.setPlayer(p_player);
@@ -154,7 +154,7 @@ public class OrderCreater implements Serializable {
      * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateAirliftOrderInfo(String[] p_Command, Player p_player) {
+    public static OrderInfo GenerateAirliftOrderInfo(String[] p_Command, Player p_player) {
         String l_FromCountryID = p_Command[1];
         Country l_FromCountry = d_GameMap.getCountry(l_FromCountryID);
         String l_ToCountryID = p_Command[2];
@@ -169,7 +169,7 @@ public class OrderCreater implements Serializable {
         return l_OrderInfo;
     }
 
-    private static OrderInfo GenerateBombOrderInfo(String[] p_Command, Player p_Player) {
+    public static OrderInfo GenerateBombOrderInfo(String[] p_Command, Player p_Player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setCommand(ConvertToString(p_Command));
         l_OrderInfo.setPlayer(p_Player);

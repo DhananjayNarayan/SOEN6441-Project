@@ -1,11 +1,13 @@
 package model.strategy.player;
 
-import model.Country;
-import model.GameMap;
-import model.Player;
+import model.*;
 import model.order.*;
+import utils.ValidationException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,99 +16,164 @@ import java.util.Random;
  * @author Neona Pinto
  * @version 1.0.0
  */
-public class RandomStrategy implements PlayerStrategy, Serializable {
+public class RandomStrategy implements  Serializable {
     /**
      * Random variable
      */
-    private static Random d_Random = new Random();
-    private GameMap d_GameMap = GameMap.getInstance();
+    private static final Random d_Random = new Random();
+    private static final GameMap d_GameMap = GameMap.getInstance();
 
-    protected Player getRandomPlayer(){
+
+    protected static Player getRandomPlayer(Player p_Player){
         int l_Index = d_Random.nextInt(d_GameMap.getPlayers().size());
         Player l_Player = (Player) d_GameMap.getPlayers().values().toArray()[l_Index];
-//        while(l_Player.equals(d_player)){
-//            l_Index = d_Random.nextInt(d_GameMap.getPlayers().size());
-//            l_Player = (Player) d_GameMap.getPlayers().values().toArray()[l_Index];
-//        }
+        while(l_Player.equals(p_Player)){
+            l_Index = d_Random.nextInt(d_GameMap.getPlayers().size());
+            l_Player = (Player) d_GameMap.getPlayers().values().toArray()[l_Index];
+        }
         return l_Player;
     }
 
-    protected Country getRandomUnconqueredCountry() {
-        int l_idx=d_Random.nextInt(d_GameMap.getCountries().size());
-        Country l_randomCountry=(Country) d_GameMap.getCountries().values().toArray()[l_idx];
-//        while(l_randomCountry.getPlayer().equals(d_player)){
-//            l_idx=d_Random.nextInt(d_GameMap.getCountries().size());
-//            l_randomCountry=(Country) d_GameMap.getCountries().values().toArray()[l_idx];
-//        }
-        return l_randomCountry;
+    protected static Country getRandomUnconqueredCountry(Player p_Player) {
+        int l_Index = d_Random.nextInt(d_GameMap.getCountries().size());
+        Country l_RandomCountry=(Country) d_GameMap.getCountries().values().toArray()[l_Index];
+        while(l_RandomCountry.getPlayer().equals(p_Player)){
+            l_Index = d_Random.nextInt(d_GameMap.getCountries().size());
+            l_RandomCountry=(Country) d_GameMap.getCountries().values().toArray()[l_Index];
+        }
+        return l_RandomCountry;
     }
 
-    protected Country getRandomConqueredCountry() {
-//        int l_idx=d_Random.nextInt(d_player.getConqueredCountries().size());
-//        Country l_randomCountry=(Country) d_player.getConqueredCountries().values().toArray()[l_idx];
-//        return l_randomCountry;
-        return null;
+    protected static Country getRandomConqueredCountry(Player p_Player) {
+        int l_Index = d_Random.nextInt(p_Player.getCapturedCountries().size());
+        return p_Player.getCapturedCountries().get(l_Index);
     }
 
-    protected Country getRandomNeighbor(Country p_currentCountry) {
-        if(p_currentCountry.getNeighbors().size()==0)
+    protected static Country getRandomNeighbor(Country p_CurrentCountry) {
+        if(p_CurrentCountry.getNeighbors().size()==0)
             return null;
-        int l_idx=d_Random.nextInt(p_currentCountry.getNeighbors().size());
-        Country l_randNeighbor=(Country) p_currentCountry.getNeighbors().toArray()[l_idx];
-        return l_randNeighbor;
+        int l_Index = d_Random.nextInt(p_CurrentCountry.getNeighbors().size());
+        return (Country) p_CurrentCountry.getNeighbors().toArray()[l_Index];
     }
-
 
     /**
      * Create the orders in random fashion
      *
      * @return command, the orders on creation
      */
-    @Override
-    public String createCommand() {
+    public static String createCommand(Player p_Player) {
         Order l_Order = null;
-        String[] l_Commands = null;
+        List<String> l_Commands = new ArrayList<String>();
+        String[] l_CommandsArr;
         //check if player can still play
         int l_Random = d_Random.nextInt(3);
         switch(l_Random){
-            case 1:
+            case 0:
+                l_Commands.add(0,"deploy");
+                l_Commands.add(1,getRandomConqueredCountry(p_Player).getName());
+                l_Commands.add(2,String.valueOf(d_Random.nextInt(p_Player.getReinforcementArmies()))) ;
+                l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                 l_Order = new DeployOrder();
-                l_Commands[1] = getRandomConqueredCountry().getName();
-                l_Commands[2] = String.valueOf(d_Random.nextInt(10));
-                l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_Commands, getRandomPlayer()));
+                l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, getRandomPlayer(p_Player)));
                 break;
-            case 2:
-                Country l_randomConqueredCountry = getRandomConqueredCountry();
-                Country l_randomNeighbor = getRandomNeighbor(l_randomConqueredCountry);
-                if(l_randomNeighbor!=null) {
-                    l_Commands[1] = l_randomConqueredCountry.getName();
-                    l_Commands[2] = l_randomNeighbor.getName();
-                    l_Commands[3] = String.valueOf(d_Random.nextInt(l_randomConqueredCountry.getArmies() + 10));
+            case 1:
+                Country l_RandomConqueredCountry = getRandomConqueredCountry(p_Player);
+                Country l_RandomNeighbor = getRandomNeighbor(l_RandomConqueredCountry);
+                if(l_RandomNeighbor!=null) {
+                    l_Commands.add(0, "advance");
+                    l_Commands.add(1,l_RandomConqueredCountry.getName());
+                    l_Commands.add(2,l_RandomNeighbor.getName());
+                    l_Commands.add(3,String.valueOf(d_Random.nextInt(l_RandomConqueredCountry.getArmies() + 10))) ;
+                    l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                     l_Order = new AdvanceOrder();
-                    l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_Commands, getRandomPlayer()));
+                    l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, getRandomPlayer(p_Player)));
                 }
                 break;
-            case 3:
-//                if(d_player.getCards().size() <= 0)
-//                    return null;
-//                int l_randomCardIdx = d_Random.nextInt(d_player.getCards().size());
-//                Card l_card = d_player.getCards().get(l_randomCardIdx);
-//                switch(l_card){
-//                    case BLOCKADE:
-//                        l_Order = new BlockadeOrder(d_player, getRandomConqueredCountry());
-//                        break;
-//                    case BOMB:
-//                        l_order = new BombOrder(d_player, getRandomUnconqueredCountry());
-//                        break;
-//                    case AIRLIFT:
-//                        l_order = new AirliftOrder(d_player, getRandomConqueredCountry(), getRandomConqueredCountry(),l_rand.nextInt(10));
-//                        break;
-//                    case NEGOTIATE:
-//                        l_order = new NegotiateOrder(d_player, getRandomPlayer());
-//                        break;
-//                }
+            case 2:
+                if(p_Player.getPlayerCards().size() <= 0)
+                    return null;
+                int l_RandomCardIdx = d_Random.nextInt(p_Player.getPlayerCards().size());
+                Card l_Card = p_Player.getPlayerCards().get(l_RandomCardIdx);
+                switch(l_Card.getCardType()){
+                    case BLOCKADE:
+                        l_Commands.add(0,"blockade");
+                        l_Commands.add(1,getRandomConqueredCountry(p_Player).getName());
+                        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                        l_Order = new BlockadeOrder();
+                        l_Order.setOrderInfo(OrderCreater.GenerateBlockadeOrderInfo(l_CommandsArr, p_Player));
+                        break;
+                    case BOMB:
+                        l_Commands.add(0, "bomb");
+                        l_Commands.add(1,getRandomUnconqueredCountry(p_Player).getName());
+                        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                        l_Order = new BombOrder();
+                        l_Order.setOrderInfo(OrderCreater.GenerateBombOrderInfo(l_CommandsArr, p_Player));
+                        break;
+                    case AIRLIFT:
+                        l_Commands.add(0, "airlift");
+                        l_Commands.add(1,getRandomConqueredCountry(p_Player).getName());
+                        l_Commands.add(2,getRandomConqueredCountry(p_Player).getName());
+                        l_Commands.add(3, String.valueOf(d_Random.nextInt(10)));
+                        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                        l_Order = new AirliftOrder();
+                        l_Order.setOrderInfo(OrderCreater.GenerateAirliftOrderInfo(l_CommandsArr, p_Player));
+                        break;
+                    case DIPLOMACY:
+                        l_Commands.add(0, "diplomacy");
+                        l_Commands.add(1,getRandomPlayer(p_Player).getName());
+                        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                        l_Order = new NegotiateOrder();
+                        l_Order.setOrderInfo(OrderCreater.GenerateNegotiateOrderInfo(l_CommandsArr, p_Player));
+                        break;
+                }
                 break;
         }
-        return l_Order.getOrderInfo().getCommand();
+        if(l_Order != null){
+            return l_Order.getOrderInfo().getCommand();
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws ValidationException {
+        GameMap d_GameMap = GameMap.getInstance();
+        d_GameMap.addContinent("Asia", "5");
+        d_GameMap.addContinent("US", "5");
+        d_GameMap.addContinent("Africa", "5");
+        d_GameMap.addContinent("Antartica", "5");
+        d_GameMap.addContinent("Aus", "5");
+
+        d_GameMap.addCountry("Pak", "Africa");
+        d_GameMap.addCountry("India", "Asia");
+        d_GameMap.addCountry("Newyork", "US");
+        d_GameMap.addCountry("Penguin", "Antartica");
+        d_GameMap.addCountry("Melbourne", "Aus");
+
+        d_GameMap.addNeighbor("Pak", "India");
+        d_GameMap.addNeighbor("India", "Pak");
+        d_GameMap.addNeighbor("Pak", "Newyork");
+        d_GameMap.addNeighbor("Newyork", "Pak");
+        d_GameMap.addNeighbor("Penguin", "India");
+        d_GameMap.addNeighbor("India", "Penguin");
+        d_GameMap.addNeighbor("Penguin", "Melbourne");
+        d_GameMap.addNeighbor("Melbourne", "Penguin");
+        d_GameMap.addPlayer("Player1");
+        d_GameMap.addPlayer("Player2");
+        d_GameMap.assignCountries();
+
+        d_GameMap.getPlayer("Player1").setReinforcementArmies(10);
+        d_GameMap.getPlayer("Player2").setReinforcementArmies(20);
+        d_GameMap.getPlayer("Player1").addPlayerCard(new Card(CardType.BOMB));
+        d_GameMap.getPlayer("Player1").addPlayerCard(new Card(CardType.DIPLOMACY));
+        d_GameMap.getPlayer("Player1").addPlayerCard(new Card(CardType.AIRLIFT));
+        d_GameMap.getPlayer("Player1").addPlayerCard(new Card(CardType.BLOCKADE));
+        d_GameMap.getPlayer("Player2").addPlayerCard(new Card(CardType.BOMB));
+        d_GameMap.getPlayer("Player2").addPlayerCard(new Card(CardType.DIPLOMACY));
+        d_GameMap.getPlayer("Player2").addPlayerCard(new Card(CardType.AIRLIFT));
+        d_GameMap.getPlayer("Player2").addPlayerCard(new Card(CardType.BLOCKADE));
+        d_GameMap.showMap();
+        System.out.println("Command " + createCommand( d_GameMap.getPlayer("Player1")));
+        System.out.println("Command " + createCommand(d_GameMap.getPlayer("Player2")));
+        System.out.println("Command " + createCommand( d_GameMap.getPlayer("Player1")));
+        System.out.println("Command " + createCommand(d_GameMap.getPlayer("Player2")));
     }
 }

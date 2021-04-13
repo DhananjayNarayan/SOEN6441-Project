@@ -1,5 +1,4 @@
 package model.strategy.player;
-
 /**
  * Interface class holding the different types of player.
  *
@@ -7,6 +6,8 @@ package model.strategy.player;
  * @version 1.0.0
  */
 public interface PlayerStrategy {
+
+
     String createCommand();
 
     /**
@@ -23,7 +24,7 @@ public interface PlayerStrategy {
             }
             case "random":
             {
-                return new RandomStrategy();
+//                return new RandomStrategy();
             }
         }
         throw new IllegalStateException("not a valid player type");
