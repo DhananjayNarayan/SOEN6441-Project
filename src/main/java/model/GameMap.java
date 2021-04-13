@@ -66,6 +66,13 @@ public class GameMap implements Serializable {
      */
     private Player d_CurrentPlayer;
 
+
+
+    /**
+     * If the game has loaded
+     */
+    private Boolean d_GameLoaded = false;
+
     /**
      * Default Constructor
      */
@@ -216,7 +223,23 @@ public class GameMap implements Serializable {
         this.d_CurrentPlayer = d_CurrentPlayer;
     }
 
+    /**
+     * Get the game loaded status
+     *
+     * @return true if game is loaded
+     */
+    public Boolean getGameLoaded() {
+        return d_GameLoaded;
+    }
 
+    /**
+     * set the game loaded status
+     *
+     * @param d_GameLoaded loaded status
+     */
+    public void setGameLoaded(Boolean d_GameLoaded) {
+        this.d_GameLoaded = d_GameLoaded;
+    }
     /**
      * Method to set the Game map object back to empty after
      * each phase.
@@ -429,8 +452,7 @@ public class GameMap implements Serializable {
 
         List<Country> l_CountryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());
         Collections.shuffle(l_CountryList);
-        for (int i = 0; i < l_CountryList.size(); i++) {
-            Country l_Country = l_CountryList.get(i);
+        for (Country l_Country : l_CountryList) {
             Player l_Player = l_Players.get(l_PlayerIndex);
             l_Player.getCapturedCountries().add(l_Country);
             l_Country.setPlayer(l_Player);
@@ -465,7 +487,7 @@ public class GameMap implements Serializable {
         System.out.format("+------------------+%n");
 
         while (l_IteratorForContinents.hasNext()) {
-            Map.Entry<String, Continent> continentMap = (Map.Entry<String, Continent>) l_IteratorForContinents.next();
+            Map.Entry<String, Continent> continentMap = l_IteratorForContinents.next();
             String l_ContinentId = (String) continentMap.getKey();
             Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); //Get the particular continent by its ID(Name)
 
@@ -510,7 +532,7 @@ public class GameMap implements Serializable {
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
         d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
-            l_Players.forEach((key, value) -> d_Logger.log((String) key));  // will slightly modify the output after testing with the entire project
+            l_Players.forEach((key, value) -> d_Logger.log(key));  // will slightly modify the output after testing with the entire project
             d_Logger.log("");
         }
 
@@ -540,6 +562,7 @@ public class GameMap implements Serializable {
      */
     public GamePhase gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
         this.flushGameMap();
+        d_GameMap.setGameLoaded(true);
         for (Map.Entry<String, Continent> l_Continent : p_GameMap.getContinents().entrySet()) {
             this.addContinent(l_Continent.getKey(), String.valueOf(l_Continent.getValue().getAwardArmies()));
         }

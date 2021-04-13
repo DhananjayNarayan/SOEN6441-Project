@@ -43,20 +43,18 @@ public class GameProgress {
      * @param p_Filename the file name string
      */
     public static GamePhase LoadGameProgress(String p_Filename){
-        FileInputStream l_Fs = null;
+        FileInputStream l_Fs;
+        GameMap l_LoadedGameMap;
         try {
             l_Fs = new FileInputStream(PATH + p_Filename);
             ObjectInputStream l_Os = new ObjectInputStream(l_Fs);
-            GameMap l_LoadedGameMap = (GameMap) l_Os.readObject();
+            l_LoadedGameMap = (GameMap) l_Os.readObject();
             System.out.println("The game is loaded successfully will continue where it last stopped.");
             l_Os.close();
             return GameMap.getInstance().gamePlayBuilder(l_LoadedGameMap);
-        } catch (FileNotFoundException p_Exception) {
-            System.out.println("The file could not be loaded.");
-            p_Exception.printStackTrace();
         } catch (IOException | ClassNotFoundException p_Exception) {
             System.out.println("The file could not be loaded.");
-            p_Exception.printStackTrace();
+            return GamePhase.StartUp;
         } catch (ValidationException e) {
             e.printStackTrace();
         }

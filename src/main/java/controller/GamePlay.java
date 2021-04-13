@@ -34,8 +34,14 @@ public class GamePlay implements GameController {
      */
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame");
     GameMap d_GameMap;
-    GamePhase d_NextState = GamePhase.Reinforcement;
-
+    /**
+     * Reinforcement phase
+     */
+    GamePhase d_ReinforcementPhase = GamePhase.Reinforcement;
+    /**
+     * Map editor
+     */
+    GamePhase d_MapEditorPhase = GamePhase.MapEditor;
     /**
      * LogEntry Buffer Instance
      */
@@ -136,19 +142,23 @@ public class GamePlay implements GameController {
                     case "savegame" : {
                         if (l_CommandArray.length == 1) {
                             GameProgress.SaveGameProgress(d_GameMap, l_CommandArray[0]);
+                            d_GameMap.setGamePhase(d_MapEditorPhase);
+                            return d_MapEditorPhase;
                         }
                         break;
                     }
                     case "loadgame" : {
                         if (l_CommandArray.length == 1) {
-                            return GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            if(!GameProgress.LoadGameProgress(l_CommandArray[0]).equals(GamePhase.StartUp)){
+                                return GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            }
                         }
                         break;
                     }
                     case "exit": {
                         d_Logger.log("================================ End of StartUp Phase ==================================");
-                        d_GameMap.setGamePhase(d_NextState);
-                        return p_GamePhase.nextState(d_NextState);
+                        d_GameMap.setGamePhase(d_ReinforcementPhase);
+                        return p_GamePhase.nextState(d_ReinforcementPhase);
                     }
                     //Print the commands for help
                     default: {
