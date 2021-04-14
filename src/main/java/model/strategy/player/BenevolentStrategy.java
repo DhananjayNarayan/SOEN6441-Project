@@ -5,24 +5,28 @@ import model.Player;
 import model.order.AdvanceOrder;
 import model.order.DeployOrder;
 import model.order.Order;
+import model.*;
+import model.order.*;
+import utils.logger.LogEntryBuffer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 
 /**
  *	Class that implements the Benevolent Player Strategy
  */
-public class BenevolentStrategy extends PlayerStrategy {
+public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 
     /**
-     * Armies to deploy
+     *  a random number
      */
-    private int d_armiesToDeploy;
+    /**
+     * Random variable
+     */
+    private static final Random d_Random = new Random();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
+    private static final GameMap d_GameMap = GameMap.getInstance();
 
     /**
      * constructor for  BenevolentStrategy
@@ -31,79 +35,93 @@ public class BenevolentStrategy extends PlayerStrategy {
 
     public BenevolentStrategy(Player p_player) {
         super(p_player);
-        d_armiesToDeploy=p_player.getReinforcementArmies();
     }
 
     /**
      *  Method to get the conquered country which has minimum army number
      *  @return the weakest conquered country
      */
-    protected Country getWeakestConqueredCountry() {
-        Country l_weakestCountry = null;
-        int l_minArmyNum=Integer.MAX_VALUE;
-        for(Country l_Country : d_player.getCapturedCountries()) {
-            if(l_Country.getArmies()<l_minArmyNum) {
-                l_minArmyNum=l_Country.getArmies();
-                l_weakestCountry=l_Country;
+    public Country getWeakestConqueredCountry(Player p_player) {
+        List<Country> countryList = p_player.getCapturedCountries();
+        Country l_WeakestCountry = countryList.get(0);
+        for (Country l_Country : countryList) {
+            if (l_Country.getArmies() < l_WeakestCountry.getArmies())
+                l_WeakestCountry = l_Country;
+        }
+        return l_WeakestCountry;
+    }
+
+    public String createCommand() {
+        d_Logger.log("Issuing Orders for the Aggressive Player - "+ d_Player.getName());
+        Order l_Order = null;
+        List<String> l_Commands = new ArrayList<>();
+        String[] l_CommandsArr;
+        Country l_WeakestCountry = getWeakestConqueredCountry(d_Player);
+        int l_armiesReinforce= d_Player.getReinforcementArmies();
+
+        // Deploy armies to weakest Country
+        l_Commands.add(0,"deploy");
+        l_Commands.add(1,l_WeakestCountry.getName());
+        l_Commands.add(2,String.valueOf((l_armiesReinforce))) ;
+        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+        l_Order = new DeployOrder();
+        l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, d_Player));
+
+
+
+        //if have a negotiate card, use it
+        if(d_Player.getPlayerCards().size() > 0){
+            for(Card l_card: d_Player.getPlayerCards()){
+                if (l_card.getCardType() == CardType.DIPLOMACY) {
+                    l_Commands.add(0, "diplomacy");
+                    l_Commands.add(1, getRandomPlayer(d_Player).getName());
+                    l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                    l_Order = new NegotiateOrder();
+                    l_Order.setOrderInfo(OrderCreater.GenerateNegotiateOrderInfo(l_CommandsArr, d_Player));
+                }
             }
         }
-        return l_weakestCountry;
+//
+        for (Country l_C : l_WeakestCountry.getNeighbors()) {
+            if(l_C.getPlayer().getName().equals(d_Player.getName())) {
+                l_Commands.add(0, "advance");
+                l_Commands.add(1, l_C.getName());
+                l_Commands.add(2, l_WeakestCountry.getName());
+                l_Commands.add(3, String.valueOf(l_C.getArmies()));
+                l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                l_Order = new AdvanceOrder();
+                l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
+                l_WeakestCountry = l_C;
+            }
+        }
+        return null;
+    }
+
+/**
+        * Get a random player other than itself
+     *
+             * @param p_Player current player
+     * @return Random Player
+     */
+    protected  Player getRandomPlayer(Player p_Player){
+        int l_Index = d_Random.nextInt(d_GameMap.getPlayers().size());
+        Player l_Player = (Player) d_GameMap.getPlayers().values().toArray()[l_Index];
+        while(l_Player.equals(p_Player)){
+            l_Index = d_Random.nextInt(d_GameMap.getPlayers().size());
+            l_Player = (Player) d_GameMap.getPlayers().values().toArray()[l_Index];
+        }
+        return l_Player;
     }
 
     /**
      * Method to implement the Order
      * @return Order
      */
-    public Order createOrder() {
+    /**
+     * implementation of createOrder
+     * @return Order
+     */
 
-        Order l_order=null;
 
-       /*? if(!d_player.getIsAlive())
-            return null;*/
 
-        //deploy to weakest country
-        if(d_armiesToDeploy>0) {
-            Country l_weakestCountry=getWeakestConqueredCountry();
-            l_order = new DeployOrder();
-            d_armiesToDeploy-=d_armiesToDeploy;
-            return l_order;
-        }
-        //move armies to reinforce its weaker country
-        //sort by army number with ascending order
-        List<Object> l_conqueredCountries=Arrays.asList(this.d_player.getCapturedCountries().toArray());
-        Collections.sort(l_conqueredCountries,new Comparator<Object>() {
-            @Override
-            public int compare(Object l_obj1,Object l_obj2) {
-                Country l_c1=(Country) l_obj1;
-                Country l_c2=(Country) l_obj2;
-                if (l_c1.getArmies()>l_c2.getArmies()) {
-                    return 1;
-                }else if (l_c1.getArmies()<l_c2.getArmies()) {
-                    return -1;
-                }else {
-                    return 0;
-                }
-            }
-        });
-        //move army to weaker country
-        for(Object l_obj:l_conqueredCountries) {
-            Country l_countryTo=(Country)l_obj;
-            for(Country l_countryFrom:l_countryTo.getNeighbors()) {
-                if(l_countryFrom.getArmies()>l_countryTo.getArmies() && l_countryFrom.getPlayer() == l_countryTo.getPlayer()) {
-                    int diff=l_countryFrom.getArmies()-l_countryTo.getArmies();
-                    if(diff>1) {
-                        l_order = new AdvanceOrder();
-                        return l_order;
-                    }
-                }
-            }
-        }
-        //d_player.setHasFinisedIssueOrder(true);
-        return null;
-    }
-
-    @Override
-    public String createCommand() {
-        return null;
-    }
 }

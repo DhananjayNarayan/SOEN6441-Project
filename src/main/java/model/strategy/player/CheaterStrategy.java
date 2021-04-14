@@ -23,17 +23,11 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
-     * save the cheat country list
-     */
-    List<Country> l_CheatCountryList;
-
-    /**
      * constructor of CheaterStrategy
      * @param p_Player given Player
      */
     CheaterStrategy(Player p_Player){
         super(p_Player);
-        l_CheatCountryList = new ArrayList<>();
 
     }
 
@@ -48,13 +42,12 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
         //find and conquer neighbor countries
         for(Country l_Country : d_Player.getCapturedCountries()){
             for( Country l_Neighbor : l_Country.getNeighbors()){
-                if(l_Neighbor.getPlayer() != d_Player){
-                    if(!l_CheatCountryList.contains(l_Neighbor)) {
+                if(l_Neighbor.getPlayer() != d_Player)
+                {
                         l_NeighborOwner = l_Neighbor.getPlayer();
                         l_NeighborOwner.getCapturedCountries().remove(l_Neighbor);
                         l_Neighbor.setPlayer(d_Player);
                         d_Logger.log("Conquered the neighbor country of enemy - "  + l_Neighbor.getName());
-                    }
                 }
             }
         }
