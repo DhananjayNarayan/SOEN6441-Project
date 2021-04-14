@@ -52,6 +52,16 @@ public class GameMap {
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
+     * Winner
+     */
+    private Player d_Winner;
+
+    /**
+     * number of tries
+     */
+    private int d_Tries;
+
+    /**
      * Default Constructor
      */
     private GameMap() {
@@ -170,9 +180,10 @@ public class GameMap {
      * each phase.
      */
     public void flushGameMap() {
-        GameMap.getInstance().getContinents().clear();
-        GameMap.getInstance().getCountries().clear();
-        GameMap.getInstance().getPlayers().clear();
+        d_GameMap = new GameMap();
+//        GameMap.getInstance().getContinents().clear();
+//        GameMap.getInstance().getCountries().clear();
+//        GameMap.getInstance().getPlayers().clear();
     }
 
     /**
@@ -183,7 +194,6 @@ public class GameMap {
      * @throws ValidationException if any input or output issue
      */
     public void addContinent(String p_ContinentName, String p_ControlValue) throws ValidationException {
-
         if (this.getContinents().containsKey(p_ContinentName)) {
             throw new ValidationException("Continent already exists");
         }
@@ -491,5 +501,23 @@ public class GameMap {
 
     }
 
+    public int getTries() {
+        return d_Tries;
+    }
 
+    public void setTries(int p_tries) {
+        d_Tries = p_tries;
+    }
+
+    public void nextTry() {
+        d_Tries++;
+    }
+
+    public Player getWinner() {
+        return d_Winner;
+    }
+
+    public void setWinner(Player p_winner) {
+        d_Winner = p_winner;
+    }
 }
