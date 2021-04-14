@@ -2,20 +2,15 @@ package model.strategy.player;
 
 import model.*;
 import utils.logger.LogEntryBuffer;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * A class to implement the Cheater strategy for a player
  * @author Surya Manian
  */
+
 public class CheaterStrategy extends PlayerStrategy implements  Serializable {
-    /**
-     * An instance of gamemap object
-     */
-    private static final GameMap d_GameMap = GameMap.getInstance();
 
     /**
      * Logger Observable
@@ -28,7 +23,6 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
      */
     CheaterStrategy(Player p_Player){
         super(p_Player);
-
     }
 
     /**
@@ -61,7 +55,6 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
                 }
             }
         }
-
         return null;
     }
 }
