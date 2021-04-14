@@ -1,11 +1,13 @@
 package model;
 
+import model.order.Order;
 import model.strategy.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,11 +22,19 @@ import java.util.stream.Collectors;
  * @author Prathika Suvarna
  * @version 1.0.0
  */
-public class GameMap {
+public class GameMap implements Serializable {
+    /**
+     * Serial ID
+     */
+    private static final long serialVersionUID = 45443434343L;
     /**
      * An object of the gamemap
      */
     private static GameMap d_GameMap;
+    /**
+     * Gamephase object
+     */
+    private GamePhase d_GamePhase;
     /**
      * A hashmap to store the continents
      */
@@ -52,6 +62,18 @@ public class GameMap {
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
+     * Current Player
+     */
+    private Player d_CurrentPlayer;
+
+
+
+    /**
+     * If the game has loaded
+     */
+    private Boolean d_GameLoaded = false;
+
+    /**
      * Default Constructor
      */
     private GameMap() {
@@ -67,6 +89,24 @@ public class GameMap {
             d_GameMap = new GameMap();
         }
         return d_GameMap;
+    }
+
+    /**
+     * To get the current phase
+     *
+     * @return gamephase instance
+     */
+    public GamePhase getGamePhase() {
+        return d_GamePhase;
+    }
+
+    /**
+     * Set the current phase
+     *
+     * @param d_GamePhase gamephase instance
+     */
+    public void setGamePhase(GamePhase d_GamePhase) {
+        this.d_GamePhase = d_GamePhase;
     }
 
     /**
@@ -165,6 +205,41 @@ public class GameMap {
         this.d_Name = p_Name;
     }
 
+    /**
+     * Get the current Player
+     *
+     * @return player
+     */
+    public Player getCurrentPlayer() {
+        return d_CurrentPlayer;
+    }
+
+    /**
+     * Set the current Player
+     *
+     * @param d_CurrentPlayer player
+     */
+    public void setCurrentPlayer(Player d_CurrentPlayer) {
+        this.d_CurrentPlayer = d_CurrentPlayer;
+    }
+
+    /**
+     * Get the game loaded status
+     *
+     * @return true if game is loaded
+     */
+    public Boolean getGameLoaded() {
+        return d_GameLoaded;
+    }
+
+    /**
+     * set the game loaded status
+     *
+     * @param d_GameLoaded loaded status
+     */
+    public void setGameLoaded(Boolean d_GameLoaded) {
+        this.d_GameLoaded = d_GameLoaded;
+    }
     /**
      * Method to set the Game map object back to empty after
      * each phase.
@@ -377,8 +452,7 @@ public class GameMap {
 
         List<Country> l_CountryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());
         Collections.shuffle(l_CountryList);
-        for (int i = 0; i < l_CountryList.size(); i++) {
-            Country l_Country = l_CountryList.get(i);
+        for (Country l_Country : l_CountryList) {
             Player l_Player = l_Players.get(l_PlayerIndex);
             l_Player.getCapturedCountries().add(l_Country);
             l_Country.setPlayer(l_Player);
@@ -413,7 +487,7 @@ public class GameMap {
         System.out.format("+------------------+%n");
 
         while (l_IteratorForContinents.hasNext()) {
-            Map.Entry<String, Continent> continentMap = (Map.Entry<String, Continent>) l_IteratorForContinents.next();
+            Map.Entry<String, Continent> continentMap = l_IteratorForContinents.next();
             String l_ContinentId = (String) continentMap.getKey();
             Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); //Get the particular continent by its ID(Name)
 
@@ -458,10 +532,9 @@ public class GameMap {
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
         d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
-            l_Players.forEach((key, value) -> d_Logger.log((String) key));  // will slightly modify the output after testing with the entire project
+            l_Players.forEach((key, value) -> d_Logger.log(key));  // will slightly modify the output after testing with the entire project
             d_Logger.log("");
         }
-
 
         //Showing the Ownership of the players
         d_Logger.log("\nThe Map ownership of the players are : \n");
@@ -472,24 +545,50 @@ public class GameMap {
                 "| Player's name |    Continent's Controlled    | No. of Armies Owned |%n");
         System.out.format(
                 "+---------------+-----------------------+---------------------------+%n");
-
-
         String l_Table1 = "|%-15s|%-30s|%-21d|%n";
-
-
         for (Player l_Player : d_GameMap.getPlayers().values()) {
-
             //Iterator<Country> listIterator = continent.getCountries().iterator();
-
             System.out.format(l_Table1, l_Player.getName(), l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
-
-
         }
-
         System.out.format(
                 "+---------------+-----------------------+----------------------------+%n");
-
     }
 
+    /**
+     * Builder for setting the progress
+     *
+     * @param p_GameMap instance
+     * @throws ValidationException Validation exception
+     */
+    public GamePhase gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
+        this.flushGameMap();
+        d_GameMap.setGameLoaded(true);
+        for (Map.Entry<String, Continent> l_Continent : p_GameMap.getContinents().entrySet()) {
+            this.addContinent(l_Continent.getKey(), String.valueOf(l_Continent.getValue().getAwardArmies()));
+        }
+        for (Map.Entry<String, Country> l_Country : p_GameMap.getCountries().entrySet()) {
+            this.addCountry(l_Country.getKey(), l_Country.getValue().getContinent());
+        }
+        for (Continent l_Continent : p_GameMap.getContinents().values()) {
+            for (Country l_Country : l_Continent.getCountries()) {
+                for (Country l_Neighbour : l_Country.getNeighbors()) {
+                    p_GameMap.addNeighbor(l_Country.getName(), l_Neighbour.getName());
+                }
+            }
+        }
+        for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
+            this.addPlayer(l_Player.getKey());
+            this.getPlayer(l_Player.getKey()).setCapturedCountries(l_Player.getValue().getCapturedCountries());
+            this.getPlayer(l_Player.getKey()).setReinforcementArmies(l_Player.getValue().getReinforcementArmies());
+        }
+
+        this.setGamePhase(p_GameMap.getGamePhase());
+        this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
+        for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
+            this.getPlayer(l_Player.getKey()).setOrders(l_Player.getValue().getOrders());
+            this.getPlayer(l_Player.getKey()).setPlayerCards(l_Player.getValue().getPlayerCards());
+        }
+        return p_GameMap.getGamePhase();
+    }
 
 }

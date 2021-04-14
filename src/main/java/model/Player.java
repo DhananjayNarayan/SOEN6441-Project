@@ -6,6 +6,7 @@ import model.order.OrderCreater;
 import model.strategy.player.PlayerStrategy;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 
-public class Player {
+public class Player implements Serializable {
 
     /**
      * Player Strategy to create the commands
@@ -43,7 +44,7 @@ public class Player {
     /**
      * A deque to manage the list of orders
      */
-    private final Deque<Order> d_Orders = new ArrayDeque<>();
+    private Deque<Order> d_Orders = new ArrayDeque<>();
     /**
      * An integer to store the number of reinforcement armies
      */
@@ -65,7 +66,7 @@ public class Player {
     /**
      * A list of cards for the player
      */
-    private final List<Card> d_PlayerCards = new ArrayList<>();
+    private List<Card> d_PlayerCards = new ArrayList<>();
     /**
      * A list of neutral players
      */
@@ -138,13 +139,16 @@ public class Player {
         return d_Orders;
     }
 
+    public void setOrders(Deque<Order> p_Orders){
+        this.d_Orders = p_Orders;
+    }
     /**
      * A function to add the orders to the issue order list
      *
      * @param p_Order The order to be added
      */
     public void addOrder(Order p_Order) {
-        d_Orders.add(p_Order);
+        this.d_Orders.add(p_Order);
     }
 
     /**
@@ -197,8 +201,8 @@ public class Player {
     /**
      * A function to remove the all cards from the player
      */
-    public void removeCards() {
-        d_PlayerCards.clear();
+    public void setPlayerCards(List<Card> p_Cards) {
+        d_PlayerCards = p_Cards;
     }
 
     /**

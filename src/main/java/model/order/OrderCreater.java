@@ -5,6 +5,7 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.StringJoiner;
 
 /**
@@ -16,7 +17,7 @@ import java.util.StringJoiner;
  * @author Madhuvanthi Hemanathan
  * @author Prathika Suvarna
  */
-public class OrderCreater {
+public class OrderCreater implements Serializable {
     /**
      * Static object of Game Map to hold instance of game map
      */
@@ -27,12 +28,11 @@ public class OrderCreater {
      */
     private static LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
-
     /**
      * A function to create an order
      *
      * @param p_commands the command entered
-     * @param player     object parameter of type Player
+     * @param player object parameter of type Player
      * @return the order
      */
     public static Order CreateOrder(String[] p_commands, Player player) {
@@ -78,7 +78,7 @@ public class OrderCreater {
      * @param p_Player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateDeployOrderInfo(String[] p_Command, Player p_Player) {
+    public static OrderInfo GenerateDeployOrderInfo(String[] p_Command, Player p_Player) {
         Country l_Country = d_GameMap.getCountry(p_Command[1]);
         int l_NumberOfArmies = Integer.parseInt(p_Command[2]);
         OrderInfo l_OrderInfo = new OrderInfo();
@@ -99,7 +99,7 @@ public class OrderCreater {
      * @param p_Player  the player who issued the order
      * @return the order information of advance/attack
      */
-    private static OrderInfo GenerateAdvanceOrderInfo(String[] p_Command, Player p_Player) {
+    public static OrderInfo GenerateAdvanceOrderInfo(String[] p_Command, Player p_Player) {
         String l_FromCountryID = p_Command[1];
         Country l_FromCountry = d_GameMap.getCountry(l_FromCountryID);
         String l_ToCountryID = p_Command[2];
@@ -122,7 +122,7 @@ public class OrderCreater {
      * @param p_Player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
+    public static OrderInfo GenerateNegotiateOrderInfo(String[] p_Command, Player p_Player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setCommand(ConvertToString(p_Command));
@@ -137,7 +137,7 @@ public class OrderCreater {
      * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateBlockadeOrderInfo(String[] p_Command, Player p_player) {
+    public static OrderInfo GenerateBlockadeOrderInfo(String[] p_Command, Player p_player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setCommand(ConvertToString(p_Command));
         l_OrderInfo.setPlayer(p_player);
@@ -154,7 +154,7 @@ public class OrderCreater {
      * @param p_player  object parameter of type Player
      * @return the order information of deploy
      */
-    private static OrderInfo GenerateAirliftOrderInfo(String[] p_Command, Player p_player) {
+    public static OrderInfo GenerateAirliftOrderInfo(String[] p_Command, Player p_player) {
         String l_FromCountryID = p_Command[1];
         Country l_FromCountry = d_GameMap.getCountry(l_FromCountryID);
         String l_ToCountryID = p_Command[2];
@@ -169,7 +169,7 @@ public class OrderCreater {
         return l_OrderInfo;
     }
 
-    private static OrderInfo GenerateBombOrderInfo(String[] p_Command, Player p_Player) {
+    public static OrderInfo GenerateBombOrderInfo(String[] p_Command, Player p_Player) {
         OrderInfo l_OrderInfo = new OrderInfo();
         l_OrderInfo.setCommand(ConvertToString(p_Command));
         l_OrderInfo.setPlayer(p_Player);

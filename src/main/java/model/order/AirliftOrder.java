@@ -6,11 +6,13 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * This class gives the order to execute AirliftOrder, from one country to another.
  * @author Surya Manian
  */
-public class AirliftOrder extends Order {
+public class AirliftOrder extends Order implements Serializable {
     /**
      * A data member to store the instance of the gamemap.
      */

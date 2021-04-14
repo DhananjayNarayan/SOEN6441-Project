@@ -4,6 +4,8 @@ import model.Country;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * Class DeployOrder which is a child of Order, used to execute the orders
  *
@@ -14,7 +16,7 @@ import utils.logger.LogEntryBuffer;
  * @author Madhuvanthi Hemanathan
  * @version 1.0.0
  */
-public class DeployOrder extends Order {
+public class DeployOrder extends Order implements Serializable {
     /**
      * Logger Observable
      */
