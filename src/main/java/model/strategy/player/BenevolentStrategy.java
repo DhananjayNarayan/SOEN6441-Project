@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- *	define of the BenevolentStrategy
+ *	Class that implements the Benevolent Player Strategy
  */
 public class BenevolentStrategy extends PlayerStrategy {
 
@@ -25,7 +25,7 @@ public class BenevolentStrategy extends PlayerStrategy {
     private int d_armiesToDeploy;
 
     /**
-     * constructor of BenevolentStrategy
+     * constructor for  BenevolentStrategy
      * @param p_player given Player
      */
 
@@ -35,23 +35,23 @@ public class BenevolentStrategy extends PlayerStrategy {
     }
 
     /**
-     * Get the conquered country which has minimum army number
-     * @return the weakest conquered country
+     *  Method to get the conquered country which has minimum army number
+     *  @return the weakest conquered country
      */
     protected Country getWeakestConqueredCountry() {
-        Country l_weakestCountry=null;
+        Country l_weakestCountry = null;
         int l_minArmyNum=Integer.MAX_VALUE;
-        for(Country l_c:d_player.getCapturedCountries()) {
-            if(l_c.getArmies()<l_minArmyNum) {
-                l_minArmyNum=l_c.getArmies();
-                l_weakestCountry=l_c;
+        for(Country l_Country : d_player.getCapturedCountries()) {
+            if(l_Country.getArmies()<l_minArmyNum) {
+                l_minArmyNum=l_Country.getArmies();
+                l_weakestCountry=l_Country;
             }
         }
         return l_weakestCountry;
     }
 
     /**
-     * implementation of createOrder
+     * Method to implement the Order
      * @return Order
      */
     public Order createOrder() {
