@@ -1,6 +1,5 @@
 package model;
 
-import model.order.Order;
 import model.strategy.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
@@ -67,11 +66,20 @@ public class GameMap implements Serializable {
     private Player d_CurrentPlayer;
 
 
-
     /**
      * If the game has loaded
      */
     private Boolean d_GameLoaded = false;
+
+    /**
+     * Winner
+     */
+    private Player d_Winner;
+
+    /**
+     * number of tries
+     */
+    private int d_Tries;
 
     /**
      * Default Constructor
@@ -240,6 +248,7 @@ public class GameMap implements Serializable {
     public void setGameLoaded(Boolean d_GameLoaded) {
         this.d_GameLoaded = d_GameLoaded;
     }
+
     /**
      * Method to set the Game map object back to empty after
      * each phase.
@@ -529,7 +538,6 @@ public class GameMap implements Serializable {
                 "+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
 
-
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
         d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
@@ -542,7 +550,7 @@ public class GameMap implements Serializable {
 
 
         System.out.format("+---------------+-------------------------------+%n");
-        System.out.format( "| Player's name |    Continent's Controlled    |%n");
+        System.out.format("| Player's name |    Continent's Controlled    |%n");
         System.out.format("+---------------+-------------------------------+%n");
 
         String l_Table1 = "|%-15s|%-30s|%n";
@@ -552,7 +560,7 @@ public class GameMap implements Serializable {
             System.out.format(l_Table1, l_Player.getName(), l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
         }
 
-        System.out.format( "+---------------+-------------------------------+%n");
+        System.out.format("+---------------+-------------------------------+%n");
 
     }
 
@@ -584,7 +592,6 @@ public class GameMap implements Serializable {
             this.getPlayer(l_Player.getKey()).setCapturedCountries(l_Player.getValue().getCapturedCountries());
             this.getPlayer(l_Player.getKey()).setReinforcementArmies(l_Player.getValue().getReinforcementArmies());
         }
-
         this.setGamePhase(p_GameMap.getGamePhase());
         this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
         for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
@@ -594,4 +601,23 @@ public class GameMap implements Serializable {
         return p_GameMap.getGamePhase();
     }
 
+    public int getTries() {
+        return d_Tries;
+    }
+
+    public void setTries(int p_tries) {
+        d_Tries = p_tries;
+    }
+
+    public void nextTry() {
+        d_Tries++;
+    }
+
+    public Player getWinner() {
+        return d_Winner;
+    }
+
+    public void setWinner(Player p_winner) {
+        d_Winner = p_winner;
+    }
 }

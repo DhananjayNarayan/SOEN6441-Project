@@ -44,13 +44,16 @@ public class GameEngine {
      * @param args passed to main if used in command line
      */
     public static void main(String[] args) {
+        new GameEngine().start();
+    }
+
+    public GameEngine() {
         d_GameSettings = GameSettings.getInstance();
         d_GameSettings.setStrategy("default");
         d_Logger = LogEntryBuffer.getInstance();
         d_Logger.addObserver(new LogEntryWriter());
         d_Logger.addObserver(new ConsoleWriter());
         d_Logger.clear();
-        new GameEngine().start();
     }
 
     /**
@@ -74,10 +77,13 @@ public class GameEngine {
         } catch (Throwable p_Exception) {
             System.err.println(p_Exception.getMessage());
             System.err.println("Please try again with valid data");
-            if(d_GamePhase.equals(GamePhase.MapEditor)){
+            if (d_GamePhase.equals(GamePhase.MapEditor)) {
                 start();
             }
         }
     }
 
+    public void setGamePhase(GamePhase p_gamePhase) {
+        d_GamePhase = p_gamePhase;
+    }
 }
