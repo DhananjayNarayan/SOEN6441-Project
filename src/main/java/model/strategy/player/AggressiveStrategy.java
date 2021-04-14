@@ -26,7 +26,19 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
     }
 
     public String createCommand(){
+        Order l_Order = null;
+        List<String> l_Commands = new ArrayList<>();
+        String[] l_CommandsArr;
+        Country l_StrongCountry = determineStrongestCountry(d_Player);
+        int l_armiesReinforce= d_Player.getReinforcementArmies();
 
+        // Deploy armies to strongestCountry
+        l_Commands.add(0,"deploy");
+        l_Commands.add(1,l_StrongCountry.getName());
+        l_Commands.add(2,String.valueOf((l_armiesReinforce))) ;
+        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+        l_Order = new DeployOrder();
+        l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, d_Player));
 
 
 
