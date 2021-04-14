@@ -10,6 +10,10 @@ import model.Player;
 public abstract class PlayerStrategy {
     static Player d_Player;
 
+    PlayerStrategy(){
+
+    }
+
     PlayerStrategy(Player p_Player){
         d_Player = p_Player;
     }
