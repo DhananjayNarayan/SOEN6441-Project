@@ -34,6 +34,10 @@ public abstract class PlayerStrategy {
             {
                 return new RandomStrategy(d_Player);
             }
+            case "benevolent":
+            {
+                return new BenevolentStrategy(d_Player);
+            }
             case "aggressive":
             {
                 return new AggressiveStrategy(d_Player);
