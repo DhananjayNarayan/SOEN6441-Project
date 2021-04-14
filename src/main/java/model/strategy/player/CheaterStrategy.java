@@ -19,6 +19,21 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
 
     public String createCommand() {
 
+        Player neighborOwner = null;
+
+        for(Country l_Country : d_Player.getCapturedCountries()){
+            for( Country l_Neighbor : l_Country.getNeighbors()){
+                if(l_Neighbor.getPlayer() != d_Player){
+                    if(!l_cheatCountryList.contains(l_Neighbor)) {
+                        neighborOwner = l_Neighbor.getPlayer();
+                        neighborOwner.getCapturedCountries().remove(l_Neighbor);
+                        l_Neighbor.setPlayer(d_Player);
+                        System.out.println("Conquered the neighbor country of enemy - "  + l_Neighbor.getName());
+                    }
+                }
+            }
+        }
+
 
 
 
