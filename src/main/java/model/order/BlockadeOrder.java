@@ -46,6 +46,7 @@ public class BlockadeOrder extends Order implements Serializable {
         d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_Country.setArmies(l_Country.getArmies() * 3);
+            l_Country.addNeutralCountry(l_Country);
             l_Player.getCapturedCountries().remove(l_Country);
             l_Player.removeCard(CardType.BLOCKADE);
             return true;

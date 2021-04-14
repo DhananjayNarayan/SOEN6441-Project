@@ -502,19 +502,20 @@ public class GameMap implements Serializable {
         Iterator<Map.Entry<String, Continent>> l_IteratorForContinent = d_GameMap.getContinents().entrySet()
                 .iterator();
 
-        l_Table = "|%-23s|%-18s|%-60s|%-15s|%n";
+        l_Table = "|%-23s|%-18s|%-60s|%n";
 
         System.out.format(
-                "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
+                "+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
         System.out.format(
-                "     Country's name     | Continent's Name |   Neighbour Countries                                      | No. of armies |%n");
+                "     Country's name     | Continent's Name |   Neighbour Countries                                      |%n");
         System.out.format(
-                "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
+                "+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+
 
         while (l_IteratorForContinent.hasNext()) {
             Map.Entry<String, Continent> l_ContinentMap = (Map.Entry<String, Continent>) l_IteratorForContinent.next();
             String l_ContinentId = (String) l_ContinentMap.getKey();
-            Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); // to get the continent by its ID(Name)
+            Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId);
             Iterator<Country> l_ListIterator = l_Continent.getCountries().iterator();
 
             while (l_ListIterator.hasNext()) {
@@ -525,34 +526,36 @@ public class GameMap implements Serializable {
         }
 
         System.out.format(
-                "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
+                "+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
-        // Showing the players in game. Have to modify
+
 
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
         d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
-            l_Players.forEach((key, value) -> d_Logger.log(key));  // will slightly modify the output after testing with the entire project
+            l_Players.forEach((key, value) -> d_Logger.log(key));
             d_Logger.log("");
         }
 
         //Showing the Ownership of the players
         d_Logger.log("\nThe Map ownership of the players are : \n");
 
-        System.out.format(
-                "+---------------+-----------------------+----------------------------+%n");
-        System.out.format(
-                "| Player's name |    Continent's Controlled    | No. of Armies Owned |%n");
-        System.out.format(
-                "+---------------+-----------------------+---------------------------+%n");
-        String l_Table1 = "|%-15s|%-30s|%-21d|%n";
+
+        System.out.format("+---------------+-------------------------------+%n");
+        System.out.format( "| Player's name |    Continent's Controlled    |%n");
+        System.out.format("+---------------+-------------------------------+%n");
+
+        String l_Table1 = "|%-15s|%-30s|%n";
+
+
         for (Player l_Player : d_GameMap.getPlayers().values()) {
-            //Iterator<Country> listIterator = continent.getCountries().iterator();
             System.out.format(l_Table1, l_Player.getName(), l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
         }
-        System.out.format(
-                "+---------------+-----------------------+----------------------------+%n");
+
+        System.out.format( "+---------------+-------------------------------+%n");
+
     }
+
 
     /**
      * Builder for setting the progress
