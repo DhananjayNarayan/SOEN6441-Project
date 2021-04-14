@@ -75,9 +75,31 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
             }
         }
 
+// Moving the armies to other next countries of players. Alternate is to move the armies to a random self owned country if we have to change.
+        for (Country l_c : l_StrongCountry.getNeighbors()) {
+            l_Commands.add(0, "advance");
+            l_Commands.add(1,l_StrongCountry.getName());
+            l_Commands.add(2,l_c.getName());
+            l_Commands.add(3,String.valueOf(l_StrongCountry.getArmies())) ;
+            l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+            l_Order = new AdvanceOrder();
+            l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr,d_Player));
+            l_StrongCountry = l_c;
 
+        }
 
+// Moving the armies to other next countries of players. Alternate is to move the armies to a random self owned country if we have to change.
+        for (Country l_c : l_StrongCountry.getNeighbors()) {
+            l_Commands.add(0, "advance");
+            l_Commands.add(1,l_StrongCountry.getName());
+            l_Commands.add(2,l_c.getName());
+            l_Commands.add(3,String.valueOf(l_StrongCountry.getArmies())) ;
+            l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+            l_Order = new AdvanceOrder();
+            l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr,d_Player));
+            l_StrongCountry = l_c;
 
+        }
         return null;
     }
 
