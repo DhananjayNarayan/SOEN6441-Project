@@ -1,6 +1,8 @@
 package model.strategy.player;
 
 import model.*;
+import utils.logger.LogEntryBuffer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,11 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
      * An instance of gamemap object
      */
     private static final GameMap d_GameMap = GameMap.getInstance();
+
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * save the cheat country list
@@ -35,7 +42,7 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
      * @return null
      */
     public String createCommand() {
-
+        d_Logger.log("Issuing Orders for the Cheater Player - "+ d_Player.getName());
         Player neighborOwner = null;
 
         //find and conquer neighbor countries
@@ -46,7 +53,7 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
                         neighborOwner = l_Neighbor.getPlayer();
                         neighborOwner.getCapturedCountries().remove(l_Neighbor);
                         l_Neighbor.setPlayer(d_Player);
-                        System.out.println("Conquered the neighbor country of enemy - "  + l_Neighbor.getName());
+                        d_Logger.log("Conquered the neighbor country of enemy - "  + l_Neighbor.getName());
                     }
                 }
             }
@@ -57,7 +64,7 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
             for( Country l_Neighbor : l_Country.getNeighbors()) {
                 if (l_Neighbor.getPlayer() != d_Player) {
                     l_Country.setArmies(l_Country.getArmies() * 2);
-                    System.out.println("Armies doubled in Cheater Player's country"  + l_Country.getName());
+                    d_Logger.log("Armies doubled in Cheater Player's country"  + l_Country.getName());
                 }
             }
         }
