@@ -25,15 +25,15 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
     /**
      * save the cheat country list
      */
-    List<Country> l_cheatCountryList;
+    List<Country> l_CheatCountryList;
 
     /**
      * constructor of CheaterStrategy
-     * @param p_player given Player
+     * @param p_Player given Player
      */
-    CheaterStrategy(Player p_player){
-        super(p_player);
-        l_cheatCountryList = new ArrayList<>();
+    CheaterStrategy(Player p_Player){
+        super(p_Player);
+        l_CheatCountryList = new ArrayList<>();
 
     }
 
@@ -43,15 +43,15 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
      */
     public String createCommand() {
         d_Logger.log("Issuing Orders for the Cheater Player - "+ d_Player.getName());
-        Player neighborOwner = null;
+        Player l_NeighborOwner = null;
 
         //find and conquer neighbor countries
         for(Country l_Country : d_Player.getCapturedCountries()){
             for( Country l_Neighbor : l_Country.getNeighbors()){
                 if(l_Neighbor.getPlayer() != d_Player){
-                    if(!l_cheatCountryList.contains(l_Neighbor)) {
-                        neighborOwner = l_Neighbor.getPlayer();
-                        neighborOwner.getCapturedCountries().remove(l_Neighbor);
+                    if(!l_CheatCountryList.contains(l_Neighbor)) {
+                        l_NeighborOwner = l_Neighbor.getPlayer();
+                        l_NeighborOwner.getCapturedCountries().remove(l_Neighbor);
                         l_Neighbor.setPlayer(d_Player);
                         d_Logger.log("Conquered the neighbor country of enemy - "  + l_Neighbor.getName());
                     }
