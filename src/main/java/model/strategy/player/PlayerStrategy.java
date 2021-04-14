@@ -1,4 +1,5 @@
 package model.strategy.player;
+
 import model.Player;
 
 /**

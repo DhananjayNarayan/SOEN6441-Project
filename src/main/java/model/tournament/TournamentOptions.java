@@ -3,12 +3,14 @@ package model.tournament;
 import model.strategy.player.PlayerStrategy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TournamentOptions {
 
     private List<String> d_Map = new ArrayList<>();
-    private List<PlayerStrategy> d_PlayerStrategies = new ArrayList<>();
+    private Set<PlayerStrategy> d_PlayerStrategies = new HashSet<>();
     private int d_Games;
     private int d_MaxTries;
 
@@ -16,12 +18,8 @@ public class TournamentOptions {
         return d_Map;
     }
 
-    public List<PlayerStrategy> getPlayerStrategies() {
+    public Set<PlayerStrategy> getPlayerStrategies() {
         return d_PlayerStrategies;
-    }
-
-    public void setPlayerStrategies(List<PlayerStrategy> p_playerStrategies) {
-        d_PlayerStrategies = p_playerStrategies;
     }
 
     public int getGames() {

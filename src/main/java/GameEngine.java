@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Madhuvanthi Hemanathan
  * @version 1.0.0
  */
-public class GameEngine {
+public class GameEngine implements Engine {
 
     /**
      * Game Settings for warzone game
@@ -38,21 +38,11 @@ public class GameEngine {
      */
     GamePhase d_GamePhase = GamePhase.MapEditor;
 
-    /**
-     * Main method to run the game
-     *
-     * @param args passed to main if used in command line
-     */
-    public static void main(String[] args) {
-        new GameEngine().start();
-    }
 
     public GameEngine() {
         d_GameSettings = GameSettings.getInstance();
         d_GameSettings.setStrategy("default");
         d_Logger = LogEntryBuffer.getInstance();
-        d_Logger.addObserver(new LogEntryWriter());
-        d_Logger.addObserver(new ConsoleWriter());
         d_Logger.clear();
     }
 
@@ -86,4 +76,5 @@ public class GameEngine {
     public void setGamePhase(GamePhase p_gamePhase) {
         d_GamePhase = p_gamePhase;
     }
+
 }
