@@ -41,6 +41,25 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
         l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, d_Player));
 
 
+        //Bomb an opponent Country if it has more than 1 army
+        if(d_Player.getPlayerCards().size() > 0){
+            for(Card l_card: d_Player.getPlayerCards()){
+                if(l_card.getCardType() == CardType.BOMB) {
+                    for (Country l_c : d_Player.getCapturedCountries()) {
+                        for (Country l_b : l_c.getNeighbors()) {
+                            if ( !l_b.getPlayer().equals(d_Player) && l_b.getArmies() > 0 ) {
+                                l_Commands.add(0, "bomb");
+                                l_Commands.add(1,l_b.getName());
+                                l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                                l_Order = new BombOrder();
+                                l_Order.setOrderInfo(OrderCreater.GenerateBombOrderInfo(l_CommandsArr, d_Player));
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 
 
