@@ -3,6 +3,7 @@ package utils.logger;
 import utils.Observable;
 import utils.Observer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
  * @author Dhananjay Narayan
  * @author Surya Manian
  */
-public class LogEntryBuffer implements Observable {
+public class LogEntryBuffer implements Observable, Serializable {
     /**
      * A static object of LogEntryBuffer
      */

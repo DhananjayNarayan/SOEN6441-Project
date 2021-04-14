@@ -56,6 +56,7 @@ public class Reinforcement implements GameController {
         }
         d_GamePhase = p_GamePhase;
         calculateReinforcements();
+        d_GameMap.setGamePhase(d_NextGamePhase);
         return d_NextGamePhase;
     }
 

@@ -6,12 +6,14 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * This class implements the bomb order card
  *
  * @author Prathika
  */
-public class BombOrder extends Order {
+public class BombOrder extends Order implements Serializable {
 
     /**
      * the Game Map Object

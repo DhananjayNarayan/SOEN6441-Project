@@ -6,13 +6,15 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 
 /**
  * This class helps in executing the Blockade Card
  *
  * @author Dhananjay
  */
-public class BlockadeOrder extends Order {
+public class BlockadeOrder extends Order implements Serializable {
     /**
      * A Gamemap object
      */

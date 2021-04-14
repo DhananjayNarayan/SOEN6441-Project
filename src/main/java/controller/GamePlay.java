@@ -3,6 +3,7 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
+import utils.GameProgress;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
@@ -31,10 +32,16 @@ public class GamePlay implements GameController {
     /**
      * A data member that stores the list of commands for gameplay as list
      */
-    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
+    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame");
     GameMap d_GameMap;
-    GamePhase d_NextState = GamePhase.Reinforcement;
-
+    /**
+     * Reinforcement phase
+     */
+    GamePhase d_ReinforcementPhase = GamePhase.Reinforcement;
+    /**
+     * Map editor
+     */
+    GamePhase d_MapEditorPhase = GamePhase.MapEditor;
     /**
      * LogEntry Buffer Instance
      */
@@ -92,7 +99,6 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
-                    //Handle gameplayer command from console
 
                     case "gameplayer": {
                         if (l_CommandArray.length > 0) {
@@ -129,14 +135,30 @@ public class GamePlay implements GameController {
                         break;
                     }
                     //Handle showmap command from console
-
                     case "showmap": {
                         d_GameMap.showMap();
                         break;
                     }
+                    case "savegame" : {
+                        if (l_CommandArray.length == 1) {
+                            GameProgress.SaveGameProgress(d_GameMap, l_CommandArray[0]);
+                            d_GameMap.setGamePhase(d_MapEditorPhase);
+                            return d_MapEditorPhase;
+                        }
+                        break;
+                    }
+                    case "loadgame" : {
+                        if (l_CommandArray.length == 1) {
+                            if(!GameProgress.LoadGameProgress(l_CommandArray[0]).equals(GamePhase.StartUp)){
+                                return GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            }
+                        }
+                        break;
+                    }
                     case "exit": {
                         d_Logger.log("================================ End of StartUp Phase ==================================");
-                        return p_GamePhase.nextState(d_NextState);
+                        d_GameMap.setGamePhase(d_ReinforcementPhase);
+                        return p_GamePhase.nextState(d_ReinforcementPhase);
                     }
                     //Print the commands for help
                     default: {
@@ -146,6 +168,8 @@ public class GamePlay implements GameController {
                         d_Logger.log("To show the loaded map : showmap");
                         d_Logger.log("To add or remove a player : gameplayer -add playername -remove playername");
                         d_Logger.log("To assign countries : assigncountries");
+                        d_Logger.log("To save the game : savegame filename");
+                        d_Logger.log("To load the game : loadgame filename");
                         d_Logger.log("-----------------------------------------------------------------------------------------");
 
                     }

@@ -203,6 +203,7 @@ public class MapEditor implements GameController {
                     case "exit": {
                         d_GameMap.flushGameMap();
                         d_Logger.log("================================ End of Map Editor Phase ==================================");
+                        d_GameMap.setGamePhase(d_NextState);
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help
