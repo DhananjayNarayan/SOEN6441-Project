@@ -10,14 +10,26 @@ import model.Player;
 public abstract class PlayerStrategy {
     static Player d_Player;
 
+    /**
+     * Default constructor
+     */
     PlayerStrategy(){
 
     }
 
+    /**
+     * Player strategy constructor
+     *
+     * @param p_Player the Player object
+     */
     PlayerStrategy(Player p_Player){
         d_Player = p_Player;
     }
 
+    /**
+     * declaring abstract method
+     * @return command
+     */
     public abstract String createCommand();
 
     /**

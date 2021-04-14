@@ -18,12 +18,18 @@ public class HumanStrategy extends PlayerStrategy implements Serializable {
      */
     private final static Scanner SCANNER = new Scanner(System.in);
 
-    HumanStrategy(Player p_Player) {
-        super(p_Player);
-    }
-
+    /**
+     * Default constructor
+     */
     public HumanStrategy() {
 
+    }
+    /**
+     * Human strategy constructor
+     * @param p_Player the Player object
+     */
+    HumanStrategy(Player p_Player) {
+        super(p_Player);
     }
 
     /**
