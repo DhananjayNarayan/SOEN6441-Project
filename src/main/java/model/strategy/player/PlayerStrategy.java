@@ -1,21 +1,35 @@
 package model.strategy.player;
-
 import model.Player;
 
 /**
- * Interface class holding the different types of player.
+ * Abstract class holding the different types of player.
  *
  * @author Madhuvanthi Hemanathan
  * @version 1.0.0
  */
 public abstract class PlayerStrategy {
     static Player d_Player;
+
+    /**
+     * Default constructor
+     */
     PlayerStrategy(){
 
     }
+
+    /**
+     * Player strategy constructor
+     *
+     * @param p_Player the Player object
+     */
     PlayerStrategy(Player p_Player){
         d_Player = p_Player;
     }
+
+    /**
+     * declaring abstract method
+     * @return command
+     */
     public abstract String createCommand();
 
     /**
@@ -33,6 +47,10 @@ public abstract class PlayerStrategy {
             case "random":
             {
                 return new RandomStrategy(d_Player);
+            }
+            case "benevolent":
+            {
+                return new BenevolentStrategy(d_Player);
             }
             case "aggressive":
             {

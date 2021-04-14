@@ -151,8 +151,7 @@ public class Player implements Serializable {
         this.d_Orders.add(p_Order);
     }
 
-    /**
-     * A function to get the reinforcement armies for each player
+    /**     * A function to get the reinforcement armies for each player
      *
      * @return armies assigned to player of type int
      */

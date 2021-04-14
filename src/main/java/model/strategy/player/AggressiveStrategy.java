@@ -3,7 +3,6 @@ package model.strategy.player;
 import model.*;
 import model.order.*;
 import utils.logger.LogEntryBuffer;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +31,13 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
 
     /**
      * A function to determine a strongest country from the list of captured countries
-     * @param p_player player object
+     * @param p_Player player object
      * @return The strongest country
      */
-    public Country determineStrongestCountry(Player p_player) {
-        List<Country> countryList = p_player.getCapturedCountries();
-        Country l_StrongestCountry = countryList.get(0);
-        for (Country l_Country : countryList) {
+    public Country determineStrongestCountry(Player p_Player) {
+        List<Country> l_CountryList = p_Player.getCapturedCountries();
+        Country l_StrongestCountry = l_CountryList.get(0);
+        for (Country l_Country : l_CountryList) {
             if (l_Country.getArmies() > l_StrongestCountry.getArmies())
                 l_StrongestCountry = l_Country;
         }
@@ -48,7 +47,7 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
 
     /**
      * A function to create the commands for deploying, advancing and bombing for an Aggressive player
-     * @return null
+     * @return null if empty
      */
     public String createCommand(){
         d_Logger.log("Issuing Orders for the Aggressive Player - "+ d_Player.getName());
@@ -101,6 +100,7 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
             }
         }
 
+/*
 // Moving the armies to other next countries of players. Alternate is to move the armies to a random self owned country if we have to change.
         for (Country l_C : l_StrongCountry.getNeighbors()) {
             l_Commands.add(0, "advance");
@@ -112,21 +112,21 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
             l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr,d_Player));
             l_StrongCountry = l_C;
 
-        }
+        }*/
 
 // Moving the armies to other next countries of players. Alternate is to move the armies to a random self owned country if we have to change.
-        for (Country l_c : l_StrongCountry.getNeighbors()) {
-            l_Commands.add(0, "advance");
-            l_Commands.add(1,l_StrongCountry.getName());
-            l_Commands.add(2,l_c.getName());
-            l_Commands.add(3,String.valueOf(l_StrongCountry.getArmies())) ;
-            l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
-            l_Order = new AdvanceOrder();
-            l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr,d_Player));
-            l_StrongCountry = l_c;
-
+        for (Country l_C : l_StrongCountry.getNeighbors()) {
+            if(l_C.getPlayer().equals(d_Player)) {
+                l_Commands.add(0, "advance");
+                l_Commands.add(1, l_StrongCountry.getName());
+                l_Commands.add(2, l_C.getName());
+                l_Commands.add(3, String.valueOf(l_StrongCountry.getArmies()));
+                l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                l_Order = new AdvanceOrder();
+                l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
+                l_StrongCountry = l_C;
+            }
         }
         return null;
     }
-
 }
