@@ -8,6 +8,9 @@ import java.util.*;
 
 /**
  *	Class that implements the Benevolent Player Strategy
+ *
+ * @author Prathika Suvarna
+ * @version 1.0.0
  */
 public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 
@@ -26,22 +29,22 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
 
     /**
      * constructor for  BenevolentStrategy
-     * @param p_player Player object
+     * @param p_Player Player object
      */
 
-    public BenevolentStrategy(Player p_player) {
-        super(p_player);
+    public BenevolentStrategy(Player p_Player) {
+        super(p_Player);
     }
 
     /**
      * A function to determine the weakest country from the list of captured countries
-     * @param p_player player object
+     * @param p_Player player object
      * @return The weakest country
      */
-    public Country getWeakestConqueredCountry(Player p_player) {
-        List<Country> countryList = p_player.getCapturedCountries();
-        Country l_WeakestCountry = countryList.get(0);
-        for (Country l_Country : countryList) {
+    public Country getWeakestConqueredCountry(Player p_Player) {
+        List<Country> l_CountryList = p_Player.getCapturedCountries();
+        Country l_WeakestCountry = l_CountryList.get(0);
+        for (Country l_Country : l_CountryList) {
             if (l_Country.getArmies() < l_WeakestCountry.getArmies())
                 l_WeakestCountry = l_Country;
         }
@@ -60,20 +63,20 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
         Country l_WeakestCountry = getWeakestConqueredCountry(d_Player);
-        int l_armiesReinforce= d_Player.getReinforcementArmies();
+        int l_ArmiesReinforce= d_Player.getReinforcementArmies();
 
         // Deploy armies to weakest Country
         l_Commands.add(0,"deploy");
         l_Commands.add(1,l_WeakestCountry.getName());
-        l_Commands.add(2,String.valueOf((l_armiesReinforce))) ;
+        l_Commands.add(2,String.valueOf((l_ArmiesReinforce))) ;
         l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
         l_Order = new DeployOrder();
         l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, d_Player));
 
         //if Player has a diplomacy card,then use it
         if(d_Player.getPlayerCards().size() > 0){
-            for(Card l_card: d_Player.getPlayerCards()){
-                if (l_card.getCardType() == CardType.DIPLOMACY) {
+            for(Card l_Card: d_Player.getPlayerCards()){
+                if (l_Card.getCardType() == CardType.DIPLOMACY) {
                     l_Commands.add(0, "negotiate");
                     l_Commands.add(1, getRandomPlayer(d_Player).getName());
                     l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
@@ -84,16 +87,16 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
         }
 
 // move armies to the weakest country from the other neighbouring countries of the same player
-        for (Country l_C : l_WeakestCountry.getNeighbors()) {
-            if(l_C.getPlayer().getName().equals(d_Player.getName())) {
+        for (Country l_Country : l_WeakestCountry.getNeighbors()) {
+            if(l_Country.getPlayer().getName().equals(d_Player.getName())) {
                 l_Commands.add(0, "advance");
-                l_Commands.add(1, l_C.getName());
+                l_Commands.add(1, l_Country.getName());
                 l_Commands.add(2, l_WeakestCountry.getName());
-                l_Commands.add(3, String.valueOf(l_C.getArmies()));
+                l_Commands.add(3, String.valueOf(l_Country.getArmies()));
                 l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                 l_Order = new AdvanceOrder();
                 l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
-                l_WeakestCountry = l_C;
+                l_WeakestCountry = l_Country;
             }
         }
         return null;
