@@ -55,11 +55,14 @@ public class RandomStrategy extends PlayerStrategy implements  Serializable {
      * @return Random country
      */
     protected  Country getRandomUnconqueredCountry(Player p_Player) {
-        int l_Index = d_Random.nextInt(d_GameMap.getCountries().size());
-        Country l_RandomCountry=(Country) d_GameMap.getCountries().values().toArray()[l_Index];
-        while(l_RandomCountry.getPlayer().equals(p_Player)){
-            l_Index = d_Random.nextInt(d_GameMap.getCountries().size());
-            l_RandomCountry=(Country) d_GameMap.getCountries().values().toArray()[l_Index];
+        Country l_RandomCountry = null;
+        if(d_GameMap.getCountries().size() > 0 && p_Player.getCapturedCountries().size() < d_GameMap.getCountries().size()  ) {
+            int l_Index = d_Random.nextInt(d_GameMap.getCountries().size());
+             l_RandomCountry = (Country) d_GameMap.getCountries().values().toArray()[l_Index];
+            while (l_RandomCountry.getPlayer().equals(p_Player)) {
+                l_Index = d_Random.nextInt(d_GameMap.getCountries().size());
+                l_RandomCountry = (Country) d_GameMap.getCountries().values().toArray()[l_Index];
+            }
         }
         return l_RandomCountry;
     }
