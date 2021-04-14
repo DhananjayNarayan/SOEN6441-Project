@@ -34,10 +34,14 @@ public class CheaterStrategy extends PlayerStrategy implements  Serializable {
             }
         }
 
-
-
-
-
+        for(Country l_Country : d_Player.getCapturedCountries()){
+            for( Country l_Neighbor : l_Country.getNeighbors()) {
+                if (l_Neighbor.getPlayer() != d_Player) {
+                    l_Country.setArmies(l_Country.getArmies() * 2);
+                    System.out.println("Armies doubled in Cheater Player's country"  + l_Country.getName());
+                }
+            }
+        }
 
         return null;
     }
