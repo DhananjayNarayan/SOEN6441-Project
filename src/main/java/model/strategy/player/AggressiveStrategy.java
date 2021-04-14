@@ -2,6 +2,8 @@ package model.strategy.player;
 
 import model.*;
 import model.order.*;
+import utils.logger.LogEntryBuffer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,10 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
      * An instance of gamemap object
      */
     private static final GameMap d_GameMap = GameMap.getInstance();
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor for AggressiveStrategy
@@ -45,6 +51,7 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
      * @return null
      */
     public String createCommand(){
+        d_Logger.log("Issuing Orders for the Aggressive Player - "+ d_Player.getName());
         Order l_Order = null;
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
