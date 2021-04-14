@@ -38,6 +38,10 @@ public abstract class PlayerStrategy {
             {
                 return new AggressiveStrategy(d_Player);
             }
+            case "cheater":
+            {
+                return new CheaterStrategy(d_Player);
+            }
         }
         throw new IllegalStateException("not a valid player type");
     }
