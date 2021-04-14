@@ -1,9 +1,6 @@
 package controller;
 
-import model.GameController;
-import model.GameMap;
-import model.GamePhase;
-import model.Player;
+import model.*;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
 
@@ -54,6 +51,9 @@ public class Reinforcement implements GameController {
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException, InvalidExecutionException {
+        if (GameSettings.getInstance().MAX_TRIES != 0) {
+            d_GameMap.nextTry();
+        }
         d_GamePhase = p_GamePhase;
         calculateReinforcements();
         return d_NextGamePhase;
