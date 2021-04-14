@@ -6,6 +6,7 @@ import model.Player;
 import model.strategy.game.GameStrategy;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Objects;
  *
  * @author Madhuvanthi Hemanathan
  */
-public class AdvanceOrder extends Order {
+public class AdvanceOrder extends Order implements Serializable {
     /**
      * Game Settings object
      */

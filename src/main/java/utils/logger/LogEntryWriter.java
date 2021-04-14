@@ -2,10 +2,7 @@ package utils.logger;
 
 import utils.Observer;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * A class implementing Observer which observes LogEntryBuffer and writes to log file
@@ -13,16 +10,13 @@ import java.io.PrintWriter;
  * @author Dhananjay Narayan
  * @author Surya Manian
  */
-public class LogEntryWriter implements Observer {
+public class LogEntryWriter implements Observer, Serializable {
     /**
      * File name for logger
      */
     private String l_Filename = "demo";
 
-    /**
-     * Writer buffer
-     */
-    private PrintWriter l_WriteData;
+
 
     public LogEntryWriter() {
         clearLogs();
@@ -43,6 +37,7 @@ public class LogEntryWriter implements Observer {
      * @param p_str The message to be written to the log file.
      */
     public void writeLogFile(String p_str) {
+        PrintWriter l_WriteData = null;
         try {
             checkDirectory("logFiles");
             l_WriteData = new PrintWriter(new BufferedWriter(new FileWriter("logFiles/" + l_Filename + ".log", true)));
@@ -53,7 +48,6 @@ public class LogEntryWriter implements Observer {
         } finally {
             l_WriteData.close();
         }
-
     }
 
     /**

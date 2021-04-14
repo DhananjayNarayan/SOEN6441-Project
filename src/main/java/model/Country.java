@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  * @author Madhuvanthi Hemanathan
  * @author Prathika Suvarna
  */
-public class Country {
+public class Country implements Serializable {
     /**
      * A string to store the ID of the country
      */

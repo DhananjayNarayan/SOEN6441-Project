@@ -1,8 +1,8 @@
 package utils.logger;
-
 import utils.Observer;
+import java.io.Serializable;
 
-public class ConsoleWriter implements Observer {
+public class ConsoleWriter implements Observer, Serializable {
 
     @Override
     public void update(String p_s) {

@@ -5,10 +5,12 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * The class is a extended from Order, and overrides the methods from Order
  */
-public class NegotiateOrder extends Order {
+public class NegotiateOrder extends Order implements Serializable {
     /**
      * A gamemap object
      */
