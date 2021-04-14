@@ -6,14 +6,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class to implement the Aggressive strategy for a player
+ * @author Dhananjay Narayan
+ */
 public class AggressiveStrategy extends PlayerStrategy implements  Serializable  {
-
+    /**
+     * An instance of gamemap object
+     */
     private static final GameMap d_GameMap = GameMap.getInstance();
 
+    /**
+     * Constructor for AggressiveStrategy
+     * @param p_Player player object
+     */
     AggressiveStrategy(Player p_Player) {
         super(p_Player);
     }
 
+    /**
+     * A function to determine a strongest country from the list of captured countries
+     * @param p_player player object
+     * @return The strongest country
+     */
     public Country determineStrongestCountry(Player p_player) {
         List<Country> countryList = p_player.getCapturedCountries();
         Country l_strongestCountry = countryList.get(0);
@@ -25,6 +40,10 @@ public class AggressiveStrategy extends PlayerStrategy implements  Serializable 
         return l_strongestCountry;
     }
 
+    /**
+     * A function to create the commands for deploying, advancing and bombing for an Aggressive player
+     * @return null
+     */
     public String createCommand(){
         Order l_Order = null;
         List<String> l_Commands = new ArrayList<>();
