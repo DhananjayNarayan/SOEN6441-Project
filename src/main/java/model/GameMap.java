@@ -1,5 +1,6 @@
 package model;
 
+import model.order.Order;
 import model.strategy.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
@@ -61,17 +62,6 @@ public class GameMap implements Serializable {
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
-     * Current Player
-     */
-    private Player d_CurrentPlayer;
-
-
-    /**
-     * If the game has loaded
-     */
-    private Boolean d_GameLoaded = false;
-
-    /**
      * Winner
      */
     private Player d_Winner;
@@ -80,6 +70,18 @@ public class GameMap implements Serializable {
      * number of tries
      */
     private int d_Tries;
+
+    /**
+     * Current Player
+     */
+    private Player d_CurrentPlayer;
+
+
+
+    /**
+     * If the game has loaded
+     */
+    private Boolean d_GameLoaded = false;
 
     /**
      * Default Constructor
@@ -267,7 +269,6 @@ public class GameMap implements Serializable {
      * @throws ValidationException if any input or output issue
      */
     public void addContinent(String p_ContinentName, String p_ControlValue) throws ValidationException {
-
         if (this.getContinents().containsKey(p_ContinentName)) {
             throw new ValidationException("Continent already exists");
         }
@@ -550,7 +551,7 @@ public class GameMap implements Serializable {
 
 
         System.out.format("+---------------+-------------------------------+%n");
-        System.out.format("| Player's name |    Continent's Controlled    |%n");
+        System.out.format( "| Player's name |    Continent's Controlled    |%n");
         System.out.format("+---------------+-------------------------------+%n");
 
         String l_Table1 = "|%-15s|%-30s|%n";
@@ -564,6 +565,26 @@ public class GameMap implements Serializable {
 
     }
 
+
+    public int getTries() {
+        return d_Tries;
+    }
+
+    public void setTries(int p_tries) {
+        d_Tries = p_tries;
+    }
+
+    public void nextTry() {
+        d_Tries++;
+    }
+
+    public Player getWinner() {
+        return d_Winner;
+    }
+
+    public void setWinner(Player p_winner) {
+        d_Winner = p_winner;
+    }
 
     /**
      * Builder for setting the progress
@@ -599,25 +620,5 @@ public class GameMap implements Serializable {
             this.getPlayer(l_Player.getKey()).setPlayerCards(l_Player.getValue().getPlayerCards());
         }
         return p_GameMap.getGamePhase();
-    }
-
-    public int getTries() {
-        return d_Tries;
-    }
-
-    public void setTries(int p_tries) {
-        d_Tries = p_tries;
-    }
-
-    public void nextTry() {
-        d_Tries++;
-    }
-
-    public Player getWinner() {
-        return d_Winner;
-    }
-
-    public void setWinner(Player p_winner) {
-        d_Winner = p_winner;
     }
 }

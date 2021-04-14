@@ -90,6 +90,7 @@ public class ExecuteOrder implements GameController {
 
     /**
      * Check if the player won the game after every execution phase
+     * Or if the number of tries are exhausted
      *
      * @param p_GamePhase the next phase based on the status of player
      * @return the gamephase it has to change to based on the win
@@ -101,6 +102,14 @@ public class ExecuteOrder implements GameController {
                 d_Logger.log("Exiting the game...");
                 d_GameMap.setWinner(l_Player);
                 d_GameMap.setGamePhase(d_ExitGamePhase);
+                d_GameMap.setWinner(l_Player);
+                return p_GamePhase.nextState(d_ExitGamePhase);
+            }
+        }
+        if(GameSettings.getInstance().MAX_TRIES > 0 ) {
+            if (d_GameMap.getTries() < GameSettings.getInstance().MAX_TRIES) {
+                return p_GamePhase.nextState(d_ReinforcementGamePhase);
+            } else {
                 return p_GamePhase.nextState(d_ExitGamePhase);
             }
         }

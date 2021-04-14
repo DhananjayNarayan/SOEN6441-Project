@@ -105,7 +105,7 @@ public class IssueOrder implements GameController {
                     }
                 }
                 if (!Commands.equals("pass")) {
-                    d_Logger.log(l_Player.getName()+" has issued this order :- " + Commands );
+                    d_Logger.log(l_Player.getName() + " has issued this order :- " + Commands);
                     l_Player.issueOrder();
                     d_Logger.log("The order has been added to the list of orders.");
                     d_Logger.log("=============================================================================");
@@ -202,6 +202,7 @@ public class IssueOrder implements GameController {
 
     /**
      * A function to show the player the status while issuing the order
+     *
      * @param p_Player The current player object
      */
     public void showStatus(Player p_Player) {
@@ -223,20 +224,20 @@ public class IssueOrder implements GameController {
         for (Country l_Country : p_Player.getCapturedCountries()) {
             String tableCountry = "|%-15s|%-15s|%-35s|%n";
             String l_NeighborList = "";
-            for(Country l_Neighbor : l_Country.getNeighbors()){
+            for (Country l_Neighbor : l_Country.getNeighbors()) {
                 l_NeighborList += l_Neighbor.getName() + "-";
             }
-            System.out.format(tableCountry,l_Country.getName(),l_Country.getArmies(),l_Country.createANeighborList(l_Country.getNeighbors()));
+            System.out.format(tableCountry, l_Country.getName(), l_Country.getArmies(), l_Country.createANeighborList(l_Country.getNeighbors()));
         }
         System.out.format("+--------------+-----------------------+------------------+---------+\n");
 
-        if(!p_Player.getPlayerCards().isEmpty()){
+        if(!p_Player.getPlayerCards().isEmpty()) {
             d_Logger.log("The Cards assigned to the Player are: " );
-            for(Card l_Card : p_Player.getPlayerCards()){
+            for (Card l_Card : p_Player.getPlayerCards()) {
                 d_Logger.log(l_Card.getCardType().toString());
             }
         }
-        if(!p_Player.getOrders().isEmpty()){
+        if (!p_Player.getOrders().isEmpty()) {
             System.out.println("The Orders issued by Player "+ p_Player.getName() + " are:");
             for (Order l_Order : p_Player.getOrders()){
                 System.out.println(l_Order.getOrderInfo().getCommand());
