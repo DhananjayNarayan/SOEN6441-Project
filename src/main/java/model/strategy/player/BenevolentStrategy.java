@@ -27,14 +27,6 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
      */
     private static final GameMap d_GameMap = GameMap.getInstance();
 
-    /**
-     * constructor for  BenevolentStrategy
-     * @param p_Player Player object
-     */
-
-    public BenevolentStrategy(Player p_Player) {
-        super(p_Player);
-    }
 
     /**
      * A function to determine the weakest country from the list of captured countries
@@ -57,7 +49,7 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
      * @return null if empty
      */
     public String createCommand() {
-
+        d_Player = GameMap.getInstance().getCurrentPlayer();
         d_Logger.log("Issuing Orders for the Benevolent Player - "+ d_Player.getName());
         Order l_Order = null;
         List<String> l_Commands = new ArrayList<>();
@@ -99,7 +91,7 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
                 l_WeakestCountry = l_Country;
             }
         }
-        return null;
+        return "pass";
     }
 
 /**

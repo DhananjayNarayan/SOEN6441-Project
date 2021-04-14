@@ -25,6 +25,7 @@ public class TournamentEngine implements Engine {
         d_Options = getTournamentOptions();
     }
 
+    //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     private TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
         d_Logger.log("You are in Tournament Mode");
@@ -63,7 +64,7 @@ public class TournamentEngine implements Engine {
         for (String l_File : d_Options.getMap()) {
             for (int l_game = 1; l_game <= d_Options.getGames(); l_game++) {
                 GameSettings.getInstance().MAX_TRIES = d_Options.getMaxTries();
-                d_CurrentMap = GameMap.getInstance();
+                d_CurrentMap = GameMap.newInstance();
                 d_CurrentMap.flushGameMap();
                 TournamentResult l_Result = new TournamentResult();
                 d_Results.add(l_Result);
@@ -88,7 +89,6 @@ public class TournamentEngine implements Engine {
                 } else {
                     l_Result.setWinner("Draw");
                 }
-                d_CurrentMap.flushGameMap();
             }
         }
 

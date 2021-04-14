@@ -1,7 +1,5 @@
 package model.strategy.player;
 
-import model.Player;
-
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -23,13 +21,6 @@ public class HumanStrategy extends PlayerStrategy implements Serializable {
      */
     public HumanStrategy() {
 
-    }
-    /**
-     * Human strategy constructor
-     * @param p_Player the Player object
-     */
-    HumanStrategy(Player p_Player) {
-        super(p_Player);
     }
 
     /**

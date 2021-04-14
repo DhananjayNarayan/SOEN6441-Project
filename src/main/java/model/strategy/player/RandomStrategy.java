@@ -1,6 +1,9 @@
 package model.strategy.player;
 
-import model.*;
+import model.Card;
+import model.Country;
+import model.GameMap;
+import model.Player;
 import model.order.*;
 
 import java.io.Serializable;
@@ -23,15 +26,6 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
      * GameMap instance
      */
     private static final GameMap d_GameMap = GameMap.getInstance();
-
-    /**
-     * Constructor
-     *
-     * @param p_Player Player
-     */
-    RandomStrategy(Player p_Player) {
-        super(p_Player);
-    }
 
     /**
      * Get a random player other than itself
@@ -98,11 +92,12 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
      * @return command, the orders on creation
      */
     public String createCommand() {
+        d_Player = GameMap.getInstance().getCurrentPlayer();
         Order l_Order = null;
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
         //check if player can still play
-        int l_Random = d_Random.nextInt(3);
+        int l_Random = d_Random.nextInt(7);
         switch (l_Random) {
             case 0:
                 l_Commands.add(0, "deploy");
@@ -163,10 +158,12 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
                         break;
                 }
                 break;
+            default:
+                return "pass";
         }
         if (l_Order != null) {
             return l_Order.getOrderInfo().getCommand();
         }
-        return null;
+        return "pass";
     }
 }

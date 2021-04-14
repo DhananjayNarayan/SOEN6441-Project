@@ -1,6 +1,5 @@
 package model;
 
-import model.order.Order;
 import model.strategy.player.PlayerStrategy;
 import utils.MapValidation;
 import utils.SaveMap;
@@ -75,7 +74,6 @@ public class GameMap implements Serializable {
      * Current Player
      */
     private Player d_CurrentPlayer;
-
 
 
     /**
@@ -551,7 +549,7 @@ public class GameMap implements Serializable {
 
 
         System.out.format("+---------------+-------------------------------+%n");
-        System.out.format( "| Player's name |    Continent's Controlled    |%n");
+        System.out.format("| Player's name |    Continent's Controlled    |%n");
         System.out.format("+---------------+-------------------------------+%n");
 
         String l_Table1 = "|%-15s|%-30s|%n";
@@ -620,5 +618,13 @@ public class GameMap implements Serializable {
             this.getPlayer(l_Player.getKey()).setPlayerCards(l_Player.getValue().getPlayerCards());
         }
         return p_GameMap.getGamePhase();
+    }
+
+    /**
+     * Returns new instance of gamemap
+     */
+    public static GameMap newInstance() {
+        d_GameMap = new GameMap();
+        return d_GameMap;
     }
 }
