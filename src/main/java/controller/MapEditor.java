@@ -57,6 +57,7 @@ public class MapEditor implements GameController {
         d_Logger.log("/************************************ You are in MAP EDITOR PHASE *******************************/");
         while (true) {
             d_Logger.log("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
+            d_Logger.log("-----------------------------------------------------------------------------------------");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList;
             if (l_Input.contains("-")) {
@@ -217,7 +218,6 @@ public class MapEditor implements GameController {
                     //To exit the map creation phase type "exit"
                     case "exit": {
                         d_GameMap.flushGameMap();
-                        d_Logger.log("================================ End of Map Editor Phase ==================================");
                         d_GameMap.setGamePhase(d_NextState);
                         return p_GamePhase.nextState(d_NextState);
                     }
@@ -228,15 +228,15 @@ public class MapEditor implements GameController {
                         d_Logger.log("To add or remove a country : editcountry -add countryID continentID -remove countryID");
                         d_Logger.log("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
                         d_Logger.log("-----------------------------------------------------------------------------------------");
-                        d_Logger.log("Read/Update existing map commands:");
+                        d_Logger.log("Map Commands(Edit/Save)");
                         d_Logger.log("To edit map: editmap filename");
+                        d_Logger.log("To save map: savemap filename");
                         d_Logger.log("-----------------------------------------------------------------------------------------");
                         d_Logger.log("Additional map commands:");
                         d_Logger.log("To show the map: showmap");
                         d_Logger.log("To validate map: validatemap");
                         d_Logger.log("-----------------------------------------------------------------------------------------");
-                        d_Logger.log("Note: To save the created map use the command:");
-                        d_Logger.log("To save map: savemap filename");
+
                     }
                 }
             }

@@ -196,6 +196,7 @@ public class IssueOrder implements GameController {
      * @param p_Player The current player object
      */
     public void showStatus(Player p_Player) {
+        d_Logger.log("-----------------------------------------------------------------------------------------");
         d_Logger.log("List of game loop commands");
         d_Logger.log("To deploy the armies : deploy countryID numarmies");
         d_Logger.log("To advance/attack the armies : advance countrynamefrom countynameto numarmies");
@@ -204,11 +205,10 @@ public class IssueOrder implements GameController {
         d_Logger.log("To negotiate with player : negotiate playerID");
         d_Logger.log("To bomb the country : bomb countryID");
         d_Logger.log("To skip: pass");
-        d_Logger.log("=============================================================================");
+        d_Logger.log("-----------------------------------------------------------------------------------------");
         String l_Table = "|%-15s|%-19s|%-22s|%n";
-        d_Logger.log("Current Player Details Are:\n");
         System.out.format("+--------------+-----------------------+------------------+%n");
-        System.out.format("| Player Name   | Initial Assigned  | Left Armies          | %n");
+        System.out.format("| Current Player   | Initial Assigned  | Left Armies      | %n");
         System.out.format("+---------------+------------------  +---------------------+%n");
         System.out.format(l_Table, p_Player.getName(), p_Player.getReinforcementArmies(), p_Player.getIssuedArmies());
         System.out.format("+--------------+-----------------------+------------------+%n");
@@ -242,7 +242,6 @@ public class IssueOrder implements GameController {
                 d_Logger.log(l_Order.getOrderInfo().getCommand());
             }
         }
-        d_Logger.log("=================================================================================");
     }
 }
 
