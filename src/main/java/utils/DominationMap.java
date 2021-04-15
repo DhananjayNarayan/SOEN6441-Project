@@ -12,23 +12,23 @@ public class DominationMap {
     /**
      * Logger Observable
      */
-    private static LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
     /**
      * cuurent line
      */
-    private static String d_CurrentLine;
+    private String d_CurrentLine;
     /**
      * buffer for reading
      */
-    private static BufferedReader d_Buffer;
+    private BufferedReader d_Buffer;
     /**
      * continent list
      */
-    private static List<String> Continents = new ArrayList<>();
+    private List<String> Continents = new ArrayList<>();
     /**
      * country hashmap
      */
-    private static HashMap<String, String> Country = new HashMap<>();
+    private HashMap<String, String> Country = new HashMap<>();
 
     /**
      * This function reads the file and places the contents of the file
@@ -38,7 +38,7 @@ public class DominationMap {
      * @param p_GameMap  the game map
      * @throws ValidationException when validation fails
      */
-    public static void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
+    public void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
         d_Logger.clear();
         d_Logger.log("Reading Map \n");
         try {
@@ -72,7 +72,7 @@ public class DominationMap {
      * @throws ValidationException when validation fails
      * @throws IOException file IO exception
      */
-    public static void readContinentsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
+    public void readContinentsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
         while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
             if (d_CurrentLine.length() == 0) {
                 continue;
@@ -91,7 +91,7 @@ public class DominationMap {
      * @throws IOException file IO exception
      */
 
-    public static void readCountriesFromFile(GameMap p_GameMap) throws ValidationException, IOException {
+    public void readCountriesFromFile(GameMap p_GameMap) throws ValidationException, IOException {
         while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
             if (d_CurrentLine.length() == 0) {
                 continue;
@@ -110,7 +110,7 @@ public class DominationMap {
      * @throws IOException file IO exception
      */
 
-    public static void addNeighborsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
+    public void addNeighborsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
         while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
             if (d_CurrentLine.length() == 0) {
                 continue;
@@ -127,9 +127,10 @@ public class DominationMap {
      *
      * @param map Gamemap instance
      * @param fileName file name to be save
+     * @return
      * @throws IOException exception for file save
      */
-    public static void saveMap(GameMap map, String fileName) throws IOException {
+    public boolean saveMap(GameMap map, String fileName) throws IOException {
         String message = " ";
         message = "yura.net Risk 1.0.9.2";
         String currentPath = System.getProperty("user.dir") + "\\Maps\\";
@@ -148,10 +149,10 @@ public class DominationMap {
         String borders = "";
         HashMap<Integer, String> l_CountryMap = createCountryList(map);
         for (Map.Entry<Integer, String> l_Country : l_CountryMap.entrySet()) {
-            //System.out.println(l_Country.getKey() + " " + l_Country.getValue() + " " + map.getCountry(l_Country.getValue()).getContinent());
+            System.out.println(l_Country.getKey() + " " + l_Country.getValue() + " " + map.getCountry(l_Country.getValue()).getContinent());
             for(Map.Entry<Integer, String> l_Continent : l_ContinentMap.entrySet()) {
                 if(l_Continent.getValue() == map.getCountry(l_Country.getValue()).getContinent()) {
-                    //System.out.println("The key for value " + map.getCountry(l_Country.getValue()).getContinent() + " is " + l_Continent.getKey());
+                    System.out.println("The key for value " + map.getCountry(l_Country.getValue()).getContinent() + " is " + l_Continent.getKey());
                     content += (l_Country.getKey() + " " + l_Country.getValue() + " " + l_Continent.getKey() + "\r\n");
                     break;
                 }
@@ -171,6 +172,7 @@ public class DominationMap {
         bwFile.write(content);
         bwFile.close();
         System.out.println("Map file saved as: " + fileName + ".map");
+        return true;
     }
 
     /**
@@ -179,7 +181,7 @@ public class DominationMap {
      * @param p_GameMap instance of gamemap
      * @return hashmap of country with index
      */
-    public static HashMap<Integer, String> createCountryList(GameMap p_GameMap){
+    public HashMap<Integer, String> createCountryList(GameMap p_GameMap){
         HashMap<Integer, String> l_CountryMap = new HashMap<>();
         int counter = 1;
         for(Country l_Country : p_GameMap.getCountries().values()){
@@ -194,7 +196,7 @@ public class DominationMap {
      * @param p_GameMap gamemap instance
      * @return hashmap of continent and index
      */
-    public static HashMap<Integer, String> createContinentList(GameMap p_GameMap){
+    public HashMap<Integer, String> createContinentList(GameMap p_GameMap){
         HashMap<Integer, String> l_CountryMap = new HashMap<>();
         int counter = 1;
         for(Continent l_Continent : p_GameMap.getContinents().values()){
@@ -203,27 +205,5 @@ public class DominationMap {
         return l_CountryMap;
     }
 
-    /**
-     * For testing, remove all static variables on integration.
-     *
-     * @param args arg
-     * @throws ValidationException exception
-     * @throws IOException exception
-     */
-    public static void main(String[] args) throws ValidationException, IOException {
-        GameMap d_GameMap = GameMap.getInstance();
-        readMap(d_GameMap, "output.map");
-        for (Continent c : d_GameMap.getContinents().values()){
-            System.out.println(c.getName() + " " + c.getAwardArmies());
-        }
 
-        for (Country c : d_GameMap.getCountries().values()){
-            System.out.print("Country:" + c.getName() + " ");
-            for(Country n : c.getNeighbors()){
-                System.out.print("Neighbor: " + n.getName() + "-");
-            }
-            System.out.println("\n");
-        }
-        saveMap(d_GameMap, "test");
-    }
 }
