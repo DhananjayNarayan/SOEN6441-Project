@@ -12,11 +12,26 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
-
+/**
+ * @author surya manian
+ * This class is used for reading and writing map files in Conquest format
+ *
+ */
 public class Adaptee {
 
-
+    /**
+     * Loads a map from a given file and returns it.
+     * Note that attributes not used by this game are ignored and not loaded.
+     * This means that those attributes will not be present when saving a map from this game.
+     *
+     * @param p_GameMap the model game map
+     * @param p_FileName The file to load from (including the extension).
+     * @throws ValidationException file exception
+     */
     public void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
+        /**
+         *
+         */
         try {
             p_GameMap.flushGameMap();
             File l_File = new File("maps/" + p_FileName);
@@ -96,6 +111,11 @@ public class Adaptee {
         }
     }
 
+    /**
+     * function to create neighbor country list
+     * @param p_Neighbors the neighbor player
+     * @return the neighbor country list
+     */
     public static String createANeighborList(Set<Country> p_Neighbors) {
         String l_result = "";
         for (Country l_Neighbor : p_Neighbors) {
@@ -112,7 +132,7 @@ public class Adaptee {
      */
 
     public boolean saveMap(GameMap map, String fileName) throws IOException {
-        String l_MapData = "[Map]\\nauthor=Anonymous\\n[Continents]\\n";
+        String l_MapData = "[Map]\nauthor=Anonymous\n[Continents]\\n";
         for (Continent l_Continent : map.getContinents().values()) {
             l_MapData += l_Continent.getName() + "=" + l_Continent.getAwardArmies();
             l_MapData += "\n";
