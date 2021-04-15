@@ -4,9 +4,7 @@ import model.GamePhase;
 import model.GameSettings;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
-import utils.logger.ConsoleWriter;
 import utils.logger.LogEntryBuffer;
-import utils.logger.LogEntryWriter;
 
 import java.util.Objects;
 
@@ -63,9 +61,11 @@ public class GameEngine implements Engine {
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {
             System.err.println(p_Exception.getMessage());
+            p_Exception.printStackTrace();
             start();
         } catch (Throwable p_Exception) {
             System.err.println(p_Exception.getMessage());
+            p_Exception.printStackTrace();
             System.err.println("Please try again with valid data");
             if (d_GamePhase.equals(GamePhase.MapEditor)) {
                 start();

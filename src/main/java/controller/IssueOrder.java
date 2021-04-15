@@ -95,6 +95,9 @@ public class IssueOrder implements GameController {
                     d_Logger.log("=============================================================================");
                     showStatus(l_Player);
                     Commands = l_Player.readFromPlayer();
+                    if (Objects.isNull(Commands)) {
+                        Commands = "";
+                    }
                     l_IssueCommand = validateCommand(Commands, l_Player);
                     if (Commands.equals("pass")) {
                         break;
@@ -156,6 +159,7 @@ public class IssueOrder implements GameController {
                     d_Logger.log("The number format is invalid");
                     return false;
                 }
+                break;
             case "savegame":
                 System.out.println("Are you sure you want to save the file? Enter Yes/No.");
                 String l_Input = new Scanner(System.in).nextLine();
