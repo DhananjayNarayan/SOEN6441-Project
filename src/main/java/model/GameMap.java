@@ -350,7 +350,7 @@ public class GameMap implements Serializable {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        d_Logger.log(String.format("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName));
+        d_Logger.log(String.format("Successfully connected routes between mentioned Countries: %s - %s", p_CountryName, p_NeighborCountryName));
     }
 
 
@@ -538,14 +538,14 @@ public class GameMap implements Serializable {
 
 
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
-        d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
+        d_Logger.log("\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
             l_Players.forEach((key, value) -> d_Logger.log(key));
             d_Logger.log("");
         }
 
         //Showing the Ownership of the players
-        d_Logger.log("\nThe Map ownership of the players are : \n");
+        d_Logger.log("The Map ownership of the players are : ");
 
 
         System.out.format("+---------------+-------------------------------+%n");
