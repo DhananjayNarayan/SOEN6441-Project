@@ -10,8 +10,17 @@ import static org.junit.Assert.*;
  * @author Prathika Suvarna
  */
 public class CountryTest extends Country{
+    /**
+     * ID of country
+     */
     String d_Id;
+    /**
+     * Name of the country
+     */
     String d_Name;
+    /**
+     * Country Object
+     */
     Country d_Country = new Country();
 
     /**

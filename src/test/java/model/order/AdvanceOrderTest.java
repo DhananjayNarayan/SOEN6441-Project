@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Test cases for Advance Order
+ * A class with Test cases for Advance Order
  *
  * @author Madhuvanthi Hemanathan
  */

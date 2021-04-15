@@ -33,6 +33,9 @@ public class GamePlay implements GameController {
      * A data member that stores the list of commands for gameplay as list
      */
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame", "tournament");
+    /**
+     * gamemap instance
+     */
     GameMap d_GameMap;
     /**
      * Reinforcement phase
@@ -86,8 +89,6 @@ public class GamePlay implements GameController {
                     l_InputList.add("dummy");
                 }
             }
-            //Handle loadmap command from console
-
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
             for (String l_Command : l_InputList) {
@@ -99,7 +100,6 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
-
                     case "gameplayer": {
                         if (l_CommandArray.length > 0) {
                             switch (l_CommandArray[0]) {
@@ -141,7 +141,7 @@ public class GamePlay implements GameController {
                     }
                     case "savegame": {
                         if (l_CommandArray.length == 1) {
-                            GameProgress.saveGameProgress(d_GameMap, l_CommandArray[0]);
+                            GameProgress.SaveGameProgress(d_GameMap, l_CommandArray[0]);
                             d_GameMap.setGamePhase(d_MapEditorPhase);
                             return d_MapEditorPhase;
                         }
@@ -149,7 +149,7 @@ public class GamePlay implements GameController {
                     }
                     case "loadgame": {
                         if (l_CommandArray.length == 1) {
-                            GamePhase l_GameLoaded = GameProgress.loadGameProgress(l_CommandArray[0]);
+                            GamePhase l_GameLoaded = GameProgress.LoadGameProgress(l_CommandArray[0]);
                             if (!l_GameLoaded.equals(GamePhase.StartUp)) {
                                 return l_GameLoaded;
                             }

@@ -8,6 +8,7 @@ import utils.MapValidation;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -51,7 +52,7 @@ public class MapEditor implements GameController {
      * @throws ValidationException when validation fails
      */
     @Override
-    public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
+    public GamePhase start(GamePhase p_GamePhase) throws ValidationException, IOException {
         d_Logger.clear();
         d_Logger.log("/************************************ You are in MAP EDITOR PHASE *******************************/");
         while (true) {
@@ -184,7 +185,21 @@ public class MapEditor implements GameController {
                     case "savemap": {
                         if (l_CommandArray.length == 1) {
                             d_GameMap.setName(l_CommandArray[0]);
-                            d_GameMap.saveMap();
+                            d_Logger.log(" Which format do you want to save the file? Type the number.");
+                            d_Logger.log("1. Domination map \n2. Conquest map");
+                            Scanner l_Scanner = new Scanner(System.in);
+                            String l_UserInput = l_Scanner.nextLine();
+                            if (l_UserInput.equals("1")){
+                                d_GameMap.saveMap(false);
+                                d_Logger.log("The loaded file is of the format Domination map");
+                            }
+                            else if (l_UserInput.equals("2")) {
+                                d_GameMap.saveMap(true);
+                                d_Logger.log("The loaded file is of the format Conquest map");
+                            }
+                            else
+                                d_Logger.log("Please enter the right value");
+
                         }
                         break;
                     }

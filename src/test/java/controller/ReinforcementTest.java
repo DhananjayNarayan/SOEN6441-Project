@@ -18,10 +18,22 @@ import static org.junit.Assert.assertTrue;
  * @author Prathika Suvarna
  */
 public class ReinforcementTest extends Player {
+    /**
+     * The next gamephase
+     */
     GamePhase d_NextGamePhase = GamePhase.IssueOrder;
+    /**
+     * The gamemap instance
+     */
     GameMap d_GameMap;
+    /**
+     * Reinforcement Object
+     */
     Reinforcement l_Reinforcement;
 
+    /**
+     * Constructor for Reinforcement Test class
+     */
     public ReinforcementTest() {
         super(PlayerStrategy.getStrategy("human"));
     }

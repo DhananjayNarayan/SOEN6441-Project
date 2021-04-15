@@ -5,7 +5,6 @@ import model.GameSettings;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
-
 import java.util.Objects;
 
 /**
@@ -36,7 +35,9 @@ public class GameEngine implements Engine {
      */
     GamePhase d_GamePhase = GamePhase.MapEditor;
 
-
+    /**
+     * constructor for game engine
+     */
     public GameEngine() {
         d_GameSettings = GameSettings.getInstance();
         d_GameSettings.setStrategy("default");
@@ -73,8 +74,12 @@ public class GameEngine implements Engine {
         }
     }
 
-    public void setGamePhase(GamePhase p_gamePhase) {
-        d_GamePhase = p_gamePhase;
+    /**
+     * method to set game phase
+     * @param p_GamePhase the game phase
+     */
+    public void setGamePhase(GamePhase p_GamePhase) {
+        d_GamePhase = p_GamePhase;
     }
 
 }

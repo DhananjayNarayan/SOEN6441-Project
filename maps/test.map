@@ -1,0 +1,74 @@
+;Map test.mapname test.map Mapyura.net Risk 1.0.9.2
+[continents]
+Atlantic_Provinces 3 00000
+Western_Provinces-South 3 00000
+Nunavut 3 00000
+Western_Provinces-North 2 00000
+Ontario_and_Quebec 4 00000
+Northwestern_Territories 2 00000
+
+[countries]
+1 NU-Northern_Islands 3
+2 Yukon_Territory 6
+3 NU-Ellesmere_Island 3
+4 Quebec-North 5
+5 N&L-Labrador 1
+6 Quebec-South 5
+7 BC-Vancouver_Island 2
+8 N&L-Newfoundland 1
+9 NU-Southern_Islands 3
+10 Quebec-Central 5
+11 NT-Northern_Islands 6
+12 NT-Victoria_Island-West 6
+13 Nunavut-Continental 3
+14 NU-Baffin_Island 3
+15 Nova_Scotia 1
+16 Ontario-West 5
+17 Saskatchewan-South 2
+18 NU-Victoria_Island-East 3
+19 Manitoba-North 4
+20 British_Columbia-South 2
+21 Alberta-North 4
+22 Ontario-North 5
+23 Saskatchewan-North 4
+24 Northwest_Territories-Continental 6
+25 New_Brunswick 1
+26 NT-Banks_Island 6
+27 Manitoba-South 2
+28 Alberta-South 2
+29 Ontario-South 5
+30 British_Columbia-North 4
+31 Prince_Edward_Island 1
+
+[borders]
+1 14 18 11 3 13
+2 30 24
+3 14 1
+4 10 5 14 9
+5 10 8 4
+6 10 25 29
+7 20
+8 15 10 5
+9 14 13 22 4
+10 5 8 22 4 6
+11 12 1 26
+12 18 11 26 24
+13 14 18 9 19 1 24
+14 9 3 13 4 1
+15 25 8 31
+16 29 22 27
+17 28 23 27
+18 13 12 1
+19 13 22 23 27
+20 28 30 7
+21 28 30 23 24
+22 10 9 29 16 19
+23 21 19 17 24
+24 30 2 21 13 23 12 26
+25 15 31 6
+26 11 12 24
+27 16 19 17
+28 21 20 17
+29 22 16 6
+30 2 21 20 24
+31 15 25

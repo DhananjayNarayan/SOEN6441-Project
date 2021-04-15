@@ -25,10 +25,10 @@ public class Card {
     /**
      * Constructor to create card object with specified card type
      *
-     * @param p_cardType The card type
+     * @param p_CardType The card type
      */
-    public Card(CardType p_cardType) {
-        d_CardType = p_cardType;
+    public Card(CardType p_CardType) {
+        d_CardType = p_CardType;
     }
 
 
@@ -53,14 +53,14 @@ public class Card {
     /**
      * Method to check the object equality
      *
-     * @param p_obj The object which should be compared
+     * @param p_Obj The object which should be compared
      * @return true if objects are equal else false
      */
     @Override
-    public boolean equals(Object p_obj) {
-        if (this == p_obj) return true;
-        if (!(p_obj instanceof Card)) return false;
-        Card l_Card = (Card) p_obj;
+    public boolean equals(Object p_Obj) {
+        if (this == p_Obj) return true;
+        if (!(p_Obj instanceof Card)) return false;
+        Card l_Card = (Card) p_Obj;
         return d_CardType == l_Card.d_CardType;
     }
 

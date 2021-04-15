@@ -19,10 +19,6 @@ import java.util.*;
  */
 public class IssueOrder implements GameController {
     /**
-     * scanner to read from user
-     */
-    private final static Scanner SCANNER = new Scanner(System.in);
-    /**
      * variable to keep track of players who skipped
      */
     private static Set<Player> SkippedPlayers = new HashSet<>();
@@ -84,15 +80,6 @@ public class IssueOrder implements GameController {
                 d_GameMap.setCurrentPlayer(l_Player);
                 boolean l_IssueCommand = false;
                 while (!l_IssueCommand) {
-                    d_Logger.log("List of game loop commands");
-                    d_Logger.log("To deploy the armies : deploy countryID numarmies");
-                    d_Logger.log("To advance/attack the armies : advance countrynamefrom countynameto numarmies");
-                    d_Logger.log("To airlift the armies : airlift sourcecountryID targetcountryID numarmies");
-                    d_Logger.log("To blockade the armies : blockade countryID");
-                    d_Logger.log("To negotiate with player : negotiate playerID");
-                    d_Logger.log("To bomb the country : bomb countryID");
-                    d_Logger.log("To skip: pass");
-                    d_Logger.log("=============================================================================");
                     showStatus(l_Player);
                     Commands = l_Player.readFromPlayer();
                     if (Objects.isNull(Commands)) {
@@ -164,10 +151,10 @@ public class IssueOrder implements GameController {
                 System.out.println("Are you sure you want to save the file? Enter Yes/No.");
                 String l_Input = new Scanner(System.in).nextLine();
                 if (l_Input.equalsIgnoreCase("Yes")) {
-                    GameProgress.saveGameProgress(d_GameMap, l_CommandArr[1]);
+                    GameProgress.SaveGameProgress(d_GameMap, l_CommandArr[1]);
                     return true;
                 } else {
-                    System.out.println("The game has not been saved, continue to play.");
+                    d_Logger.log("The game has not been saved, continue to play.");
                     return false;
                 }
             default:
@@ -209,8 +196,17 @@ public class IssueOrder implements GameController {
      * @param p_Player The current player object
      */
     public void showStatus(Player p_Player) {
+        d_Logger.log("List of game loop commands");
+        d_Logger.log("To deploy the armies : deploy countryID numarmies");
+        d_Logger.log("To advance/attack the armies : advance countrynamefrom countynameto numarmies");
+        d_Logger.log("To airlift the armies : airlift sourcecountryID targetcountryID numarmies");
+        d_Logger.log("To blockade the armies : blockade countryID");
+        d_Logger.log("To negotiate with player : negotiate playerID");
+        d_Logger.log("To bomb the country : bomb countryID");
+        d_Logger.log("To skip: pass");
+        d_Logger.log("=============================================================================");
         String l_Table = "|%-15s|%-19s|%-22s|%n";
-        System.out.println("Current Player Details Are:\n");
+        d_Logger.log("Current Player Details Are:\n");
         System.out.format("+--------------+-----------------------+------------------+%n");
         System.out.format("| Player Name   | Initial Assigned  | Left Armies          | %n");
         System.out.format("+---------------+------------------  +---------------------+%n");
@@ -225,12 +221,12 @@ public class IssueOrder implements GameController {
         System.out.format(
                 "+--------------+-----------------------+------------------+---------+%n");
         for (Country l_Country : p_Player.getCapturedCountries()) {
-            String tableCountry = "|%-15s|%-15s|%-35s|%n";
+            String l_TableCountry = "|%-15s|%-15s|%-35s|%n";
             String l_NeighborList = "";
             for (Country l_Neighbor : l_Country.getNeighbors()) {
                 l_NeighborList += l_Neighbor.getName() + "-";
             }
-            System.out.format(tableCountry, l_Country.getName(), l_Country.getArmies(), l_Country.createANeighborList(l_Country.getNeighbors()));
+            System.out.format(l_TableCountry, l_Country.getName(), l_Country.getArmies(), l_Country.createANeighborList(l_Country.getNeighbors()));
         }
         System.out.format("+--------------+-----------------------+------------------+---------+\n");
 
@@ -241,9 +237,9 @@ public class IssueOrder implements GameController {
             }
         }
         if (!p_Player.getOrders().isEmpty()) {
-            System.out.println("The Orders issued by Player " + p_Player.getName() + " are:");
+            d_Logger.log("The Orders issued by Player " + p_Player.getName() + " are:");
             for (Order l_Order : p_Player.getOrders()) {
-                System.out.println(l_Order.getOrderInfo().getCommand());
+                d_Logger.log(l_Order.getOrderInfo().getCommand());
             }
         }
         d_Logger.log("=================================================================================");
