@@ -100,6 +100,7 @@ public class RandomStrategy extends PlayerStrategy implements  Serializable {
         Order l_Order = null;
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
+
         //check if player can still play
         int l_Random = d_Random.nextInt(3);
         switch(l_Random){
@@ -154,7 +155,7 @@ public class RandomStrategy extends PlayerStrategy implements  Serializable {
                         l_Order.setOrderInfo(OrderCreater.GenerateAirliftOrderInfo(l_CommandsArr, d_Player));
                         break;
                     case DIPLOMACY:
-                        l_Commands.add(0, "diplomacy");
+                        l_Commands.add(0, "negotiate");
                         l_Commands.add(1,getRandomPlayer(d_Player).getName());
                         l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                         l_Order = new NegotiateOrder();
@@ -168,6 +169,4 @@ public class RandomStrategy extends PlayerStrategy implements  Serializable {
         }
         return null;
     }
-
-
 }
