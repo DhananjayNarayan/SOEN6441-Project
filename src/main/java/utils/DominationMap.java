@@ -14,10 +14,21 @@ public class DominationMap {
      * Logger Observable
      */
     private static LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
-
-    private static String currentLine;
-    private static BufferedReader l_Buffer;
+    /**
+     * cuurent line
+     */
+    private static String d_CurrentLine;
+    /**
+     * buffer for reading
+     */
+    private static BufferedReader d_Buffer;
+    /**
+     * continent list
+     */
     private static List<String> Continents = new ArrayList<>();
+    /**
+     * country hashmap
+     */
     private static HashMap<String, String> Country = new HashMap<>();
     /**
      * This function reads the file and places the contents of the file
@@ -36,15 +47,15 @@ public class DominationMap {
             FileReader l_FileReader = new FileReader(l_File);
             Map<String, List<String>> l_MapFileContents = new HashMap<>();
 
-            l_Buffer = new BufferedReader(l_FileReader);
-            while ((currentLine = l_Buffer.readLine()) != null) {
-                if (currentLine.contains("[continents]")) {
+            d_Buffer = new BufferedReader(l_FileReader);
+            while ((d_CurrentLine = d_Buffer.readLine()) != null) {
+                if (d_CurrentLine.contains("[continents]")) {
                     readContinentsFromFile(p_GameMap);
                 }
-                if (currentLine.contains("[countries]")) {
+                if (d_CurrentLine.contains("[countries]")) {
                     readCountriesFromFile(p_GameMap);
                 }
-                if (currentLine.contains("[borders]")) {
+                if (d_CurrentLine.contains("[borders]")) {
                     addNeighborsFromFile(p_GameMap);
                 }
 
@@ -61,13 +72,13 @@ public class DominationMap {
      * @throws ValidationException when validation fails
      */
     public static void readContinentsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
-        while ((currentLine = l_Buffer.readLine()) != null && !currentLine.contains("[")) {
-            if (currentLine.length() == 0) {
+        while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
+            if (d_CurrentLine.length() == 0) {
                 continue;
             }
-            String[] continentDetails = currentLine.split(" ");
-            p_GameMap.addContinent(continentDetails[0], continentDetails[1]);
-            Continents.add(continentDetails[0]);
+            String[] l_ContinentDetails = d_CurrentLine.split(" ");
+            p_GameMap.addContinent(l_ContinentDetails[0], l_ContinentDetails[1]);
+            Continents.add(l_ContinentDetails[0]);
         }
     }
 
@@ -80,13 +91,13 @@ public class DominationMap {
      */
 
     public static void readCountriesFromFile(GameMap p_GameMap) throws ValidationException, IOException {
-        while ((currentLine = l_Buffer.readLine()) != null && !currentLine.contains("[")) {
-            if (currentLine.length() == 0) {
+        while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
+            if (d_CurrentLine.length() == 0) {
                 continue;
             }
-            String[] countryDetails = currentLine.split(" ");
-            p_GameMap.addCountry(countryDetails[1], Continents.get((Integer.parseInt(countryDetails[2]) - 1)));
-            Country.put(countryDetails[0], countryDetails[1]);
+            String[] l_CountryDetails = d_CurrentLine.split(" ");
+            p_GameMap.addCountry(l_CountryDetails[1], Continents.get((Integer.parseInt(l_CountryDetails[2]) - 1)));
+            Country.put(l_CountryDetails[0], l_CountryDetails[1]);
         }
     }
 
@@ -98,18 +109,20 @@ public class DominationMap {
      */
 
     public static void addNeighborsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
-        while ((currentLine = l_Buffer.readLine()) != null && !currentLine.contains("[")) {
-            if (currentLine.length() == 0) {
+        while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
+            if (d_CurrentLine.length() == 0) {
                 continue;
             }
-            String[] neighbourDetails = currentLine.split(" ");
-            for (int i = 1; i < neighbourDetails.length; i++) {
-                p_GameMap.addNeighbor(Country.get(neighbourDetails[0]), Country.get(neighbourDetails[i]));
+            String[] l_NeighbourDetails = d_CurrentLine.split(" ");
+            for (int i = 1; i < l_NeighbourDetails.length; i++) {
+                p_GameMap.addNeighbor(Country.get(l_NeighbourDetails[0]), Country.get(l_NeighbourDetails[i]));
             }
-
         }
     }
 
+    /**
+     * Yet to be finished
+     */
     public static void saveMap(GameMap map, String fileName) throws IOException {
         String message = " ";
         message = "yura.net Risk 1.0.9.2";
@@ -126,8 +139,7 @@ public class DominationMap {
         }
         content += ("\r\n[countries]\r\n");
         String borders = "";
-        for (Map.Entry<String, Country> entry: map.getCountries().entrySet()) {
-            System.out.println(entry.getKey());
+        for (Country country : map.getCountries().values()) {
 //            int countryIndex = map.getListOfCountries().indexOf(country) + 1;
 //            int continentIndex = map.getListOfContinent().indexOf(map.getContinentFromName(country.getContinentName())) + 1;
 //            content += (countryIndex + " " + country.getName() + " " + continentIndex + "\r\n");
@@ -138,12 +150,15 @@ public class DominationMap {
 //            }
 //            borders += ("\r\n");
         }
-        content += ("\r\n[borders]\r\n" + borders);
+//        content += ("\r\n[borders]\r\n" + borders);
 //        bwFile.write(content);
 //        bwFile.close();
         System.out.println("Map file saved as: " + fileName + ".map");
     }
 
+    /**
+     * For testing, remove all static variables on integration.
+     */
     public static void main(String[] args) throws ValidationException, IOException {
         GameMap d_GameMap = GameMap.getInstance();
         readMap(d_GameMap, "output.map");
@@ -158,6 +173,6 @@ public class DominationMap {
             }
             System.out.println("\n");
         }
-        saveMap(d_GameMap, "output.map");
+
     }
 }
