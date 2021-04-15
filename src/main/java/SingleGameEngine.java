@@ -1,6 +1,5 @@
 import model.GameMap;
 import model.GamePhase;
-import model.GameSettings;
 import model.Player;
 import model.strategy.player.PlayerStrategy;
 import model.tournament.TournamentOptions;
@@ -36,8 +35,8 @@ public class SingleGameEngine implements Engine {
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     private TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
-        d_Logger.log("You are in Tournament Mode");
-        d_Logger.log("enter the tournament command");
+        d_Logger.log("You are in Single Game Mode");
+        d_Logger.log("enter the start command");
         String l_TournamentCommand = l_Scanner.nextLine();
         return parseCommand(l_TournamentCommand);
     }
