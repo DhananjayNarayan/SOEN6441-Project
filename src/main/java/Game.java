@@ -26,8 +26,9 @@ public class Game {
         d_Logger.log("\t=======================");
         d_Logger.log("\t\t 1. New Game");
         d_Logger.log("\t\t 2. Load Game");
-        d_Logger.log("\t\t 3. Tournament Mode");
-        d_Logger.log("\t\t 4. Exit");
+        d_Logger.log("\t\t 3. Single Game Mode");
+        d_Logger.log("\t\t 4. Simulation Mode");
+        d_Logger.log("\t\t 5. Exit");
         d_Logger.log("\t=======================");
         d_Logger.log("\t\tSelect the option");
         d_Logger.log("==================================");
@@ -39,14 +40,18 @@ public class Game {
                 break;
             }
             case 2: {
-//                d_GamePhase = GamePhase.Load;
+                d_GamePhase = GamePhase.LoadGame;
                 break;
             }
             case 3: {
-                d_Engine = new TournamentEngine();
+                d_Engine = new SingleGameEngine();
                 break;
             }
             case 4: {
+                d_Engine = new TournamentEngine();
+                break;
+            }
+            case 5: {
                 d_GamePhase = GamePhase.ExitGame;
                 break;
             }

@@ -164,7 +164,7 @@ public class IssueOrder implements GameController {
                 System.out.println("Are you sure you want to save the file? Enter Yes/No.");
                 String l_Input = new Scanner(System.in).nextLine();
                 if (l_Input.equalsIgnoreCase("Yes")) {
-                    GameProgress.SaveGameProgress(d_GameMap, l_CommandArr[1]);
+                    GameProgress.saveGameProgress(d_GameMap, l_CommandArr[1]);
                     return true;
                 } else {
                     System.out.println("The game has not been saved, continue to play.");
