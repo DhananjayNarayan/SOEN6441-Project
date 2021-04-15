@@ -57,7 +57,7 @@ public class GameEngine implements Engine {
                 }
                 d_GamePhase = l_GameController.start(d_GamePhase);
                 GameMap.getInstance().setGamePhase(d_GamePhase);
-                d_Logger.log("\n\n\n/*************************** You have entered the " + d_GamePhase + " Phase *************************/");
+                d_Logger.log("/*************************** You have entered the " + d_GamePhase + " Phase *************************/");
                 start();
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {
