@@ -20,12 +20,22 @@ public class LogEntryBuffer implements Observable, Serializable {
      * A static object of LogEntryBuffer
      */
     private static LogEntryBuffer Logger;
+    /**
+     * A list of observers
+     */
     private List<Observer> d_ObserverList = new ArrayList<>();
 
+    /**
+     * A constructor for LogEntryBuffer
+     */
     private LogEntryBuffer() {
 
     }
 
+    /**
+     * A function to get the instance of LogEntryBuffer
+     * @return LogEntryBuffer Logger
+     */
     public static LogEntryBuffer getInstance() {
         if (Objects.isNull(Logger)) {
             Logger = new LogEntryBuffer();
@@ -60,12 +70,18 @@ public class LogEntryBuffer implements Observable, Serializable {
         d_ObserverList.forEach(p_observer -> p_observer.update(p_s));
     }
 
+    /**
+     * A function to add an observer to the list of observers
+     * @param p_Observer The observer to be added
+     */
     @Override
     public void addObserver(Observer p_Observer) {
         this.d_ObserverList.add(p_Observer);
     }
 
-
+    /**
+     * A function to format the list of observers in the list.
+     */
     @Override
     public void clearObservers() {
         d_ObserverList.forEach(Observer::clearLogs);
