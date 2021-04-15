@@ -111,20 +111,22 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
         //check if player can still play
-        int l_Random = d_Random.nextInt(5);
+        int l_Random = d_Random.nextInt(7);
         Country l_RandomCountry = getRandomConqueredCountry(d_Player);
         switch (l_Random) {
             case 0:
+            case 1:
                 if (Objects.nonNull(l_RandomCountry)) {
                     l_Commands.add(0, "deploy");
                     l_Commands.add(1, l_RandomCountry.getName());
                     l_Commands.add(2, String.valueOf(d_Random.nextInt(d_Player.getReinforcementArmies())));
                     l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                     l_Order = new DeployOrder();
-                    l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
+                    l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, d_Player));
                 }
                 break;
-            case 1:
+            case 2:
+            case 3:
                 Country l_RandomNeighbor = getRandomNeighbor(l_RandomCountry);
                 if (Objects.nonNull(l_RandomCountry) && Objects.nonNull(l_RandomNeighbor)) {
                     l_Commands.add(0, "advance");
@@ -133,10 +135,11 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
                     l_Commands.add(3, String.valueOf(d_Random.nextInt(l_RandomCountry.getArmies() + 10)));
                     l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                     l_Order = new AdvanceOrder();
-                    l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
+                    l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
                 }
                 break;
-            case 2:
+            case 4:
+            case 5:
                 if (d_Player.getPlayerCards().size() <= 0)
                     return null;
                 int l_RandomCardIdx = d_Random.nextInt(d_Player.getPlayerCards().size());
