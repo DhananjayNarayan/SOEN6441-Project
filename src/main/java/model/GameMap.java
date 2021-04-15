@@ -644,6 +644,8 @@ public class GameMap implements Serializable {
 
     /**
      * Returns new instance of gamemap
+     *
+     * @return instance of gamemap
      */
     public static GameMap newInstance() {
         d_GameMap = new GameMap();

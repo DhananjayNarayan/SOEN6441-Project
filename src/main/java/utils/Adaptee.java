@@ -117,42 +117,43 @@ public class Adaptee {
      * @return the neighbor country list
      */
     public static String createANeighborList(Set<Country> p_Neighbors) {
-        String l_result = "";
+        String l_Result = "";
         for (Country l_Neighbor : p_Neighbors) {
-            l_result += l_Neighbor.getName() + " ";
+            l_Result += l_Neighbor.getName() + " ";
         }
-        return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
+        return l_Result.length() > 0 ? l_Result.substring(0, l_Result.length() - 1) : "";
     }
     /**
      * Save map into file as continent and country
      *
-     * @param fileName name of file
-     * @param map parameter o GameMap class
+     * @param p_FileName name of file
+     * @param p_Map parameter o GameMap class
      * @return boolean true if written
+     * @throws IOException file exception
      */
 
-    public boolean saveMap(GameMap map, String fileName) throws IOException {
+
+    public boolean saveMap(GameMap p_Map, String p_FileName) throws IOException {
         String l_MapData = "[Map]\nauthor=Anonymous\n[Continents]\\n";
-        for (Continent l_Continent : map.getContinents().values()) {
+        for (Continent l_Continent : p_Map.getContinents().values()) {
             l_MapData += l_Continent.getName() + "=" + l_Continent.getAwardArmies();
             l_MapData += "\n";
         }
 
         l_MapData += "[Territories]\n";
-        for (Continent l_Continent : map.getContinents().values()) {
-            for (Country l_Country : map.getCountries().values()) {
+        for (Continent l_Continent : p_Map.getContinents().values()) {
+            for (Country l_Country : p_Map.getCountries().values()) {
                 l_MapData += l_Country.getName() + " " + l_Country.getContinent() + " " + createANeighborList(l_Country.getNeighbors()) + "\n";
             }
             PrintWriter l_WriteData = null;
             try {
                 final String PATH = "maps/";
-                l_WriteData = new PrintWriter(PATH + fileName + ".map");
+                l_WriteData = new PrintWriter(PATH + p_FileName + ".map");
                 l_WriteData.println(l_MapData);
                 return true;
-            } catch (Exception ex) {
+            } catch (Exception p_Exception) {
                 return false;
-            } finally {
-                l_WriteData.close();
+            } finally { l_WriteData.close();
             }
         }
         return true;

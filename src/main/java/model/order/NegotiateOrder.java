@@ -15,6 +15,9 @@ public class NegotiateOrder extends Order implements Serializable {
      * A gamemap object
      */
     private final GameMap d_GameMap;
+    /**
+     * Logger variable
+     */
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**

@@ -83,7 +83,6 @@ public class MapValidationTest {
     /**
      * This method tests if continent subgraph is connected
      *
-     * @throws ValidationException if validation fails
      */
     @Test
     public void checkIfContinentIsConnected(){

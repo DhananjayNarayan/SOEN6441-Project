@@ -14,7 +14,15 @@ public interface Observable {
      */
     public void notifyObservers(String p_String);
 
+    /**
+     * add observer
+     *
+     * @param p_Observer observer object
+     */
     public void addObserver(Observer p_Observer);
 
+    /**
+     * clear observer
+     */
     public void clearObservers();
 }

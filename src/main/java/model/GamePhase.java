@@ -46,12 +46,27 @@ public enum GamePhase {
             return new MapEditor();
         }
     },
+    /**
+     * Loadgame state handling game loading
+     */
     LoadGame {
+        /**
+         *  Overrides getController() method which returns the controller
+         *  for load game phase.
+         *
+         * @return null
+         */
         @Override
         public List<GamePhase> possibleStates() {
             return null;
         }
 
+        /**
+         *  Overrides getController() method which returns the controller
+         *  for load game phase.
+         *
+         * @return loadgame object
+         */
         @Override
         public GameController getController() {
             return new LoadGame();
