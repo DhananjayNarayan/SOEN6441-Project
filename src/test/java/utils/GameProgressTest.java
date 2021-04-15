@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static utils.GameProgress.SaveGameProgress;
 
 /**
  *  A class to test all the functionalities in GameProgress saving and loading game
@@ -66,7 +67,7 @@ public class GameProgressTest {
      */
     @Test
     public void saveGameProgress() {
-
+        assertEquals(true, SaveGameProgress(d_GameMap, "output"));
     }
 
     /**
