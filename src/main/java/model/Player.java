@@ -199,6 +199,8 @@ public class Player implements Serializable {
 
     /**
      * A function to remove the all cards from the player
+     *
+     * @param p_Cards list of player cards
      */
     public void setPlayerCards(List<Card> p_Cards) {
         d_PlayerCards = p_Cards;

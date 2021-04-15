@@ -589,6 +589,7 @@ public class GameMap implements Serializable {
      *
      * @param p_GameMap instance
      * @throws ValidationException Validation exception
+     * @return GamePhase
      */
     public GamePhase gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
         this.flushGameMap();
