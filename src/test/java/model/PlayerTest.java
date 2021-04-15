@@ -17,19 +17,63 @@ import static org.junit.Assert.*;
  */
 public class PlayerTest extends Player {
 
+    /**
+     * ID of player
+     */
     int d_Id;
+    /**
+     * Name of player
+     */
     String d_Name;
 
+    /**
+     * Reinforcement armies
+     */
     int d_ReinforcementArmies;
-    int d_ArmyCountValid, d_ArmyCountInvalid;
+    /**
+     * Number of valid armies
+     */
+    int d_ArmyCountValid;
+    /**
+     * Number of invalid armies
+     */
+    int d_ArmyCountInvalid;
+    /**
+     * Player object
+     */
     Player d_Player;
-    String d_CountryValid, d_CountryInvalid;
+    /**
+     * Valid country string
+     */
+    String d_CountryValid ;
+    /**
+     * Invalid country string
+     */
+    String d_CountryInvalid;
+    /**
+     * List of captured countries
+     */
     List<Country> d_CapturedCountries = new ArrayList<>();
+    /**
+     * First country
+     */
     Country d_Country1 = new Country();
+    /**
+     * Second country
+     */
     Country d_Country2 = new Country();
+    /**
+     * Third country
+     */
     Country d_Country3 = new Country();
+    /**
+     * Gamemap object
+     */
     GameMap d_GameMap = GameMap.getInstance();
 
+    /**
+     * Constructor for player test
+     */
     public PlayerTest() {
         super(PlayerStrategy.getStrategy("human"));
         d_Player = this;
