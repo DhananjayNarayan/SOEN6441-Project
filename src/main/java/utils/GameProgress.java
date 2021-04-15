@@ -5,6 +5,8 @@ import model.GamePhase;
 import utils.logger.LogEntryBuffer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 /**
@@ -67,4 +69,25 @@ public class GameProgress {
         }
     }
 
+    public static void showFiles() throws IOException {
+        d_Logger.log("==================================");
+        d_Logger.log("\t\t\t Warzone");
+        d_Logger.log("==================================");
+        d_Logger.log("\t\t\t Load Game");
+        d_Logger.log("\t=======================\n");
+        if (new File(PATH).exists()) {
+            Files.walk(Path.of(PATH))
+                    .filter(path -> path.toFile().isFile())
+                    .forEach(path -> {
+                        d_Logger.log("\t\t " + path.getFileName());
+                    });
+        } else {
+            d_Logger.log("\t\t " + "no load files found");
+        }
+        d_Logger.log("");
+        d_Logger.log("\t=======================");
+        d_Logger.log("\t use file name to load");
+        d_Logger.log("==================================");
+        d_Logger.log("example command: loadgame");
+    }
 }

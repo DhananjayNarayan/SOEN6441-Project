@@ -17,7 +17,7 @@ public class LoadGame implements GameController {
         Scanner scanner = new Scanner(System.in);
         String command = scanner.nextLine();
         String fileName = parseCommand(command);
-        GamePhase l_GameLoaded = GameProgress.loadGameProgress(fileName);
+        GamePhase l_GameLoaded = GameProgress.LoadGameProgress(fileName);
         if (l_GameLoaded.equals(GamePhase.StartUp)) {
             d_Logger.log("Loading Old game failed, Check the file name");
             return GamePhase.StartUp;
