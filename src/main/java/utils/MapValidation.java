@@ -185,10 +185,10 @@ public class MapValidation {
         private int d_Vertices;
         private ArrayList[] d_Edges;
 
-        ConnectedGraph(int val) {
-            this.d_Vertices = val;
-            d_Edges = new ArrayList[val];
-            for (int l_Index = 0; l_Index < val; ++l_Index) {
+        ConnectedGraph(int p_Val) {
+            this.d_Vertices = p_Val;
+            d_Edges = new ArrayList[p_Val];
+            for (int l_Index = 0; l_Index < p_Val; ++l_Index) {
                 d_Edges[l_Index] = new ArrayList();
             }
         }
@@ -228,8 +228,8 @@ public class MapValidation {
         private ConnectedGraph getTranspose() {
             ConnectedGraph l_Graph = new ConnectedGraph(d_Vertices);
             for (int l_Vertex = 0; l_Vertex < d_Vertices; l_Vertex++) {
-                for (Integer integer : (Iterable<Integer>) d_Edges[l_Vertex]) {
-                    l_Graph.d_Edges[integer].add(l_Vertex);
+                for (Integer l_Integer : (Iterable<Integer>) d_Edges[l_Vertex]) {
+                    l_Graph.d_Edges[l_Integer].add(l_Vertex);
                 }
             }
             return l_Graph;
