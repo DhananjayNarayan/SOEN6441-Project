@@ -75,11 +75,10 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
      * @return random country
      */
     protected Country getRandomConqueredCountry(Player p_Player) {
-        if (p_Player.getCapturedCountries().size() > 0) {
+            if(p_Player.getCapturedCountries().size() == 0)
+                return null;
             int l_Index = d_Random.nextInt(p_Player.getCapturedCountries().size());
             return p_Player.getCapturedCountries().get(l_Index);
-        }
-        return null;
     }
 
     /**
@@ -89,7 +88,7 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
      * @return random neighbor
      */
     protected Country getRandomNeighbor(Country p_CurrentCountry) {
-        if (p_CurrentCountry.getNeighbors().size() == 0)
+        if (p_CurrentCountry == null || p_CurrentCountry.getNeighbors().size() == 0)
             return null;
         int l_Index = d_Random.nextInt(p_CurrentCountry.getNeighbors().size());
         return (Country) p_CurrentCountry.getNeighbors().toArray()[l_Index];
@@ -117,19 +116,20 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
                     l_Commands.add(2, String.valueOf(d_Random.nextInt(d_Player.getReinforcementArmies())));
                     l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                     l_Order = new DeployOrder();
-                    l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
+                    l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, d_Player));
                 }
                 break;
             case 1:
                 Country l_RandomNeighbor = getRandomNeighbor(l_RandomCountry);
                 if (Objects.nonNull(l_RandomCountry) && Objects.nonNull(l_RandomNeighbor)) {
+                    System.out.println("The Neighbor " + l_RandomNeighbor + " country " + l_RandomCountry);
                     l_Commands.add(0, "advance");
                     l_Commands.add(1, l_RandomCountry.getName());
                     l_Commands.add(2, l_RandomNeighbor.getName());
                     l_Commands.add(3, String.valueOf(d_Random.nextInt(l_RandomCountry.getArmies() + 10)));
                     l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                     l_Order = new AdvanceOrder();
-                    l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
+                    l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
                 }
                 break;
             case 2:
