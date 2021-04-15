@@ -1,12 +1,9 @@
 package utils;
+
 import model.GameMap;
 import model.GamePhase;
-import model.Player;
-import model.order.Order;
-
 import java.io.*;
-import java.util.Map;
-import java.util.Scanner;
+
 
 /**
  *  A class to save and load game progress
@@ -57,9 +54,9 @@ public class GameProgress {
             System.out.println("The file could not be loaded.");
             return GamePhase.StartUp;
         } catch (ValidationException e) {
-            e.printStackTrace();
+            System.out.println("The file could not be loaded.");
+            return GamePhase.StartUp;
         }
-        return GamePhase.ExitGame;
     }
 
 }
