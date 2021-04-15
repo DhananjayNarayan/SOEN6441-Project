@@ -85,7 +85,9 @@ public class IssueOrder implements GameController {
                     if (Objects.isNull(Commands)) {
                         Commands = "";
                     }
-                    l_IssueCommand = validateCommand(Commands, l_Player);
+                    if (!Commands.isEmpty()) {
+                        l_IssueCommand = validateCommand(Commands, l_Player);
+                    }
                     if (Commands.equals("pass")) {
                         break;
                     }
@@ -123,11 +125,11 @@ public class IssueOrder implements GameController {
             return false;
         }
         if (!l_Commands.contains(l_CommandArr[0].toLowerCase())) {
-            d_Logger.log("The command syntax is invalid.");
+            d_Logger.log("The command syntax is invalid." + p_CommandArr);
             return false;
         }
         if (!CheckLengthOfCommand(l_CommandArr[0], l_CommandArr.length)) {
-            d_Logger.log("The command syntax is invalid.");
+            d_Logger.log("The command syntax is invalid." + p_CommandArr);
             return false;
         }
         switch (l_CommandArr[0].toLowerCase()) {
