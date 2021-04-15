@@ -32,6 +32,11 @@ public class GameSettings {
     public final double DEFENDER_PROBABILITY = 70 / 100d;
 
     /**
+     * Max tries
+     */
+    public int MAX_TRIES;
+
+    /**
      * Constructor for Game Settings
      */
     private GameSettings() {

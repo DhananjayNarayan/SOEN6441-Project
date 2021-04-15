@@ -51,6 +51,9 @@ public class Reinforcement implements GameController {
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException, InvalidExecutionException {
+        if (GameSettings.getInstance().MAX_TRIES != 0) {
+            d_GameMap.nextTry();
+        }
         d_GamePhase = p_GamePhase;
         calculateReinforcements();
         d_GameMap.setGamePhase(d_NextGamePhase);

@@ -68,13 +68,13 @@ public class IssueOrder implements GameController {
      */
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
-        if(d_GameMap.getCurrentPlayer() == null){
+        if (d_GameMap.getCurrentPlayer() == null) {
             d_GameMap.setCurrentPlayer(d_GameMap.getPlayers().entrySet().iterator().next().getValue());
         }
         d_GamePhase = p_GamePhase;
         while (!(SkippedPlayers.size() == d_GameMap.getPlayers().size())) {
             for (Player l_Player : d_GameMap.getPlayers().values()) {
-                if((d_GameMap.getGameLoaded() && !(l_Player.getName().equalsIgnoreCase(d_GameMap.getCurrentPlayer().getName())))){
+                if ((d_GameMap.getGameLoaded() && !(l_Player.getName().equalsIgnoreCase(d_GameMap.getCurrentPlayer().getName())))) {
                     continue;
                 }
                 if (!SkippedPlayers.isEmpty() && SkippedPlayers.contains(l_Player)) {
@@ -95,17 +95,20 @@ public class IssueOrder implements GameController {
                     d_Logger.log("=============================================================================");
                     showStatus(l_Player);
                     Commands = l_Player.readFromPlayer();
+                    if (Objects.isNull(Commands)) {
+                        Commands = "";
+                    }
                     l_IssueCommand = validateCommand(Commands, l_Player);
                     if (Commands.equals("pass")) {
                         break;
                     }
-                    if(Commands.split(" ")[0].equals("savegame") && l_IssueCommand){
+                    if (Commands.split(" ")[0].equals("savegame") && l_IssueCommand) {
                         d_GameMap.setGamePhase(d_MapEditorPhase);
                         return d_MapEditorPhase;
                     }
                 }
                 if (!Commands.equals("pass")) {
-                    d_Logger.log(l_Player.getName()+" has issued this order :- " + Commands );
+                    d_Logger.log(l_Player.getName() + " has issued this order :- " + Commands);
                     l_Player.issueOrder();
                     d_Logger.log("The order has been added to the list of orders.");
                     d_Logger.log("=============================================================================");
@@ -122,7 +125,7 @@ public class IssueOrder implements GameController {
      * A static function to validate the deploy command
      *
      * @param p_CommandArr The string entered by the user
-     * @param p_Player the player object
+     * @param p_Player     the player object
      * @return true if the command is correct else false
      */
     public boolean validateCommand(String p_CommandArr, Player p_Player) {
@@ -156,14 +159,14 @@ public class IssueOrder implements GameController {
                     d_Logger.log("The number format is invalid");
                     return false;
                 }
+                break;
             case "savegame":
                 System.out.println("Are you sure you want to save the file? Enter Yes/No.");
                 String l_Input = new Scanner(System.in).nextLine();
-                if(l_Input.equalsIgnoreCase("Yes")) {
+                if (l_Input.equalsIgnoreCase("Yes")) {
                     GameProgress.SaveGameProgress(d_GameMap, l_CommandArr[1]);
                     return true;
-                }
-                else{
+                } else {
                     System.out.println("The game has not been saved, continue to play.");
                     return false;
                 }
@@ -202,12 +205,13 @@ public class IssueOrder implements GameController {
 
     /**
      * A function to show the player the status while issuing the order
+     *
      * @param p_Player The current player object
      */
     public void showStatus(Player p_Player) {
-        String  l_Table = "|%-15s|%-19s|%-22s|%n";
+        String l_Table = "|%-15s|%-19s|%-22s|%n";
         System.out.println("Current Player Details Are:\n");
-        System.out.format( "+--------------+-----------------------+------------------+%n");
+        System.out.format("+--------------+-----------------------+------------------+%n");
         System.out.format("| Player Name   | Initial Assigned  | Left Armies          | %n");
         System.out.format("+---------------+------------------  +---------------------+%n");
         System.out.format(l_Table, p_Player.getName(), p_Player.getReinforcementArmies(), p_Player.getIssuedArmies());
@@ -223,22 +227,22 @@ public class IssueOrder implements GameController {
         for (Country l_Country : p_Player.getCapturedCountries()) {
             String tableCountry = "|%-15s|%-15s|%-35s|%n";
             String l_NeighborList = "";
-            for(Country l_Neighbor : l_Country.getNeighbors()){
+            for (Country l_Neighbor : l_Country.getNeighbors()) {
                 l_NeighborList += l_Neighbor.getName() + "-";
             }
-            System.out.format(tableCountry,l_Country.getName(),l_Country.getArmies(),l_Country.createANeighborList(l_Country.getNeighbors()));
+            System.out.format(tableCountry, l_Country.getName(), l_Country.getArmies(), l_Country.createANeighborList(l_Country.getNeighbors()));
         }
         System.out.format("+--------------+-----------------------+------------------+---------+\n");
 
-        if(!p_Player.getPlayerCards().isEmpty()){
-            d_Logger.log("The Cards assigned to the Player are: " );
-            for(Card l_Card : p_Player.getPlayerCards()){
+        if (!p_Player.getPlayerCards().isEmpty()) {
+            d_Logger.log("The Cards assigned to the Player are: ");
+            for (Card l_Card : p_Player.getPlayerCards()) {
                 d_Logger.log(l_Card.getCardType().toString());
             }
         }
-        if(!p_Player.getOrders().isEmpty()){
-            System.out.println("The Orders issued by Player "+ p_Player.getName() + " are:");
-            for (Order l_Order : p_Player.getOrders()){
+        if (!p_Player.getOrders().isEmpty()) {
+            System.out.println("The Orders issued by Player " + p_Player.getName() + " are:");
+            for (Order l_Order : p_Player.getOrders()) {
                 System.out.println(l_Order.getOrderInfo().getCommand());
             }
         }
