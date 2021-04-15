@@ -140,6 +140,10 @@ public class IssueOrder implements GameController {
                     d_Logger.log("The number format is invalid");
                     return false;
                 }
+                if(Integer.parseInt(l_CommandArr[2]) < 0){
+                    d_Logger.log("The number format is invalid");
+                    return false;
+                }
                 break;
             case "advance":
                 try {
