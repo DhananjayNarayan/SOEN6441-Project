@@ -135,31 +135,72 @@ public class DominationMap {
         String currentPath = System.getProperty("user.dir") + "\\Maps\\";
         String mapPath = currentPath + fileName + ".map";
         BufferedWriter bwFile = new BufferedWriter(new FileWriter(mapPath));
-        String content = ";Map";
-        content += (fileName + "\r\n");
-        content += ("\r\nname " + fileName + " Map\r\n");
-        content += ("\r\n" + message + "\r\n");
+        String content = ";Map ";
+        content += (fileName + ".map" + "");
+        content += ("\rname " + fileName + ".map" + " Map");
+        content += ("\r" + message + "\r");
         content += ("\r\n[continents]\r\n");
+        HashMap<Integer, String> l_ContinentMap = createContinentList(map);
         for (Continent continent : map.getContinents().values()) {
             content += (continent.getName() + " " + continent.getAwardArmies() + " 00000\r\n");
         }
         content += ("\r\n[countries]\r\n");
         String borders = "";
-        for (Country country : map.getCountries().values()) {
-//            int countryIndex = map.getListOfCountries().indexOf(country) + 1;
-//            int continentIndex = map.getListOfContinent().indexOf(map.getContinentFromName(country.getContinentName())) + 1;
-//            content += (countryIndex + " " + country.getName() + " " + continentIndex + "\r\n");
-//            borders += (countryIndex + "");
-//            for (String neighborName : country.getNeighbors()) {
-//                int neighborIndex = map.getListOfCountries().indexOf(map.getCountryFromName(neighborName)) + 1;
-//                borders += (" " + neighborIndex);
-//            }
-//            borders += ("\r\n");
+        HashMap<Integer, String> l_CountryMap = createCountryList(map);
+        for (Map.Entry<Integer, String> l_Country : l_CountryMap.entrySet()) {
+            //System.out.println(l_Country.getKey() + " " + l_Country.getValue() + " " + map.getCountry(l_Country.getValue()).getContinent());
+            for(Map.Entry<Integer, String> l_Continent : l_ContinentMap.entrySet()) {
+                if(l_Continent.getValue() == map.getCountry(l_Country.getValue()).getContinent()) {
+                    //System.out.println("The key for value " + map.getCountry(l_Country.getValue()).getContinent() + " is " + l_Continent.getKey());
+                    content += (l_Country.getKey() + " " + l_Country.getValue() + " " + l_Continent.getKey() + "\r\n");
+                    break;
+                }
+            }
+            borders += (l_Country.getKey() + "");
+            for (Country l_Neighbor : map.getCountry(l_Country.getValue()).getNeighbors()) {
+                for(Map.Entry<Integer, String> l_CountryList : l_CountryMap.entrySet()){
+                    if(l_Neighbor.getName() == l_CountryList.getValue()){
+                        borders += (" " + l_CountryList.getKey());
+                    }
+                }
+            }
+            borders += ("\r\n");
         }
-//        content += ("\r\n[borders]\r\n" + borders);
-//        bwFile.write(content);
-//        bwFile.close();
+
+        content += ("\r\n[borders]\r\n" + borders);
+        bwFile.write(content);
+        bwFile.close();
         System.out.println("Map file saved as: " + fileName + ".map");
+    }
+
+    /**
+     * Create hashmap of country
+     *
+     * @param p_GameMap instance of gamemap
+     * @return hashmap of country with index
+     */
+    public static HashMap<Integer, String> createCountryList(GameMap p_GameMap){
+        HashMap<Integer, String> l_CountryMap = new HashMap<>();
+        int counter = 1;
+        for(Country l_Country : p_GameMap.getCountries().values()){
+            l_CountryMap.put(counter++, l_Country.getName());
+        }
+        return l_CountryMap;
+    }
+
+    /**
+     * create a continent hashmap
+     *
+     * @param p_GameMap gamemap instance
+     * @return hashmap of continent and index
+     */
+    public static HashMap<Integer, String> createContinentList(GameMap p_GameMap){
+        HashMap<Integer, String> l_CountryMap = new HashMap<>();
+        int counter = 1;
+        for(Continent l_Continent : p_GameMap.getContinents().values()){
+            l_CountryMap.put(counter++, l_Continent.getName());
+        }
+        return l_CountryMap;
     }
 
     /**
@@ -183,6 +224,6 @@ public class DominationMap {
             }
             System.out.println("\n");
         }
-
+        saveMap(d_GameMap, "test");
     }
 }
