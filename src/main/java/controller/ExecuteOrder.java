@@ -4,8 +4,6 @@ import model.*;
 import model.order.Order;
 import utils.logger.LogEntryBuffer;
 
-import java.util.HashMap;
-
 /**
  * This is a class which contains the Execute Order phase
  *
@@ -36,7 +34,7 @@ public class ExecuteOrder implements GameController {
     /**
      * Log entry Buffer Object
      */
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the default constructor
@@ -55,10 +53,9 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-        d_Leb.logInfo("\n EXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
-        return checkIfPlayerWon(p_GamePhase);
+        return checkIfPlayerWonOrTriesExhausted(p_GamePhase);
     }
 
     /**
@@ -68,8 +65,8 @@ public class ExecuteOrder implements GameController {
         int l_Counter = 0;
         while (l_Counter < d_GameMap.getPlayers().size()) {
             l_Counter = 0;
-            for (Player player : d_GameMap.getPlayers().values()) {
-                Order l_Order = player.nextOrder();
+            for (Player l_Player : d_GameMap.getPlayers().values()) {
+                Order l_Order = l_Player.nextOrder();
                 if (l_Order == null) {
                     l_Counter++;
                 } else {
@@ -92,19 +89,28 @@ public class ExecuteOrder implements GameController {
 
     /**
      * Check if the player won the game after every execution phase
+     * Or if the number of tries are exhausted
      *
      * @param p_GamePhase the next phase based on the status of player
      * @return the gamephase it has to change to based on the win
      */
-    public GamePhase checkIfPlayerWon(GamePhase p_GamePhase) {
-        HashMap<String, Country> l_ListOfAllCountries = d_GameMap.getCountries();
+    public GamePhase checkIfPlayerWonOrTriesExhausted(GamePhase p_GamePhase) {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             if (l_Player.getCapturedCountries().size() == d_GameMap.getCountries().size()) {
-                System.out.println("The Player " + l_Player.getName() + " won the game.");
-                System.out.println("Exiting the game...");
+                d_Logger.log("The Player " + l_Player.getName() + " won the game.");
+                d_Logger.log("Exiting the game...");
+                d_GameMap.setWinner(l_Player);
+                d_GameMap.setGamePhase(d_ExitGamePhase);
+                d_GameMap.setWinner(l_Player);
                 return p_GamePhase.nextState(d_ExitGamePhase);
             }
         }
+
+        if (GameSettings.getInstance().MAX_TRIES > 0 && d_GameMap.getTries() >= GameSettings.getInstance().MAX_TRIES) {
+            d_GameMap.setGamePhase(d_ExitGamePhase);
+            return p_GamePhase.nextState(d_ExitGamePhase);
+        }
+        d_GameMap.setGamePhase(d_ReinforcementGamePhase);
         return p_GamePhase.nextState(d_ReinforcementGamePhase);
     }
 

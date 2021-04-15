@@ -8,6 +8,7 @@ import utils.MapValidation;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -34,7 +35,7 @@ public class MapEditor implements GameController {
     private final List<String> CLI_COMMANDS = Arrays.asList("editcontinent", "editcountry", "editneighbor", "showmap", "savemap", "editmap", "validatemap");
     GameMap d_GameMap;
     GamePhase d_NextState = GamePhase.StartUp;
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the default constructor
@@ -51,11 +52,11 @@ public class MapEditor implements GameController {
      * @throws ValidationException when validation fails
      */
     @Override
-    public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
-        d_Leb.clearNewFile();
-        d_Leb.logInfo("MAP EDITOR PHASE ");
+    public GamePhase start(GamePhase p_GamePhase) throws ValidationException, IOException {
+        d_Logger.clear();
+        d_Logger.log("/************************************ You are in MAP EDITOR PHASE *******************************/");
         while (true) {
-            System.out.println("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
+            d_Logger.log("Enter your map operation:" + "\n" + "1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end map creation and save phase");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList;
             if (l_Input.contains("-")) {
@@ -172,9 +173,9 @@ public class MapEditor implements GameController {
                     //Handle validatemap command from console
                     case "validatemap": {
                         if (MapValidation.validateMap(d_GameMap, 0)) {
-                            System.out.println("Validation successful");
+                            d_Logger.log("Validation successful");
                         } else {
-                            System.out.println("Validation failed");
+                            d_Logger.log("Validation failed");
                         }
                         break;
                     }
@@ -184,7 +185,21 @@ public class MapEditor implements GameController {
                     case "savemap": {
                         if (l_CommandArray.length == 1) {
                             d_GameMap.setName(l_CommandArray[0]);
-                            d_GameMap.saveMap();
+                            d_Logger.log(" Which format do you want to save the file? Type the number.");
+                            d_Logger.log("1. Domination map \n2. Conquest map");
+                            Scanner l_Scanner = new Scanner(System.in);
+                            String l_UserInput = l_Scanner.nextLine();
+                            if (l_UserInput.equals("1")){
+                                d_GameMap.saveMap(false);
+                                d_Logger.log("The loaded file is of the format Domination map");
+                            }
+                            else if (l_UserInput.equals("2")) {
+                                d_GameMap.saveMap(true);
+                                d_Logger.log("The loaded file is of the format Conquest map");
+                            }
+                            else
+                                d_Logger.log("Please enter the right value");
+
                         }
                         break;
                     }
@@ -202,25 +217,26 @@ public class MapEditor implements GameController {
                     //To exit the map creation phase type "exit"
                     case "exit": {
                         d_GameMap.flushGameMap();
+                        d_Logger.log("================================ End of Map Editor Phase ==================================");
+                        d_GameMap.setGamePhase(d_NextState);
                         return p_GamePhase.nextState(d_NextState);
                     }
                     //Print the commands for help
                     default: {
-                        System.out.println("List of user map creation commands from console:");
-                        System.out.println("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
-                        System.out.println("To add or remove a country : editcountry -add countryID continentID -remove countryID");
-                        System.out.println("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("Read/Update existing map commands:");
-                        System.out.println("To edit map: editmap filename");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("Additional map commands:");
-                        System.out.println("To show the map: showmap");
-                        System.out.println("To validate map: validatemap");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("Note: To save the created map use the command:");
-                        System.out.println("To save map: savemap filename");
-                        System.out.println("================================End of Map Editor Phase==================================");
+                        d_Logger.log("List of user map creation commands from console:");
+                        d_Logger.log("To add or remove a continent : editcontinent -add continentID continentvalue -remove continentID");
+                        d_Logger.log("To add or remove a country : editcountry -add countryID continentID -remove countryID");
+                        d_Logger.log("To add or remove a neighbor to a country : editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Read/Update existing map commands:");
+                        d_Logger.log("To edit map: editmap filename");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Additional map commands:");
+                        d_Logger.log("To show the map: showmap");
+                        d_Logger.log("To validate map: validatemap");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Note: To save the created map use the command:");
+                        d_Logger.log("To save map: savemap filename");
                     }
                 }
             }

@@ -3,9 +3,10 @@ package model.order;
 import model.Country;
 import model.GameSettings;
 import model.Player;
-import model.strategy.GameStrategy;
+import model.strategy.game.GameStrategy;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -13,13 +14,7 @@ import java.util.Objects;
  *
  * @author Madhuvanthi Hemanathan
  */
-public class AdvanceOrder extends Order {
-
-    /**
-     * Log entry buffer object
-     */
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
-
+public class AdvanceOrder extends Order implements Serializable {
     /**
      * Game Settings object
      */
@@ -29,6 +24,11 @@ public class AdvanceOrder extends Order {
      * Game Strategy object
      */
     GameStrategy d_GameStrategy;
+
+    /**
+     * Log Entry Buffer Object
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor for class AdvanceOrder
@@ -53,13 +53,15 @@ public class AdvanceOrder extends Order {
      */
     @Override
     public boolean execute() {
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             Player l_Player = getOrderInfo().getPlayer();
             Country l_From = getOrderInfo().getDeparture();
             Country l_To = getOrderInfo().getDestination();
             int l_Armies = getOrderInfo().getNumberOfArmy();
             if (l_Player.getNeutralPlayers().contains(l_To.getPlayer())) {
-                System.out.printf("Truce between %s and %s\n", l_Player.getName(), l_To.getPlayer().getName());
+                d_Logger.log(String.format("Truce between %s and %s\n", l_Player.getName(), l_To.getPlayer().getName()));
                 l_Player.getNeutralPlayers().remove(l_To.getPlayer());
                 l_To.getPlayer().getNeutralPlayers().remove(l_Player);
                 return true;
@@ -71,14 +73,12 @@ public class AdvanceOrder extends Order {
                     l_Player.getCapturedCountries().add(l_To);
                 }
                 l_To.setPlayer(l_Player);
-                System.out.println("Advanced/Moved " + l_Armies + " from " + l_From.getName() + " to " + l_To.getName());
-                d_Leb.logInfo("Advanced/Moved " + l_Armies + " from " + l_From.getName() + " to " + l_To.getName());
+                d_Logger.log("Advanced/Moved " + l_Armies + " from " + l_From.getName() + " to " + l_To.getName());
                 return true;
             } else if (d_GameStrategy.attack(l_Player, l_From, l_To, l_Armies)) {
                 return true;
             }
         }
-        System.out.println("---------------------------------------------------");
         return false;
     }
 
@@ -114,7 +114,7 @@ public class AdvanceOrder extends Order {
         }
         if (!success) {
             System.err.println(log);
-            d_Leb.logInfo(log);
+            d_Logger.log(log);
         }
         return success;
     }
@@ -124,8 +124,7 @@ public class AdvanceOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Advanced " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Advanced " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("Order Info: Advance " + getOrderInfo().getNumberOfArmy() + " armies " + " from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 }

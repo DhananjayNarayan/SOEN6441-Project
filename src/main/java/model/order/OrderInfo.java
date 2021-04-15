@@ -3,6 +3,8 @@ package model.order;
 import model.Country;
 import model.Player;
 
+import java.io.Serializable;
+
 /**
  * A class with the information of Order details
  *
@@ -12,7 +14,11 @@ import model.Player;
  * @author Madhuvanthi Hemanathan
  * @author Prathika Suvarna
  */
-public class OrderInfo {
+public class OrderInfo implements Serializable {
+    /**
+     * Command entered by the player
+     */
+    private String d_Command;
     /**
      * A player object
      */
@@ -145,5 +151,23 @@ public class OrderInfo {
      */
     public void setTargetCountry(Country p_TargetCountry) {
         this.d_TargetCountry = p_TargetCountry;
+    }
+
+    /**
+     * Getter for Command
+     *
+     * @return command
+     */
+    public String getCommand(){
+        return d_Command;
+    }
+
+    /**
+     * Setter for command
+     *
+     * @param p_Command command
+     */
+    public void setCommand(String p_Command){
+        d_Command = p_Command;
     }
 }

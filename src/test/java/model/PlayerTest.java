@@ -1,5 +1,6 @@
 package model;
 
+import model.strategy.player.PlayerStrategy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests the functionalities for Player class
@@ -17,18 +17,67 @@ import static org.junit.Assert.assertEquals;
  */
 public class PlayerTest extends Player {
 
+    /**
+     * ID of player
+     */
     int d_Id;
+    /**
+     * Name of player
+     */
     String d_Name;
 
+    /**
+     * Reinforcement armies
+     */
     int d_ReinforcementArmies;
-    int d_ArmyCountValid, d_ArmyCountInvalid;
-    Player d_Player = new Player();
-    String d_CountryValid, d_CountryInvalid;
+    /**
+     * Number of valid armies
+     */
+    int d_ArmyCountValid;
+    /**
+     * Number of invalid armies
+     */
+    int d_ArmyCountInvalid;
+    /**
+     * Player object
+     */
+    Player d_Player;
+    /**
+     * Valid country string
+     */
+    String d_CountryValid ;
+    /**
+     * Invalid country string
+     */
+    String d_CountryInvalid;
+    /**
+     * List of captured countries
+     */
     List<Country> d_CapturedCountries = new ArrayList<>();
+    /**
+     * First country
+     */
     Country d_Country1 = new Country();
+    /**
+     * Second country
+     */
     Country d_Country2 = new Country();
+    /**
+     * Third country
+     */
     Country d_Country3 = new Country();
+    /**
+     * Gamemap object
+     */
     GameMap d_GameMap = GameMap.getInstance();
+
+    /**
+     * Constructor for player test
+     */
+    public PlayerTest() {
+        super(PlayerStrategy.getStrategy("human"));
+        d_Player = this;
+    }
 
     /**
      * This method initializes each value before execution of every test case
@@ -69,26 +118,25 @@ public class PlayerTest extends Player {
         d_GameMap.getCountries().clear();
         d_GameMap.getPlayers().clear();
     }
+
     /**
      * This is the test method to check the Player ID
-     *
      */
 
     @Test
-    public void testCountryId(){
+    public void testCountryId() {
         int l_Id = d_Player.getId();
-        assertEquals(d_Id,l_Id);
+        assertEquals(d_Id, l_Id);
     }
 
     /**
      * This is the test method to check the Player Name
-     *
      */
 
     @Test
-    public void testCountryName(){
+    public void testCountryName() {
         String l_Name = d_Player.getName();
-        assertEquals(d_Name,l_Name);
+        assertEquals(d_Name, l_Name);
     }
 
     /**

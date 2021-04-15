@@ -3,6 +3,7 @@ package controller;
 import model.GameController;
 import model.GameMap;
 import model.GamePhase;
+import utils.GameProgress;
 import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
@@ -31,10 +32,23 @@ public class GamePlay implements GameController {
     /**
      * A data member that stores the list of commands for gameplay as list
      */
-    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries");
+    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame", "tournament");
+    /**
+     * gamemap instance
+     */
     GameMap d_GameMap;
-    GamePhase d_NextState = GamePhase.Reinforcement;
-    LogEntryBuffer d_leb = new LogEntryBuffer();
+    /**
+     * Reinforcement phase
+     */
+    GamePhase d_ReinforcementPhase = GamePhase.Reinforcement;
+    /**
+     * Map editor
+     */
+    GamePhase d_MapEditorPhase = GamePhase.MapEditor;
+    /**
+     * LogEntry Buffer Instance
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * This is the default constructor
@@ -53,7 +67,7 @@ public class GamePlay implements GameController {
      */
     public GamePhase start(GamePhase p_GamePhase) throws ValidationException {
         while (true) {
-            System.out.println("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
+            d_Logger.log("1. Enter help to view the set of commands" + "\n" + "2. Enter exit to end");
             String l_Input = SCANNER.nextLine();
             List<String> l_InputList;
             if (l_Input.contains("-")) {
@@ -75,8 +89,6 @@ public class GamePlay implements GameController {
                     l_InputList.add("dummy");
                 }
             }
-            //Handle loadmap command from console
-
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
             for (String l_Command : l_InputList) {
@@ -88,8 +100,6 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
-                    //Handle gameplayer command from console
-
                     case "gameplayer": {
                         if (l_CommandArray.length > 0) {
                             switch (l_CommandArray[0]) {
@@ -119,29 +129,49 @@ public class GamePlay implements GameController {
                         if (d_GameMap.getPlayers().size() > 1) {
                             d_GameMap.assignCountries();
                         } else {
-                            d_leb.logInfo("Game ended as the minimum players are not there.");
+                            d_Logger.log("Game ended as the minimum players are not there.");
                             throw new ValidationException("Create atleast two players");
                         }
                         break;
                     }
                     //Handle showmap command from console
-
                     case "showmap": {
                         d_GameMap.showMap();
                         break;
                     }
+                    case "savegame": {
+                        if (l_CommandArray.length == 1) {
+                            GameProgress.SaveGameProgress(d_GameMap, l_CommandArray[0]);
+                            d_GameMap.setGamePhase(d_MapEditorPhase);
+                            return d_MapEditorPhase;
+                        }
+                        break;
+                    }
+                    case "loadgame": {
+                        if (l_CommandArray.length == 1) {
+                            GamePhase l_GameLoaded = GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            if (!l_GameLoaded.equals(GamePhase.StartUp)) {
+                                return l_GameLoaded;
+                            }
+                        }
+                        break;
+                    }
                     case "exit": {
-                        return p_GamePhase.nextState(d_NextState);
+                        d_Logger.log("================================ End of StartUp Phase ==================================");
+                        d_GameMap.setGamePhase(d_ReinforcementPhase);
+                        return p_GamePhase.nextState(d_ReinforcementPhase);
                     }
                     //Print the commands for help
                     default: {
-                        System.out.println("Order of game play commands:");
-                        System.out.println("-----------------------------------------------------------------------------------------");
-                        System.out.println("To load the map : loadmap filename");
-                        System.out.println("To show the loaded map : showmap");
-                        System.out.println("To add or remove a player : gameplayer -add playername -remove playername");
-                        System.out.println("To assign countries : assigncountries");
-                        System.out.println("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("Order of game play commands:");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
+                        d_Logger.log("To load the map : loadmap filename");
+                        d_Logger.log("To show the loaded map : showmap");
+                        d_Logger.log("To add or remove a player : gameplayer -add playername -remove playername");
+                        d_Logger.log("To assign countries : assigncountries");
+                        d_Logger.log("To save the game : savegame filename");
+                        d_Logger.log("To load the game : loadgame filename");
+                        d_Logger.log("-----------------------------------------------------------------------------------------");
 
                     }
                 }

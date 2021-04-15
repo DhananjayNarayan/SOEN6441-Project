@@ -1,4 +1,4 @@
-package model.strategy;
+package model.strategy.game;
 
 import model.Card;
 import model.Country;
@@ -19,9 +19,9 @@ public class DefaultStrategy implements GameStrategy {
     GameSettings SETTINGS = GameSettings.getInstance();
 
     /**
-     * Logger for game actions
+     * Logger Observable
      */
-    LogEntryBuffer d_LogEntryBuffer = new LogEntryBuffer();
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Method holding the default attack logic
@@ -39,24 +39,23 @@ public class DefaultStrategy implements GameStrategy {
             int l_attackerKills = (int) Math.round(p_Armies * SETTINGS.ATTACKER_PROBABILITY);
             int l_defenderKills = (int) Math.round(p_To.getArmies() * SETTINGS.DEFENDER_PROBABILITY);
 
-            int l_armiesLeftAttacker = p_Armies - l_defenderKills;
-            int l_armiesLeftDefender = p_To.getArmies() - l_attackerKills;
+            int l_armiesLeftAttacker = p_Armies > l_defenderKills ? (p_Armies - l_defenderKills) : (l_defenderKills - p_Armies);
+            int l_armiesLeftDefender = p_To.getArmies() > l_attackerKills ? p_To.getArmies() - l_attackerKills : l_attackerKills - p_To.getArmies();
             if (l_armiesLeftAttacker > 0 && l_armiesLeftDefender <= 0) {
                 p_To.setArmies(l_armiesLeftAttacker);
                 makeMeKing(p_Player, p_To);
+                d_Logger.log(String.format("Attacker : %s (%s) won", p_Player.getName(), p_From.getName()));
                 //Assign power card to king
                 Card l_AssignedCard = new Card();
                 p_Player.addPlayerCard(l_AssignedCard);
-                System.out.println("Attacker: " + p_Player.getName() + " received a card: " + l_AssignedCard);
-                d_LogEntryBuffer.logInfo("Attacker: " + p_Player.getName() + " received a card: "+ l_AssignedCard);
-                System.out.println("Attacker : " + p_Player.getName() + " won.");
-                System.out.println("Remaining attacker's armies " + p_To.getArmies() + " moved from " + p_From.getName() + " to " + p_To.getName() + ".");
+                d_Logger.log("Attacker: " + p_Player.getName() + " received a card: " + l_AssignedCard.getCardType().toString());
+                d_Logger.log(String.format("Since won, left out %s (Attacker) armies %s moved to %s.", p_From.getName(), l_armiesLeftAttacker, p_To.getName()));
             } else {
                 p_From.deployArmies(l_armiesLeftAttacker);
                 p_To.setArmies(l_armiesLeftDefender);
-                System.out.println("Attacker : " + p_Player.getName() + " lost.");
-                System.out.println("Remaining attacker's armies: " + p_From.getArmies());
-                System.out.println("Remaining defender's armies: " + p_To.getArmies());
+                d_Logger.log(String.format("Attacker : %s (%s) lost", p_Player.getName(), p_From.getName()));
+                d_Logger.log(String.format("Remaining armies of %s (Attacker) in attack: %s ", p_From.getName(), l_armiesLeftAttacker));
+                d_Logger.log(String.format("Remaining armies of %s (Defender) in attack: %s ", p_To.getName(), l_armiesLeftDefender));
             }
             return true;
         } catch (Exception p_Exception) {

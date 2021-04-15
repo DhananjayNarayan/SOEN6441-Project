@@ -1,10 +1,11 @@
 package model;
 
+import model.strategy.player.PlayerStrategy;
+import utils.*;
 import utils.logger.LogEntryBuffer;
-import utils.MapValidation;
-import utils.SaveMap;
-import utils.ValidationException;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,11 +20,19 @@ import java.util.stream.Collectors;
  * @author Prathika Suvarna
  * @version 1.0.0
  */
-public class GameMap {
+public class GameMap implements Serializable {
+    /**
+     * Serial ID
+     */
+    private static final long serialVersionUID = 45443434343L;
     /**
      * An object of the gamemap
      */
     private static GameMap d_GameMap;
+    /**
+     * Gamephase object
+     */
+    private GamePhase d_GamePhase;
     /**
      * A hashmap to store the continents
      */
@@ -44,7 +53,32 @@ public class GameMap {
      * A string to store the error message
      */
     private String d_ErrorMessage;
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+
+    /**
+     * LogEntry Buffer Instance
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
+
+    /**
+     * Winner
+     */
+    private Player d_Winner;
+
+    /**
+     * number of tries
+     */
+    private int d_Tries;
+
+    /**
+     * Current Player
+     */
+    private Player d_CurrentPlayer;
+
+
+    /**
+     * If the game has loaded
+     */
+    private Boolean d_GameLoaded = false;
 
     /**
      * Default Constructor
@@ -62,6 +96,24 @@ public class GameMap {
             d_GameMap = new GameMap();
         }
         return d_GameMap;
+    }
+
+    /**
+     * To get the current phase
+     *
+     * @return gamephase instance
+     */
+    public GamePhase getGamePhase() {
+        return d_GamePhase;
+    }
+
+    /**
+     * Set the current phase
+     *
+     * @param d_GamePhase gamephase instance
+     */
+    public void setGamePhase(GamePhase d_GamePhase) {
+        this.d_GamePhase = d_GamePhase;
     }
 
     /**
@@ -161,6 +213,42 @@ public class GameMap {
     }
 
     /**
+     * Get the current Player
+     *
+     * @return player
+     */
+    public Player getCurrentPlayer() {
+        return d_CurrentPlayer;
+    }
+
+    /**
+     * Set the current Player
+     *
+     * @param d_CurrentPlayer player
+     */
+    public void setCurrentPlayer(Player d_CurrentPlayer) {
+        this.d_CurrentPlayer = d_CurrentPlayer;
+    }
+
+    /**
+     * Get the game loaded status
+     *
+     * @return true if game is loaded
+     */
+    public Boolean getGameLoaded() {
+        return d_GameLoaded;
+    }
+
+    /**
+     * set the game loaded status
+     *
+     * @param d_GameLoaded loaded status
+     */
+    public void setGameLoaded(Boolean d_GameLoaded) {
+        this.d_GameLoaded = d_GameLoaded;
+    }
+
+    /**
      * Method to set the Game map object back to empty after
      * each phase.
      */
@@ -178,7 +266,6 @@ public class GameMap {
      * @throws ValidationException if any input or output issue
      */
     public void addContinent(String p_ContinentName, String p_ControlValue) throws ValidationException {
-
         if (this.getContinents().containsKey(p_ContinentName)) {
             throw new ValidationException("Continent already exists");
         }
@@ -186,10 +273,7 @@ public class GameMap {
         l_Continent.setName(p_ContinentName);
         l_Continent.setAwardArmies(Integer.parseInt(p_ControlValue));
         this.getContinents().put(p_ContinentName, l_Continent);
-        System.out.println("Successfully added Continent: " + p_ContinentName);
-        d_Leb.logInfo("Added Continent: " + p_ContinentName);
-
-
+        d_Logger.log("Successfully added Continent: " + p_ContinentName);
     }
 
     /**
@@ -210,8 +294,7 @@ public class GameMap {
         l_Country.setContinent(p_ContinentName);
         this.getCountries().put(p_CountryName, l_Country);
         this.getContinent(p_ContinentName).getCountries().add(l_Country);
-        System.out.println("Successfully added Country: " + p_CountryName);
-        d_Leb.logInfo("Added Country: " + p_CountryName);
+        d_Logger.log("Successfully added Country: " + p_CountryName);
     }
 
     /**
@@ -233,8 +316,7 @@ public class GameMap {
         for (String l_CountryName : l_CountrySet) {
             this.getCountries().remove(l_CountryName);
         }
-        System.out.println("Successfully deleted the continent: " + p_ContinentName);
-        d_Leb.logInfo("Deleted the continent: " + p_ContinentName);
+        d_Logger.log("Successfully deleted the continent: " + p_ContinentName);
     }
 
     /**
@@ -251,10 +333,7 @@ public class GameMap {
         }
         this.getContinent(l_Country.getContinent()).getCountries().remove(l_Country);
         this.getCountries().remove(l_Country.getName());
-        System.out.println("Successfully deleted the country");
-        d_Leb.logInfo("Deleted the country" + p_CountryName);
-
-
+        d_Logger.log("Successfully deleted the country");
     }
 
     /**
@@ -271,8 +350,7 @@ public class GameMap {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        System.out.printf("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
-        d_Leb.logInfo("Connected neighbors: " + p_CountryName + " - " + p_NeighborCountryName);
+        d_Logger.log(String.format("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName));
     }
 
 
@@ -292,10 +370,7 @@ public class GameMap {
             throw new ValidationException("Mentioned Countries are not neighbors");
         } else {
             this.getCountry(p_CountryName).getNeighbors().remove(l_Country2);
-            System.out.printf("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName);
-            d_Leb.logInfo("Removed neighbors: " + p_CountryName + " - " + p_NeighborCountryName);
-
-
+            d_Logger.log(String.format("Successfully removed routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName));
         }
     }
 
@@ -309,11 +384,27 @@ public class GameMap {
         if (this.getPlayers().containsKey(p_PlayerName)) {
             throw new ValidationException("Player already exists");
         }
-        Player l_Player = new Player();
+        Player l_Player = new Player(PlayerStrategy.getStrategy("human"));
         l_Player.setName(p_PlayerName);
         this.getPlayers().put(p_PlayerName, l_Player);
-        System.out.println("Successfully added Player: " + p_PlayerName);
-        d_Leb.logInfo("Added Player: " + p_PlayerName);
+        d_Logger.log("Successfully added Player: " + p_PlayerName);
+    }
+
+    /**
+     * Adds player to the game map.
+     *
+     * @param p_PlayerName Player name
+     * @param p_Strategy   Player Strategy
+     * @throws ValidationException if any input/output issue
+     */
+    public void addPlayer(String p_PlayerName, String p_Strategy) throws ValidationException {
+        if (this.getPlayers().containsKey(p_PlayerName)) {
+            throw new ValidationException("Player already exists");
+        }
+        Player l_Player = new Player(PlayerStrategy.getStrategy(p_Strategy));
+        l_Player.setName(p_PlayerName);
+        this.getPlayers().put(p_PlayerName, l_Player);
+        d_Logger.log("Successfully added Player: " + p_PlayerName);
     }
 
     /**
@@ -328,30 +419,27 @@ public class GameMap {
             throw new ValidationException("Player does not exist: " + p_PlayerName);
         }
         this.getPlayers().remove(l_Player.getName());
-        System.out.println("Successfully deleted the player: " + p_PlayerName);
-        d_Leb.logInfo("Deleted the player: " + p_PlayerName);
-
-
+        d_Logger.log("Successfully deleted the player: " + p_PlayerName);
     }
 
     /**
      * Saves map as a file, if valid with the specified name.
-     *
-     * @throws ValidationException if any input/output issue.
+     * @param p_saveAsConquest to get user input
+     * @throws ValidationException files exception of correctness
+     * @throws IOException files exception of correctness
      */
-    public void saveMap() throws ValidationException {
+    public void saveMap(boolean p_saveAsConquest) throws ValidationException, IOException {
         //Ask p_size for minimum number of countries based on player
         if (MapValidation.validateMap(d_GameMap, 0)) {
-            SaveMap l_SaveMap = new SaveMap();
+            DominationMap l_SaveMap = p_saveAsConquest ?  new Adapter(new Adaptee()) : new DominationMap();
             boolean l_Bool = true;
             while (l_Bool) {
                 d_GameMap.getName();
                 if (Objects.isNull(d_GameMap.getName()) || d_GameMap.getName().isEmpty()) {
                     throw new ValidationException("Please enter the file name:");
                 } else {
-                    if (l_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
-                        System.out.println("The map has been validated and is saved.");
-                        d_Leb.logInfo("The map has been validated and is saved.");
+                    if (l_SaveMap.saveMap(d_GameMap, d_GameMap.getName())) {
+                        d_Logger.log("The map has been validated and is saved.");
                     } else {
                         throw new ValidationException("Map name already exists, enter different name.");
                     }
@@ -372,13 +460,11 @@ public class GameMap {
 
         List<Country> l_CountryList = d_GameMap.getCountries().values().stream().collect(Collectors.toList());
         Collections.shuffle(l_CountryList);
-        for (int i = 0; i < l_CountryList.size(); i++) {
-            Country l_Country = l_CountryList.get(i);
+        for (Country l_Country : l_CountryList) {
             Player l_Player = l_Players.get(l_PlayerIndex);
             l_Player.getCapturedCountries().add(l_Country);
             l_Country.setPlayer(l_Player);
-            System.out.println(l_Country.getName() + " Assigned to " + l_Player.getName());
-            d_Leb.logInfo(l_Country.getName() + " Assigned to " + l_Player.getName());
+            d_Logger.log(l_Country.getName() + " Assigned to " + l_Player.getName());
 
             if (l_PlayerIndex < d_GameMap.getPlayers().size() - 1) {
                 l_PlayerIndex++;
@@ -395,10 +481,10 @@ public class GameMap {
      */
 
     public void showMap() {
-        System.out.println("\nShowing the Map Details : \n");
+        d_Logger.log("\nShowing the Map Details : \n");
 
         // Showing Continents in Map
-        System.out.println("\nThe Continents in this Map are : \n");
+        d_Logger.log("\nThe Continents in this Map are : \n");
         Iterator<Map.Entry<String, Continent>> l_IteratorForContinents = d_GameMap.getContinents().entrySet()
                 .iterator();
 
@@ -409,7 +495,7 @@ public class GameMap {
         System.out.format("+------------------+%n");
 
         while (l_IteratorForContinents.hasNext()) {
-            Map.Entry<String, Continent> continentMap = (Map.Entry<String, Continent>) l_IteratorForContinents.next();
+            Map.Entry<String, Continent> continentMap = l_IteratorForContinents.next();
             String l_ContinentId = (String) continentMap.getKey();
             Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); //Get the particular continent by its ID(Name)
 
@@ -419,24 +505,25 @@ public class GameMap {
 
 
         // Showing Countries in the Continent and their details
-        System.out.println("\nThe countries in this Map and their details are : \n");
+        d_Logger.log("\nThe countries in this Map and their details are : \n");
 
         Iterator<Map.Entry<String, Continent>> l_IteratorForContinent = d_GameMap.getContinents().entrySet()
                 .iterator();
 
-        l_Table = "|%-23s|%-18s|%-60s|%-15s|%n";
+        l_Table = "|%-23s|%-18s|%-60s|%n";
 
         System.out.format(
-                "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
+                "+--------------+-----------------------+------------------+----------------------------+---------------+-%n");
         System.out.format(
-                "     Country's name     | Continent's Name |   Neighbour Countries                                      | No. of armies |%n");
+                "     Country's name     | Continent's Name |   Neighbour Countries                                      |%n");
         System.out.format(
-                "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
+                "+--------------+-----------------------+------------------+----------------------------+----------------+%n");
+
 
         while (l_IteratorForContinent.hasNext()) {
             Map.Entry<String, Continent> l_ContinentMap = (Map.Entry<String, Continent>) l_IteratorForContinent.next();
             String l_ContinentId = (String) l_ContinentMap.getKey();
-            Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId); // to get the continent by its ID(Name)
+            Continent l_Continent = d_GameMap.getContinents().get(l_ContinentId);
             Iterator<Country> l_ListIterator = l_Continent.getCountries().iterator();
 
             while (l_ListIterator.hasNext()) {
@@ -447,45 +534,119 @@ public class GameMap {
         }
 
         System.out.format(
-                "+--------------+-----------------------+------------------+----------------------------+---------------+---------------+%n");
+                "+--------------+-----------------------+------------------+----------------------------+----------------+%n");
 
-        // Showing the players in game. Have to modify
 
         HashMap<String, Player> l_Players = d_GameMap.getPlayers();
-        System.out.println("\n\n\n\nPlayers in this game if the game has started are : ");
+        d_Logger.log("\n\n\n\nPlayers in this game if the game has started are : ");
         if (l_Players != null) {
-            l_Players.forEach((key, value) -> System.out.println((String) key));  // will slightly modify the output after testing with the entire project
-            System.out.println();
+            l_Players.forEach((key, value) -> d_Logger.log(key));
+            d_Logger.log("");
         }
 
-
         //Showing the Ownership of the players
-        System.out.println("\nThe Map ownership of the players are : \n");
-
-        System.out.format(
-                "+---------------+-----------------------+----------------------------+%n");
-        System.out.format(
-                "| Player's name |    Continent's Controlled    | No. of Armies Owned |%n");
-        System.out.format(
-                "+---------------+-----------------------+---------------------------+%n");
+        d_Logger.log("\nThe Map ownership of the players are : \n");
 
 
-        String l_Table1 = "|%-15s|%-30s|%-21d|%n";
+        System.out.format("+---------------+-------------------------------+%n");
+        System.out.format("| Player's name |    Continent's Controlled    |%n");
+        System.out.format("+---------------+-------------------------------+%n");
+
+        String l_Table1 = "|%-15s|%-30s|%n";
 
 
         for (Player l_Player : d_GameMap.getPlayers().values()) {
-
-            //Iterator<Country> listIterator = continent.getCountries().iterator();
-
             System.out.format(l_Table1, l_Player.getName(), l_Player.createACaptureList(l_Player.getCapturedCountries()), l_Player.getReinforcementArmies());
-
-
         }
 
-        System.out.format(
-                "+---------------+-----------------------+----------------------------+%n");
+        System.out.format("+---------------+-------------------------------+%n");
 
     }
 
+    /**
+     * method to get tries
+     *
+     * @return number of tries
+     */
+    public int getTries() {
+        return d_Tries;
+    }
 
+    /**
+     * method to set number of tries
+     * @param p_Tries number of tries
+     */
+    public void setTries(int p_Tries) {
+        d_Tries = p_Tries;
+    }
+
+    /**
+     * method to to go to next turn
+     */
+    public void nextTry() {
+        d_Tries++;
+    }
+
+    /**
+     * method to get winner
+     *
+     * @return the winner
+     */
+    public Player getWinner() {
+        return d_Winner;
+    }
+
+    /**
+     * method to set winner
+     *
+     * @param p_Winner the winner
+     */
+    public void setWinner(Player p_Winner) {
+        d_Winner = p_Winner;
+    }
+
+    /**
+     * Builder for setting the progress
+     *
+     * @param p_GameMap instance
+     * @throws ValidationException Validation exception
+     * @return GamePhase
+     */
+    public GamePhase gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
+        this.flushGameMap();
+        d_GameMap.setGameLoaded(true);
+        for (Map.Entry<String, Continent> l_Continent : p_GameMap.getContinents().entrySet()) {
+            this.addContinent(l_Continent.getKey(), String.valueOf(l_Continent.getValue().getAwardArmies()));
+        }
+        for (Map.Entry<String, Country> l_Country : p_GameMap.getCountries().entrySet()) {
+            this.addCountry(l_Country.getKey(), l_Country.getValue().getContinent());
+        }
+        for (Continent l_Continent : p_GameMap.getContinents().values()) {
+            for (Country l_Country : l_Continent.getCountries()) {
+                for (Country l_Neighbour : l_Country.getNeighbors()) {
+                    p_GameMap.addNeighbor(l_Country.getName(), l_Neighbour.getName());
+                }
+            }
+        }
+        for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
+            this.addPlayer(l_Player.getKey());
+            this.getPlayer(l_Player.getKey()).setCapturedCountries(l_Player.getValue().getCapturedCountries());
+            this.getPlayer(l_Player.getKey()).setReinforcementArmies(l_Player.getValue().getReinforcementArmies());
+        }
+        this.setGamePhase(p_GameMap.getGamePhase());
+        this.setCurrentPlayer(p_GameMap.getCurrentPlayer());
+        for (Map.Entry<String, Player> l_Player : p_GameMap.getPlayers().entrySet()) {
+            this.getPlayer(l_Player.getKey()).setOrders(l_Player.getValue().getOrders());
+            this.getPlayer(l_Player.getKey()).setPlayerCards(l_Player.getValue().getPlayerCards());
+        }
+        return p_GameMap.getGamePhase();
+    }
+
+    /**
+     * Returns new instance of gamemap
+     */
+    public static GameMap newInstance() {
+        d_GameMap = new GameMap();
+        return d_GameMap;
+    }
 }

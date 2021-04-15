@@ -5,15 +5,17 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * The class is a extended from Order, and overrides the methods from Order
  */
-public class NegotiateOrder extends Order {
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+public class NegotiateOrder extends Order implements Serializable {
     /**
      * A gamemap object
      */
     private final GameMap d_GameMap;
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor for class Negotiate Order
@@ -32,8 +34,9 @@ public class NegotiateOrder extends Order {
     @Override
     public boolean execute() {
         Player l_NeutralPlayer = getOrderInfo().getNeutralPlayer();
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
-            System.out.println("The order: " + getType() + " " + l_NeutralPlayer.getName());
             Player l_Player = getOrderInfo().getPlayer();
             l_Player.addNeutralPlayers(l_NeutralPlayer);
             l_NeutralPlayer.addNeutralPlayers(l_Player);
@@ -55,20 +58,20 @@ public class NegotiateOrder extends Order {
         //check if the player has the card
         if (!l_Player.checkIfCardAvailable(CardType.DIPLOMACY)) {
             System.err.println("Player doesn't have the card to be used.");
-            d_Leb.logInfo("Player doesn't have the card to be used.");
+            d_Logger.log("Player doesn't have the card to be used.");
             return false;
         }
         //check if player is valid
         if (l_NeutralPlayer == null) {
             System.err.println("The Player is not valid.");
-            d_Leb.logInfo("The Player is not valid.");
+            d_Logger.log("The Player is not valid.");
             return false;
         }
         // check if the player exists
-        System.out.println(d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName()));
+        d_Logger.log("player exists:" + d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName()));
         if (!d_GameMap.getPlayers().containsKey(l_NeutralPlayer.getName())) {
             System.err.println("The Player name doesn't exist.");
-            d_Leb.logInfo("The Player name doesn't exist.");
+            d_Logger.log("The Player name doesn't exist.");
             return false;
         }
         return true;
@@ -79,8 +82,7 @@ public class NegotiateOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Negotiated with" + getOrderInfo().getNeutralPlayer().getName() + ".");
+        d_Logger.log("Negotiated with " + getOrderInfo().getNeutralPlayer().getName() + ".");
+        d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 }

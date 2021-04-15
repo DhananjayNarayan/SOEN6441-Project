@@ -6,18 +6,23 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 
 /**
  * This class helps in executing the Blockade Card
  *
  * @author Dhananjay
  */
-public class BlockadeOrder extends Order {
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+public class BlockadeOrder extends Order implements Serializable {
     /**
      * A Gamemap object
      */
     private final GameMap d_GameMap;
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor for class Blockade Order
@@ -37,11 +42,12 @@ public class BlockadeOrder extends Order {
     public boolean execute() {
         Player l_Player = getOrderInfo().getPlayer();
         Country l_Country = getOrderInfo().getTargetCountry();
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_Country.setArmies(l_Country.getArmies() * 3);
+            l_Country.addNeutralCountry(l_Country);
             l_Player.getCapturedCountries().remove(l_Country);
-            l_Country.setPlayer(null);
-            System.out.println("The order: " + getType() + " " + l_Country.getName());
             l_Player.removeCard(CardType.BLOCKADE);
             return true;
         }
@@ -60,18 +66,18 @@ public class BlockadeOrder extends Order {
 
         if (l_Player == null) {
             System.err.println("The Player is not valid.");
-            d_Leb.logInfo("The Player is not valid.");
+            d_Logger.log("The Player is not valid.");
             return false;
         }
 
         if (l_Country.getPlayer() != l_Player) {
             System.err.println("The target country does not belong to the player");
-            d_Leb.logInfo("The target country does not belong to the player");
+            d_Logger.log("The target country does not belong to the player");
             return false;
         }
         if (!l_Player.checkIfCardAvailable(CardType.BLOCKADE)) {
             System.err.println("Player doesn't have Blockade Card.");
-            d_Leb.logInfo("Player doesn't have Blockade Card.");
+            d_Logger.log("Player doesn't have Blockade Card.");
             return false;
         }
         return true;
@@ -82,9 +88,7 @@ public class BlockadeOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
-
+        d_Logger.log("Blockade on " + getOrderInfo().getTargetCountry().getName() + " by " + getOrderInfo().getPlayer().getName());
+        d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 }

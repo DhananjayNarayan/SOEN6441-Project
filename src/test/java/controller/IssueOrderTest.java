@@ -2,12 +2,9 @@ package controller;
 
 import model.GameMap;
 import model.GamePhase;
-import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * A class to check to test the Issue Order
@@ -55,7 +52,7 @@ public class IssueOrderTest {
      */
     @Test
     public void validateCommand() {
-        assertEquals(true, IssueOrder.ValidateCommand("deploy india 10", d_GameMap.getPlayer("Player1")));
-        assertEquals(false, IssueOrder.ValidateCommand("deploye india 10", d_GameMap.getPlayer("Player2")));
+        assert d_IssueOrder.validateCommand("deploy india 10", d_GameMap.getPlayer("Player1"));
+        assert !d_IssueOrder.validateCommand("deploye india 10", d_GameMap.getPlayer("Player2"));
     }
 }

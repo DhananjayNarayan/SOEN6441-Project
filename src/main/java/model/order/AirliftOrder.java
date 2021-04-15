@@ -6,17 +6,22 @@ import model.GameMap;
 import model.Player;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * This class gives the order to execute AirliftOrder, from one country to another.
  * @author Surya Manian
  */
-public class AirliftOrder extends Order {
-
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+public class AirliftOrder extends Order implements Serializable {
     /**
      * A data member to store the instance of the gamemap.
      */
     private final GameMap d_GameMap;
+
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Constructor class for Airlift Order
@@ -38,11 +43,11 @@ public class AirliftOrder extends Order {
         Country l_fromCountry = getOrderInfo().getDeparture();
         Country l_toCountry = getOrderInfo().getDestination();
         int p_armyNumberToAirLift = getOrderInfo().getNumberOfArmy();
-
+        d_Logger.log("---------------------------------------------------------------------------------------------");
+        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_fromCountry.setArmies(l_fromCountry.getArmies() - p_armyNumberToAirLift);
             l_toCountry.setArmies(l_toCountry.getArmies() + p_armyNumberToAirLift);
-            System.out.println("The order: " + getType() + " " + p_armyNumberToAirLift + " armies from "+l_fromCountry.getName()+" to "+l_toCountry.getName());
             l_Player.removeCard(CardType.AIRLIFT);
             return true;
         }
@@ -63,28 +68,28 @@ public class AirliftOrder extends Order {
 
         //check if the player is valid
         if (l_Player == null) {
-            System.out.println("The Player is not valid.");
+            d_Logger.log("The Player is not valid.");
             return false;
         }
         //check if the player has an airlift card
         if (!l_Player.checkIfCardAvailable(CardType.AIRLIFT)) {
-            System.out.println("Player doesn't have Airlift Card.");
+            d_Logger.log("Player doesn't have Airlift Card.");
             return false;
         }
         //check if countries belong to the player
         if (!l_Player.getCapturedCountries().contains(l_fromCountry) || !l_Player.getCapturedCountries().contains(l_toCountry)) {
-            System.out.println("Source or target country do not belong to the player.");
+            d_Logger.log("Source or target country do not belong to the player.");
             return false;
 
         }
         //check if army number is more than 0
         if (p_armyNumberToAirLift <= 0) {
-            System.out.println("The number of airlift army should be greater than 0");
+            d_Logger.log("The number of airlift army should be greater than 0");
             return false;
         }
         //check if army number is more that they own
         if (l_fromCountry.getArmies() < p_armyNumberToAirLift) {
-            System.out.println("Player has less no. of army in country " + getOrderInfo().getDeparture().getName());
+            d_Logger.log("Player has less no. of army in country " + getOrderInfo().getDeparture().getName());
             return false;
         }
         return true;
@@ -95,9 +100,7 @@ public class AirliftOrder extends Order {
      */
     @Override
     public void printOrderCommand() {
-        System.out.println("Airlifted " + getOrderInfo().getNumberOfArmy() + " armies from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
-        System.out.println("---------------------------------------------------------------------------------------------");
-        d_Leb.logInfo("Airlifted " + getOrderInfo().getNumberOfArmy() + " armies from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("Airlifted " + getOrderInfo().getNumberOfArmy() + " armies from " + getOrderInfo().getDeparture().getName() + " to " + getOrderInfo().getDestination().getName() + ".");
+        d_Logger.log("---------------------------------------------------------------------------------------------");
     }
 }
-

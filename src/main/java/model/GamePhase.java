@@ -1,6 +1,7 @@
 package model;
 
 import controller.*;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +44,17 @@ public enum GamePhase {
         @Override
         public GameController getController() {
             return new MapEditor();
+        }
+    },
+    LoadGame {
+        @Override
+        public List<GamePhase> possibleStates() {
+            return null;
+        }
+
+        @Override
+        public GameController getController() {
+            return new LoadGame();
         }
     },
 

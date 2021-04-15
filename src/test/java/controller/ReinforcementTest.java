@@ -3,6 +3,7 @@ package controller;
 import model.GameMap;
 import model.GamePhase;
 import model.Player;
+import model.strategy.player.PlayerStrategy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +18,26 @@ import static org.junit.Assert.assertTrue;
  * @author Prathika Suvarna
  */
 public class ReinforcementTest extends Player {
+    /**
+     * The next gamephase
+     */
     GamePhase d_NextGamePhase = GamePhase.IssueOrder;
+    /**
+     * The gamemap instance
+     */
     GameMap d_GameMap;
+    /**
+     * Reinforcement Object
+     */
     Reinforcement l_Reinforcement;
+
+    /**
+     * Constructor for Reinforcement Test class
+     */
+    public ReinforcementTest() {
+        super(PlayerStrategy.getStrategy("human"));
+    }
+
     /**
      * This method initializes the values for continents, countries and players
      * before execution of every test case

@@ -19,10 +19,10 @@ public class InvalidExecutionException extends Exception {
 
     /**
      *Exception Message
-     * @param message exception message
+     * @param p_Message exception message
      */
-    public InvalidExecutionException(String message) {
-        super(message);
+    public InvalidExecutionException(String p_Message) {
+        super(p_Message);
     }
 
     /**

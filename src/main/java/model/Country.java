@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Concrete Class to set and get all the properties of country.
  *
@@ -12,7 +14,7 @@ import java.util.Set;
  * @author Madhuvanthi Hemanathan
  * @author Prathika Suvarna
  */
-public class Country {
+public class Country implements Serializable {
     /**
      * A string to store the ID of the country
      */
@@ -41,7 +43,10 @@ public class Country {
      * A set of strings to store the neighbors name
      */
     private Set<String> d_NeighborsName;
-
+    /**
+     * A list of neutral countries
+     */
+    private final List<Country> d_NeutralCountries = new ArrayList<>();
     /**
      * Get the country ID
      *
@@ -134,11 +139,11 @@ public class Country {
     /**
      * deploy the armies for the player
      *
-     * @param p_armies number of armies to be deployed
+     * @param p_Armies number of armies to be deployed
      */
-    public void deployArmies(int p_armies) {
-
-        d_Armies += p_armies;
+    public void deployArmies(int p_Armies) {
+        p_Armies =Math.max(p_Armies, 0);
+        d_Armies += p_Armies;
     }
 
     /**
@@ -148,6 +153,7 @@ public class Country {
      */
     public void depleteArmies(int p_armies) {
         d_Armies -= p_armies;
+        d_Armies =Math.max(d_Armies, 0);
     }
 
     /**
@@ -156,7 +162,7 @@ public class Country {
      * @param p_Armies Number of armies for the country
      */
     public void setArmies(int p_Armies) {
-
+        p_Armies =Math.max(p_Armies, 0);
         this.d_Armies = p_Armies;
     }
 
@@ -242,5 +248,23 @@ public class Country {
             l_result += l_Neighbor.getName() + "-";
         }
         return l_result.length() > 0 ? l_result.substring(0, l_result.length() - 1) : "";
+    }
+
+    /**
+     * A function to return the list of neutral countries
+     * @return list of neutral countries
+     */
+    public List<Country> getNeutralCountries() {
+        return d_NeutralCountries;
+    }
+
+    /**
+     * A function to add a neutral country to the list
+     * @param p_NeutralCountry the neutral country to be added
+     */
+    public void addNeutralCountry(Country p_NeutralCountry) {
+        if (!d_NeutralCountries.contains(p_NeutralCountry)) {
+            d_NeutralCountries.add(p_NeutralCountry);
+        }
     }
 }

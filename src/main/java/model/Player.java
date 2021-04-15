@@ -3,8 +3,10 @@ package model;
 import controller.IssueOrder;
 import model.order.Order;
 import model.order.OrderCreater;
+import model.strategy.player.PlayerStrategy;
 import utils.logger.LogEntryBuffer;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,11 +21,18 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 
-public class Player {
+public class Player implements Serializable {
+
+    /**
+     * Player Strategy to create the commands
+     */
+    private final PlayerStrategy d_PlayerStrategy;
+
     /**
      * AN integer to store the ID of player
      */
     private int d_Id;
+
     /**
      * An integer to store the name of the player
      */
@@ -35,20 +44,54 @@ public class Player {
     /**
      * A deque to manage the list of orders
      */
-    private final Deque<Order> d_Orders = new ArrayDeque<>();
+    private Deque<Order> d_Orders = new ArrayDeque<>();
     /**
      * An integer to store the number of reinforcement armies
      */
     private int d_ReinforcementArmies;
+
+    /**
+     * the constructor for player class
+     *
+     * @param p_PlayerStrategy
+     */
+    public Player(PlayerStrategy p_PlayerStrategy) {
+        this.d_PlayerStrategy = p_PlayerStrategy;
+    }
+
+    /**
+     * method to get armies issued
+     *
+     * @return issues armies
+     */
+    public int getIssuedArmies() {
+        return d_ArmiesToIssue;
+    }
+
+    /**
+     * method to set the armies issued
+     * @param p_ArmiesToIssue armies to issue to player
+     */
+    public void setIssuedArmies(int p_ArmiesToIssue) {
+        d_ArmiesToIssue = p_ArmiesToIssue;
+    }
+
+    /**
+     * number of armies to issue
+     */
+    private int d_ArmiesToIssue = 0;
     /**
      * A list of cards for the player
      */
-    private final List<Card> d_PlayerCards = new ArrayList<>();
+    private List<Card> d_PlayerCards = new ArrayList<>();
     /**
      * A list of neutral players
      */
     private final List<Player> d_NeutralPlayers = new ArrayList<>();
-    LogEntryBuffer d_Leb = new LogEntryBuffer();
+    /**
+     * LogEntry Buffer
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * A function to get the player ID
@@ -114,16 +157,22 @@ public class Player {
     }
 
     /**
+     * method to set orders
+     * @param p_Orders the orders
+     */
+    public void setOrders(Deque<Order> p_Orders){
+        this.d_Orders = p_Orders;
+    }
+    /**
      * A function to add the orders to the issue order list
      *
      * @param p_Order The order to be added
      */
     public void addOrder(Order p_Order) {
-        d_Orders.add(p_Order);
+        this.d_Orders.add(p_Order);
     }
 
-    /**
-     * A function to get the reinforcement armies for each player
+    /**     * A function to get the reinforcement armies for each player
      *
      * @return armies assigned to player of type int
      */
@@ -171,9 +220,11 @@ public class Player {
 
     /**
      * A function to remove the all cards from the player
+     *
+     * @param p_Cards list of player cards
      */
-    public void removeCards() {
-        d_PlayerCards.clear();
+    public void setPlayerCards(List<Card> p_Cards) {
+        d_PlayerCards = p_Cards;
     }
 
     /**
@@ -221,6 +272,15 @@ public class Player {
     public void issueOrder() {
         Order l_Order = OrderCreater.CreateOrder(IssueOrder.Commands.split(" "), this);
         addOrder(l_Order);
+    }
+
+    /**
+     * A function to read all the commands from player
+     *
+     * @return command entered by the player
+     */
+    public String readFromPlayer() {
+        return this.d_PlayerStrategy.createCommand();
     }
 
 
@@ -276,8 +336,8 @@ public class Player {
         } else {
             setReinforcementArmies(3);
         }
-        System.out.println("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
-        d_Leb.logInfo("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_ArmiesToIssue = getReinforcementArmies();
+        d_Logger.log("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
     /**

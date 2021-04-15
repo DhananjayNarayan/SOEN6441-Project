@@ -1,5 +1,7 @@
 package model.order;
 
+import java.io.Serializable;
+
 /**
  * Concrete Class to manage the orders of the players
  *
@@ -10,7 +12,7 @@ package model.order;
  * @author Prathika Suvarna
  * @version 1.0.0
  */
-public abstract class Order {
+public abstract class Order implements Serializable {
     /**
      * A data member to strore the order type
      */
