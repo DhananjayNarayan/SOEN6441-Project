@@ -53,7 +53,7 @@ public class Player implements Serializable {
     /**
      * the constructor for player class
      *
-     * @param p_PlayerStrategy
+     * @param p_PlayerStrategy player strategy
      */
     public Player(PlayerStrategy p_PlayerStrategy) {
         this.d_PlayerStrategy = p_PlayerStrategy;
@@ -337,7 +337,7 @@ public class Player implements Serializable {
             setReinforcementArmies(3);
         }
         d_ArmiesToIssue = getReinforcementArmies();
-        d_Logger.log("The Player:" + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
+        d_Logger.log("The Player " + getName() + " is assigned with " + getReinforcementArmies() + " armies.");
     }
 
     /**

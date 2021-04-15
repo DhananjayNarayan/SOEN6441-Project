@@ -39,7 +39,6 @@ public class DeployOrder extends Order implements Serializable {
         Country l_Destination = getOrderInfo().getDestination();
         int l_ArmiesToDeploy = getOrderInfo().getNumberOfArmy();
         d_Logger.log("---------------------------------------------------------------------------------------------");
-        d_Logger.log(getOrderInfo().getCommand());
         if (validateCommand()) {
             l_Destination.deployArmies(l_ArmiesToDeploy);
             return true;

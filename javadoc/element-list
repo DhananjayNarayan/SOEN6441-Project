@@ -2,6 +2,8 @@ unnamed package
 controller
 model
 model.order
-model.strategy
+model.strategy.game
+model.strategy.player
+model.tournament
 utils
 utils.logger

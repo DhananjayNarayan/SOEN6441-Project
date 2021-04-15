@@ -16,8 +16,9 @@ public class LogEntryWriter implements Observer, Serializable {
      */
     private String l_Filename = "demo";
 
-
-
+    /**
+     * log entry writer
+     */
     public LogEntryWriter() {
         clearLogs();
     }
