@@ -11,19 +11,40 @@ import utils.logger.LogEntryBuffer;
 
 import java.util.*;
 
+/**
+ * class to implement single game engine
+ */
 public class SingleGameEngine implements Engine {
 
+    /**
+     * the logger observable
+     */
     private LogEntryBuffer d_Logger;
+    /**
+     * tournament options
+     */
     TournamentOptions d_Options;
+    /**
+     * list for tournament results
+     */
     List<TournamentResult> d_Results = new ArrayList<>();
+    /**
+     * current game map
+     */
     GameMap d_CurrentMap;
 
+    /**
+     * constructor for single game engine
+     */
     public SingleGameEngine() {
         d_Logger = LogEntryBuffer.getInstance();
         d_Options = new TournamentOptions();
         init();
     }
 
+    /**
+     * method for checking options
+     */
     public void init() {
         d_Options = getTournamentOptions();
         if (Objects.isNull(d_Options)) {
@@ -32,6 +53,10 @@ public class SingleGameEngine implements Engine {
         }
     }
 
+    /**
+     * method to check tournament options
+     * @return parsed command
+     */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     private TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
@@ -41,6 +66,11 @@ public class SingleGameEngine implements Engine {
         return parseCommand(l_TournamentCommand);
     }
 
+    /**
+     * method to parse command
+     * @param p_TournamentCommand the tournament command
+     * @return tournament options
+     */
     private TournamentOptions parseCommand(String p_TournamentCommand) {
         try {
             if (!p_TournamentCommand.isEmpty() &&
@@ -67,6 +97,10 @@ public class SingleGameEngine implements Engine {
         }
     }
 
+    /**
+     * start of the soingle game mode
+     * @throws ValidationException if it occurs
+     */
     public void start() throws ValidationException {
         String l_File = d_Options.getMap().get(0);
         d_CurrentMap = GameMap.newInstance();
@@ -97,6 +131,10 @@ public class SingleGameEngine implements Engine {
         System.out.printf("%15s %15s\n", l_Result.getMap(), l_Result.getWinner());
     }
 
+    /**
+     * method to set game phase
+     * @param p_GamePhase the game phase
+     */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     @Override
     public void setGamePhase(GamePhase p_GamePhase) {

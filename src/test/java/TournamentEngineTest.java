@@ -11,8 +11,14 @@ import static org.junit.Assert.assertNull;
  * @author Madhuvanthi Hemanathan
  */
 public class TournamentEngineTest extends TournamentEngine {
+    /**
+     * the game engine
+     */
     public static Engine d_Engine;
 
+    /**
+     * to start the tournament engine
+     */
     public TournamentEngineTest() {
         init();
     }
@@ -27,6 +33,9 @@ public class TournamentEngineTest extends TournamentEngine {
         d_Engine = new TournamentEngineTest();
     }
 
+    /**
+     * override of init method
+     */
     @Override
     public void init() {
 
