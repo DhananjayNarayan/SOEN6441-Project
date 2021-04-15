@@ -5,10 +5,12 @@ import model.Country;
 import model.GameMap;
 import model.Player;
 import model.order.*;
+import utils.logger.LogEntryBuffer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -25,7 +27,11 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
     /**
      * GameMap instance
      */
-    private static final GameMap d_GameMap = GameMap.getInstance();
+    private static GameMap d_GameMap;
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
 
     /**
      * Get a random player other than itself
@@ -69,8 +75,11 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
      * @return random country
      */
     protected Country getRandomConqueredCountry(Player p_Player) {
-        int l_Index = d_Random.nextInt(p_Player.getCapturedCountries().size());
-        return p_Player.getCapturedCountries().get(l_Index);
+        if (p_Player.getCapturedCountries().size() > 0) {
+            int l_Index = d_Random.nextInt(p_Player.getCapturedCountries().size());
+            return p_Player.getCapturedCountries().get(l_Index);
+        }
+        return null;
     }
 
     /**
@@ -92,29 +101,32 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
      * @return command, the orders on creation
      */
     public String createCommand() {
-        d_Player = GameMap.getInstance().getCurrentPlayer();
+        d_GameMap = GameMap.getInstance();
+        d_Player = d_GameMap.getCurrentPlayer();
         Order l_Order = null;
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
         //check if player can still play
-        int l_Random = d_Random.nextInt(7);
+        int l_Random = d_Random.nextInt(5);
+        Country l_RandomCountry = getRandomConqueredCountry(d_Player);
         switch (l_Random) {
             case 0:
-                l_Commands.add(0, "deploy");
-                l_Commands.add(1, getRandomConqueredCountry(d_Player).getName());
-                l_Commands.add(2, String.valueOf(d_Random.nextInt(d_Player.getReinforcementArmies())));
-                l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
-                l_Order = new DeployOrder();
-                l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
+                if (Objects.nonNull(l_RandomCountry)) {
+                    l_Commands.add(0, "deploy");
+                    l_Commands.add(1, l_RandomCountry.getName());
+                    l_Commands.add(2, String.valueOf(d_Random.nextInt(d_Player.getReinforcementArmies())));
+                    l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                    l_Order = new DeployOrder();
+                    l_Order.setOrderInfo(OrderCreater.GenerateDeployOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
+                }
                 break;
             case 1:
-                Country l_RandomConqueredCountry = getRandomConqueredCountry(d_Player);
-                Country l_RandomNeighbor = getRandomNeighbor(l_RandomConqueredCountry);
-                if (l_RandomNeighbor != null) {
+                Country l_RandomNeighbor = getRandomNeighbor(l_RandomCountry);
+                if (Objects.nonNull(l_RandomCountry) && Objects.nonNull(l_RandomNeighbor)) {
                     l_Commands.add(0, "advance");
-                    l_Commands.add(1, l_RandomConqueredCountry.getName());
+                    l_Commands.add(1, l_RandomCountry.getName());
                     l_Commands.add(2, l_RandomNeighbor.getName());
-                    l_Commands.add(3, String.valueOf(d_Random.nextInt(l_RandomConqueredCountry.getArmies() + 10)));
+                    l_Commands.add(3, String.valueOf(d_Random.nextInt(l_RandomCountry.getArmies() + 10)));
                     l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                     l_Order = new AdvanceOrder();
                     l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, getRandomPlayer(d_Player)));
@@ -127,11 +139,13 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
                 Card l_Card = d_Player.getPlayerCards().get(l_RandomCardIdx);
                 switch (l_Card.getCardType()) {
                     case BLOCKADE:
-                        l_Commands.add(0, "blockade");
-                        l_Commands.add(1, getRandomConqueredCountry(d_Player).getName());
-                        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
-                        l_Order = new BlockadeOrder();
-                        l_Order.setOrderInfo(OrderCreater.GenerateBlockadeOrderInfo(l_CommandsArr, d_Player));
+                        if (Objects.nonNull(l_RandomCountry)) {
+                            l_Commands.add(0, "blockade");
+                            l_Commands.add(1, l_RandomCountry.getName());
+                            l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                            l_Order = new BlockadeOrder();
+                            l_Order.setOrderInfo(OrderCreater.GenerateBlockadeOrderInfo(l_CommandsArr, d_Player));
+                        }
                         break;
                     case BOMB:
                         l_Commands.add(0, "bomb");
@@ -141,13 +155,17 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
                         l_Order.setOrderInfo(OrderCreater.GenerateBombOrderInfo(l_CommandsArr, d_Player));
                         break;
                     case AIRLIFT:
-                        l_Commands.add(0, "airlift");
-                        l_Commands.add(1, getRandomConqueredCountry(d_Player).getName());
-                        l_Commands.add(2, getRandomConqueredCountry(d_Player).getName());
-                        l_Commands.add(3, String.valueOf(d_Random.nextInt(10)));
-                        l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
-                        l_Order = new AirliftOrder();
-                        l_Order.setOrderInfo(OrderCreater.GenerateAirliftOrderInfo(l_CommandsArr, d_Player));
+                        Country l_FromCountry = getRandomConqueredCountry(d_Player);
+                        Country l_ToCountry = getRandomConqueredCountry(d_Player);
+                        if (Objects.nonNull(l_FromCountry) && Objects.nonNull(l_ToCountry)) {
+                            l_Commands.add(0, "airlift");
+                            l_Commands.add(1, l_FromCountry.getName());
+                            l_Commands.add(2, l_ToCountry.getName());
+                            l_Commands.add(3, String.valueOf(d_Random.nextInt(10)));
+                            l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                            l_Order = new AirliftOrder();
+                            l_Order.setOrderInfo(OrderCreater.GenerateAirliftOrderInfo(l_CommandsArr, d_Player));
+                        }
                         break;
                     case DIPLOMACY:
                         l_Commands.add(0, "negotiate");
@@ -162,6 +180,7 @@ public class RandomStrategy extends PlayerStrategy implements Serializable {
                 return "pass";
         }
         if (l_Order != null) {
+            d_Logger.log(String.format("%s issuing new command: %s", d_Player.getName(), l_Order.getOrderInfo().getCommand()));
             return l_Order.getOrderInfo().getCommand();
         }
         return "pass";
