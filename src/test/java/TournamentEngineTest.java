@@ -88,7 +88,7 @@ public class TournamentEngineTest extends TournamentEngine {
     /**
      * Check if Result of tournament is not null
      *
-     * @throws ValidationException
+     * @throws ValidationException validation exception
      */
     @Test
     public void checkValidResultOfTournament() throws ValidationException {

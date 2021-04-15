@@ -58,7 +58,6 @@ public class SingleGameEngine implements Engine {
      *
      * @return parsed command
      */
-    //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     private TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
         d_Logger.log("You are in Single Game Mode");
