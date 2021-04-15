@@ -1,4 +1,5 @@
 package model.strategy.player;
+
 import model.Player;
 
 /**
@@ -13,21 +14,13 @@ public abstract class PlayerStrategy {
     /**
      * Default constructor
      */
-    PlayerStrategy(){
+    PlayerStrategy() {
 
-    }
-
-    /**
-     * Player strategy constructor
-     *
-     * @param p_Player the Player object
-     */
-    PlayerStrategy(Player p_Player){
-        d_Player = p_Player;
     }
 
     /**
      * declaring abstract method
+     *
      * @return command
      */
     public abstract String createCommand();
@@ -42,23 +35,19 @@ public abstract class PlayerStrategy {
     public static PlayerStrategy getStrategy(String p_Strategy) {
         switch (p_Strategy) {
             case "human": {
-                return new HumanStrategy(d_Player);
+                return new HumanStrategy();
             }
-            case "random":
-            {
-                return new RandomStrategy(d_Player);
+            case "random": {
+                return new RandomStrategy();
             }
-            case "benevolent":
-            {
-                return new BenevolentStrategy(d_Player);
+            case "benevolent": {
+                return new BenevolentStrategy();
             }
-            case "aggressive":
-            {
-                return new AggressiveStrategy(d_Player);
+            case "aggressive": {
+                return new AggressiveStrategy();
             }
-            case "cheater":
-            {
-                return new CheaterStrategy(d_Player);
+            case "cheater": {
+                return new CheaterStrategy();
             }
         }
         throw new IllegalStateException("not a valid player type");

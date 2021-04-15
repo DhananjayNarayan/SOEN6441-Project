@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static utils.GameProgress.SaveGameProgress;
 
 /**
  *  A class to test all the functionalities in GameProgress saving and loading game
@@ -45,6 +46,9 @@ public class GameProgressTest {
         d_GameMap.addNeighbor("India", "Penguin");
         d_GameMap.addNeighbor("Penguin", "Melbourne");
         d_GameMap.addNeighbor("Melbourne", "Penguin");
+        d_GameMap.addPlayer("Player1");
+        d_GameMap.addPlayer("Player2");
+        d_GameMap.assignCountries();
     }
     /**
      * This method will be executed at the end of the test
@@ -63,7 +67,7 @@ public class GameProgressTest {
      */
     @Test
     public void saveGameProgress() {
-
+        assertEquals(true, SaveGameProgress(d_GameMap, "output"));
     }
 
     /**
