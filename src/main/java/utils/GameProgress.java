@@ -50,10 +50,7 @@ public class GameProgress {
             System.out.println("The game is loaded successfully will continue where it last stopped.");
             l_Os.close();
             return GameMap.getInstance().gamePlayBuilder(l_LoadedGameMap);
-        } catch (IOException | ClassNotFoundException p_Exception) {
-            System.out.println("The file could not be loaded.");
-            return GamePhase.StartUp;
-        } catch (ValidationException e) {
+        } catch (IOException | ClassNotFoundException | ValidationException p_Exception) {
             System.out.println("The file could not be loaded.");
             return GamePhase.StartUp;
         }

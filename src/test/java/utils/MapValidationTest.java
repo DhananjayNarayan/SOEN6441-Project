@@ -86,7 +86,7 @@ public class MapValidationTest {
      * @throws ValidationException if validation fails
      */
     @Test
-    public void checkIfContinentIsConnected() throws ValidationException {
+    public void checkIfContinentIsConnected(){
         assertTrue(MapValidation.checkIfContinentIsConnected(d_GameMap));
     }
 
