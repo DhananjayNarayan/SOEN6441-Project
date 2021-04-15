@@ -105,19 +105,13 @@ public class ExecuteOrder implements GameController {
                 return p_GamePhase.nextState(d_ExitGamePhase);
             }
         }
-        if(GameSettings.getInstance().MAX_TRIES > 0 ) {
-            if (d_GameMap.getTries() < GameSettings.getInstance().MAX_TRIES) {
-                return p_GamePhase.nextState(d_ReinforcementGamePhase);
-            } else {
-                return p_GamePhase.nextState(d_ExitGamePhase);
-            }
+
+        if (GameSettings.getInstance().MAX_TRIES > 0 && d_GameMap.getTries() >= GameSettings.getInstance().MAX_TRIES) {
+            d_GameMap.setGamePhase(d_ExitGamePhase);
+            return p_GamePhase.nextState(d_ExitGamePhase);
         }
-        if (GameSettings.getInstance().MAX_TRIES > 0 && d_GameMap.getTries() < GameSettings.getInstance().MAX_TRIES) {
-            d_GameMap.setGamePhase(d_ReinforcementGamePhase);
-            return p_GamePhase.nextState(d_ReinforcementGamePhase);
-        }
-        d_GameMap.setGamePhase(d_ExitGamePhase);
-        return p_GamePhase.nextState(d_ExitGamePhase);
+        d_GameMap.setGamePhase(d_ReinforcementGamePhase);
+        return p_GamePhase.nextState(d_ReinforcementGamePhase);
     }
 
 }
