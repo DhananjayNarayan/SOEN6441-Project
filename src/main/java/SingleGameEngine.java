@@ -1,5 +1,6 @@
 import model.GameMap;
 import model.GamePhase;
+import model.GameSettings;
 import model.Player;
 import model.strategy.player.PlayerStrategy;
 import model.tournament.TournamentOptions;
@@ -54,6 +55,7 @@ public class SingleGameEngine implements Engine {
 
     /**
      * method to check tournament options
+     *
      * @return parsed command
      */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
@@ -72,6 +74,7 @@ public class SingleGameEngine implements Engine {
 
     /**
      * method to parse command
+     *
      * @param p_TournamentCommand the tournament command
      * @return tournament options
      */
@@ -106,10 +109,12 @@ public class SingleGameEngine implements Engine {
 
     /**
      * start of the soingle game mode
+     *
      * @throws ValidationException if it occurs
      */
     public void start() throws ValidationException {
         String l_File = d_Options.getMap().get(0);
+        GameSettings.getInstance().MAX_TRIES = 30;
         d_CurrentMap = GameMap.newInstance();
         d_CurrentMap.flushGameMap();
         TournamentResult l_Result = new TournamentResult();
@@ -140,6 +145,7 @@ public class SingleGameEngine implements Engine {
 
     /**
      * method to set game phase
+     *
      * @param p_GamePhase the game phase
      */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3

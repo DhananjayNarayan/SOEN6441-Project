@@ -424,14 +424,15 @@ public class GameMap implements Serializable {
 
     /**
      * Saves map as a file, if valid with the specified name.
+     *
      * @param p_saveAsConquest to get user input
      * @throws ValidationException files exception of correctness
-     * @throws IOException files exception of correctness
+     * @throws IOException         files exception of correctness
      */
     public void saveMap(boolean p_saveAsConquest) throws ValidationException, IOException {
         //Ask p_size for minimum number of countries based on player
         if (MapValidation.validateMap(d_GameMap, 0)) {
-            DominationMap l_SaveMap = p_saveAsConquest ?  new Adapter(new Adaptee()) : new DominationMap();
+            DominationMap l_SaveMap = p_saveAsConquest ? new Adapter(new Adaptee()) : new DominationMap();
             boolean l_Bool = true;
             while (l_Bool) {
                 d_GameMap.getName();
@@ -574,6 +575,7 @@ public class GameMap implements Serializable {
 
     /**
      * method to set number of tries
+     *
      * @param p_Tries number of tries
      */
     public void setTries(int p_Tries) {
@@ -609,8 +611,8 @@ public class GameMap implements Serializable {
      * Builder for setting the progress
      *
      * @param p_GameMap instance
-     * @throws ValidationException Validation exception
      * @return GamePhase
+     * @throws ValidationException Validation exception
      */
     public GamePhase gamePlayBuilder(GameMap p_GameMap) throws ValidationException {
         this.flushGameMap();
@@ -648,7 +650,19 @@ public class GameMap implements Serializable {
      * @return instance of gamemap
      */
     public static GameMap newInstance() {
-        d_GameMap = new GameMap();
-        return d_GameMap;
+        GameMap l_GameMap = d_GameMap;
+        if (Objects.nonNull(l_GameMap)) {
+            l_GameMap.d_GamePhase = null;
+            l_GameMap.d_Name = "";
+            l_GameMap.d_ErrorMessage = "";
+            l_GameMap.d_Winner = null;
+            l_GameMap.d_Tries = 0;
+            l_GameMap.d_CurrentPlayer = null;
+            l_GameMap.d_GameLoaded = false;
+            l_GameMap.flushGameMap();
+            return d_GameMap;
+        } else {
+            return getInstance();
+        }
     }
 }

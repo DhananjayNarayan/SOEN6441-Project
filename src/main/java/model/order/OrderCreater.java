@@ -32,7 +32,7 @@ public class OrderCreater implements Serializable {
      * A function to create an order
      *
      * @param p_Commands the command entered
-     * @param p_Player object parameter of type Player
+     * @param p_Player   object parameter of type Player
      * @return the order
      */
     public static Order CreateOrder(String[] p_Commands, Player p_Player) {
@@ -86,7 +86,7 @@ public class OrderCreater implements Serializable {
         l_OrderInfo.setPlayer(p_Player);
         l_OrderInfo.setDestination(l_Country);
         l_OrderInfo.setNumberOfArmy(l_NumberOfArmies);
-        if(p_Player.getReinforcementArmies() > 0 ){
+        if (p_Player.getReinforcementArmies() > 0) {
             p_Player.setIssuedArmies(p_Player.getIssuedArmies() - l_NumberOfArmies);
         }
         return l_OrderInfo;
@@ -192,9 +192,9 @@ public class OrderCreater implements Serializable {
      * @param p_Commands the command entered
      * @return the string
      */
-    private static String ConvertToString(String[] p_Commands){
+    private static String ConvertToString(String[] p_Commands) {
         StringJoiner l_Joiner = new StringJoiner(" ");
-        for(int l_Index = 0; l_Index < p_Commands.length; l_Index++) {
+        for (int l_Index = 0; l_Index < p_Commands.length; l_Index++) {
             l_Joiner.add(p_Commands[l_Index]);
         }
         return l_Joiner.toString();

@@ -169,6 +169,7 @@ public class TournamentEngine implements Engine {
      * @param p_GamePhase the game phase
      */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
+    //tournament -M Australia.map,conaus.map -P aggressive,random,benevolent,cheater -G 5 -D 50
     @Override
     public void setGamePhase(GamePhase p_GamePhase) {
 
