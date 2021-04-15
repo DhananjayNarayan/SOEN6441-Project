@@ -62,8 +62,11 @@ public class TournamentEngine implements Engine {
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     public TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
+        d_Logger.log("-----------------------------------------------------------------------------------------");
         d_Logger.log("You are in Tournament Mode");
-        d_Logger.log("enter the tournament command");
+        d_Logger.log("Enter the tournament command:");
+        d_Logger.log("Sample Command: tournament -M Map1.map,Map2.map -P strategy1,strategy2 -G noOfGames -D noOfTurns");
+        d_Logger.log("-----------------------------------------------------------------------------------------");
         String l_TournamentCommand = l_Scanner.nextLine();
         d_Options = parseCommand(l_TournamentCommand);
         if (Objects.isNull(d_Options)) {
@@ -157,10 +160,17 @@ public class TournamentEngine implements Engine {
             }
         }
 
-        for (TournamentResult l_Result : d_Results) {
-            System.out.printf("%15s %15s\n", l_Result.getMap(), l_Result.getWinner());
-        }
+        String l_Table = "|%-15s|%-28s|%-19s|%n";
+        System.out.format("+--------------+-----------------------+-------------------------+%n");
+        System.out.format("|     Map      | Winner                     |   Game Number      |%n");
+        System.out.format("+--------------+-----------------------+-------------------------+%n");
 
+        for (TournamentResult l_Result : d_Results) {
+
+            System.out.format(l_Table, l_Result.getMap(), l_Result.getWinner(), l_Result.getGame() );
+
+        }
+        System.out.format("+--------------+-----------------------+-------------------------+%n");
     }
 
     /**

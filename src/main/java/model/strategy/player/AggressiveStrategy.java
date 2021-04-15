@@ -140,26 +140,9 @@ public class AggressiveStrategy extends PlayerStrategy implements Serializable {
                 d_Player.issueOrder();
                 flag = true;
             }
-//            if (Objects.isNull(l_FromCountry) || sum < (l_FromCountry.getArmies() + l_Country.getArmies())) {
-//                l_FromCountry = l_Country;
-//                l_ToCountry = l_EnemyCountry;
-//            }
         }
 
-//        if (Objects.nonNull(l_FromCountry) && Objects.nonNull(l_ToCountry) && l_FromCountry.getArmies() > 0) {
-//            List<String> l_Commands = new ArrayList<>();
-//            l_Commands.add(0, "advance");
-//            l_Commands.add(1, l_FromCountry.getName());
-//            l_Commands.add(2, l_ToCountry.getName());
-//            l_Commands.add(3, String.valueOf(l_FromCountry.getArmies()));
-//            String[] l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
-//            Order l_Order = new AdvanceOrder();
-//            l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
-//            IssueOrder.Commands = l_Order.getOrderInfo().getCommand();
-//            d_Logger.log(String.format("%s issuing new command: %s", d_Player.getName(), IssueOrder.Commands));
-//            d_Player.issueOrder();
-//            return true;
-//        }
+
         return flag;
     }
 
