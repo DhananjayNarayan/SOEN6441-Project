@@ -14,6 +14,7 @@ import java.util.Objects;
  *
  * @author Dhananjay Narayan
  * @author Surya Manian
+ * @author Madhuvanthi
  */
 public class LogEntryBuffer implements Observable, Serializable {
     /**
