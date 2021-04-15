@@ -9,6 +9,9 @@ import model.Player;
  * @version 1.0.0
  */
 public abstract class PlayerStrategy {
+    /**
+     * player
+     */
     static Player d_Player;
 
     /**

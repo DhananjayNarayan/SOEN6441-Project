@@ -50,18 +50,35 @@ public class Player implements Serializable {
      */
     private int d_ReinforcementArmies;
 
+    /**
+     * the constructor for player class
+     *
+     * @param p_PlayerStrategy
+     */
     public Player(PlayerStrategy p_PlayerStrategy) {
         this.d_PlayerStrategy = p_PlayerStrategy;
     }
 
+    /**
+     * method to get armies issued
+     *
+     * @return issues armies
+     */
     public int getIssuedArmies() {
         return d_ArmiesToIssue;
     }
 
+    /**
+     * method to set the armies issued
+     * @param p_ArmiesToIssue armies to issue to player
+     */
     public void setIssuedArmies(int p_ArmiesToIssue) {
         d_ArmiesToIssue = p_ArmiesToIssue;
     }
 
+    /**
+     * number of armies to issue
+     */
     private int d_ArmiesToIssue = 0;
     /**
      * A list of cards for the player
@@ -139,6 +156,10 @@ public class Player implements Serializable {
         return d_Orders;
     }
 
+    /**
+     * method to set orders
+     * @param p_Orders the orders
+     */
     public void setOrders(Deque<Order> p_Orders){
         this.d_Orders = p_Orders;
     }
