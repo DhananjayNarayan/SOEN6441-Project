@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class Card {
     /**
-     * Data member to hold card type
+     * Data member to hold cardtype
      */
     private CardType d_CardType;
 

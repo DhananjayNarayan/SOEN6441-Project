@@ -1,10 +1,7 @@
 import controller.ExecuteOrderTest;
 import controller.IssueOrderTest;
 import controller.ReinforcementTest;
-import model.ContinentTest;
-import model.CountryTest;
-import model.GameMapTest;
-import model.PlayerTest;
+import model.*;
 import model.order.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -25,7 +22,7 @@ import utils.MapValidationTest;
         IssueOrderTest.class, ReinforcementTest.class, ExecuteOrderTest.class,
         AirliftOrderTest.class, BlockadeOrderTest.class, DeployOrderTest.class, NegotiateOrderTest.class, AdvanceOrderTest.class, BombOrderTest.class,
         ContinentTest.class, CountryTest.class, GameMapTest.class, PlayerTest.class,
-        MapValidationTest.class, GameProgressTest.class, TournamentEngineTest.class})
+        MapValidationTest.class, GameProgressTest.class, GameEngineTest.class, GamePhaseTest.class, TournamentEngineTest.class})
 
 /**
  * A class for test suites
