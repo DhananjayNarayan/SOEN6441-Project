@@ -7,14 +7,19 @@ import utils.logger.LogEntryBuffer;
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * Domination class
+ * @author Surya
+ * @author Neona
+ * @version 1.0.0
+ */
 public class DominationMap {
     /**
      * Logger Observable
      */
     private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
     /**
-     * cuurent line
+     * current line
      */
     private String d_CurrentLine;
     /**

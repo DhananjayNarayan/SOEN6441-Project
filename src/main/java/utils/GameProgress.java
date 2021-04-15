@@ -30,6 +30,7 @@ public class GameProgress {
      *
      * @param p_GameMap instance of the game
      * @param p_Name file name
+     * @return true is successful else false
      */
     public static boolean SaveGameProgress(GameMap p_GameMap, String p_Name){
         try {
@@ -69,6 +70,11 @@ public class GameProgress {
         }
     }
 
+    /**
+     * A function to show the files
+     *
+     * @throws IOException File exception
+     */
     public static void showFiles() throws IOException {
         d_Logger.log("==================================");
         d_Logger.log("\t\t\t Warzone");

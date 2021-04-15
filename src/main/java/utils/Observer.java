@@ -14,5 +14,8 @@ public interface Observer {
      */
     void update(String p_S);
 
+    /**
+     * clear all logs
+     */
     void clearLogs();
 }
