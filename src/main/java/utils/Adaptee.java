@@ -18,7 +18,10 @@ import java.util.stream.Collectors;
  *
  */
 public class Adaptee {
-
+    /**
+     * Logger Observable
+     */
+    private LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
     /**
      * Loads a map from a given file and returns it.
      * Note that attributes not used by this game are ignored and not loaded.
@@ -29,12 +32,15 @@ public class Adaptee {
      * @throws ValidationException file exception
      */
     public void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
+        d_Logger.clear();
+        d_Logger.log("Conquest map is loaded \n");
         /**
          *
          */
         try {
             p_GameMap.flushGameMap();
             File l_File = new File("maps/" + p_FileName);
+
             FileReader l_FileReader = new FileReader(l_File);
             Map<String, List<String>> l_MapFileContents = new HashMap<>();
             String l_CurrentKey = "";
@@ -50,6 +56,7 @@ public class Adaptee {
                     }
                 }
             }
+
             readContinentsFromFile(p_GameMap, l_MapFileContents.get("Continents"));
             Map<String, List<String>> l_CountryNeighbors = readCountriesFromFile(p_GameMap, l_MapFileContents.get("Territories"));
             addNeighborsFromFile(p_GameMap, l_CountryNeighbors);
