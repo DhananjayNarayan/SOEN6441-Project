@@ -45,7 +45,7 @@ public class DominationMap {
      */
     public void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
         d_Logger.clear();
-        d_Logger.log("Reading Map \n");
+        d_Logger.log("Domination map is loaded \n");
         try {
             p_GameMap.flushGameMap();
             File l_File = new File("maps/" + p_FileName);

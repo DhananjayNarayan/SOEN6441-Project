@@ -97,23 +97,26 @@ public class AdvanceOrder extends Order implements Serializable {
         boolean success = true;
         String log = "Failed due to some errors\n";
         if (l_Player == null || l_To == null || l_From == null) {
-            System.err.println("Invalid order information.");
+            System.out.println("Invalid order information.");
             return false;
         }
         if (!l_Player.isCaptured(l_From)) {
-            log += String.format("\t-> Country %s does not belong to player %s\n", l_From.getName(), l_Player.getName());
+            System.out.format("Failed due to this error-\n");
+            System.out.format("\t-> Country %s does not belong to player %s\n", l_From.getName(), l_Player.getName());
             success = false;
         }
         if (!l_From.isNeighbor(l_To)) {
-            log += String.format("\t-> Destination country %s is not a neighbor of %s\n", l_To.getName(), l_From.getName());
+            System.out.println("Failed due to this error-\n");
+            System.out.format("\t-> Destination country %s is not a neighbor of %s\n", l_To.getName(), l_From.getName());
             success = false;
         }
         if (l_Armies > l_From.getArmies()) {
-            log += String.format("\t-> Attacking troop count %d is greater than available troops %d", l_Armies, l_From.getArmies());
+            System.out.println("Failed due to this error-\n");
+            System.out.format("\t-> Attacking troop count %d is greater than available troops %d", l_Armies, l_From.getArmies());
+
             success = false;
         }
         if (!success) {
-            System.err.println(log);
             d_Logger.log(log);
         }
         return success;

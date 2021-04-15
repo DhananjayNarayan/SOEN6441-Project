@@ -2,11 +2,11 @@ import model.GamePhase;
 import utils.logger.ConsoleWriter;
 import utils.logger.LogEntryBuffer;
 import utils.logger.LogEntryWriter;
+
 import java.util.Scanner;
 
 /**
  * Class to implement the game
- *
  */
 public class Game {
     /**
@@ -23,6 +23,13 @@ public class Game {
     private GamePhase d_GamePhase;
 
     /**
+     * Default Constructor
+     */
+    public Game() {
+        d_Logger.addObserver(new LogEntryWriter());
+        d_Logger.addObserver(new ConsoleWriter());
+    }
+    /**
      * method to implement main class to start game
      *
      * @param args the arguments
@@ -38,8 +45,6 @@ public class Game {
      * @throws Exception when it occurs
      */
     public void start() throws Exception {
-        d_Logger.addObserver(new LogEntryWriter());
-        d_Logger.addObserver(new ConsoleWriter());
         Scanner l_Scanner = new Scanner(System.in);
         d_Logger.log("");
         d_Logger.log("==================================");
@@ -55,29 +60,37 @@ public class Game {
         d_Logger.log("\t=======================");
         d_Logger.log("\t\tSelect the option");
         d_Logger.log("==================================");
-        int option = l_Scanner.nextInt();
-        d_Engine = new GameEngine();
-        switch (option) {
-            case 1: {
-                d_GamePhase = GamePhase.MapEditor;
-                break;
+        try {
+            int option = l_Scanner.nextInt();
+            d_Engine = new GameEngine();
+            switch (option) {
+                case 1: {
+                    d_GamePhase = GamePhase.MapEditor;
+                    break;
+                }
+                case 2: {
+                    d_GamePhase = GamePhase.LoadGame;
+                    break;
+                }
+                case 3: {
+                    d_Engine = new SingleGameEngine();
+                    break;
+                }
+                case 4: {
+                    d_Engine = new TournamentEngine();
+                    break;
+                }
+                case 5: {
+                    d_GamePhase = GamePhase.ExitGame;
+                    break;
+                }
+                default: {
+                    throw new Exception();
+                }
             }
-            case 2: {
-                d_GamePhase = GamePhase.LoadGame;
-                break;
-            }
-            case 3: {
-                d_Engine = new SingleGameEngine();
-                break;
-            }
-            case 4: {
-                d_Engine = new TournamentEngine();
-                break;
-            }
-            case 5: {
-                d_GamePhase = GamePhase.ExitGame;
-                break;
-            }
+        } catch (Exception p_Exception) {
+            d_Logger.log("\nPlease choose the correct option number");
+            start();
         }
         d_Engine.setGamePhase(d_GamePhase);
         d_Engine.start();

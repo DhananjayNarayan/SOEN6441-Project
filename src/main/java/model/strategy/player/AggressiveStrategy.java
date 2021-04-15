@@ -97,40 +97,53 @@ public class AggressiveStrategy extends PlayerStrategy implements Serializable {
                 break;
             }
         }
-
-        Country fromCountry = orderedList.get(0);
-        Country toCountry = fromCountry.getNeighbors()
-                .stream()
-                .filter(country -> !d_Player.getName().equals(country.getPlayer().getName()))
-                .findFirst().orElse(null);
-
-        if (Objects.nonNull(fromCountry) && Objects.nonNull(toCountry)) {
-            List<String> l_Commands = new ArrayList<>();
-            if (flag) {
+        if (flag) {
+            Country l_EnemyWithHighTroops = d_Player.getCapturedCountries().stream()
+                    .flatMap(country -> country.getNeighbors().stream())
+                    .filter(country -> !d_Player.getName().equals(country.getPlayer().getName()))
+                    .max(Comparator.comparingInt(Country::getArmies))
+                    .orElse(null);
+            if (Objects.nonNull(l_EnemyWithHighTroops)) {
+                List<String> l_Commands = new ArrayList<>();
                 l_Commands.add(0, "bomb");
-                l_Commands.add(1, toCountry.getName());
-                String[] l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
+                l_Commands.add(1, l_EnemyWithHighTroops.getName());
+                String[] l_CommandsArr = l_Commands.toArray(new String[0]);
                 Order l_Order = new BombOrder();
                 l_Order.setOrderInfo(OrderCreater.GenerateBombOrderInfo(l_CommandsArr, d_Player));
                 IssueOrder.Commands = l_Order.getOrderInfo().getCommand();
                 d_Logger.log(String.format("%s issuing new command: %s", d_Player.getName(), IssueOrder.Commands));
                 d_Player.issueOrder();
                 return true;
-            } else if (fromCountry.getArmies() > 0) {
+            }
+        }
+        flag = false;
+        Country l_FromCountry = null;
+        Country l_ToCountry = null;
+        for (Country l_Country : orderedList) {
+            l_FromCountry = l_Country;
+            Country l_EnemyCountry = l_Country.getNeighbors()
+                    .stream()
+                    .filter(country -> !d_Player.getName().equals(country.getPlayer().getName()))
+                    .findFirst().orElse(null);
+            l_ToCountry = l_EnemyCountry;
+            if (Objects.nonNull(l_EnemyCountry) && l_FromCountry.getArmies() > 0) {
+                List<String> l_Commands = new ArrayList<>();
                 l_Commands.add(0, "advance");
-                l_Commands.add(1, fromCountry.getName());
-                l_Commands.add(2, toCountry.getName());
-                l_Commands.add(3, String.valueOf(fromCountry.getArmies()));
+                l_Commands.add(1, l_FromCountry.getName());
+                l_Commands.add(2, l_ToCountry.getName());
+                l_Commands.add(3, String.valueOf(l_FromCountry.getArmies()));
                 String[] l_CommandsArr = l_Commands.toArray(new String[l_Commands.size()]);
                 Order l_Order = new AdvanceOrder();
                 l_Order.setOrderInfo(OrderCreater.GenerateAdvanceOrderInfo(l_CommandsArr, d_Player));
                 IssueOrder.Commands = l_Order.getOrderInfo().getCommand();
                 d_Logger.log(String.format("%s issuing new command: %s", d_Player.getName(), IssueOrder.Commands));
                 d_Player.issueOrder();
-                return true;
+                flag = true;
             }
         }
-        return false;
+
+
+        return flag;
     }
 
 
@@ -145,17 +158,7 @@ public class AggressiveStrategy extends PlayerStrategy implements Serializable {
         if (fromCountry.getArmies() <= 0) {
             return false;
         }
-        List<Country> l_NeighborsWithEnemies = fromCountry.getNeighbors().stream()
-                .takeWhile(country -> {
-                    Long count = country.getNeighbors().stream()
-                            .filter(country1 -> !country.getPlayer().getName().equals(country1.getPlayer().getName()))
-                            .count();
-                    if (count > 0) {
-                        return true;
-                    }
-                    return false;
-                }).collect(Collectors.toList());
-
+        List<Country> l_NeighborsWithEnemies = getNeighborsWithEnemies(fromCountry);
         Country toCountry = l_NeighborsWithEnemies.stream().max(Comparator.comparingInt(Country::getArmies)).orElse(null);
         if (Objects.nonNull(fromCountry) && Objects.nonNull(toCountry)) {
             List<String> l_Commands = new ArrayList<>();
@@ -172,6 +175,19 @@ public class AggressiveStrategy extends PlayerStrategy implements Serializable {
             return true;
         }
         return false;
+    }
+
+    private List<Country> getNeighborsWithEnemies(Country p_FromCountry) {
+        return p_FromCountry.getNeighbors().stream()
+                .takeWhile(country -> {
+                    Long count = country.getNeighbors().stream()
+                            .filter(country1 -> !country.getPlayer().getName().equals(country1.getPlayer().getName()))
+                            .count();
+                    if (count > 0) {
+                        return true;
+                    }
+                    return false;
+                }).collect(Collectors.toList());
     }
 
 }
