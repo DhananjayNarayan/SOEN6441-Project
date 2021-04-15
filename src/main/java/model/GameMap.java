@@ -350,7 +350,7 @@ public class GameMap implements Serializable {
             throw new ValidationException("Atleast one of the mentioned Countries does not exist");
         }
         l_Country1.getNeighbors().add(l_Country2);
-        d_Logger.log(String.format("Successfully connected routes between mentioned Countries: %s - %s\n", p_CountryName, p_NeighborCountryName));
+        d_Logger.log(String.format("Successfully connected routes between mentioned Countries: %s - %s", p_CountryName, p_NeighborCountryName));
     }
 
 
