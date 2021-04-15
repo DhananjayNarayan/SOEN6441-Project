@@ -67,7 +67,7 @@ public class GameProgressTest {
      */
     @Test
     public void saveGameProgress() {
-        assertEquals(true, SaveGameProgress(d_GameMap, "output"));
+        assertEquals(true, SaveGameProgress(d_GameMap, "testsuccess"));
     }
 
     /**
@@ -75,7 +75,7 @@ public class GameProgressTest {
      */
     @Test
     public void saveGameProgressFail() {
-        assertEquals(false, SaveGameProgress(null, "output"));
+        assertEquals(false, SaveGameProgress(null, "nullGamemap"));
     }
 
 
