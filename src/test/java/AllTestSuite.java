@@ -8,6 +8,8 @@ import model.PlayerTest;
 import model.order.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import utils.GameProgress;
+import utils.GameProgressTest;
 import utils.MapValidationTest;
 
 
@@ -23,7 +25,7 @@ import utils.MapValidationTest;
         IssueOrderTest.class, ReinforcementTest.class, ExecuteOrderTest.class,
         AirliftOrderTest.class, BlockadeOrderTest.class, DeployOrderTest.class, NegotiateOrderTest.class, AdvanceOrderTest.class, BombOrderTest.class,
         ContinentTest.class, CountryTest.class, GameMapTest.class, PlayerTest.class,
-        MapValidationTest.class})
+        MapValidationTest.class, GameProgressTest.class})
 
 /**
  * A class for test suites

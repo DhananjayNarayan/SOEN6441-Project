@@ -71,6 +71,15 @@ public class GameProgressTest {
     }
 
     /**
+     * savegame progress test case
+     */
+    @Test
+    public void saveGameProgressFail() {
+        assertEquals(false, SaveGameProgress(null, "output"));
+    }
+
+
+    /**
      * incorrect file name while loading
      */
     @Test
