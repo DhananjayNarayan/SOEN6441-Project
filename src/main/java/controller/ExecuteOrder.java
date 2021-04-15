@@ -53,7 +53,6 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
-//        d_Logger.log("\nEXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
         return checkIfPlayerWonOrTriesExhausted(p_GamePhase);
@@ -66,8 +65,8 @@ public class ExecuteOrder implements GameController {
         int l_Counter = 0;
         while (l_Counter < d_GameMap.getPlayers().size()) {
             l_Counter = 0;
-            for (Player player : d_GameMap.getPlayers().values()) {
-                Order l_Order = player.nextOrder();
+            for (Player l_Player : d_GameMap.getPlayers().values()) {
+                Order l_Order = l_Player.nextOrder();
                 if (l_Order == null) {
                     l_Counter++;
                 } else {
