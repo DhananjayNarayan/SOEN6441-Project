@@ -2,7 +2,6 @@ import model.GameMap;
 import model.GamePhase;
 import model.GameSettings;
 import model.Player;
-import model.strategy.game.GameStrategy;
 import model.strategy.player.PlayerStrategy;
 import model.tournament.TournamentOptions;
 import model.tournament.TournamentResult;
@@ -15,14 +14,22 @@ import java.util.*;
 
 public class TournamentEngine implements Engine {
 
-    private final LogEntryBuffer d_Logger;
+    private LogEntryBuffer d_Logger;
     TournamentOptions d_Options;
     List<TournamentResult> d_Results = new ArrayList<>();
     GameMap d_CurrentMap;
 
     public TournamentEngine() {
         d_Logger = LogEntryBuffer.getInstance();
+        init();
+    }
+
+    public void init() {
         d_Options = getTournamentOptions();
+        if (Objects.isNull(d_Options)) {
+            d_Logger.log("re enter command");
+            init();
+        }
     }
 
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
@@ -49,8 +56,15 @@ public class TournamentEngine implements Engine {
                 for (String l_Strategy : l_PlayerTypes.split(",")) {
                     d_Options.getPlayerStrategies().add(PlayerStrategy.getStrategy(l_Strategy));
                 }
-                d_Options.setGames(Integer.parseInt(l_GameCount));
-                d_Options.setMaxTries(Integer.parseInt(l_maxTries));
+                int l_NumOfGames = Integer.parseInt(l_GameCount);
+                int l_NumofTurns = Integer.parseInt(l_maxTries);
+                if (l_NumOfGames > 0 && l_NumOfGames <= 5 && l_NumofTurns > 0 && l_NumofTurns <= 50) {
+                    d_Options.setGames(l_NumOfGames);
+                    d_Options.setMaxTries(l_NumofTurns);
+                } else {
+                    d_Logger.log("Give correct number of games and turns");
+                    return null;
+                }
             }
             return d_Options;
         } catch (Exception e) {
@@ -93,7 +107,7 @@ public class TournamentEngine implements Engine {
         }
 
         for (TournamentResult l_Result : d_Results) {
-            System.out.printf("%15s%15s", l_Result.getMap(), l_Result.getWinner());
+            System.out.printf("%15s %15s\n", l_Result.getMap(), l_Result.getWinner());
         }
 
     }
