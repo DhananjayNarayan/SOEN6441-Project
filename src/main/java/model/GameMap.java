@@ -2,11 +2,10 @@ package model;
 
 import model.order.Order;
 import model.strategy.player.PlayerStrategy;
-import utils.MapValidation;
-import utils.SaveMap;
-import utils.ValidationException;
+import utils.*;
 import utils.logger.LogEntryBuffer;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -417,20 +416,21 @@ public class GameMap implements Serializable {
 
     /**
      * Saves map as a file, if valid with the specified name.
-     *
-     * @throws ValidationException if any input/output issue.
+     * @param p_saveAsConquest to get user input
+     * @throws ValidationException files exception of correctness
+     * @throws IOException files exception of correctness
      */
-    public void saveMap() throws ValidationException {
+    public void saveMap(boolean p_saveAsConquest) throws ValidationException, IOException {
         //Ask p_size for minimum number of countries based on player
         if (MapValidation.validateMap(d_GameMap, 0)) {
-            SaveMap l_SaveMap = new SaveMap();
+            DominationMap l_SaveMap = p_saveAsConquest ?  new Adapter(new Adaptee()) : new DominationMap();
             boolean l_Bool = true;
             while (l_Bool) {
                 d_GameMap.getName();
                 if (Objects.isNull(d_GameMap.getName()) || d_GameMap.getName().isEmpty()) {
                     throw new ValidationException("Please enter the file name:");
                 } else {
-                    if (l_SaveMap.saveMapIntoFile(d_GameMap, d_GameMap.getName())) {
+                    if (l_SaveMap.saveMap(d_GameMap, d_GameMap.getName())) {
                         d_Logger.log("The map has been validated and is saved.");
                     } else {
                         throw new ValidationException("Map name already exists, enter different name.");
