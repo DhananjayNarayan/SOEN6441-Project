@@ -563,25 +563,46 @@ public class GameMap implements Serializable {
 
     }
 
-
+    /**
+     * method to get tries
+     *
+     * @return number of tries
+     */
     public int getTries() {
         return d_Tries;
     }
 
-    public void setTries(int p_tries) {
-        d_Tries = p_tries;
+    /**
+     * method to set number of tries
+     * @param p_Tries number of tries
+     */
+    public void setTries(int p_Tries) {
+        d_Tries = p_Tries;
     }
 
+    /**
+     * method to to go to next turn
+     */
     public void nextTry() {
         d_Tries++;
     }
 
+    /**
+     * method to get winner
+     *
+     * @return the winner
+     */
     public Player getWinner() {
         return d_Winner;
     }
 
-    public void setWinner(Player p_winner) {
-        d_Winner = p_winner;
+    /**
+     * method to set winner
+     *
+     * @param p_Winner the winner
+     */
+    public void setWinner(Player p_Winner) {
+        d_Winner = p_Winner;
     }
 
     /**

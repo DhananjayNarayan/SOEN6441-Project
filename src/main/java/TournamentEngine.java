@@ -9,21 +9,43 @@ import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
-
 import java.util.*;
 
+/**
+ * Class to implement the tournament mode game
+ *
+ * @author Madhuvanthi
+ *
+ */
 public class TournamentEngine implements Engine {
-
+    /**
+     * logger observable
+     */
     private LogEntryBuffer d_Logger;
+    /**
+     * Tournament options variable
+     */
     TournamentOptions d_Options;
+    /**
+     *  List to hold the tournament results
+     */
     List<TournamentResult> d_Results = new ArrayList<>();
+    /**
+     * game map instace
+     */
     GameMap d_CurrentMap;
 
+    /**
+     * default constructor
+     */
     public TournamentEngine() {
         d_Logger = LogEntryBuffer.getInstance();
         init();
     }
 
+    /**
+     * method to check if object is null
+     */
     public void init() {
         d_Options = getTournamentOptions();
         if (Objects.isNull(d_Options)) {
@@ -32,6 +54,11 @@ public class TournamentEngine implements Engine {
         }
     }
 
+    /**
+     * Method to read the tournament command
+     *
+     * @return parsed command
+     */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     private TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
@@ -41,6 +68,12 @@ public class TournamentEngine implements Engine {
         return parseCommand(l_TournamentCommand);
     }
 
+    /**
+     * method to parse the tournament command
+     *
+     * @param p_TournamentCommand the tournament command
+     * @return tournament options
+     */
     private TournamentOptions parseCommand(String p_TournamentCommand) {
         try {
             d_Options = new TournamentOptions();
@@ -74,6 +107,11 @@ public class TournamentEngine implements Engine {
         }
     }
 
+    /**
+     * the start method to start the tournamend mode
+     *
+     * @throws ValidationException if exception occurs
+     */
     public void start() throws ValidationException {
         for (String l_File : d_Options.getMap()) {
             for (int l_game = 1; l_game <= d_Options.getGames(); l_game++) {
@@ -112,6 +150,11 @@ public class TournamentEngine implements Engine {
 
     }
 
+    /**
+     * Overrided method to set the game phase
+     *
+     * @param p_GamePhase the game phase
+     */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     @Override
     public void setGamePhase(GamePhase p_GamePhase) {

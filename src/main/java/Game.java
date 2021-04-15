@@ -2,18 +2,41 @@ import model.GamePhase;
 import utils.logger.ConsoleWriter;
 import utils.logger.LogEntryBuffer;
 import utils.logger.LogEntryWriter;
-
 import java.util.Scanner;
 
+/**
+ * Class to implement the game
+ *
+ */
 public class Game {
+    /**
+     * game engine
+     */
     private Engine d_Engine;
+    /**
+     * logger observable
+     */
     private final LogEntryBuffer d_Logger = LogEntryBuffer.getInstance();
+    /**
+     * game phase
+     */
     private GamePhase d_GamePhase;
 
+    /**
+     * method to implement main class to start game
+     *
+     * @param args the arguments
+     * @throws Exception if it occurs
+     */
     public static void main(String[] args) throws Exception {
         new Game().start();
     }
 
+    /**
+     * method which starts each phase in the game
+     *
+     * @throws Exception when it occurs
+     */
     public void start() throws Exception {
         d_Logger.addObserver(new LogEntryWriter());
         d_Logger.addObserver(new ConsoleWriter());
