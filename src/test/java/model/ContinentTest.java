@@ -11,8 +11,17 @@ import static org.junit.Assert.*;
  */
 public class ContinentTest extends Continent{
 
+    /**
+     * ID of continent
+     */
     String d_Id;
+    /**
+     * Name of Continent
+     */
     String d_Name;
+    /**
+     * Continent Object
+     */
     Continent d_Continent = new Continent();
 
     /**
