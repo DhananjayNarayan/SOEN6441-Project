@@ -5,9 +5,7 @@ import model.Player;
 import model.strategy.player.PlayerStrategy;
 import model.tournament.TournamentOptions;
 import model.tournament.TournamentResult;
-import utils.MapReader;
-import utils.MapValidation;
-import utils.ValidationException;
+import utils.*;
 import utils.logger.LogEntryBuffer;
 
 import java.util.*;
@@ -93,7 +91,7 @@ public class TournamentEngine implements Engine {
                 String l_GameCount = l_CommandList.get(l_CommandList.indexOf("-G") + 1);
                 String l_maxTries = l_CommandList.get(l_CommandList.indexOf("-D") + 1);
                 d_Options.getMap().addAll(Arrays.asList(l_MapValue.split(",")));
-                if(l_PlayerTypes.contains("human")) {
+                if (l_PlayerTypes.contains("human")) {
                     d_Logger.log("Tournament mode does not support human player: Switch to Single Game Mode");
                     return null;
                 }
@@ -138,7 +136,9 @@ public class TournamentEngine implements Engine {
                 d_Results.add(l_Result);
                 l_Result.setGame(l_game);
                 l_Result.setMap(l_File);
-                MapReader.readMap(d_CurrentMap, l_File);
+                boolean l_ShouldUseConquestAdapter = MapReader.isConquestMap(l_File);
+                DominationMap l_MapReader = l_ShouldUseConquestAdapter ? new Adapter(new Adaptee()) : new DominationMap();
+                l_MapReader.readMap(d_CurrentMap, l_File);
                 if (!MapValidation.validateMap(d_CurrentMap, 0)) {
                     throw new ValidationException("Invalid Map");
                 }
@@ -167,7 +167,7 @@ public class TournamentEngine implements Engine {
 
         for (TournamentResult l_Result : d_Results) {
 
-            System.out.format(l_Table, l_Result.getMap(), l_Result.getWinner(), l_Result.getGame() );
+            System.out.format(l_Table, l_Result.getMap(), l_Result.getWinner(), l_Result.getGame());
 
         }
         System.out.format("+--------------+-----------------------+-------------------------+%n");

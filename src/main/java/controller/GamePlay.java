@@ -6,10 +6,6 @@ import model.GamePhase;
 import utils.*;
 import utils.logger.LogEntryBuffer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -189,22 +185,8 @@ public class GamePlay implements GameController {
      * @throws ValidationException when validation fails
      */
     private void loadMap(String p_Filename) throws ValidationException {
-        boolean l_ShouldUseConquestAdapter = true;
-        try {
-            File l_File = new File("maps/"+p_Filename);
-            BufferedReader l_BufferedReader = new BufferedReader(new FileReader(l_File));
-            while(l_BufferedReader.ready()) {
-                String l_FirstLine = l_BufferedReader.readLine();
-                if(! l_FirstLine.isEmpty()) {
-                    if (l_FirstLine.contains(";")) {
-                        l_ShouldUseConquestAdapter = false;
-                    }
-                    l_BufferedReader.close();
-                }}}
-        catch (IOException l_E) {
-            // Do nothing.
-        }
-        DominationMap l_MapReader = l_ShouldUseConquestAdapter ?  new Adapter(new Adaptee()) : new DominationMap();
+        boolean l_ShouldUseConquestAdapter = MapReader.isConquestMap(p_Filename);
+        DominationMap l_MapReader = l_ShouldUseConquestAdapter ? new Adapter(new Adaptee()) : new DominationMap();
         l_MapReader.readMap(d_GameMap, p_Filename);
         if (!MapValidation.validateMap(d_GameMap, 0)) {
             throw new ValidationException("Invalid Map");

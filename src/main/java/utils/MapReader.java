@@ -116,4 +116,25 @@ public class MapReader {
             }
         }
     }
+
+
+    public static boolean isConquestMap(String p_Filename) {
+        try {
+            File l_File = new File("maps/" + p_Filename);
+            BufferedReader l_BufferedReader = new BufferedReader(new FileReader(l_File));
+            while (l_BufferedReader.ready()) {
+                String l_FirstLine = l_BufferedReader.readLine();
+                if (!l_FirstLine.isEmpty()) {
+                    if (l_FirstLine.contains(";")) {
+                        return false;
+                    }
+                    l_BufferedReader.close();
+                }
+            }
+            return true;
+        } catch (IOException l_E) {
+            // Do nothing.
+            return false;
+        }
+    }
 }

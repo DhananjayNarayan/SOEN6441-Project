@@ -5,9 +5,7 @@ import model.Player;
 import model.strategy.player.PlayerStrategy;
 import model.tournament.TournamentOptions;
 import model.tournament.TournamentResult;
-import utils.MapReader;
-import utils.MapValidation;
-import utils.ValidationException;
+import utils.*;
 import utils.logger.LogEntryBuffer;
 
 import java.util.*;
@@ -123,7 +121,9 @@ public class SingleGameEngine implements Engine {
         d_Results.add(l_Result);
         l_Result.setGame(1);
         l_Result.setMap(l_File);
-        MapReader.readMap(d_CurrentMap, l_File);
+        boolean l_ShouldUseConquestAdapter = MapReader.isConquestMap(l_File);
+        DominationMap l_MapReader = l_ShouldUseConquestAdapter ? new Adapter(new Adaptee()) : new DominationMap();
+        l_MapReader.readMap(d_CurrentMap, l_File);
         if (!MapValidation.validateMap(d_CurrentMap, 0)) {
             throw new ValidationException("Invalid Map");
         }
