@@ -1,5 +1,6 @@
 import model.GameMap;
 import model.GamePhase;
+import model.GameSettings;
 import model.Player;
 import model.strategy.player.PlayerStrategy;
 import model.tournament.TournamentOptions;
@@ -11,38 +12,75 @@ import utils.logger.LogEntryBuffer;
 
 import java.util.*;
 
+/**
+ * class to implement single game engine
+ */
 public class SingleGameEngine implements Engine {
 
+    /**
+     * the logger observable
+     */
     private LogEntryBuffer d_Logger;
+    /**
+     * tournament options
+     */
     TournamentOptions d_Options;
+    /**
+     * list for tournament results
+     */
     List<TournamentResult> d_Results = new ArrayList<>();
+    /**
+     * current game map
+     */
     GameMap d_CurrentMap;
 
+    /**
+     * constructor for single game engine
+     */
     public SingleGameEngine() {
         d_Logger = LogEntryBuffer.getInstance();
         d_Options = new TournamentOptions();
         init();
     }
 
+    /**
+     * method for checking options
+     */
     public void init() {
         d_Options = getTournamentOptions();
         if (Objects.isNull(d_Options)) {
-            d_Logger.log("re enter command");
             init();
         }
     }
 
+    /**
+     * method to check tournament options
+     *
+     * @return parsed command
+     */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     private TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
         d_Logger.log("You are in Single Game Mode");
         d_Logger.log("enter the start command");
         String l_TournamentCommand = l_Scanner.nextLine();
-        return parseCommand(l_TournamentCommand);
+        d_Options = parseCommand(l_TournamentCommand);
+        if (Objects.isNull(d_Options)) {
+            d_Logger.log("wrong command please re-enter");
+            getTournamentOptions();
+        }
+        return d_Options;
     }
 
+    /**
+     * method to parse command
+     *
+     * @param p_TournamentCommand the tournament command
+     * @return tournament options
+     */
     private TournamentOptions parseCommand(String p_TournamentCommand) {
         try {
+            d_Options = new TournamentOptions();
             if (!p_TournamentCommand.isEmpty() &&
                     p_TournamentCommand.contains("-M") && p_TournamentCommand.contains("-P")) {
                 List<String> l_CommandList = Arrays.asList(p_TournamentCommand.split(" "));
@@ -58,17 +96,25 @@ public class SingleGameEngine implements Engine {
                     d_Logger.log("Multiple maps not allowed in single game mode");
                     throw new Exception();
                 }
+            } else {
+                return null;
             }
             return d_Options;
         } catch (Exception e) {
             d_Logger.log("Check your command");
             d_Logger.log("command should be in this format: tournament -M mapfile -P listofplayerstrategies");
-            return getTournamentOptions();
+            return null;
         }
     }
 
+    /**
+     * start of the soingle game mode
+     *
+     * @throws ValidationException if it occurs
+     */
     public void start() throws ValidationException {
         String l_File = d_Options.getMap().get(0);
+        GameSettings.getInstance().MAX_TRIES = 30;
         d_CurrentMap = GameMap.newInstance();
         d_CurrentMap.flushGameMap();
         TournamentResult l_Result = new TournamentResult();
@@ -97,6 +143,11 @@ public class SingleGameEngine implements Engine {
         System.out.printf("%15s %15s\n", l_Result.getMap(), l_Result.getWinner());
     }
 
+    /**
+     * method to set game phase
+     *
+     * @param p_GamePhase the game phase
+     */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
     @Override
     public void setGamePhase(GamePhase p_GamePhase) {

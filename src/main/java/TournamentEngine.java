@@ -90,6 +90,10 @@ public class TournamentEngine implements Engine {
                 String l_GameCount = l_CommandList.get(l_CommandList.indexOf("-G") + 1);
                 String l_maxTries = l_CommandList.get(l_CommandList.indexOf("-D") + 1);
                 d_Options.getMap().addAll(Arrays.asList(l_MapValue.split(",")));
+                if(l_PlayerTypes.contains("human")) {
+                    d_Logger.log("Tournament mode does not support human player: Switch to Single Game Mode");
+                    return null;
+                }
                 for (String l_Strategy : l_PlayerTypes.split(",")) {
                     d_Options.getPlayerStrategies().add(PlayerStrategy.getStrategy(l_Strategy));
                 }
@@ -163,6 +167,7 @@ public class TournamentEngine implements Engine {
      * @param p_GamePhase the game phase
      */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
+    //tournament -M Australia.map,conaus.map -P aggressive,random,benevolent,cheater -G 5 -D 50
     @Override
     public void setGamePhase(GamePhase p_GamePhase) {
 

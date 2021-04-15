@@ -1,0 +1,15 @@
+[Map]
+author=Anonymous
+[Continents]
+AFRICA=9
+ASIA=6
+USA=6
+ANTARTICA=8
+AUSTRALIA=9
+[Territories]
+Pak AFRICA india NY
+india ASIA Pak penquin
+NY USA Pak
+penquin ANTARTICA india Melbourne
+Melbourne AUSTRALIA penquin
+
