@@ -125,53 +125,50 @@ public class DominationMap {
     /**
      * function to save the map
      *
-     * @param map Gamemap instance
-     * @param fileName file name to be save
-     * @return
+     * @param p_GameMap Gamemap instance
+     * @param p_FileName file name to be save
+     * @return the saved map
      * @throws IOException exception for file save
      */
-    public boolean saveMap(GameMap map, String fileName) throws IOException {
-        String message = " ";
-        message = "yura.net Risk 1.0.9.2";
-        String currentPath = System.getProperty("user.dir") + "\\Maps\\";
-        String mapPath = currentPath + fileName + ".map";
-        BufferedWriter bwFile = new BufferedWriter(new FileWriter(mapPath));
-        String content = ";Map ";
-        content += (fileName + ".map" + "");
-        content += ("\rname " + fileName + ".map" + " Map");
-        content += ("\r" + message + "\r");
-        content += ("\r\n[continents]\r\n");
-        HashMap<Integer, String> l_ContinentMap = createContinentList(map);
-        for (Continent continent : map.getContinents().values()) {
-            content += (continent.getName() + " " + continent.getAwardArmies() + " 00000\r\n");
+    public boolean saveMap(GameMap p_GameMap, String p_FileName) throws IOException {
+        String l_Message = " ";
+        l_Message = "yura.net Risk 1.0.9.2";
+        String l_CurrentPath = System.getProperty("user.dir") + "\\Maps\\";
+        String l_MapPath = l_CurrentPath + p_FileName + ".map";
+        BufferedWriter bwFile = new BufferedWriter(new FileWriter(l_MapPath));
+        String d_Content = ";Map ";
+        d_Content += (p_FileName + ".map" + "");
+        d_Content += ("\rname " + p_FileName + ".map" + " Map");
+        d_Content += ("\r" + l_Message + "\r");
+        d_Content += ("\r\n[continents]\r\n");
+        HashMap<Integer, String> l_ContinentMap = createContinentList(p_GameMap);
+        for (Continent continent : p_GameMap.getContinents().values()) {
+            d_Content += (continent.getName() + " " + continent.getAwardArmies() + " 00000\r\n");
         }
-        content += ("\r\n[countries]\r\n");
+        d_Content += ("\r\n[countries]\r\n");
         String borders = "";
-        HashMap<Integer, String> l_CountryMap = createCountryList(map);
+        HashMap<Integer, String> l_CountryMap = createCountryList(p_GameMap);
         for (Map.Entry<Integer, String> l_Country : l_CountryMap.entrySet()) {
-            System.out.println(l_Country.getKey() + " " + l_Country.getValue() + " " + map.getCountry(l_Country.getValue()).getContinent());
             for(Map.Entry<Integer, String> l_Continent : l_ContinentMap.entrySet()) {
-                if(l_Continent.getValue() == map.getCountry(l_Country.getValue()).getContinent()) {
-                    System.out.println("The key for value " + map.getCountry(l_Country.getValue()).getContinent() + " is " + l_Continent.getKey());
-                    content += (l_Country.getKey() + " " + l_Country.getValue() + " " + l_Continent.getKey() + "\r\n");
+                if(l_Continent.getValue().equals(p_GameMap.getCountry(l_Country.getValue()).getContinent())) {
+                    d_Content += (l_Country.getKey() + " " + l_Country.getValue() + " " + l_Continent.getKey() + "\r\n");
                     break;
                 }
             }
             borders += (l_Country.getKey() + "");
-            for (Country l_Neighbor : map.getCountry(l_Country.getValue()).getNeighbors()) {
+            for (Country l_Neighbor : p_GameMap.getCountry(l_Country.getValue()).getNeighbors()) {
                 for(Map.Entry<Integer, String> l_CountryList : l_CountryMap.entrySet()){
-                    if(l_Neighbor.getName() == l_CountryList.getValue()){
+                    if(l_Neighbor.getName().equals(l_CountryList.getValue())){
                         borders += (" " + l_CountryList.getKey());
                     }
                 }
             }
             borders += ("\r\n");
         }
-
-        content += ("\r\n[borders]\r\n" + borders);
-        bwFile.write(content);
+        d_Content += ("\r\n[borders]\r\n" + borders);
+        bwFile.write(d_Content);
         bwFile.close();
-        System.out.println("Map file saved as: " + fileName + ".map");
+        System.out.println("Map file saved as: " + p_FileName + ".map");
         return true;
     }
 
