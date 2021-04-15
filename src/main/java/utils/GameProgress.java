@@ -69,6 +69,11 @@ public class GameProgress {
         }
     }
 
+    /**
+     * Show the files
+     *
+     * @throws IOException IOException
+     */
     public static void showFiles() throws IOException {
         d_Logger.log("==================================");
         d_Logger.log("\t\t\t Warzone");

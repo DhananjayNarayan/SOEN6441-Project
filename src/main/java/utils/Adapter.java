@@ -12,16 +12,16 @@ public class Adapter extends DominationMap {
     /**
      *  target map type
      */
-    public static final String mapType="Domination";
+    public static final String MapType = "Domination";
 
-    Adaptee d_adp = new Adaptee();
+    Adaptee d_Adp = new Adaptee();
 
     /**
      * Constructor to initialize adaptee object
      * @param adp Object of adaptee class
      */
     public Adapter(Adaptee adp) {
-        this.d_adp = adp;
+        this.d_Adp = adp;
     }
 
     /**
@@ -32,19 +32,19 @@ public class Adapter extends DominationMap {
      */
 
     public void readMap(GameMap p_GameMap, String p_FileName) throws ValidationException {
-        d_adp.readMap(p_GameMap, p_FileName);
+        d_Adp.readMap(p_GameMap, p_FileName);
     }
 
     /**
      *Saves the input map to a given file name. Overwrites any existing map with the same name.
      * The map will only save if it is valid.
-     * @param map The map to save.
-     * @param fileName The name of the file to save to, including the extension.
+     * @param p_Map The map to save.
+     * @param p_FileName The name of the file to save to, including the extension.
      * @return Whether the file was successfully saved.
      * @throws IOException files exception
      */
-    public boolean saveMap(GameMap map, String fileName)  throws IOException {
-        return d_adp.saveMap(map, fileName);
+    public boolean saveMap(GameMap p_Map, String p_FileName)  throws IOException {
+        return d_Adp.saveMap(p_Map, p_FileName);
     }
 
 }

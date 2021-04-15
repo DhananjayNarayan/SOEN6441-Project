@@ -7,7 +7,12 @@ import utils.logger.LogEntryBuffer;
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * Domination class for maps for domination type
+ * @author Surya
+ * @author Neona
+ * @version 1.0.0
+ */
 public class DominationMap {
     /**
      * Logger Observable
