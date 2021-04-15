@@ -25,7 +25,7 @@ import utils.MapValidationTest;
         IssueOrderTest.class, ReinforcementTest.class, ExecuteOrderTest.class,
         AirliftOrderTest.class, BlockadeOrderTest.class, DeployOrderTest.class, NegotiateOrderTest.class, AdvanceOrderTest.class, BombOrderTest.class,
         ContinentTest.class, CountryTest.class, GameMapTest.class, PlayerTest.class,
-        MapValidationTest.class, GameProgressTest.class})
+        MapValidationTest.class, GameProgressTest.class, TournamentEngineTest.class})
 
 /**
  * A class for test suites
