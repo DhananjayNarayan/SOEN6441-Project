@@ -70,6 +70,7 @@ public class DominationMap {
      *
      * @param p_GameMap        the game map
      * @throws ValidationException when validation fails
+     * @throws IOException file IO exception
      */
     public static void readContinentsFromFile(GameMap p_GameMap) throws ValidationException, IOException {
         while ((d_CurrentLine = d_Buffer.readLine()) != null && !d_CurrentLine.contains("[")) {
@@ -86,8 +87,8 @@ public class DominationMap {
      * This function reads the Countries from the file
      *
      * @param p_GameMap      the game map
-     * @return Neighbouring countries
      * @throws ValidationException when validation fails
+     * @throws IOException file IO exception
      */
 
     public static void readCountriesFromFile(GameMap p_GameMap) throws ValidationException, IOException {
@@ -106,6 +107,7 @@ public class DominationMap {
      *
      * @param p_GameMap      the game map
      * @throws ValidationException when validation fails
+     * @throws IOException file IO exception
      */
 
     public static void addNeighborsFromFile(GameMap p_GameMap) throws ValidationException, IOException {

@@ -41,6 +41,7 @@ public class GameProgress {
      * A file to load the game progress
      *
      * @param p_Filename the file name string
+     * @return Gamephase
      */
     public static GamePhase LoadGameProgress(String p_Filename){
         FileInputStream l_Fs;
