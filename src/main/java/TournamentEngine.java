@@ -60,12 +60,16 @@ public class TournamentEngine implements Engine {
      * @return parsed command
      */
     //tournament -M Australia.map,newmap.map -P aggressive,random -G 2 -D 3
-    private TournamentOptions getTournamentOptions() {
+    public TournamentOptions getTournamentOptions() {
         Scanner l_Scanner = new Scanner(System.in);
         d_Logger.log("You are in Tournament Mode");
         d_Logger.log("enter the tournament command");
         String l_TournamentCommand = l_Scanner.nextLine();
-        return parseCommand(l_TournamentCommand);
+        d_Options = parseCommand(l_TournamentCommand);
+        if (Objects.isNull(d_Options)) {
+            getTournamentOptions();
+        }
+        return d_Options;
     }
 
     /**
@@ -74,7 +78,7 @@ public class TournamentEngine implements Engine {
      * @param p_TournamentCommand the tournament command
      * @return tournament options
      */
-    private TournamentOptions parseCommand(String p_TournamentCommand) {
+    public TournamentOptions parseCommand(String p_TournamentCommand) {
         try {
             d_Options = new TournamentOptions();
             if (!p_TournamentCommand.isEmpty() &&
@@ -88,6 +92,9 @@ public class TournamentEngine implements Engine {
                 d_Options.getMap().addAll(Arrays.asList(l_MapValue.split(",")));
                 for (String l_Strategy : l_PlayerTypes.split(",")) {
                     d_Options.getPlayerStrategies().add(PlayerStrategy.getStrategy(l_Strategy));
+                }
+                if (d_Options.getPlayerStrategies().size() < 2) {
+                    return null;
                 }
                 int l_NumOfGames = Integer.parseInt(l_GameCount);
                 int l_NumofTurns = Integer.parseInt(l_maxTries);
@@ -103,7 +110,7 @@ public class TournamentEngine implements Engine {
         } catch (Exception e) {
             d_Logger.log("Check your command");
             d_Logger.log("command should be in this format: tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns");
-            return getTournamentOptions();
+            return null;
         }
     }
 
