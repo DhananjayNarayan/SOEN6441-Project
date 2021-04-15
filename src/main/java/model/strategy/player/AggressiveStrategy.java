@@ -145,8 +145,18 @@ public class AggressiveStrategy extends PlayerStrategy implements Serializable {
         if (fromCountry.getArmies() <= 0) {
             return false;
         }
-        Country toCountry = null;
-        toCountry = fromCountry.getNeighbors().stream().max(Comparator.comparingInt(Country::getArmies)).orElse(null);
+        List<Country> l_NeighborsWithEnemies = fromCountry.getNeighbors().stream()
+                .takeWhile(country -> {
+                    Long count = country.getNeighbors().stream()
+                            .filter(country1 -> !country.getPlayer().getName().equals(country1.getPlayer().getName()))
+                            .count();
+                    if (count > 0) {
+                        return true;
+                    }
+                    return false;
+                }).collect(Collectors.toList());
+
+        Country toCountry = l_NeighborsWithEnemies.stream().max(Comparator.comparingInt(Country::getArmies)).orElse(null);
         if (Objects.nonNull(fromCountry) && Objects.nonNull(toCountry)) {
             List<String> l_Commands = new ArrayList<>();
             l_Commands.add(0, "advance");

@@ -139,7 +139,7 @@ public class GamePlay implements GameController {
                         d_GameMap.showMap();
                         break;
                     }
-                    case "savegame" : {
+                    case "savegame": {
                         if (l_CommandArray.length == 1) {
                             GameProgress.SaveGameProgress(d_GameMap, l_CommandArray[0]);
                             d_GameMap.setGamePhase(d_MapEditorPhase);
@@ -147,10 +147,11 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
-                    case "loadgame" : {
+                    case "loadgame": {
                         if (l_CommandArray.length == 1) {
-                            if(!GameProgress.LoadGameProgress(l_CommandArray[0]).equals(GamePhase.StartUp)){
-                                return GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            GamePhase l_GameLoaded = GameProgress.LoadGameProgress(l_CommandArray[0]);
+                            if (!l_GameLoaded.equals(GamePhase.StartUp)) {
+                                return l_GameLoaded;
                             }
                         }
                         break;

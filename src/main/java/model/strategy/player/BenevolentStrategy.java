@@ -42,7 +42,7 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
      */
     public Country getWeakestConqueredCountry(Player p_Player) {
         List<Country> l_CountryList = p_Player.getCapturedCountries();
-        if(l_CountryList.size()>0){
+        if (l_CountryList.size() > 0) {
             Country l_WeakestCountry = l_CountryList.get(0);
             for (Country l_Country : l_CountryList) {
                 if (l_Country.getArmies() < l_WeakestCountry.getArmies())
@@ -66,7 +66,7 @@ public class BenevolentStrategy extends PlayerStrategy implements Serializable {
         List<String> l_Commands = new ArrayList<>();
         String[] l_CommandsArr;
         Country l_WeakestCountry = getWeakestConqueredCountry(d_Player);
-        if(Objects.isNull(l_WeakestCountry)) {
+        if (Objects.isNull(l_WeakestCountry)) {
             return "pass";
         }
         int l_ArmiesReinforce = d_Player.getReinforcementArmies();

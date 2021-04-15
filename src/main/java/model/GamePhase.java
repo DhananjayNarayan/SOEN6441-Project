@@ -46,6 +46,17 @@ public enum GamePhase {
             return new MapEditor();
         }
     },
+    LoadGame {
+        @Override
+        public List<GamePhase> possibleStates() {
+            return null;
+        }
+
+        @Override
+        public GameController getController() {
+            return new LoadGame();
+        }
+    },
 
     /**
      * StartUp state handling load map, player creation and countries
