@@ -4,7 +4,6 @@ import model.Continent;
 import model.Country;
 import model.GameMap;
 import utils.logger.LogEntryBuffer;
-
 import java.io.*;
 import java.util.*;
 
@@ -30,6 +29,7 @@ public class DominationMap {
      * country hashmap
      */
     private static HashMap<String, String> Country = new HashMap<>();
+
     /**
      * This function reads the file and places the contents of the file
      * in a Hash Map
@@ -121,7 +121,11 @@ public class DominationMap {
     }
 
     /**
-     * Yet to be finished
+     * function to save the map
+     *
+     * @param map Gamemap instance
+     * @param fileName file name to be save
+     * @throws IOException exception for file save
      */
     public static void saveMap(GameMap map, String fileName) throws IOException {
         String message = " ";
@@ -158,6 +162,10 @@ public class DominationMap {
 
     /**
      * For testing, remove all static variables on integration.
+     *
+     * @param args arg
+     * @throws ValidationException exception
+     * @throws IOException exception
      */
     public static void main(String[] args) throws ValidationException, IOException {
         GameMap d_GameMap = GameMap.getInstance();
