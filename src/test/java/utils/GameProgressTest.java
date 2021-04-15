@@ -1,16 +1,18 @@
 package utils;
 
 import model.GameMap;
+import model.GamePhase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static utils.GameProgress.SaveGameProgress;
 
 /**
- *  A class to test all the functionalities in Map Validation
+ *  A class to test all the functionalities in GameProgress saving and loading game
  *
  */
-public class MapValidationTest {
+public class GameProgressTest {
     /**
      * gamemap instance
      */
@@ -22,7 +24,7 @@ public class MapValidationTest {
      * @throws Exception if execution fails
      */
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         d_GameMap = GameMap.getInstance();
         d_GameMap.addContinent("Asia", "5");
         d_GameMap.addContinent("US", "5");
@@ -44,8 +46,10 @@ public class MapValidationTest {
         d_GameMap.addNeighbor("India", "Penguin");
         d_GameMap.addNeighbor("Penguin", "Melbourne");
         d_GameMap.addNeighbor("Melbourne", "Penguin");
+        d_GameMap.addPlayer("Player1");
+        d_GameMap.addPlayer("Player2");
+        d_GameMap.assignCountries();
     }
-
     /**
      * This method will be executed at the end of the test
      *
@@ -59,52 +63,34 @@ public class MapValidationTest {
     }
 
     /**
-     * This method tests if Continent is Empty
-     *
-     * @throws ValidationException if validation fails
+     * savegame progress test case
      */
     @Test
-    public void checkIfContinentIsEmpty() throws ValidationException {
-        d_GameMap.addContinent("Europe", "5");
-        assertTrue(MapValidation.checkIfContinentIsEmpty(d_GameMap));
+    public void saveGameProgress() {
+        assertEquals(true, SaveGameProgress(d_GameMap, "output"));
     }
 
     /**
-     * This method tests if duplicate Neighbors exist
-     *
-     * @throws ValidationException if validation fails
+     * incorrect file name while loading
      */
     @Test
-    public void checkDuplicateNeighbours() throws ValidationException {
-        d_GameMap.addNeighbor("Pak", "Pak");
-        assertTrue(MapValidation.checkDuplicateNeighbours(d_GameMap));
+    public void incorrectFileName() {
+        assertEquals(GamePhase.StartUp, GameProgress.LoadGameProgress("random.bin"));
     }
 
     /**
-     * This method tests if continent subgraph is connected
-     *
-     * @throws ValidationException if validation fails
+     * corrupt file while loading
      */
     @Test
-    public void checkIfContinentIsConnected(){
-        assertTrue(MapValidation.checkIfContinentIsConnected(d_GameMap));
+    public void corruptFileLoad(){
+        assertEquals(GamePhase.StartUp, GameProgress.LoadGameProgress("corrupt.bin"));
     }
 
     /**
-     * This method tests if the whole graph is connected
+     * successful load game
      */
     @Test
-    public void checkIfMapIsConnected() {
-        assertTrue(MapValidation.checkIfMapIsConnected(d_GameMap.getCountries()));
-    }
-
-    /**
-     * Checks that the map is invalid
-     * @throws ValidationException if exception occurs
-     */
-    @Test
-    public void CheckIfMapIsInvalid() throws ValidationException {
-        d_GameMap.removeNeighbor("Newyork", "Pak");
-        assertFalse(MapValidation.checkIfMapIsConnected(d_GameMap.getCountries()));
+    public void loadGameSuccess(){
+        assertEquals(GamePhase.StartUp, GameProgress.LoadGameProgress("test.bin"));
     }
 }

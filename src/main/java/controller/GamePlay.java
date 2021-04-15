@@ -33,6 +33,9 @@ public class GamePlay implements GameController {
      * A data member that stores the list of commands for gameplay as list
      */
     private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame", "tournament");
+    /**
+     * gamemap instance
+     */
     GameMap d_GameMap;
     /**
      * Reinforcement phase
@@ -86,8 +89,6 @@ public class GamePlay implements GameController {
                     l_InputList.add("dummy");
                 }
             }
-            //Handle loadmap command from console
-
             String l_MainCommand = l_InputList.get(0);
             l_InputList.remove(l_MainCommand);
             for (String l_Command : l_InputList) {
@@ -99,7 +100,6 @@ public class GamePlay implements GameController {
                         }
                         break;
                     }
-
                     case "gameplayer": {
                         if (l_CommandArray.length > 0) {
                             switch (l_CommandArray[0]) {
