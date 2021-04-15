@@ -78,7 +78,7 @@ public class ExecuteOrderTest {
                 l_Country.setPlayer(d_Player);
             }
         }
-        GamePhase l_Output = d_ExecuteOrder.checkIfPlayerWon(GamePhase.ExecuteOrder);
+        GamePhase l_Output = d_ExecuteOrder.checkIfPlayerWonOrTriesExhausted(GamePhase.ExecuteOrder);
         assertEquals(GamePhase.ExitGame, l_Output);
     }
 }

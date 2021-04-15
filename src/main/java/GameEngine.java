@@ -4,9 +4,7 @@ import model.GamePhase;
 import model.GameSettings;
 import utils.InvalidExecutionException;
 import utils.ValidationException;
-import utils.logger.ConsoleWriter;
 import utils.logger.LogEntryBuffer;
-import utils.logger.LogEntryWriter;
 
 import java.util.Objects;
 
@@ -20,7 +18,7 @@ import java.util.Objects;
  * @author Madhuvanthi Hemanathan
  * @version 1.0.0
  */
-public class GameEngine {
+public class GameEngine implements Engine {
 
     /**
      * Game Settings for warzone game
@@ -38,19 +36,12 @@ public class GameEngine {
      */
     GamePhase d_GamePhase = GamePhase.MapEditor;
 
-    /**
-     * Main method to run the game
-     *
-     * @param args passed to main if used in command line
-     */
-    public static void main(String[] args) {
+
+    public GameEngine() {
         d_GameSettings = GameSettings.getInstance();
         d_GameSettings.setStrategy("default");
         d_Logger = LogEntryBuffer.getInstance();
-        d_Logger.addObserver(new LogEntryWriter());
-        d_Logger.addObserver(new ConsoleWriter());
         d_Logger.clear();
-        new GameEngine().start();
     }
 
     /**
@@ -70,14 +61,20 @@ public class GameEngine {
             }
         } catch (ValidationException | InvalidExecutionException p_Exception) {
             System.err.println(p_Exception.getMessage());
+            p_Exception.printStackTrace();
             start();
         } catch (Throwable p_Exception) {
             System.err.println(p_Exception.getMessage());
+            p_Exception.printStackTrace();
             System.err.println("Please try again with valid data");
-            if(d_GamePhase.equals(GamePhase.MapEditor)){
+            if (d_GamePhase.equals(GamePhase.MapEditor)) {
                 start();
             }
         }
+    }
+
+    public void setGamePhase(GamePhase p_gamePhase) {
+        d_GamePhase = p_gamePhase;
     }
 
 }

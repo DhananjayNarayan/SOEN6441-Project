@@ -32,7 +32,7 @@ public class GamePlay implements GameController {
     /**
      * A data member that stores the list of commands for gameplay as list
      */
-    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame");
+    private final List<String> CLI_COMMANDS = Arrays.asList("showmap", "loadmap", "gameplayer", "assigncountries", "savegame", "loadgame", "tournament");
     GameMap d_GameMap;
     /**
      * Reinforcement phase

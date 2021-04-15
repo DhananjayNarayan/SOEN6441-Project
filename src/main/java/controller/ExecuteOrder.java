@@ -1,9 +1,6 @@
 package controller;
 
-import model.GameController;
-import model.GameMap;
-import model.GamePhase;
-import model.Player;
+import model.*;
 import model.order.Order;
 import utils.logger.LogEntryBuffer;
 
@@ -56,9 +53,10 @@ public class ExecuteOrder implements GameController {
     @Override
     public GamePhase start(GamePhase p_GamePhase) throws Exception {
         d_GamePhase = p_GamePhase;
+//        d_Logger.log("\nEXECUTE ORDER PHASE \n");
         executeOrders();
         clearAllNeutralPlayers();
-        return checkIfPlayerWon(p_GamePhase);
+        return checkIfPlayerWonOrTriesExhausted(p_GamePhase);
     }
 
     /**
@@ -92,21 +90,35 @@ public class ExecuteOrder implements GameController {
 
     /**
      * Check if the player won the game after every execution phase
+     * Or if the number of tries are exhausted
      *
      * @param p_GamePhase the next phase based on the status of player
      * @return the gamephase it has to change to based on the win
      */
-    public GamePhase checkIfPlayerWon(GamePhase p_GamePhase) {
+    public GamePhase checkIfPlayerWonOrTriesExhausted(GamePhase p_GamePhase) {
         for (Player l_Player : d_GameMap.getPlayers().values()) {
             if (l_Player.getCapturedCountries().size() == d_GameMap.getCountries().size()) {
                 d_Logger.log("The Player " + l_Player.getName() + " won the game.");
                 d_Logger.log("Exiting the game...");
+                d_GameMap.setWinner(l_Player);
                 d_GameMap.setGamePhase(d_ExitGamePhase);
+                d_GameMap.setWinner(l_Player);
                 return p_GamePhase.nextState(d_ExitGamePhase);
             }
         }
-        d_GameMap.setGamePhase(d_ReinforcementGamePhase);
-        return p_GamePhase.nextState(d_ReinforcementGamePhase);
+        if(GameSettings.getInstance().MAX_TRIES > 0 ) {
+            if (d_GameMap.getTries() < GameSettings.getInstance().MAX_TRIES) {
+                return p_GamePhase.nextState(d_ReinforcementGamePhase);
+            } else {
+                return p_GamePhase.nextState(d_ExitGamePhase);
+            }
+        }
+        if (GameSettings.getInstance().MAX_TRIES > 0 && d_GameMap.getTries() < GameSettings.getInstance().MAX_TRIES) {
+            d_GameMap.setGamePhase(d_ReinforcementGamePhase);
+            return p_GamePhase.nextState(d_ReinforcementGamePhase);
+        }
+        d_GameMap.setGamePhase(d_ExitGamePhase);
+        return p_GamePhase.nextState(d_ExitGamePhase);
     }
 
 }
