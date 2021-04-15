@@ -9,13 +9,13 @@ import utils.MapReader;
 import utils.MapValidation;
 import utils.ValidationException;
 import utils.logger.LogEntryBuffer;
+
 import java.util.*;
 
 /**
  * Class to implement the tournament mode game
  *
  * @author Madhuvanthi
- *
  */
 public class TournamentEngine implements Engine {
     /**
@@ -27,7 +27,7 @@ public class TournamentEngine implements Engine {
      */
     TournamentOptions d_Options;
     /**
-     *  List to hold the tournament results
+     * List to hold the tournament results
      */
     List<TournamentResult> d_Results = new ArrayList<>();
     /**
@@ -105,6 +105,8 @@ public class TournamentEngine implements Engine {
                     d_Logger.log("Give correct number of games and turns");
                     return null;
                 }
+            } else {
+                return null;
             }
             return d_Options;
         } catch (Exception e) {

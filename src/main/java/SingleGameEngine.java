@@ -48,7 +48,6 @@ public class SingleGameEngine implements Engine {
     public void init() {
         d_Options = getTournamentOptions();
         if (Objects.isNull(d_Options)) {
-            d_Logger.log("re enter command");
             init();
         }
     }
@@ -63,7 +62,12 @@ public class SingleGameEngine implements Engine {
         d_Logger.log("You are in Single Game Mode");
         d_Logger.log("enter the start command");
         String l_TournamentCommand = l_Scanner.nextLine();
-        return parseCommand(l_TournamentCommand);
+        d_Options = parseCommand(l_TournamentCommand);
+        if (Objects.isNull(d_Options)) {
+            d_Logger.log("wrong command please re-enter");
+            getTournamentOptions();
+        }
+        return d_Options;
     }
 
     /**
@@ -73,6 +77,7 @@ public class SingleGameEngine implements Engine {
      */
     private TournamentOptions parseCommand(String p_TournamentCommand) {
         try {
+            d_Options = new TournamentOptions();
             if (!p_TournamentCommand.isEmpty() &&
                     p_TournamentCommand.contains("-M") && p_TournamentCommand.contains("-P")) {
                 List<String> l_CommandList = Arrays.asList(p_TournamentCommand.split(" "));
@@ -88,12 +93,14 @@ public class SingleGameEngine implements Engine {
                     d_Logger.log("Multiple maps not allowed in single game mode");
                     throw new Exception();
                 }
+            } else {
+                return null;
             }
             return d_Options;
         } catch (Exception e) {
             d_Logger.log("Check your command");
             d_Logger.log("command should be in this format: tournament -M mapfile -P listofplayerstrategies");
-            return getTournamentOptions();
+            return null;
         }
     }
 
