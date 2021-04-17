@@ -1,5 +1,5 @@
 # SOEN6441 Winter 2021 - Project 
-Warzone (Based on Risk Game) Implementation as part of the SOEN6441 - Advanced Programming Practices (APP) course at Concordia University. 
+Warzone (Based on Risk Game) Implementation as part of the SOEN6441 - Advanced Programming Practices (APP) course at <a href="https://www.concordia.ca/"> Concordia University </a>. 
 
 ## Team Members
 
