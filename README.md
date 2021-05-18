@@ -10,7 +10,7 @@ Warzone (Based on Risk Game) Implementation as part of the SOEN6441 - Advanced P
 - Surya Manian
 
 ## Instructor
-<a href="https://users.encs.concordia.ca/~paquet/wiki/index.php?title=Dr._Joey_Paquet_Home_Page">Joey Paquet </a>
+<a href="https://users.encs.concordia.ca/~paquet/wiki/index.php?title=Dr._Joey_Paquet_Home_Page">Dr. Joey Paquet </a>
 
 ## Problem Statement
 The specific project for this semester consists in building a simple “Risk” computer game. The developed program
