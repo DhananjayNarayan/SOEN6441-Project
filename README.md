@@ -3,7 +3,7 @@ Warzone (Based on Risk Game) Implementation as part of the SOEN6441 - Advanced P
 
 ## Team Members
 
-- <a href="https://leetcode.com/problems/valid-palindrome/"> Dhananjay Narayan </a>
+- <a href="https://www.linkedin.com/in/dhananjay-narayan-aa222615b/"> Dhananjay Narayan </a>
 - Madhuvanthi Hemanathan
 - Prathika Suvarna
 - Neona Pinto
